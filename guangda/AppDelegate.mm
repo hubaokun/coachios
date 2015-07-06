@@ -121,8 +121,6 @@ BMKLocationService *_locService;
 
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
-    NSLog(@"userInfo == %@",userInfo);
-    
     //AudioServicesPlaySystemSound(1007); //系统的通知声音
    // AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);//震动
     [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveTopMessage" object:nil];
@@ -209,7 +207,7 @@ BMKLocationService *_locService;
     if ([code intValue] == 1) {
         
         // 取出对应的userInfo数据
-        NSDictionary *user = [[NSDictionary alloc] init];
+        NSMutableDictionary *user = [[NSMutableDictionary alloc] init];
         user = [result objectForKey:@"UserInfo"];
         // 将解析出来的数据保存到本地
         [CommonUtil saveObjectToUD:user key:@"userInfo"];

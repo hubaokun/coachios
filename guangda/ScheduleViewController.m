@@ -646,13 +646,13 @@
     }else{
         if (indexPath.row == 0) {
             //上午
-            return (43 + 7) * 4 + 21 + 45 + 0 + 10 + 35 + 11 + 18;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
+            return (43 + 7) * 4 + 21 + 45 + 0 + 10 + 35 + 11 + 18 + 5;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
         }else if (indexPath.row == 1){
             //下午
-            return (43 + 7) * 4 + 21 + 45 + 10 + 35 + 11 + 18;//4行时间
+            return (43 + 7) * 4 + 21 + 45 + 10 + 35 + 11 + 18 + 5;//4行时间
         }else {
             //晚上
-            return (43 + 7) * 3 + 21 + 45 + 10 + 35 + 11 + 18;//3行时间
+            return (43 + 7) * 3 + 21 + 45 + 10 + 35 + 11 + 18 + 10;//3行时间
         }
     }
 }
@@ -697,7 +697,7 @@
         //判断日期
         NSInteger day = [CommonUtil getdayOfDate:beginDate];
         NSString *dayStr = [NSString stringWithFormat:@"%ld", (long)day];
-        int month = [CommonUtil getMonthOfDate:beginDate];
+        NSInteger month = [CommonUtil getMonthOfDate:beginDate];
         
         int status = 0;//0:正常工作，1：未开课
         NSString *chooseTime = [CommonUtil getStringForDate:beginDate format:@"yyyy-MM-dd"];
@@ -996,6 +996,8 @@
                 editBtn.titleLabel.font = [UIFont systemFontOfSize:14];
                 [editBtn setBackgroundColor:RGB(247, 148, 29)];
                 [editBtn addTarget:self action:@selector(clickForUpdateTime:) forControlEvents:UIControlEventTouchUpInside];
+                editBtn.layer.cornerRadius = 3;
+                editBtn.layer.masksToBounds = YES;
                 [bottomView addSubview:editBtn];
                 
                 //总高度
@@ -2911,7 +2913,7 @@
  **/
 - (UIView *)showDateButtonView:(NSInteger)weekWidth dayStr:(NSString *)dayStr
                      beginDate:(NSDate *)beginDate status:(NSInteger)status index:(int)index
-                      lastDate:(NSDate *)lastDate firstDate:(NSDate *)firstDate month:(int) month{
+                      lastDate:(NSDate *)lastDate firstDate:(NSDate *)firstDate month:(NSInteger) month{
     NSMutableArray *pointArray = [self getPointNum:[CommonUtil getStringForDate:beginDate format:@"yyyy-MM-dd"]];//点点的数量
     
     UIView *view = [[UIView alloc] init];

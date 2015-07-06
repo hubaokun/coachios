@@ -10,36 +10,31 @@
 	<string>guangda</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++1003</key>
-		<string>https://101.69.248.90/svn/guangda/trunk/worksFormal</string>
+		<key>BB0C209D5AF049B4FF30EAE0C59B253E33651D9B</key>
+		<string>https://github.com/hubaokun/coachios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>guangda/guangda.xcodeproj</string>
+	<string>guangda.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++1003</key>
-		<string>../../..</string>
-	</dict>
-	<key>IDESourceControlProjectRepositoryRootDictionary</key>
-	<dict>
-		<key>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++1003</key>
-		<string>https://101.69.248.90/svn/guangda</string>
+		<key>BB0C209D5AF049B4FF30EAE0C59B253E33651D9B</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://101.69.248.90/svn/guangda/trunk/worksFormal/guangda/guangda.xcodeproj</string>
+	<string>https://github.com/hubaokun/coachios.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++1003</string>
+	<string>BB0C209D5AF049B4FF30EAE0C59B253E33651D9B</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
-			<string>public.vcs.subversion</string>
+			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>682e6c1b-d3ab-b745-a05a-f92c04a3bbaf++1003</string>
+			<string>BB0C209D5AF049B4FF30EAE0C59B253E33651D9B</string>
 			<key>IDESourceControlWCCName</key>
-			<string>worksFormal</string>
+			<string>guangda</string>
 		</dict>
 	</array>
 </dict>
