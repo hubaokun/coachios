@@ -8,8 +8,6 @@
 
 #import "MyTicketDetailViewController.h"
 #import "MyTicketDetailTableViewCell.h"
-#import "LoginViewController.h"
-
 @interface MyTicketDetailViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) IBOutlet UIButton *noDataButton;
@@ -82,7 +80,7 @@
 
 //立即兑换
 - (IBAction)convertClick:(id)sender {
-    if (selectArray.count >0) {
+    if (selectArray.count > 0) {
         requsetTag = @"2";
         [self getAmountData];
     }else{
@@ -260,7 +258,6 @@
         request.requestMethod = @"POST";
         [request setPostValue:@"getAllCoupon" forKey:@"action"];
         [request setPostValue:coachId forKey:@"coachid"];     // 教练ID
-        [request setPostValue:dic[@"token"] forKey:@"token"];
         [request startAsynchronous];
     }else if([requsetTag isEqualToString:@"2"]){
         [DejalBezelActivityView activityViewForView:self.view];
@@ -270,7 +267,6 @@
         [request setPostValue:@"ApplyCoupon" forKey:@"action"];
         [request setPostValue:coachId forKey:@"coachid"];     // 教练ID
         [request setPostValue:recordids forKey:@"recordids"];     // 教练ID
-        [request setPostValue:dic[@"token"] forKey:@"token"];
         [request startAsynchronous];
     }
     
@@ -295,15 +291,7 @@
                 self.noDataButton.hidden = YES;
             }
             
-        } else if([code intValue] == 95){
-            [self makeToast:message];
-            [CommonUtil logout];
-            [NSTimer scheduledTimerWithTimeInterval:0.5
-                                             target:self
-                                           selector:@selector(backLogin)
-                                           userInfo:nil
-                                            repeats:NO];
-        }else{
+        } else {
             if ([CommonUtil isEmpty:message]) {
                 message = ERR_NETWORK;
             }
@@ -324,15 +312,7 @@
             [self.arrayList2 removeAllObjects];
             requsetTag = @"1";
             [self getAmountData];
-        } else if([code intValue] == 95){
-            [self makeToast:message];
-            [CommonUtil logout];
-            [NSTimer scheduledTimerWithTimeInterval:0.5
-                                             target:self
-                                           selector:@selector(backLogin)
-                                           userInfo:nil
-                                            repeats:NO];
-        }else{
+        } else {
             if ([CommonUtil isEmpty:message]) {
                 message = ERR_NETWORK;
             }
@@ -343,14 +323,8 @@
 
 // 服务器请求失败
 - (void)requestFailed:(ASIHTTPRequest *)request {
+    //    [DejalBezelActivityView removeViewAnimated:YES];
     [self makeToast:ERR_NETWORK];
-}
-
-- (void)backLogin{
-    if(![self.navigationController.topViewController isKindOfClass:[LoginViewController class]]){
-        LoginViewController *nextViewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-    }
 }
 
 

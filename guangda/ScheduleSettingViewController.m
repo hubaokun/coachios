@@ -9,7 +9,7 @@
 #import "ScheduleSettingViewController.h"
 #import "LoginViewController.h"
 
-@interface ScheduleSettingViewController ()<UITextFieldDelegate>
+@interface ScheduleSettingViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -599,9 +599,48 @@
 }
 
 - (IBAction)clickForback:(id)sender {
-    
-    NSMutableArray *array = [NSMutableArray array];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.comfirmBtn.selected == YES) {   //添加一个退出的提示，防止教练在不经意的情况下退出了。
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改了课程设置，确定要退出吗？" delegate:self cancelButtonTitle:@"确认退出" otherButtonTitles:@"保存修改", nil];
+        [alert show];
+    }else{
+        NSMutableArray *array = [NSMutableArray array];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        NSMutableArray *array = [NSMutableArray array];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
+        [self.navigationController popViewControllerAnimated:YES];
+    }else if(buttonIndex == 1){
+        
+        if (self.stateSwitch.isOn){
+            NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if ([CommonUtil isEmpty:price]) {
+                [self makeToast:@"请输入时间单价"];
+                [self.priceTextField becomeFirstResponder];
+                return;
+            }
+            
+            if ([CommonUtil isEmpty:self.addressTextField.text]) {
+                [self makeToast:@"请选择学车地址"];
+                return;
+            }
+            
+            if ([CommonUtil isEmpty:self.contentTextField.text]) {
+                [self makeToast:@"请选择教学内容"];
+                return;
+            }
+        }
+        
+        [self.priceTextField resignFirstResponder];
+        
+        [self comfirmMsg];
+    }
+}
+
+
 @end
