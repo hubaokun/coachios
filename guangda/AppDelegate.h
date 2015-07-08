@@ -31,5 +31,8 @@
 @property (nonatomic, strong) BMKReverseGeoCodeResult *locationResult;
 
 - (void)startLocation;
+
+- (void) jumpToMainViewController;
+
 @end
 

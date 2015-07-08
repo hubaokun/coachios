@@ -10,16 +10,11 @@
 #import "AppDelegate.h"
 #import "CustomTabBar.h"
 
-#import "TaskListViewController.h"
-#import "ScheduleViewController.h"
-#import "MyViewController.h"
-#import "LoginViewController.h"
+
 
 @interface MainViewController ()<CustomTabBarDelegate>
 
-@property (nonatomic, strong) TaskListViewController *tasklistVC;
-@property (nonatomic, strong) ScheduleViewController *scheduleVC;
-@property (nonatomic, strong) MyViewController *myVC;
+
 
 @end
 
@@ -36,24 +31,24 @@
     self.scheduleVC = [[ScheduleViewController alloc] initWithNibName:@"ScheduleViewController" bundle:nil];
     self.myVC = [[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil];
     
-    _tasklistVC.hidesBottomBarWhenPushed = true;
-    _scheduleVC.hidesBottomBarWhenPushed = true;
-    _myVC.hidesBottomBarWhenPushed = true;
+//    _tasklistVC.hidesBottomBarWhenPushed = true;
+//    _scheduleVC.hidesBottomBarWhenPushed = true;
+//    _myVC.hidesBottomBarWhenPushed = true;
     
     self.viewControllers = @[_tasklistVC, _scheduleVC, _myVC];
     [self.tabBar setClipsToBounds:YES];
 //    self.tabBar.hidden = YES;
     
-    self.customTabBar.frame = CGRectMake(0, self.view.frame.size.height - 49, self.view.frame.size.width, 49);
     self.customTabBar.tag = 100;
+    self.customTabBar.frame = CGRectMake(0, self.view.frame.size.height - 49, SCREEN_WIDTH, 49);
     [self.view addSubview:self.customTabBar];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self.selectedViewController beginAppearanceTransition: YES animated: animated];
+    
+//    [self.selectedViewController beginAppearanceTransition: YES animated: NO];
 }
 
 #pragma mark - CustomTabBarDelegate
@@ -75,21 +70,25 @@
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:NO];
     }
+    
 }
 
--(void) viewDidAppear:(BOOL)animated
-{
-    [self.selectedViewController endAppearanceTransition];
-}
-
--(void) viewWillDisappear:(BOOL)animated
-{
-    [self.selectedViewController beginAppearanceTransition: NO animated: animated];
-}
-
--(void) viewDidDisappear:(BOOL)animated
-{
-    [self.selectedViewController endAppearanceTransition];
-}
+//-(void) viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+////    [self.selectedViewController endAppearanceTransition];
+//}
+//
+//-(void) viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+////    [self.selectedViewController beginAppearanceTransition: NO animated: NO];
+//}
+//
+//-(void) viewDidDisappear:(BOOL)animated
+//{
+//    [super viewDidDisappear:animated];
+////    [self.selectedViewController endAppearanceTransition];
+//}
 
 @end

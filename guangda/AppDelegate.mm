@@ -61,13 +61,6 @@ BMKLocationService *_locService;
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    
-    self.mainController = [[MainViewController alloc] init];
-    
-    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
-    self.window.rootViewController = navi;
-    
-    [navi setNavigationBarHidden:YES];
     [self.window makeKeyAndVisible];
     
     //自动登录
@@ -78,7 +71,7 @@ BMKLocationService *_locService;
     
     //注册监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getModelList) name:@"getModelList" object:nil];//获取准教车型
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needLogin) name:@"needlogin" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needLogin:) name:@"needlogin" object:nil];
     
     //蒲公英
     // 设置用户反馈界面激活方式为三指拖动
@@ -115,10 +108,8 @@ BMKLocationService *_locService;
 
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    
     NSLog(@"Regist fail%@",error);
 }
-
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo{
     //AudioServicesPlaySystemSound(1007); //系统的通知声音
@@ -131,6 +122,16 @@ BMKLocationService *_locService;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
    [alert show];
 }
+
+//跳转到MainViewController
+- (void) jumpToMainViewController{
+    
+    self.mainController = [[MainViewController alloc] init];
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
+    self.window.rootViewController = navi;
+    [navi setNavigationBarHidden:YES];
+}
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -191,12 +192,12 @@ BMKLocationService *_locService;
     [request setPostValue:@"Login" forKey:@"action"];
     [request setPostValue:username forKey:@"loginid"]; // 手机号码
     [request setPostValue:password forKey:@"password"]; // 密码
-    [request setDidFinishSelector:@selector(requestLoginFinished:)];
-    [request setDidFailSelector:@selector(requestLoginFailed:)];
-    [request startAsynchronous];
-}
-
-- (void)requestLoginFinished:(ASIHTTPRequest *)request {
+//    [request setDidFinishSelector:@selector(requestLoginFinished:)];
+//    [request setDidFailSelector:@selector(requestLoginFailed:)];
+    [request startSynchronous];
+//}
+//
+//- (void)requestLoginFinished:(ASIHTTPRequest *)request {
     //接口
     NSDictionary *result = [[request responseString] JSONValue];
     
@@ -219,10 +220,12 @@ BMKLocationService *_locService;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTaskData" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
         
-        [self.mainController.navigationController popToRootViewControllerAnimated:YES];
+        [self jumpToMainViewController];
     } else {
         if(![CommonUtil isEmpty:message])
             [self needLogin:message];
+        else
+            [self needLogin:nil];
     }
 }
 
@@ -231,9 +234,14 @@ BMKLocationService *_locService;
     [self needLogin:@"自动登录失败, 请检查您的网络"];
 }
 
-- (void)needLogin :(NSString*)message {
+- (void)needLogin :(NSString*)message {    
     LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
-    [self.mainController.navigationController pushViewController:viewController animated:NO];
+    viewController.errMessage = message;
+    
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:viewController];
+    self.window.rootViewController = navi;
+    [navi setNavigationBarHidden:YES];
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark - 接口
@@ -252,7 +260,7 @@ BMKLocationService *_locService;
         if ([CommonUtil isEmpty:coachId] || [CommonUtil isEmpty:self.deviceToken]) {
             return;
         }
-    NSLog(@"-----%@",self.deviceToken);
+    
     [request setPostValue:coachId forKey:@"userid"];   // 教练ID
     [request setPostValue:@"1" forKey:@"usertype"];      // 用户类型 1.教练  2 学员
     [request setPostValue:@"1" forKey:@"devicetype"];           // 设备类型 0安卓  1IOS
@@ -306,15 +314,12 @@ BMKLocationService *_locService;
         }else{
              NSLog(@"上传设备号 OK");
         }
-        
     }
-    
 }
 
 // 服务器请求失败
 - (void)requestFailed:(ASIHTTPRequest *)request {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"getModelList" object:nil];
- 
 }
 
 #pragma mark - 定位 BMKLocationServiceDelegate

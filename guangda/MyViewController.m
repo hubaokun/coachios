@@ -253,6 +253,11 @@
     return YES;
 }
 
+- (void)dealloc {
+    self.mainScrollView.delegate = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     CGFloat _y = scrollView.contentOffset.y;

@@ -78,6 +78,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) viewWillDisappear:(BOOL)animated
+{
+    MainViewController*m = (MainViewController*)self.tabBarController;
+
+    
+//    m.tasklistVC.hidesBottomBarWhenPushed = false;
+//    m.scheduleVC.hidesBottomBarWhenPushed = false;
+//    m.myVC.hidesBottomBarWhenPushed = false;
+//     tasklistVC.hidesBottomBarWhenPushed = false;
+//    _scheduleVC.hidesBottomBarWhenPushed = false;
+//    _myVC.hidesBottomBarWhenPushed = false;
+}
+
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     
@@ -234,11 +247,14 @@
             
             int isregister = [[result objectForKey:@"isregister"] intValue];
             
+            
+            [app jumpToMainViewController];
+            
             if(isregister == 0){
-                [self.navigationController popViewControllerAnimated:YES];
+//                [self.navigationController popViewControllerAnimated:YES];
             }else{
                 CoachInfoViewController *viewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
-                [self.navigationController pushViewController:viewController animated:YES];
+                [app.mainController.navigationController pushViewController:viewController animated:YES];
             }
             
         } else {

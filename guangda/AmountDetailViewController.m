@@ -222,7 +222,7 @@
     }
     
     NSDictionary *dic = [self.amountArray objectAtIndex:indexPath.row];
-    NSString *time = dic[@"time"];
+    NSString *time = dic[@"addtime"];
     NSString *type = dic[@"type"];
     NSString *amount = dic[@"amount"];
     cell.width = [NSString stringWithFormat:@"%f", CGRectGetWidth([UIScreen mainScreen].bounds)];
