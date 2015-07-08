@@ -748,7 +748,6 @@
     }else{
         self.noDataBtn.hidden = YES;
     }
-    
 }
 
 #pragma mark - 接口

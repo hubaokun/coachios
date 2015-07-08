@@ -211,8 +211,8 @@
         if ([code intValue] == 1) {
             
             // 取出对应的userInfo数据
-            NSDictionary *user = [[NSDictionary alloc] init];
-            user = [result objectForKey:@"UserInfo"];
+            NSMutableDictionary *user = [[NSMutableDictionary alloc] init];
+            user = [[result objectForKey:@"UserInfo"] mutableCopy];
             // 将解析出来的数据保存到本地
             [CommonUtil saveObjectToUD:user key:@"userInfo"];
             
@@ -282,6 +282,5 @@
     [request setPostValue:@"1" forKey:@"type"]; // 密码
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
-    
 }
 @end

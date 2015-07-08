@@ -85,7 +85,7 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vD6-W9-IkH">
-                    <rect key="frame" x="0.0" y="89" width="600" height="465"/>
+                    <rect key="frame" x="0.0" y="89" width="600" height="511"/>
                     <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 </tableView>
@@ -104,7 +104,7 @@
                 <constraint firstItem="vD6-W9-IkH" firstAttribute="top" secondItem="dyu-1E-91B" secondAttribute="bottom" id="8rg-NL-13O"/>
                 <constraint firstAttribute="trailing" secondItem="dyu-1E-91B" secondAttribute="trailing" id="9RK-Ts-sDu"/>
                 <constraint firstAttribute="trailing" secondItem="tTl-0v-CHz" secondAttribute="trailing" id="Fop-Sj-TlA"/>
-                <constraint firstAttribute="bottom" secondItem="vD6-W9-IkH" secondAttribute="bottom" constant="46" id="Njr-9p-jqj"/>
+                <constraint firstAttribute="bottom" secondItem="vD6-W9-IkH" secondAttribute="bottom" id="Njr-9p-jqj"/>
                 <constraint firstItem="dyu-1E-91B" firstAttribute="top" secondItem="tTl-0v-CHz" secondAttribute="bottom" id="TNM-h3-37r"/>
                 <constraint firstItem="vD6-W9-IkH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Woa-ri-cox"/>
                 <constraint firstAttribute="trailing" secondItem="vD6-W9-IkH" secondAttribute="trailing" id="YqX-Tj-Gfq"/>
