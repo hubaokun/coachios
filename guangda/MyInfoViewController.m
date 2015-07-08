@@ -115,7 +115,7 @@
     ratingView.isFill = NO;
     [ratingView changeStarForegroundViewWithPoint:CGPointMake([score doubleValue]/5*CGRectGetWidth(self.starView.frame), 0)];//设置星级
     [self.starView addSubview:ratingView];
-    
+//    self.commitBtn.hidden = YES;
     self.scoreLabel.text = [NSString stringWithFormat:@"综合评分%@分", score];//综合评分
     
     //培训时长
@@ -230,7 +230,8 @@
         [cell.contentField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
         cell.editBtn.tag = 200 + i;
-        
+        cell.editImageView.hidden = YES;
+        cell.necessaryLabel.hidden = NO;
         [self.contentView addSubview:cell];
         
         [_cells addObject:cell];
@@ -269,6 +270,7 @@
             NSString *name = userInfo[@"realname"];
             if ([CommonUtil isEmpty:name]) {
                 name = @"";
+                cell.editImageView.hidden = NO;
             }
             cell.contentField.text = name;
         }else if (i == 1){
@@ -280,6 +282,7 @@
                 str = @"女";
             }else{
                 str = @"";
+                cell.editImageView.hidden = NO;
             }
             cell.contentField.text = str;
         }

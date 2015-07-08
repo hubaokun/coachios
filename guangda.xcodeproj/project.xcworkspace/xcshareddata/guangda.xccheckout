@@ -34,7 +34,11 @@
 			<key>IDESourceControlWCCIdentifierKey</key>
 			<string>BB0C209D5AF049B4FF30EAE0C59B253E33651D9B</string>
 			<key>IDESourceControlWCCName</key>
+<<<<<<< HEAD
+			<string>coachios</string>
+=======
 			<string>guangda</string>
+>>>>>>> 5256a276f1f60ace3a02542185217a1a7ff58b2c
 		</dict>
 	</array>
 </dict>

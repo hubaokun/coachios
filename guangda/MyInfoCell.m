@@ -10,4 +10,9 @@
 
 @implementation MyInfoCell
 
+- (void)awakeFromNib {
+    // Initialization code
+    self.necessaryLabel.hidden = YES;
+}
+
 @end

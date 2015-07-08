@@ -32,6 +32,7 @@
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *keepViewConstraint; // 动态存放label高度
 @property (strong, nonatomic) IBOutlet UIButton *keepBtnOutlet;
 
+@property (strong, nonatomic) IBOutlet UILabel *warmingLabel;//提示语
 
 //弹框
 @property (strong, nonatomic) IBOutlet UIView *alertView;
@@ -162,11 +163,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   [self.mainScrollView contentSizeToFit];
+    [self.mainScrollView contentSizeToFit];
+    [self getCoachDetail];
    // _mainViewHeight.constant = 1360;
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     self.userState = [userInfo[@"state"] description];
-
+    self.warmingLabel.text = @"正在查询您的审核状态...";
     _myCarModelArray = [[NSMutableArray alloc] init];
     self.msgDic = [NSMutableDictionary dictionary];
     _TeachCarModeArray = [[NSMutableArray alloc] init];
@@ -573,25 +575,51 @@
 {
     if(buttonIndex == 1)
     {
-        NSString *cardNum = [self.idCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *cardNumPt = [self.cardMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+        NSString *coachImage = [CommonUtil stringForID:userInfo[@"coach_cardpicurl"]]; // 教练证正面照片地址
+        NSString *coachBackImage = [CommonUtil stringForID:userInfo[@"drive_cardpicurl"]]; // 驾驶证照片地址
+        NSString *carCheckImage = [CommonUtil stringForID:userInfo[@"car_cardpicfurl"]]; // 车辆年检证照片地址&车辆行驶证正面
+        NSString *carCheckBackImage = [CommonUtil stringForID:userInfo[@"car_cardpicburl"]]; // 车辆行驶证反面
         
-        NSString *coachNum = [self.coachCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *coachNumPt = [self.coachMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSNumber *isNotEmpty = [NSNumber numberWithBool:YES];
         
-        NSString *driveNum = [self.driveCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *driveNumPt = [self.driveMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if ([CommonUtil isEmpty:coachImage] && self.coachCardDelBtn.hidden) {
+            isNotEmpty = [NSNumber numberWithBool:NO];
+        }
+        if ([CommonUtil isEmpty:coachBackImage] && self.coachCarCardDelBtn.hidden) {
+            isNotEmpty = [NSNumber numberWithBool:NO];
+        }
+        if ([CommonUtil isEmpty:carCheckImage] && self.carCheckDelBtn.hidden) {
+            isNotEmpty = [NSNumber numberWithBool:NO];
+        }
+        if ([CommonUtil isEmpty:carCheckBackImage] && self.carCheckBackDelBtn.hidden) {
+            isNotEmpty = [NSNumber numberWithBool:NO];
+        }
+        if (self.schoolTextFiled.text.length == 0 || [self.schoolTextFiled.text isEqualToString:@"请输入您的驾校名称"] || !isNotEmpty) {
+            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请正确填写完所有信息后再提交" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            [alert show];
+        }else{
+            NSString *cardNum = [self.idCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *cardNumPt = [self.cardMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            NSString *coachNum = [self.coachCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *coachNumPt = [self.coachMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            NSString *driveNum = [self.driveCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *driveNumPt = [self.driveMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            NSString *carCNum = [self.carCheckField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *carCNumPt = [self.carCheckMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            NSString *carModel = [self.teachCarCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *carLicense = [self.teachCarField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            //驾校
+            NSString *carSchoolName = [self.schoolTextFiled.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+            [self uploadCardNum:cardNum cardNumPt:cardNumPt coachNum:coachNum coachNumPt:coachNumPt driveNum:driveNum driveNumPt:driveNumPt carCNum:carCNum carCNumPt:carCNumPt carModel:carModel carLicense:carLicense carArray:self.myCarModelArray carSchoolName:carSchoolName];
+        }
         
-        NSString *carCNum = [self.carCheckField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *carCNumPt = [self.carCheckMadeTimeField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
-        NSString *carModel = [self.teachCarCardField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *carLicense = [self.teachCarField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
-        //驾校
-        NSString *carSchoolName = [self.schoolTextFiled.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
-        [self uploadCardNum:cardNum cardNumPt:cardNumPt coachNum:coachNum coachNumPt:coachNumPt driveNum:driveNum driveNumPt:driveNumPt carCNum:carCNum carCNumPt:carCNumPt carModel:carModel carLicense:carLicense carArray:self.myCarModelArray carSchoolName:carSchoolName];
     }
 }
 
@@ -815,49 +843,57 @@
 //        //通过审核不可修改
 //        return;
 //    }
-    
-    UIButton *button = (UIButton *)sender;
-    if (button.tag == 0){
-        //身份证正面
-        self.clickImageView = self.idCardImageView;
-        self.clickLabel = self.idCardLabel;
-        self.clickDelBtn = self.idCardDelBtn;
-    }else if (button.tag == 1){
-        //身份证反面
-        self.clickImageView = self.idCardBackImageView;
-        self.clickLabel = self.idCardBackLabel;
-        self.clickDelBtn = self.idCardBackDelBtn;
-    }else if (button.tag == 2){
-        //教练证
-        self.clickImageView = self.coachCardImageView;
-        self.clickLabel = self.coachCardLabel;
-        self.clickDelBtn = self.coachCardDelBtn;
-    }else if (button.tag == 3){
-        //教练驾驶证
-        self.clickImageView = self.coachCarCardImageView;
-        self.clickLabel = self.coachCarCardLabel;
-        self.clickDelBtn = self.coachCarCardDelBtn;
-    }else if (button.tag == 4){
-        //车辆年检证&教练行驶证正面
-        self.clickImageView = self.carCheckImageView;
-        self.clickLabel = self.carCheckLabel;
-        self.clickDelBtn = self.carCheckDelBtn;
-    }else if (button.tag == 5){
-        //教练行驶证反面
-        self.clickImageView = self.carCheckBackImageView;
-        self.clickLabel = self.carCheckBackLabel;
-        self.clickDelBtn = self.carCheckBackDelBtn;
-    }else if (button.tag == 6){
-        //教练真实头像
-        self.clickImageView = self.coachTureIconImageView;
-        self.clickLabel = self.coachTureIconLabel;
-        self.clickDelBtn = self.coachTureIconDelBtn;
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
     }else{
-        self.clickImageView = nil;
+        UIButton *button = (UIButton *)sender;
+        if (button.tag == 0){
+            //身份证正面
+            self.clickImageView = self.idCardImageView;
+            self.clickLabel = self.idCardLabel;
+            self.clickDelBtn = self.idCardDelBtn;
+        }else if (button.tag == 1){
+            //身份证反面
+            self.clickImageView = self.idCardBackImageView;
+            self.clickLabel = self.idCardBackLabel;
+            self.clickDelBtn = self.idCardBackDelBtn;
+        }else if (button.tag == 2){
+            //教练证
+            self.clickImageView = self.coachCardImageView;
+            self.clickLabel = self.coachCardLabel;
+            self.clickDelBtn = self.coachCardDelBtn;
+        }else if (button.tag == 3){
+            //教练驾驶证
+            self.clickImageView = self.coachCarCardImageView;
+            self.clickLabel = self.coachCarCardLabel;
+            self.clickDelBtn = self.coachCarCardDelBtn;
+        }else if (button.tag == 4){
+            //车辆年检证&教练行驶证正面
+            self.clickImageView = self.carCheckImageView;
+            self.clickLabel = self.carCheckLabel;
+            self.clickDelBtn = self.carCheckDelBtn;
+        }else if (button.tag == 5){
+            //教练行驶证反面
+            self.clickImageView = self.carCheckBackImageView;
+            self.clickLabel = self.carCheckBackLabel;
+            self.clickDelBtn = self.carCheckBackDelBtn;
+        }else if (button.tag == 6){
+            //教练真实头像
+            self.clickImageView = self.coachTureIconImageView;
+            self.clickLabel = self.coachTureIconLabel;
+            self.clickDelBtn = self.coachTureIconDelBtn;
+        }else{
+            self.clickImageView = nil;
+        }
+        
+        self.alertView.frame = self.view.frame;
+        [self.view addSubview:self.alertView];
     }
     
-    self.alertView.frame = self.view.frame;
-    [self.view addSubview:self.alertView];
 }
 
 - (IBAction)clickForCloseAlert:(id)sender {
@@ -998,48 +1034,48 @@
     [request setPostValue:coachId forKey:@"coachid"];             // 教练ID
     [request setPostValue:ds[@"token"] forKey:@"token"];
     
-    if(![CommonUtil isEmpty:cardNum])
-    {
-        [request setPostValue:cardNum forKey:@"idnum"];              // 身份证号码
-    }
-    if(![CommonUtil isEmpty:cardNumPt])
-    {
-        [request setPostValue:cardNumPt forKey:@"idcardextime"];      // 身份证到期时间
-    }
-    if(![CommonUtil isEmpty:coachNum])
-    {
-        [request setPostValue:coachNum forKey:@"coachcardnum"];       // 教练证号
-    }
-    if(![CommonUtil isEmpty:cardNumPt])
-    {
-        [request setPostValue:coachNumPt forKey:@"coachcardextime"];      // 教练证到期时间
-    }
-    if(![CommonUtil isEmpty:driveNum])
-    {
-         [request setPostValue:driveNum forKey:@"drivecardnum"];              // 驾驶证号码
-    }
-    if(![CommonUtil isEmpty:driveNumPt])
-    {
-        [request setPostValue:driveNumPt forKey:@"drivecardextime"];      // 驾驶证到期时间
-    }
-    if(![CommonUtil isEmpty:carCNum])
-    {
-        [request setPostValue:carCNum forKey:@"carcardnum"];              // 车辆年检证号码
-    }
-    if(![CommonUtil isEmpty:carCNumPt])
-    {
-            [request setPostValue:carCNumPt forKey:@"carcardextime"];      // 车辆年检证到期时间
-    }
-    
-    if(![CommonUtil isEmpty:_teachCarID]){
-        [request setPostValue:_teachCarID forKey:@"carmodelid"];
-    }else{
-        if(![CommonUtil isEmpty:carModel])
-        {
-            [request setPostValue:carModel forKey:@"carmodel"];// 教学用车型号
-        }
-    }
-    
+//    if(![CommonUtil isEmpty:cardNum])
+//    {
+//        [request setPostValue:cardNum forKey:@"idnum"];              // 身份证号码
+//    }
+//    if(![CommonUtil isEmpty:cardNumPt])
+//    {
+//        [request setPostValue:cardNumPt forKey:@"idcardextime"];      // 身份证到期时间
+//    }
+//    if(![CommonUtil isEmpty:coachNum])
+//    {
+//        [request setPostValue:coachNum forKey:@"coachcardnum"];       // 教练证号
+//    }
+//    if(![CommonUtil isEmpty:cardNumPt])
+//    {
+//        [request setPostValue:coachNumPt forKey:@"coachcardextime"];      // 教练证到期时间
+//    }
+//    if(![CommonUtil isEmpty:driveNum])
+//    {
+//         [request setPostValue:driveNum forKey:@"drivecardnum"];              // 驾驶证号码
+//    }
+//    if(![CommonUtil isEmpty:driveNumPt])
+//    {
+//        [request setPostValue:driveNumPt forKey:@"drivecardextime"];      // 驾驶证到期时间
+//    }
+//    if(![CommonUtil isEmpty:carCNum])
+//    {
+//        [request setPostValue:carCNum forKey:@"carcardnum"];              // 车辆年检证号码
+//    }
+//    if(![CommonUtil isEmpty:carCNumPt])
+//    {
+//        [request setPostValue:carCNumPt forKey:@"carcardextime"];      // 车辆年检证到期时间
+//    }
+//    
+//    if(![CommonUtil isEmpty:_teachCarID]){
+//        [request setPostValue:_teachCarID forKey:@"carmodelid"];
+//    }else{
+//        if(![CommonUtil isEmpty:carModel])
+//        {
+//            [request setPostValue:carModel forKey:@"carmodel"];// 教学用车型号
+//        }
+//    }
+//    
     if(![CommonUtil isEmpty:_carSchoolID]){
         [request setPostValue:_carSchoolID forKey:@"driveschoolid"];
     }else{
@@ -1048,22 +1084,22 @@
             [request setPostValue:carSchoolName forKey:@"driveschool"];// 教学用车型号
         }
     }
-    
-    if(![CommonUtil isEmpty:carLicense])
-    {
-         [request setPostValue:carLicense forKey:@"carlicense"];         // 教学用车牌照
-    }
+//
+//    if(![CommonUtil isEmpty:carLicense])
+//    {
+//         [request setPostValue:carLicense forKey:@"carlicense"];         // 教学用车牌照
+//    }
     
     //5.判断相关证件是否为空
-    if (!self.idCardDelBtn.hidden) {
-        //身份证正面
-        [request setData:UIImageJPEGRepresentation(self.idCardImageView.image, 0.75) forKey:@"cardpic1"];//身份证正面照
-    }
-    
-    if (!self.idCardBackDelBtn.hidden) {
-        //身份证反面
-        [request setData:UIImageJPEGRepresentation(self.idCardBackImageView.image, 0.75) forKey:@"cardpic2"];//身份证反面照
-    }
+//    if (!self.idCardDelBtn.hidden) {
+//        //身份证正面
+//        [request setData:UIImageJPEGRepresentation(self.idCardImageView.image, 0.75) forKey:@"cardpic1"];//身份证正面照
+//    }
+//    
+//    if (!self.idCardBackDelBtn.hidden) {
+//        //身份证反面
+//        [request setData:UIImageJPEGRepresentation(self.idCardBackImageView.image, 0.75) forKey:@"cardpic2"];//身份证反面照
+//    }
     
     if (!self.coachCardDelBtn.hidden) {
         //教练证正面照
@@ -1085,45 +1121,45 @@
         [request setData:UIImageJPEGRepresentation(self.carCheckBackImageView.image, 0.75) forKey:@"cardpic6"];//车辆行驶证反面
     }
     
-    if (!self.coachTureIconDelBtn.hidden) {
-        //教练真实头像
-        [request setData:UIImageJPEGRepresentation(self.coachTureIconImageView.image, 0.75) forKey:@"cardpic7"];//教练真实头像
-    }
+//    if (!self.coachTureIconDelBtn.hidden) {
+//        //教练真实头像
+//        [request setData:UIImageJPEGRepresentation(self.coachTureIconImageView.image, 0.75) forKey:@"cardpic7"];//教练真实头像
+//    }
 
-    //准教车型
-    if(carArray.count !=0){
-        NSDictionary *dic = carArray[0];
-        NSString *modelIds = dic[@"modelid"];
-        //    for (NSDictionary *dict in carArray) {
-        //        NSString *idStr = dict[@"modelid"];
-        //        modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
-        //    }
-        for(int i = 1;i<carArray.count;i++)
-        {
-            NSDictionary *dict = [carArray objectAtIndex:i];
-            NSString *idStr = dict[@"modelid"];
-            modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
-        }
-        //NSLog(@"%@",modelIds);
-        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
-    }
+//    //准教车型
+//    if(carArray.count !=0){
+//        NSDictionary *dic = carArray[0];
+//        NSString *modelIds = dic[@"modelid"];
+//        //    for (NSDictionary *dict in carArray) {
+//        //        NSString *idStr = dict[@"modelid"];
+//        //        modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
+//        //    }
+//        for(int i = 1;i<carArray.count;i++)
+//        {
+//            NSDictionary *dict = [carArray objectAtIndex:i];
+//            NSString *idStr = dict[@"modelid"];
+//            modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
+//        }
+//        //NSLog(@"%@",modelIds);
+//        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
+//    }
 
     
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
     
     //赋值
-    [self.msgDic setObject:cardNum forKey:@"id_cardnum"];
-    [self.msgDic setObject:cardNumPt forKey:@"id_cardexptime"];
-    [self.msgDic setObject:coachNum forKey:@"coach_cardnum"];
-    [self.msgDic setObject:coachNumPt forKey:@"coach_cardexptime"];
-    [self.msgDic setObject:driveNum forKey:@"drive_cardnum"];
-    [self.msgDic setObject:driveNumPt forKey:@"drive_cardexptime"];
-    [self.msgDic setObject:carCNum forKey:@"car_cardnum"];
-    [self.msgDic setObject:carCNumPt forKey:@"car_cardexptime"];
-    [self.msgDic setObject:carLicense forKey:@"carlicense"];
-    [self.msgDic setObject:carModel forKey:@"teachcarmodel"];
-    [self.msgDic setObject:carArray forKey:@"modellist"];
+//    [self.msgDic setObject:cardNum forKey:@"id_cardnum"];
+//    [self.msgDic setObject:cardNumPt forKey:@"id_cardexptime"];
+//    [self.msgDic setObject:coachNum forKey:@"coach_cardnum"];
+//    [self.msgDic setObject:coachNumPt forKey:@"coach_cardexptime"];
+//    [self.msgDic setObject:driveNum forKey:@"drive_cardnum"];
+//    [self.msgDic setObject:driveNumPt forKey:@"drive_cardexptime"];
+//    [self.msgDic setObject:carCNum forKey:@"car_cardnum"];
+//    [self.msgDic setObject:carCNumPt forKey:@"car_cardexptime"];
+//    [self.msgDic setObject:carLicense forKey:@"carlicense"];
+//    [self.msgDic setObject:carModel forKey:@"teachcarmodel"];
+//    [self.msgDic setObject:carArray forKey:@"modellist"];
     [self.msgDic setObject:carSchoolName forKey:@"driveschool"];
     
 }
@@ -1185,6 +1221,8 @@
                 [ds setObject:result[@"cradpic7url"] forKey:@"realpicurl"];
             }
             
+            [ds setObject:@"1" forKey:@"state"];
+            
             [CommonUtil saveObjectToUD:ds key:@"userInfo"];
             [self makeToast:@"提交成功，请等待审核"];
             
@@ -1232,6 +1270,56 @@
     [DejalBezelActivityView removeViewAnimated:YES];
 }
 
+- (void)getCoachDetail
+{
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    // 取出教练ID
+    NSDictionary * ds = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *coachId  = [ds objectForKey:@"coachid"];
+    [paramDic setObject:coachId forKey:@"coachid"];
+    
+    NSString *uri = @"/sbook?action=GetCoachDetail";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    [DejalBezelActivityView activityViewForView:self.view];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 30;     // 网络超时时长设置
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1)
+        {
+            NSDictionary *coachInfo = responseObject[@"coachinfo"];
+            self.userState = [coachInfo[@"state"] description];
+            NSString *state = [coachInfo[@"state"] description];
+            if (state.intValue == 1) {        //正在审核
+                self.commitBtn.hidden = YES;
+                self.warmingLabel.text = @"【认证提交】您的教练资格资料提交成功，正在审核中...";
+            }else if (state.intValue == 2){   //审核通过
+                self.commitBtn.hidden = YES;
+                self.warmingLabel.text = @"【认证通过】您已经通过教练资格认证";
+            }else if (state.intValue == 3){   //审核未通过
+                self.commitBtn.hidden = NO;
+                self.warmingLabel.text = @"【未通过认证】教练资格认证未通过，请完善以下内容，重新提交认证";
+            }else{                            //未设置
+                self.commitBtn.hidden = NO;
+                self.warmingLabel.text = @"【未认证初始】教练资格认证后，学员才能预约您学车！";
+            }
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        [self makeToast:ERR_NETWORK];
+    }];
+}
+
+
 // 服务器请求失败
 - (void)requestFailed:(ASIHTTPRequest *)request {
     [DejalBezelActivityView removeViewAnimated:YES];
@@ -1247,8 +1335,16 @@
 
 //弹出驾校选择框
 - (IBAction)clickForSelectSchool:(id)sender {
-    self.teachCarTag = 2;
-    self.keepBtnOutlet.hidden = YES;
-    [self getCarSchool];
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else{
+        self.teachCarTag = 2;
+        self.keepBtnOutlet.hidden = YES;
+        [self getCarSchool];
+    }
 }
 @end

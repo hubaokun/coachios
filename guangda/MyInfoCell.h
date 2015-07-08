@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *editBtn;
 @property (strong, nonatomic) IBOutlet UIButton *selectBtn;
 @property (strong, nonatomic) IBOutlet UIButton *hiddenBtn;
+@property (strong, nonatomic) IBOutlet UILabel *necessaryLabel;
 
 @property (strong, nonatomic) IBOutlet UILabel *tipLabel;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *tipLabelLeftMargin;

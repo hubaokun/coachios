@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -69,14 +69,14 @@
                         <constraint firstAttribute="height" constant="1" id="r4X-Po-rMF"/>
                     </constraints>
                 </view>
-                <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(接单必须设置)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zZ-SV-Taz">
-                    <rect key="frame" x="57" y="19" width="100" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(接单必须完善)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hcg-2g-vXs">
+                    <rect key="frame" x="68" y="21" width="85" height="15"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="100" id="B8X-Cw-lgl"/>
-                        <constraint firstAttribute="height" constant="21" id="t6i-Lk-xgn"/>
+                        <constraint firstAttribute="height" constant="15" id="9d6-S7-Mck"/>
+                        <constraint firstAttribute="width" constant="85" id="VIh-1v-s3u"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" red="1" green="0.28235294117647058" blue="0.090196078431372548" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="1" green="0.28235294119999998" blue="0.090196078430000007" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
@@ -89,22 +89,22 @@
                 <constraint firstAttribute="trailing" secondItem="xaj-oG-nc0" secondAttribute="trailing" constant="33" id="Eal-Qq-oXc"/>
                 <constraint firstItem="xaj-oG-nc0" firstAttribute="top" secondItem="CwF-A6-DBj" secondAttribute="bottom" id="GHS-XU-P9Q"/>
                 <constraint firstItem="CwF-A6-DBj" firstAttribute="top" secondItem="Gcc-Ng-pZW" secondAttribute="top" constant="15" id="JF1-xG-2zw"/>
-                <constraint firstItem="6zZ-SV-Taz" firstAttribute="top" secondItem="Gcc-Ng-pZW" secondAttribute="top" constant="19" id="OTs-MB-h9f"/>
                 <constraint firstItem="CwF-A6-DBj" firstAttribute="leading" secondItem="Gcc-Ng-pZW" secondAttribute="leading" constant="12" id="P6Y-So-k6F"/>
                 <constraint firstAttribute="trailing" secondItem="CwF-A6-DBj" secondAttribute="trailing" constant="12" id="QLE-PN-iLX"/>
                 <constraint firstItem="xaj-oG-nc0" firstAttribute="leading" secondItem="Gcc-Ng-pZW" secondAttribute="leading" constant="12" id="U5W-o6-pDo"/>
                 <constraint firstAttribute="trailing" secondItem="uCa-8w-rjU" secondAttribute="trailing" id="WqP-6S-Uvf"/>
                 <constraint firstItem="zho-0U-I8X" firstAttribute="top" secondItem="CwF-A6-DBj" secondAttribute="bottom" id="ayl-BQ-8JM"/>
-                <constraint firstItem="6zZ-SV-Taz" firstAttribute="leading" secondItem="Gcc-Ng-pZW" secondAttribute="leading" constant="57" id="dyT-cC-K9H"/>
                 <constraint firstAttribute="trailing" secondItem="0aQ-6w-atl" secondAttribute="trailing" id="ehO-2B-QJw"/>
                 <constraint firstAttribute="trailing" secondItem="Igx-GF-pJ6" secondAttribute="trailing" id="gHL-6s-rpw"/>
                 <constraint firstItem="uCa-8w-rjU" firstAttribute="leading" secondItem="Gcc-Ng-pZW" secondAttribute="leading" constant="12" id="gr9-2P-rij"/>
                 <constraint firstItem="Igx-GF-pJ6" firstAttribute="leading" secondItem="xaj-oG-nc0" secondAttribute="trailing" id="hV9-Sl-vJd"/>
                 <constraint firstAttribute="trailing" secondItem="eL1-qu-1L2" secondAttribute="trailing" constant="10" id="jNX-YK-q4n"/>
                 <constraint firstAttribute="bottom" secondItem="Igx-GF-pJ6" secondAttribute="bottom" constant="4" id="kKy-xn-4RF"/>
+                <constraint firstItem="hcg-2g-vXs" firstAttribute="top" secondItem="Gcc-Ng-pZW" secondAttribute="top" constant="21" id="ncK-8S-QFe"/>
                 <constraint firstItem="uCa-8w-rjU" firstAttribute="top" secondItem="Gcc-Ng-pZW" secondAttribute="top" constant="42" id="pQ1-Tm-Q4Z"/>
                 <constraint firstItem="eL1-qu-1L2" firstAttribute="top" secondItem="Gcc-Ng-pZW" secondAttribute="top" constant="45" id="tfC-fS-KMl"/>
                 <constraint firstAttribute="bottom" secondItem="0aQ-6w-atl" secondAttribute="bottom" id="xKY-5R-jSE"/>
+                <constraint firstItem="hcg-2g-vXs" firstAttribute="leading" secondItem="Gcc-Ng-pZW" secondAttribute="leading" constant="68" id="yrW-mv-jiX"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
@@ -115,9 +115,8 @@
                 <outlet property="editBtn" destination="Igx-GF-pJ6" id="K1b-Ga-K5x"/>
                 <outlet property="editImageView" destination="eL1-qu-1L2" id="6he-az-zGB"/>
                 <outlet property="hiddenBtn" destination="zho-0U-I8X" id="EiF-xa-LgK"/>
+                <outlet property="necessaryLabel" destination="hcg-2g-vXs" id="nZW-bk-c8r"/>
                 <outlet property="selectBtn" destination="uCa-8w-rjU" id="K54-og-TX8"/>
-                <outlet property="tipLabel" destination="6zZ-SV-Taz" id="DlC-nE-6FS"/>
-                <outlet property="tipLabelLeftMargin" destination="dyT-cC-K9H" id="TEf-Fg-209"/>
                 <outlet property="titleLabel" destination="CwF-A6-DBj" id="9dQ-xE-rzb"/>
             </connections>
             <point key="canvasLocation" x="-197" y="245.5"/>
