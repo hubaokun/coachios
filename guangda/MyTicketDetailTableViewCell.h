@@ -15,6 +15,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *ticketTime1;
 @property (strong, nonatomic) IBOutlet UILabel *selectTag1;
 @property (strong, nonatomic) IBOutlet UIButton *clickButton1;
+@property (strong, nonatomic) IBOutlet UILabel *applyLabel1;
 
 @property (strong, nonatomic) IBOutlet UIView *backView2;
 @property (strong, nonatomic) IBOutlet UILabel *ticketName2;
@@ -22,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *ticketTime2;
 @property (strong, nonatomic) IBOutlet UILabel *selectTag2;
 @property (strong, nonatomic) IBOutlet UIButton *clickButton2;
+@property (strong, nonatomic) IBOutlet UILabel *applyLabel2;
 
 
 @end

@@ -10,6 +10,7 @@
 
 @interface AboutUsViewController ()
 
+@property (strong, nonatomic) IBOutlet UILabel *version;
 @end
 
 @implementation AboutUsViewController
@@ -17,6 +18,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    // app版本
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString *VersionText = [NSString stringWithFormat:@"版本%@",app_Version];
+    self.version.text = VersionText;
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

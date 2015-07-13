@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *altogetherTime;
 @property (strong, nonatomic) IBOutlet UILabel *altogetherMoney;
 @property (strong, nonatomic) IBOutlet UIButton *convertButton;
+@property (strong, nonatomic) IBOutlet UILabel *headLabel;
 
 //参数
 @property (strong, nonatomic) NSMutableArray *ticketArray;
@@ -128,44 +129,89 @@
         NSDictionary *dic1 = self.arrayList1[indexPath.row];
         NSString *str1 = [NSString stringWithFormat:@"%@小时小巴券", dic1[@"value"]];
         NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
-        [string1 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str1.length-3,3)];
-        cell.ticketName1.attributedText = string1;
         cell.ticketFrom1.text = [self getFromString:dic1[@"ownertype"]];
         cell.ticketTime1.text = dic1[@"gettime"];
+        NSString *state1 = [dic1[@"state"] description];
+        if (state1.intValue == 2) {
+            [string1 addAttribute:NSForegroundColorAttributeName value:RGB(222, 222, 222) range:NSMakeRange(0,str1.length)];
+            cell.clickButton1.enabled = NO;
+            cell.applyLabel1.hidden = NO;
+        }else{
+            [string1 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str1.length-3,3)];
+            cell.clickButton1.enabled = YES;
+            cell.applyLabel1.hidden = YES;
+        }
+        cell.ticketName1.attributedText = string1;
         
         NSDictionary *dic2 = self.arrayList2[indexPath.row];
         NSString *str2 = [NSString stringWithFormat:@"%@小时小巴券", dic2[@"value"]];
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
-        [string2 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str2.length-3,3)];
-        cell.ticketName2.attributedText = string2;
         cell.ticketFrom2.text = [self getFromString:dic2[@"ownertype"]];
         cell.ticketTime2.text = dic2[@"gettime"];
+        NSString *state2 = [dic2[@"state"] description];
+        if (state2.intValue == 2) {
+            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(222, 222, 222) range:NSMakeRange(0,str2.length)];
+            cell.clickButton2.enabled = NO;
+            cell.applyLabel2.hidden = NO;
+        }else{
+            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str2.length-3,3)];
+            cell.clickButton2.enabled = YES;
+            cell.applyLabel2.hidden = YES;
+        }
+        cell.ticketName2.attributedText = string2;
     }else{
         if (self.ticketArray.count%2 != 0) {
             NSDictionary *dic1 = self.arrayList1[indexPath.row];
             NSString *str1 = [NSString stringWithFormat:@"%@小时小巴券", dic1[@"value"]];
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
-            [string1 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str1.length-3,3)];
-            cell.ticketName1.attributedText = string1;
             cell.ticketFrom1.text = [self getFromString:dic1[@"ownertype"]];
             cell.ticketTime1.text = dic1[@"gettime"];
+            NSString *state1 = [dic1[@"state"] description];
+            if (state1.intValue == 2) {
+                [string1 addAttribute:NSForegroundColorAttributeName value:RGB(222, 222, 222) range:NSMakeRange(0,str1.length)];
+                cell.clickButton1.enabled = NO;
+                cell.applyLabel1.hidden = NO;
+            }else{
+                [string1 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str1.length-3,3)];
+                cell.clickButton1.enabled = YES;
+                cell.applyLabel1.hidden = YES;
+            }
+            cell.ticketName1.attributedText = string1;
             cell.backView2.hidden = YES;
         }else{
             NSDictionary *dic1 = self.arrayList1[indexPath.row];
             NSString *str1 = [NSString stringWithFormat:@"%@小时小巴券", dic1[@"value"]];
             NSMutableAttributedString *string1 = [[NSMutableAttributedString alloc] initWithString:str1];
-            [string1 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str1.length-3,3)];
-            cell.ticketName1.attributedText = string1;
             cell.ticketFrom1.text = [self getFromString:dic1[@"ownertype"]];
             cell.ticketTime1.text = dic1[@"gettime"];
+            NSString *state1 = [dic1[@"state"] description];
+            if (state1.intValue == 2) {
+                [string1 addAttribute:NSForegroundColorAttributeName value:RGB(222, 222, 222) range:NSMakeRange(0,str1.length)];
+                cell.clickButton1.enabled = NO;
+                cell.applyLabel1.hidden = NO;
+            }else{
+                [string1 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str1.length-3,3)];
+                cell.clickButton1.enabled = YES;
+                cell.applyLabel1.hidden = YES;
+            }
+            cell.ticketName1.attributedText = string1;
             
             NSDictionary *dic2 = self.arrayList2[indexPath.row];
             NSString *str2 = [NSString stringWithFormat:@"%@小时小巴券", dic2[@"value"]];
             NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:str2];
-            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str2.length-3,3)];
-            cell.ticketName2.attributedText = string2;
             cell.ticketFrom2.text = [self getFromString:dic2[@"ownertype"]];
-            cell.ticketTime2.text = dic1[@"gettime"];
+            cell.ticketTime2.text = dic2[@"gettime"];
+            NSString *state2 = [dic2[@"state"] description];
+            if (state2.intValue == 2) {
+                [string2 addAttribute:NSForegroundColorAttributeName value:RGB(222, 222, 222) range:NSMakeRange(0,str2.length)];
+                cell.clickButton2.enabled = NO;
+                cell.applyLabel2.hidden = NO;
+            }else{
+                [string2 addAttribute:NSForegroundColorAttributeName value:RGB(37, 37, 37) range:NSMakeRange(str2.length-3,3)];
+                cell.clickButton2.enabled = YES;
+                cell.applyLabel2.hidden = YES;
+            }
+            cell.ticketName2.attributedText = string2;
         }
     }
     
@@ -282,6 +328,16 @@
         // 取得数据成功
         if ([code intValue] == 1) {
             self.ticketArray = result[@"couponlist"];
+            NSMutableArray *array = [[NSMutableArray alloc]init];
+            for (int i=0; i<self.ticketArray.count; i++) {
+                NSDictionary *dic = self.ticketArray[i];
+                NSString *state = [dic[@"state"] description];
+                if (state.intValue == 1) {
+                    [array addObject:dic];
+                }
+            }
+            NSString *str1 = [NSString stringWithFormat:@"共%lu张小巴券 有%lu张可兑换 \n已兑换的小巴券，请联系发布者结算",(unsigned long)self.ticketArray.count,(unsigned long)array.count];
+            self.headLabel.text = str1;
             [self handleTicketArray];
             [self.mainTableView reloadData];
             if (self.ticketArray.count == 0) {
@@ -291,6 +347,9 @@
                 self.noDataButton.hidden = YES;
             }
             
+            //合计时间
+            NSString *altogetherTimeStr = [NSString stringWithFormat:@"已选%@张共%@小时",@"0",@"0"];
+            self.altogetherTime.text = altogetherTimeStr;
         } else {
             if ([CommonUtil isEmpty:message]) {
                 message = ERR_NETWORK;
