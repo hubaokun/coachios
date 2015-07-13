@@ -18,11 +18,11 @@
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 //#define REQUEST_HOST   @"http://192.168.1.123:8080/guangda/"        // 郭凯服务
-//#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
+#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
 //#define REQUEST_HOST   @"http://120.55.74.241/dadmin/"        //测试服务器
 //#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"        //测试服务器
 
-#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda/"        //测试服务器
+//#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda/"        //测试服务器
 
 
 
@@ -50,5 +50,7 @@
 #define NO_NETWORK              @"没有连接网络"
 
 #define PGY_APPKEY              @"f353cb3b650dc32604ddc957ee914ddc"
+//饶宏蒲公英的id 204452f5151ce20970e06fda732d7693
+//坤哥蒲公英的id f353cb3b650dc32604ddc957ee914ddc
 
 #endif

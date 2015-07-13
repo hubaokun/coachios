@@ -49,7 +49,7 @@ BMKLocationService *_locService;
     // 要使用百度地图，请先启动BaiduMapManager
     self.cityName = @"杭州市";//默认为杭州市
     _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:@"v0OG6HFdqcGk2dAfG3TpfInk" generalDelegate:self];
+    BOOL ret = [_mapManager start:@"CgYEZc4f07w7aZ7AwVD296Ee" generalDelegate:self];
     if (!ret) {
         NSLog(@"manager start failed!");
     }
@@ -81,7 +81,7 @@ BMKLocationService *_locService;
     //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
     
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
-    //    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
+    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
     
     [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
     
@@ -148,6 +148,7 @@ BMKLocationService *_locService;
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTaskData" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
+    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
