@@ -9,8 +9,8 @@
 #import "AboutUsViewController.h"
 
 @interface AboutUsViewController ()
-
 @property (strong, nonatomic) IBOutlet UILabel *version;
+
 @end
 
 @implementation AboutUsViewController
@@ -23,8 +23,6 @@
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     NSString *VersionText = [NSString stringWithFormat:@"版本%@",app_Version];
     self.version.text = VersionText;
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {

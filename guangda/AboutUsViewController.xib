@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutUsViewController">
             <connections>
-                <outlet property="version" destination="gHd-Wv-Pnv" id="wqI-5m-4cG"/>
+                <outlet property="version" destination="gHd-Wv-Pnv" id="lm5-az-pzw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

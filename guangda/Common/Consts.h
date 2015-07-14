@@ -19,12 +19,7 @@
 
 //#define REQUEST_HOST   @"http://192.168.1.123:8080/guangda/"        // 郭凯服务
 #define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
-//#define REQUEST_HOST   @"http://120.55.74.241/dadmin/"        //测试服务器
-//#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"        //测试服务器
-
-//#define REQUEST_HOST   @"http://127.0.0.1:8080/guangda/"        //测试服务器
-
-
+//#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]
@@ -49,8 +44,8 @@
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"
 
-#define PGY_APPKEY              @"f353cb3b650dc32604ddc957ee914ddc"
-//饶宏蒲公英的id 204452f5151ce20970e06fda732d7693
-//坤哥蒲公英的id f353cb3b650dc32604ddc957ee914ddc
+#define PGY_APPKEY              @"ad52d7777114fb5a1e47006123d11484"
+//正式蒲公英的app id             f353cb3b650dc32604ddc957ee914ddc
+//饶宏的蒲公英app id             ad52d7777114fb5a1e47006123d11484
 
 #endif
