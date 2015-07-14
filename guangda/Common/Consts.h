@@ -44,8 +44,8 @@
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"
 
-#define PGY_APPKEY              @"ad52d7777114fb5a1e47006123d11484"
+#define PGY_APPKEY              @"f353cb3b650dc32604ddc957ee914ddc"
 //正式蒲公英的app id             f353cb3b650dc32604ddc957ee914ddc
 //饶宏的蒲公英app id             ad52d7777114fb5a1e47006123d11484
-
+//递推的蒲公英app id             8aa0bc0a1de506230cdef5ed1ffdbbad
 #endif
