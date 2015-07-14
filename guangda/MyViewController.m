@@ -201,7 +201,13 @@
             moneyf = [userInfo[@"money"] integerValue];
         }
         
-        gMoney = [NSString stringWithFormat:@"%ld",moneyf - gmoneyf];
+        NSInteger temp = moneyf - gmoneyf;
+        if(temp < 0){
+            temp = 0;
+        }
+        
+        
+        gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
         moneyFrozen = [NSString stringWithFormat:@"%ld",(long)fmoneyf];
         
         NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, moneyFrozen];
@@ -479,6 +485,9 @@
     }
     
     double lestMoney = [money doubleValue] - [gMoney doubleValue];
+    if(lestMoney < 0){
+        lestMoney = 0;
+    }
     
     money = [NSString stringWithFormat:@"%.0f", lestMoney];
     self.alertMoneyLabel.text = [NSString stringWithFormat:@"%@元", money];
@@ -881,9 +890,15 @@
             NSInteger fmoney = [result[@"fmoney"] integerValue];
             NSInteger money = [result[@"money"] integerValue];
             NSInteger gmoney = [result[@"gmoney"] integerValue];
-            NSString *moneyStr = [NSString stringWithFormat:@"%ld",money];
-            NSString *fmoneyStr = [NSString stringWithFormat:@"%ld",fmoney];
-            NSString *canApplyStr = [NSString stringWithFormat:@"%ld",money - gmoney];
+            NSString *moneyStr = [NSString stringWithFormat:@"%ld",(long)money];
+            NSString *fmoneyStr = [NSString stringWithFormat:@"%ld",(long)fmoney];
+            NSInteger temp = money - gmoney;
+            if(temp < 0){
+                 temp = 0;
+            }
+            
+            
+            NSString *canApplyStr = [NSString stringWithFormat:@"%ld",(long)temp];
             //刷新金额
             NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
             NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:userInfo];
@@ -968,8 +983,13 @@
             [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,couponhour.length)];
             self.xiaobaTicketLabel.attributedText = string;
             
-            //
-            NSString *gMoney = [NSString stringWithFormat:@"%ld",[result[@"money"] integerValue] - [gmoney integerValue]];
+            NSInteger temp = [result[@"money"] integerValue] - [gmoney integerValue];
+            if(temp < 0){
+               temp = 0;
+            }
+            
+            
+            NSString *gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
             NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, fmoney];
             
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:moneyStr];

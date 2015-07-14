@@ -257,6 +257,9 @@
     float fMoney =[self.fMoney floatValue];
     float gmoney= [self.gmoney floatValue];
     float v= totalPricef-gmoney;
+    if(v < 0){
+        v = 0;
+    }
     label.text = [NSString stringWithFormat:@"(可提现金额:%.0f元 / 冻结金额:%.0f元)",v ,fMoney];
     [headerView addSubview:label];
     
@@ -396,7 +399,9 @@
     }
     
     double lestMoney = [money doubleValue] - [gMoney doubleValue];
-    
+    if(lestMoney < 0){
+        lestMoney = 0;
+    }
     money = [NSString stringWithFormat:@"%.0f", lestMoney];
     self.alertMoneyLabel.text = [NSString stringWithFormat:@"%@元", money];
     [self.alertMoneyLabel.superview  bringSubviewToFront:self.alertMoneyLabel];
