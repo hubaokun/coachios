@@ -9,7 +9,15 @@
 #import "ScheduleSettingViewController.h"
 #import "LoginViewController.h"
 
-@interface ScheduleSettingViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
+@interface ScheduleSettingViewController ()<UITextFieldDelegate,UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+{
+    NSArray *array100;
+    NSArray *array10;
+    NSArray *array1;
+    UILabel *myView1;
+    UILabel *myView2;
+    UILabel *myView3;
+}
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
@@ -30,6 +38,9 @@
 //选择框
 @property (strong, nonatomic) IBOutlet UIView *selectView;
 @property (strong, nonatomic) IBOutlet UIPickerView *selectPickerView;
+@property (strong, nonatomic) IBOutlet UIView *selectView2;
+@property (strong, nonatomic) IBOutlet UIPickerView *pricePickerView;
+@property (strong, nonatomic) NSString *price;//价格
 
 //参数
 @property (strong, nonatomic) NSMutableArray *selectArray;
@@ -51,6 +62,15 @@
     self.selectArray = [NSMutableArray array];
     self.addressArray = [NSMutableArray array];
     self.subjectArray = [NSMutableArray array];
+    
+    //将价格输入框变成选择框
+    self.pricePickerView.delegate = self;
+    self.pricePickerView.dataSource = self;
+    array100 = @[@"0",@"1",@"2",@"3",@"4",@"5"];                     //百位 十位 个位
+    array10 = @[@"5",@"6",@"7",@"8",@"9"];
+    array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+    
+    self.priceTextField.enabled = NO;
     
     // 点击背景退出键盘
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
@@ -172,16 +192,67 @@
 
 // 组数
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    if (pickerView == self.pricePickerView) {
+        return 3;
+    }
     return 1;
 }
 
 // 每组行数
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    if (pickerView == self.pricePickerView) {
+        if (component == 0) {
+            return array100.count;
+        }
+        if (component == 1) {
+            return array10.count;
+        }
+        if (component == 2) {
+            return array1.count;
+        }
+    }
     return self.selectArray.count;
 }
 
 // 自定义每行的view
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    if (pickerView == self.pricePickerView) {
+        if (component == 0) {
+            myView1 = nil;
+            myView1 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
+            myView1.textAlignment = NSTextAlignmentCenter;
+            myView1.text = [array100 objectAtIndex:row];
+            myView1.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
+            myView1.textColor = [UIColor whiteColor];
+            myView1.backgroundColor = [UIColor clearColor];
+            self.price = [NSString stringWithFormat:@"%@%@%@",myView1.text,myView2.text,myView3.text];
+            return myView1;
+        }
+        if (component == 1) {
+            myView2 = nil;
+            myView2 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
+            myView2.textAlignment = NSTextAlignmentCenter;
+            myView2.text = [array10 objectAtIndex:row];
+            myView2.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
+            myView2.textColor = [UIColor whiteColor];
+            myView2.backgroundColor = [UIColor clearColor];
+            self.price = [NSString stringWithFormat:@"%@%@%@",myView1.text,myView2.text,myView3.text];
+            return myView2;
+        }
+        if (component == 2) {
+            myView3 = nil;
+            myView3 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
+            myView3.textAlignment = NSTextAlignmentCenter;
+            myView3.text = [array1 objectAtIndex:row];
+            myView3.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
+            myView3.textColor = [UIColor whiteColor];
+            myView3.backgroundColor = [UIColor clearColor];
+            self.price = [NSString stringWithFormat:@"%@%@%@",myView1.text,myView2.text,myView3.text];
+            return myView3;
+        }
+        return nil;
+    }
+    
     UILabel *myView = nil;
     
     myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
@@ -199,7 +270,31 @@
 
 // 返回选中的行
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    
+    if (pickerView == self.pricePickerView) {
+        //限制价格的区间，在50~500之间
+        if (component == 0) {
+            if ([array100[row] isEqualToString:@"5"]) {
+                array10 = @[@"0"];
+                array1 = @[@"0"];
+                [self.pricePickerView reloadComponent:1];
+                [self.pricePickerView reloadComponent:2];
+                
+            }else{
+                if ([array100[row] isEqualToString:@"0"]) {
+                    array10 = @[@"5",@"6",@"7",@"8",@"9"];
+                    array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+                    [self.pricePickerView reloadComponent:1];
+                    [self.pricePickerView reloadComponent:2];
+                }else{
+                    array10 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+                    array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
+                    [self.pricePickerView reloadComponent:1];
+                    [self.pricePickerView reloadComponent:2];
+                }
+            }
+        }
+        [self.pricePickerView reloadAllComponents];
+    }
     
 }
 
@@ -357,8 +452,10 @@
 //价格
 - (IBAction)clickForPrice:(id)sender {
     if (self.stateSwitch.isOn) {
-        [self.priceTextField becomeFirstResponder];
-        self.pricePencilBtn.highlighted = YES;
+        [self.selectArray removeAllObjects];
+        self.selectView2.frame = self.view.frame;
+        [self.view addSubview:self.selectView2];
+        [self.pricePickerView reloadAllComponents];
     }
     
 }
@@ -420,24 +517,37 @@
 
 - (IBAction)clickForRemoveSelect:(id)sender {
     [self.selectView removeFromSuperview];
+    [self.selectView2 removeFromSuperview];
 }
 
 - (IBAction)clickForSelect:(id)sender {
-    NSInteger row = [self.selectPickerView selectedRowInComponent:0];
-    NSDictionary *dic = [self.selectArray objectAtIndex:row];
-    
-    if (self.selectPickerView.tag == 0) {
-        //地址
-        self.addressId = dic[@"id"];
-        self.addressTextField.text = dic[@"name"];
-    }else if (self.selectPickerView.tag == 1){
-        //教学内容
-        self.subjectId = dic[@"id"];
-        self.contentTextField.text = dic[@"name"];
+    if (self.pricePickerView) {
+        NSString *str = [self.price substringToIndex:1];
+        if ([str isEqualToString:@"0"]) {
+            self.price = [self.price substringFromIndex:1];
+        }
+        self.comfirmBtn.selected = YES;
+        self.priceTextField.text = self.price;
+        [self.selectView2 removeFromSuperview];
+    }else{
+        NSInteger row = [self.selectPickerView selectedRowInComponent:0];
+        NSDictionary *dic = [self.selectArray objectAtIndex:row];
+        
+        if (self.selectPickerView.tag == 0) {
+            //地址
+            self.addressId = dic[@"id"];
+            self.addressTextField.text = dic[@"name"];
+        }else if (self.selectPickerView.tag == 1){
+            //教学内容
+            self.subjectId = dic[@"id"];
+            self.contentTextField.text = dic[@"name"];
+        }
+        
+        [self.selectView removeFromSuperview];
+        self.comfirmBtn.selected = YES;
+        
+        [self.selectView2 removeFromSuperview];
     }
-    
-    [self.selectView removeFromSuperview];
-    self.comfirmBtn.selected = YES;
 }
 
 - (IBAction)clickForConfirm:(id)sender {

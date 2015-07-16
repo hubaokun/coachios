@@ -555,8 +555,8 @@
         moneyFrozen = @"0";
     }
     
-    //判断是否有这么多金额可以取
-    if ([price doubleValue] < [money doubleValue] - [gMoney doubleValue] - [moneyFrozen doubleValue]) {
+    //判断是否有这么多金额可以取    moneyFrozen//不用减去冻结金额
+    if ([price doubleValue] < [money doubleValue] - [gMoney doubleValue]) {
         //提现金额足够
         [self getMoney:price];
         getPrice = price;

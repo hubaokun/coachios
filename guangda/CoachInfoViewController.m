@@ -214,7 +214,7 @@
 // 跳过
 - (void)ignoreClick {
 //    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeSelfView" object:nil];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)backupgroupTap:(id)sender{
@@ -1228,7 +1228,7 @@
             
             if ([_superViewNum intValue] == 0) {
                 // 登录注册界面过来的
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
                 
             }else{
                 [self.navigationController popViewControllerAnimated:YES];

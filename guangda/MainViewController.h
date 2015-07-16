@@ -15,8 +15,8 @@
 
 @interface MainViewController :UITabBarController
 
-@property (nonatomic, strong) IBOutlet TaskListViewController *tasklistVC;
-@property (nonatomic, strong)IBOutlet ScheduleViewController *scheduleVC;
-@property (nonatomic, strong)IBOutlet MyViewController *myVC;
+//@property (nonatomic, strong) IBOutlet TaskListViewController *tasklistVC;
+//@property (nonatomic, strong)IBOutlet ScheduleViewController *scheduleVC;
+//@property (nonatomic, strong)IBOutlet MyViewController *myVC;
 @property (nonatomic, strong) CustomTabBar *customTabBar;
 @end

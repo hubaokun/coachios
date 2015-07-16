@@ -16,6 +16,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic) BOOL flgAutoLogin;
+@property (strong, nonatomic) NSString *isregister;
 @property (strong, nonatomic) MainViewController *mainController;
 
 // 登录用户ID

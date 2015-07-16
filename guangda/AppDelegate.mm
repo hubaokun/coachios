@@ -12,14 +12,14 @@
 #import <PgySDK/PgyManager.h>
 
 @interface AppDelegate ()<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate>
-
+@property (strong, nonatomic) UIView *lunchView;
 @end
 
 BMKMapManager* _mapManager;
 BMKLocationService *_locService;
 
 @implementation AppDelegate
-
+@synthesize lunchView;
 // 注册通知
 - (void)registerRemoteNotification
 {
@@ -39,9 +39,15 @@ BMKLocationService *_locService;
 #endif
 }
 
+//-(void)removeLun {
+//    [lunchView removeFromSuperview];
+//}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
 
+    
+    
     // 注册APNS
     [self registerRemoteNotification];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -49,7 +55,7 @@ BMKLocationService *_locService;
     // 要使用百度地图，请先启动BaiduMapManager
     self.cityName = @"杭州市";//默认为杭州市
     _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:@"v0OG6HFdqcGk2dAfG3TpfInk" generalDelegate:self];
+    BOOL ret = [_mapManager start:@"CgYEZc4f07w7aZ7AwVD296Ee" generalDelegate:self];
     if (!ret) {
         NSLog(@"manager start failed!");
     }
@@ -73,22 +79,32 @@ BMKLocationService *_locService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getModelList) name:@"getModelList" object:nil];//获取准教车型
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needLogin:) name:@"needlogin" object:nil];
     
-    //蒲公英
-    // 设置用户反馈界面激活方式为三指拖动
-    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
+//    //蒲公英
+//    // 设置用户反馈界面激活方式为三指拖动
+//    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
+//    
+//    // 设置用户反馈界面激活方式为摇一摇
+//    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
+//    
+//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+//        [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
+//    
+//    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
+//    
+//    //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
+//    //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
+//    
+//    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
-    // 设置用户反馈界面激活方式为摇一摇
-    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
     
-    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
-    [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
-    
-    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
-    
-    //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
-    //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
-    
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+//    lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
+//    lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
+//    [self.window addSubview:lunchView];
+//    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
+//    NSString *str = @"http://www.jerehedu.com/images/temp/logo.gif";
+//    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
+//    [self.window bringSubviewToFront:lunchView];
+//    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
     
     return YES;
 }
@@ -148,7 +164,8 @@ BMKLocationService *_locService;
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTaskData" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
-    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+    
+//    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

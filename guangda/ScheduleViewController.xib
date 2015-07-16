@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -346,13 +346,113 @@
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <view contentMode="scaleToFill" id="Pob-FL-Y0C" userLabel="充值">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shadow_grey" translatesAutoresizingMaskIntoConstraints="NO" id="Wa5-1A-cdW">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <gestureRecognizers/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XAG-z1-tS8">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dpK-d5-bCw">
+                    <rect key="frame" x="180" y="225" width="241" height="149"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bg_chongzhi" translatesAutoresizingMaskIntoConstraints="NO" id="S0o-6l-Y28">
+                            <rect key="frame" x="0.0" y="0.0" width="241" height="149"/>
+                        </imageView>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SvS-z9-i0O" userLabel="close">
+                            <rect key="frame" x="0.0" y="0.0" width="35" height="35"/>
+                            <state key="normal" image="btn_close">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="设置22：00课程" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D6c-1b-aGH">
+                            <rect key="frame" x="55" y="4" width="130" height="28"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="luC-Ro-BvE">
+                            <rect key="frame" x="0.0" y="38" width="241" height="111"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="是否开课" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYm-qd-Ypo">
+                                    <rect key="frame" x="28" y="13" width="68" height="21"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8po-r3-W2H">
+                                    <rect key="frame" x="164" y="8" width="51" height="31"/>
+                                </switch>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yLh-lR-hsQ">
+                                    <rect key="frame" x="15" y="73" width="210" height="30"/>
+                                    <state key="normal" title="   设置课程详情">
+                                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow_userinfohome" translatesAutoresizingMaskIntoConstraints="NO" id="18T-Fb-fyZ">
+                                    <rect key="frame" x="205" y="81" width="8" height="13"/>
+                                </imageView>
+                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Irc-RH-u6H">
+                                    <rect key="frame" x="0.0" y="55" width="241" height="56"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="设置开课后，学员就能预约您的课程啦" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q4T-G2-D3f">
+                                            <rect key="frame" x="8" y="17" width="225" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="0.64313725489999995" green="0.65490196079999996" blue="0.65098039220000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </view>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="241" id="AmV-G7-O4b"/>
+                        <constraint firstAttribute="height" constant="149" id="UAB-mu-MSJ"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Wa5-1A-cdW" secondAttribute="bottom" id="0wm-o5-nhf"/>
+                <constraint firstItem="XAG-z1-tS8" firstAttribute="leading" secondItem="Pob-FL-Y0C" secondAttribute="leading" id="E49-Gu-wmQ"/>
+                <constraint firstAttribute="trailing" secondItem="XAG-z1-tS8" secondAttribute="trailing" id="RFa-i8-Nic"/>
+                <constraint firstItem="Wa5-1A-cdW" firstAttribute="leading" secondItem="Pob-FL-Y0C" secondAttribute="leading" id="Y4G-k0-LJi"/>
+                <constraint firstAttribute="centerX" secondItem="dpK-d5-bCw" secondAttribute="centerX" constant="-0.5" id="ZyQ-3H-GCO"/>
+                <constraint firstAttribute="centerY" secondItem="dpK-d5-bCw" secondAttribute="centerY" constant="0.5" id="aSp-VI-4Wv"/>
+                <constraint firstItem="XAG-z1-tS8" firstAttribute="top" secondItem="Pob-FL-Y0C" secondAttribute="top" id="g3F-I4-92A"/>
+                <constraint firstItem="Wa5-1A-cdW" firstAttribute="top" secondItem="Pob-FL-Y0C" secondAttribute="top" id="i5m-oh-VHU"/>
+                <constraint firstAttribute="trailing" secondItem="Wa5-1A-cdW" secondAttribute="trailing" id="n2A-OJ-hOo"/>
+                <constraint firstAttribute="bottom" secondItem="XAG-z1-tS8" secondAttribute="bottom" id="vIb-XO-xVo"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-398" y="-801"/>
+        </view>
     </objects>
     <resources>
         <image name="arrow_left_black" width="9" height="12"/>
         <image name="arrow_left_grey" width="9" height="12"/>
         <image name="arrow_right_black" width="8" height="11"/>
         <image name="arrow_right_grey" width="8" height="11"/>
+        <image name="arrow_userinfohome" width="7" height="12"/>
+        <image name="bg_chongzhi" width="241" height="129"/>
         <image name="btn_checkbox_checked" width="18" height="18"/>
         <image name="btn_checkbox_unchecked" width="18" height="18"/>
+        <image name="btn_close" width="11" height="11"/>
+        <image name="shadow_grey" width="320" height="568"/>
     </resources>
 </document>

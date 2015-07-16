@@ -9,12 +9,17 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "CustomTabBar.h"
-
-
+#import "CoachInfoViewController.h"
+#import "TaskListViewController.h"
+#import "ScheduleViewController.h"
+#import "MyViewController.h"
+#import "LoginViewController.h"
 
 @interface MainViewController ()<CustomTabBarDelegate>
 
-
+@property (nonatomic, strong) TaskListViewController *tasklistVC;
+@property (nonatomic, strong) ScheduleViewController *scheduleVC;
+@property (nonatomic, strong) MyViewController *myVC;
 
 @end
 
@@ -31,9 +36,9 @@
     self.scheduleVC = [[ScheduleViewController alloc] initWithNibName:@"ScheduleViewController" bundle:nil];
     self.myVC = [[MyViewController alloc] initWithNibName:@"MyViewController" bundle:nil];
     
-//    _tasklistVC.hidesBottomBarWhenPushed = true;
-//    _scheduleVC.hidesBottomBarWhenPushed = true;
-//    _myVC.hidesBottomBarWhenPushed = true;
+    _tasklistVC.hidesBottomBarWhenPushed = true;
+    _scheduleVC.hidesBottomBarWhenPushed = true;
+    _myVC.hidesBottomBarWhenPushed = true;
     
     self.viewControllers = @[_tasklistVC, _scheduleVC, _myVC];
     [self.tabBar setClipsToBounds:YES];
@@ -47,8 +52,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    //判断教练是否登陆过
     
-//    [self.selectedViewController beginAppearanceTransition: YES animated: NO];
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([app.isregister isEqualToString:@"1"]) {
+        CoachInfoViewController *viewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
+        [app.mainController.navigationController pushViewController:viewController animated:YES];
+        app.isregister = @"0";
+    }
 }
 
 #pragma mark - CustomTabBarDelegate
@@ -70,7 +81,6 @@
         LoginViewController *viewController = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:NO];
     }
-    
 }
 
 //-(void) viewDidAppear:(BOOL)animated
