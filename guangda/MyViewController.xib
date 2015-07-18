@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyViewController">
@@ -27,7 +27,6 @@
                 <outlet property="moneyTitleLabel" destination="JHg-7P-UuA" id="AGs-qm-xV9"/>
                 <outlet property="moneyYuanField" destination="J0R-bQ-ujZ" id="eP7-CG-RsX"/>
                 <outlet property="nameLabel" destination="3G8-fM-2hr" id="NNk-O0-YKm"/>
-                <outlet property="noticeLabel" destination="N6U-c9-74v" id="Nte-ZC-t4D"/>
                 <outlet property="numLabel" destination="SBF-lK-iEh" id="3aC-O0-ILZ"/>
                 <outlet property="numView" destination="EPh-Vz-796" id="ijD-zo-z2F"/>
                 <outlet property="polygonImageView" destination="B8b-id-BJu" id="fhQ-bD-ggG"/>
@@ -66,7 +65,7 @@
                 <constraint firstItem="eGB-6d-8QK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="FnA-8B-IBR"/>
                 <constraint firstAttribute="trailing" secondItem="eGB-6d-8QK" secondAttribute="trailing" id="pMe-5o-mVJ"/>
             </constraints>
-            <point key="canvasLocation" x="-447" y="1001"/>
+            <point key="canvasLocation" x="-440" y="1186"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JIm-I9-nDo" userLabel="zige">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -954,10 +953,10 @@
                                         <constraint firstItem="2B1-0U-OQf" firstAttribute="leading" secondItem="oHM-DW-g5g" secondAttribute="leading" id="w81-Oq-YZn"/>
                                     </constraints>
                                 </view>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxf-Ws-s73" userLabel="通知">
+                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qxf-Ws-s73" userLabel="分享有奖">
                                     <rect key="frame" x="0.0" y="118" width="300" height="117"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="通知" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Nt-us-cZG">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Nt-us-cZG">
                                             <rect key="frame" x="0.0" y="66" width="300" height="18"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="18" id="wDf-h3-MTa"/>
@@ -966,7 +965,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0条" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6U-c9-74v">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐有奖" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6U-c9-74v">
                                             <rect key="frame" x="0.0" y="91" width="300" height="12"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="12" id="RvC-gp-BBj"/>
@@ -975,40 +974,20 @@
                                             <color key="textColor" red="0.63921568630000003" green="0.6705882353" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_tongzhi" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-WT-ZHI">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_分享有奖" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-WT-ZHI">
                                             <rect key="frame" x="134" y="20" width="32" height="32"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="ga9-Od-Emq"/>
                                                 <constraint firstAttribute="width" constant="32" id="nB1-IS-73n"/>
                                             </constraints>
                                         </imageView>
-                                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EPh-Vz-796" userLabel="num">
-                                            <rect key="frame" x="186" y="9" width="15" height="15"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBF-lK-iEh">
-                                                    <rect key="frame" x="2" y="0.0" width="11" height="15"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" red="0.8784313725490196" green="0.28235294117647058" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <constraints>
-                                                <constraint firstItem="SBF-lK-iEh" firstAttribute="leading" secondItem="EPh-Vz-796" secondAttribute="leading" constant="2" id="0p2-VX-kwY"/>
-                                                <constraint firstAttribute="height" constant="15" id="C9z-Zd-Aib"/>
-                                                <constraint firstItem="SBF-lK-iEh" firstAttribute="top" secondItem="EPh-Vz-796" secondAttribute="top" id="QxG-gk-wlS"/>
-                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="15" id="RFh-va-MBe"/>
-                                                <constraint firstAttribute="bottom" secondItem="SBF-lK-iEh" secondAttribute="bottom" id="Sxl-98-uQZ"/>
-                                                <constraint firstAttribute="trailing" secondItem="SBF-lK-iEh" secondAttribute="trailing" constant="2" id="ezC-Pr-saV"/>
-                                            </constraints>
-                                        </view>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahx-TX-5dX" userLabel="tongzhi">
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahx-TX-5dX" userLabel="分享有奖">
                                             <rect key="frame" x="8" y="0.0" width="284" height="117"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="clickToMyMessageView:" destination="-1" eventType="touchUpInside" id="JkR-bK-r7j"/>
+                                                <action selector="clickForRecommendPrize:" destination="-1" eventType="touchUpInside" id="wQH-rn-j8Y"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -1016,13 +995,11 @@
                                     <constraints>
                                         <constraint firstItem="9Nt-us-cZG" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="17P-Ll-GeF"/>
                                         <constraint firstAttribute="trailing" secondItem="ahx-TX-5dX" secondAttribute="trailing" constant="8" id="1uE-6Q-g9b"/>
-                                        <constraint firstItem="EPh-Vz-796" firstAttribute="leading" secondItem="xl4-WT-ZHI" secondAttribute="trailing" constant="20" id="Hfy-pI-Hs6"/>
                                         <constraint firstItem="N6U-c9-74v" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="N3D-EO-Aof"/>
                                         <constraint firstAttribute="trailing" secondItem="9Nt-us-cZG" secondAttribute="trailing" id="RfK-6o-5QH"/>
                                         <constraint firstAttribute="centerX" secondItem="xl4-WT-ZHI" secondAttribute="centerX" id="S7O-O6-9PB"/>
                                         <constraint firstAttribute="trailing" secondItem="N6U-c9-74v" secondAttribute="trailing" id="cr2-wG-zOQ"/>
                                         <constraint firstItem="xl4-WT-ZHI" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="20" id="fON-ct-iFO"/>
-                                        <constraint firstItem="EPh-Vz-796" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="9" id="gb2-7g-7YJ"/>
                                         <constraint firstItem="9Nt-us-cZG" firstAttribute="top" secondItem="xl4-WT-ZHI" secondAttribute="bottom" constant="14" id="hIZ-hT-XQK"/>
                                         <constraint firstItem="ahx-TX-5dX" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" id="nbe-Np-K1A"/>
                                         <constraint firstItem="ahx-TX-5dX" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" constant="8" id="oNg-Io-IHc"/>
@@ -1321,29 +1298,51 @@
                                 <action selector="clickToSetting:" destination="-1" eventType="touchUpInside" id="gMt-Ch-acF"/>
                             </connections>
                         </button>
-                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOT-LG-BT8" userLabel="myInfoBtn">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zOT-LG-BT8" userLabel="myInfoBtn">
                             <rect key="frame" x="0.0" y="20" width="55" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="55" id="Xpy-nJ-mcN"/>
                             </constraints>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="10" maxY="0.0"/>
-                            <state key="normal" image="icon_pencil">
+                            <state key="normal" image="icon-notice">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="clickToMyInfoView:" destination="-1" eventType="touchUpInside" id="lRj-xm-ZFo"/>
+                                <action selector="clickToMyMessageView:" destination="-1" eventType="touchUpInside" id="Jib-8D-nMu"/>
                             </connections>
                         </button>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EPh-Vz-796" userLabel="num">
+                            <rect key="frame" x="40" y="20" width="15" height="15"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBF-lK-iEh">
+                                    <rect key="frame" x="2" y="0.0" width="11" height="15"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="0.8784313725490196" green="0.28235294117647058" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="15" id="29W-TC-G3q"/>
+                                <constraint firstAttribute="trailing" secondItem="SBF-lK-iEh" secondAttribute="trailing" constant="2" id="HOv-VX-9Kv"/>
+                                <constraint firstItem="SBF-lK-iEh" firstAttribute="top" secondItem="EPh-Vz-796" secondAttribute="top" id="XhX-yr-jkJ"/>
+                                <constraint firstAttribute="width" constant="15" id="dww-XC-6Jh"/>
+                                <constraint firstItem="SBF-lK-iEh" firstAttribute="leading" secondItem="EPh-Vz-796" secondAttribute="leading" constant="2" id="lFz-p7-tf6"/>
+                                <constraint firstAttribute="bottom" secondItem="SBF-lK-iEh" secondAttribute="bottom" id="wNS-lR-79a"/>
+                            </constraints>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="ag6-tE-3bf" secondAttribute="bottom" id="Ofe-yb-g5c"/>
                         <constraint firstAttribute="trailing" secondItem="ag6-tE-3bf" secondAttribute="trailing" id="P2Y-Cd-ctj"/>
                         <constraint firstItem="zOT-LG-BT8" firstAttribute="leading" secondItem="2U2-5C-00h" secondAttribute="leading" id="Qec-xZ-CIX"/>
+                        <constraint firstItem="zOT-LG-BT8" firstAttribute="top" secondItem="EPh-Vz-796" secondAttribute="bottom" constant="-15" id="Vmg-Ns-Ues"/>
                         <constraint firstAttribute="height" constant="64" id="Wdi-wg-W8V"/>
                         <constraint firstItem="ag6-tE-3bf" firstAttribute="top" secondItem="2U2-5C-00h" secondAttribute="top" constant="20" id="cPN-fG-oh9"/>
                         <constraint firstAttribute="bottom" secondItem="zOT-LG-BT8" secondAttribute="bottom" id="i37-xc-bEs"/>
                         <constraint firstItem="zOT-LG-BT8" firstAttribute="top" secondItem="2U2-5C-00h" secondAttribute="top" constant="20" id="jXa-OR-MoV"/>
+                        <constraint firstItem="EPh-Vz-796" firstAttribute="leading" secondItem="zOT-LG-BT8" secondAttribute="trailing" constant="-15" id="mtR-MS-qHQ"/>
                     </constraints>
                 </view>
             </subviews>
@@ -1372,13 +1371,14 @@
         <image name="btn_close" width="11" height="11"/>
         <image name="btn_green" width="139" height="40"/>
         <image name="btn_highlight_green" width="139" height="40"/>
+        <image name="ico_分享有奖" width="35" height="39"/>
+        <image name="icon-notice" width="22" height="22"/>
         <image name="icon_arr_down" width="19" height="23"/>
         <image name="icon_chongzhi" width="52" height="29"/>
         <image name="icon_coin" width="14" height="16"/>
         <image name="icon_pencil" width="16" height="16"/>
         <image name="icon_portrait_default" width="82" height="88"/>
         <image name="icon_setting" width="22" height="22"/>
-        <image name="icon_tongzhi" width="32" height="32"/>
         <image name="icon_tousu" width="37" height="33"/>
         <image name="line_horiz_grey" width="1" height="1"/>
         <image name="line_vert_grey" width="1" height="1"/>

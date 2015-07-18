@@ -39,9 +39,9 @@ BMKLocationService *_locService;
 #endif
 }
 
-//-(void)removeLun {
-//    [lunchView removeFromSuperview];
-//}
+-(void)removeLun {
+    [lunchView removeFromSuperview];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -97,16 +97,44 @@ BMKLocationService *_locService;
 //    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     
-//    lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
-//    lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
-//    [self.window addSubview:lunchView];
-//    UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 50, 320, 300)];
-//    NSString *str = @"http://www.jerehedu.com/images/temp/logo.gif";
-//    [imageV sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
-//    [self.window bringSubviewToFront:lunchView];
-//    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+    //广告位
+//    [self startRequestAdvertisement];
+    
+    
     
     return YES;
+}
+
+//获取是否要使用广告
+-(void)startRequestAdvertisement{
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kSystemServlet]];
+    request.delegate = self;
+    request.requestMethod = @"POST";
+    [request setPostValue:@"CHECKCONFIG" forKey:@"action"];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error) {
+        NSData *data  = [request responseData];
+        NSDictionary *resDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSString *code = [resDict[@"code"] description];
+        if ([code isEqualToString:@"1"]) {
+            NSDictionary *config = resDict[@"config"];
+            NSString *advertisement_flag = [config[@"advertisement_flag"] description];
+            if ([advertisement_flag isEqualToString:@"1"]) {
+                NSString *advertisement_url = [config[@"advertisement_url"] description];
+                lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
+                lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
+                [self.window addSubview:lunchView];
+                UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
+                [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
+                [self.window bringSubviewToFront:lunchView];
+                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+            }
+        }else{
+            NSString *message = resDict[@"message"];
+            [self.window.rootViewController makeToast:message];
+        }
+    }
 }
 
 //在此接收设备号

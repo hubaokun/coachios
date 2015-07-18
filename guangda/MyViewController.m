@@ -27,7 +27,7 @@
 #import "MyStudentViewController.h"
 #import "LoginViewController.h"
 #import "APAuthV2Info.h"
-
+#import "RecommendPrizeViewController.h"
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
     CGRect _oldFrame2;
@@ -85,6 +85,7 @@
 @property (strong, nonatomic) TQStarRatingView *starView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *crashLabelWidth;
 
+- (IBAction)clickForRecommendPrize:(id)sender;
 @end
 
 @implementation MyViewController
@@ -1163,5 +1164,11 @@
 - (IBAction)clickForChangeInfo:(id)sender {
     MyInfoViewController *targetViewController = [[MyInfoViewController alloc] initWithNibName:@"MyInfoViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
+}
+//分享有礼
+- (IBAction)clickForRecommendPrize:(id)sender {
+    RecommendPrizeViewController *targetViewController = [[RecommendPrizeViewController alloc] initWithNibName:@"RecommendPrizeViewController" bundle:nil];
+    [self.navigationController pushViewController:targetViewController animated:YES];
+    
 }
 @end
