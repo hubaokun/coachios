@@ -17,9 +17,10 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-//#define REQUEST_HOST   @"http://192.168.1.123:8080/guangda/"        // 郭凯服务
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
 #define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
+//#define REQUEST_HOST   @"http://192.168.1.113:8080/guangda/"          //坤哥服务器
+//#define REQUEST_HOST   @"http://192.168.1.126:8080/xiaoba/"             //吴佳瑞
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]
@@ -30,6 +31,7 @@
 #define kSuserServlet       [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"suser"]
 #define kSetServlet         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"sset"]
 
+#define kRecommend         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"recomm"]   //推荐专用
 
 #define APP_VERSION    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 
@@ -44,8 +46,12 @@
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"
 
-#define PGY_APPKEY              @"8aa0bc0a1de506230cdef5ed1ffdbbad"
+#define PGY_APPKEY              @"ad52d7777114fb5a1e47006123d11484"
 //正式蒲公英的app id             f353cb3b650dc32604ddc957ee914ddc
 //饶宏的蒲公英app id             ad52d7777114fb5a1e47006123d11484
 //递推的蒲公英app id             8aa0bc0a1de506230cdef5ed1ffdbbad
+
+
+//友盟appkey 55a9c49b67e58e25030022ad
+
 #endif

@@ -1312,9 +1312,9 @@
                             </connections>
                         </button>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EPh-Vz-796" userLabel="num">
-                            <rect key="frame" x="40" y="20" width="15" height="15"/>
+                            <rect key="frame" x="30" y="25" width="15" height="15"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBF-lK-iEh">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SBF-lK-iEh">
                                     <rect key="frame" x="2" y="0.0" width="11" height="15"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1323,26 +1323,22 @@
                             </subviews>
                             <color key="backgroundColor" red="0.8784313725490196" green="0.28235294117647058" blue="0.24313725490196078" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="15" id="29W-TC-G3q"/>
-                                <constraint firstAttribute="trailing" secondItem="SBF-lK-iEh" secondAttribute="trailing" constant="2" id="HOv-VX-9Kv"/>
-                                <constraint firstItem="SBF-lK-iEh" firstAttribute="top" secondItem="EPh-Vz-796" secondAttribute="top" id="XhX-yr-jkJ"/>
-                                <constraint firstAttribute="width" constant="15" id="dww-XC-6Jh"/>
-                                <constraint firstItem="SBF-lK-iEh" firstAttribute="leading" secondItem="EPh-Vz-796" secondAttribute="leading" constant="2" id="lFz-p7-tf6"/>
-                                <constraint firstAttribute="bottom" secondItem="SBF-lK-iEh" secondAttribute="bottom" id="wNS-lR-79a"/>
+                                <constraint firstAttribute="height" constant="15" id="JNj-V5-9iZ"/>
+                                <constraint firstAttribute="width" constant="15" id="Uu2-6t-fvB"/>
                             </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="zOT-LG-BT8" firstAttribute="top" secondItem="EPh-Vz-796" secondAttribute="bottom" constant="-20" id="DFJ-Je-gKS"/>
                         <constraint firstAttribute="bottom" secondItem="ag6-tE-3bf" secondAttribute="bottom" id="Ofe-yb-g5c"/>
                         <constraint firstAttribute="trailing" secondItem="ag6-tE-3bf" secondAttribute="trailing" id="P2Y-Cd-ctj"/>
                         <constraint firstItem="zOT-LG-BT8" firstAttribute="leading" secondItem="2U2-5C-00h" secondAttribute="leading" id="Qec-xZ-CIX"/>
-                        <constraint firstItem="zOT-LG-BT8" firstAttribute="top" secondItem="EPh-Vz-796" secondAttribute="bottom" constant="-15" id="Vmg-Ns-Ues"/>
+                        <constraint firstItem="EPh-Vz-796" firstAttribute="leading" secondItem="zOT-LG-BT8" secondAttribute="trailing" constant="-25" id="RBD-HX-hYf"/>
                         <constraint firstAttribute="height" constant="64" id="Wdi-wg-W8V"/>
                         <constraint firstItem="ag6-tE-3bf" firstAttribute="top" secondItem="2U2-5C-00h" secondAttribute="top" constant="20" id="cPN-fG-oh9"/>
                         <constraint firstAttribute="bottom" secondItem="zOT-LG-BT8" secondAttribute="bottom" id="i37-xc-bEs"/>
                         <constraint firstItem="zOT-LG-BT8" firstAttribute="top" secondItem="2U2-5C-00h" secondAttribute="top" constant="20" id="jXa-OR-MoV"/>
-                        <constraint firstItem="EPh-Vz-796" firstAttribute="leading" secondItem="zOT-LG-BT8" secondAttribute="trailing" constant="-15" id="mtR-MS-qHQ"/>
                     </constraints>
                 </view>
             </subviews>

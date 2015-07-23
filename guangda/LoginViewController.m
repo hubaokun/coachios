@@ -234,7 +234,8 @@
             
             int isregister = [[result objectForKey:@"isregister"] intValue];
             app.isregister = [NSString stringWithFormat:@"%d",isregister];
-            
+            int isInvited = [[result objectForKey:@"isInvited"] intValue];
+            app.isInvited = [NSString stringWithFormat:@"%d",isInvited];
             [app jumpToMainViewController];
             
 //            if(isregister == 0){
@@ -286,4 +287,5 @@
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
 }
+
 @end

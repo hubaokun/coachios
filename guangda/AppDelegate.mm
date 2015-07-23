@@ -10,7 +10,9 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "LoginViewController.h"
 #import <PgySDK/PgyManager.h>
-
+#import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
 @interface AppDelegate ()<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate>
 @property (strong, nonatomic) UIView *lunchView;
 @end
@@ -79,28 +81,31 @@ BMKLocationService *_locService;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getModelList) name:@"getModelList" object:nil];//获取准教车型
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needLogin:) name:@"needlogin" object:nil];
     
-//    //蒲公英
-//    // 设置用户反馈界面激活方式为三指拖动
-//    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
-//    
-//    // 设置用户反馈界面激活方式为摇一摇
-//    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
-//    
-//    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
-//        [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
-//    
-//    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
-//    
-//    //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
-//    //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
-//    
-//    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+    //蒲公英
+    // 设置用户反馈界面激活方式为三指拖动
+    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
+    
+    // 设置用户反馈界面激活方式为摇一摇
+    //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeShake];
+    
+    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APPKEY];
+        [[PgyManager sharedPgyManager] setEnableFeedback:NO]; //关闭用户反馈功能
+    
+    [[PgyManager sharedPgyManager] setThemeColor:[UIColor blackColor]];
+    
+    //    [[PgyManager sharedPgyManager] setShakingThreshold:3.0];//开发者可以自定义摇一摇的灵敏度，默认为2.3，数值越小灵敏度越高。
+    //    [[PgyManager sharedPgyManager] showFeedbackView];//直接显示用户反馈画面
+    
+    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     
     //广告位
-//    [self startRequestAdvertisement];
-    
-    
+    [self startRequestAdvertisement];
+    [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
+    //设置qqAPPId
+    [UMSocialQQHandler setQQWithAppId:@"1104653815" appKey:@"oUgKlUs1Ya79zwca" url:@"http://www.xiaobaxueche.com/"];
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:@"wx6e408d648087cffb" appSecret:@"648bdd4b00bcfa025944b56d6176d031" url:@"http://www.xiaobaxueche.com/"];
     
     return YES;
 }
@@ -169,14 +174,11 @@ BMKLocationService *_locService;
 
 //跳转到MainViewController
 - (void) jumpToMainViewController{
-    
     self.mainController = [[MainViewController alloc] init];
     UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
     self.window.rootViewController = navi;
     [navi setNavigationBarHidden:YES];
 }
-
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -193,7 +195,7 @@ BMKLocationService *_locService;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTaskData" object:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
     
-//    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
+    [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -258,8 +260,11 @@ BMKLocationService *_locService;
         user = [result objectForKey:@"UserInfo"];
         // 将解析出来的数据保存到本地
         [CommonUtil saveObjectToUD:user key:@"userInfo"];
-        
         AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        int isregister = [[result objectForKey:@"isregister"] intValue];
+        app.isregister = [NSString stringWithFormat:@"%d",isregister];
+        int isInvited = [[result objectForKey:@"isInvited"] intValue];
+        app.isInvited = [NSString stringWithFormat:@"%d",isInvited];
         app.userid = user[@"coachid"];
         [app toUploadDeviceInfo];
         
