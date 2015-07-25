@@ -157,7 +157,7 @@
         if ([rflag isEqualToString:@"0"]) {
             
         }else{
-            if (invitlist.count == RecommendList.count == orderList.count) {
+//            if (invitlist.count == RecommendList.count == orderList.count) {
                 for (int i=0; i<invitlist.count; i++) {
                     NSMutableDictionary *recordDic = [[NSMutableDictionary alloc]init];
                     NSString *addtime = [RecommendList[i][@"addtime"] substringToIndex:10];
@@ -180,11 +180,11 @@
                     NSString *state = [invitlist[i][@"state"] description];
                     NSString *str1;
                     if ([state isEqualToString:@"2"]) {
-                        str1 = @"已审核";
+                        str1 = @"已认证";
                     }else{
-                        str1 = @"未审核";
+                        str1 = @"未认证";
                     }
-                    [recordDic setObject:str1 forKey:@"state"];//审核状态
+                    [recordDic setObject:str1 forKey:@"state"];//认证状态
                     
                     NSString *isOrder = [orderList[i] description];
                     NSString *str2;
@@ -196,13 +196,13 @@
                     [recordDic setObject:str2 forKey:@"isOrder"];//是否开单
                     [array addObject:recordDic];
                 }
-            }else{
-                [self makeToast:@"数据异常"];
-                [_pullToMore setPullToMoreViewVisible:NO];
-                [_pullToMore relocatePullToMoreView];
-                [self getDataFinish];
-                return;
-            }
+//            }else{
+//                [self makeToast:@"数据异常"];
+//                [_pullToMore setPullToMoreViewVisible:NO];
+//                [_pullToMore relocatePullToMoreView];
+//                [self getDataFinish];
+//                return;
+//            }
         }
         
         

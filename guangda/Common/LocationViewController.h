@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "XBProvince.h"
 
 @protocol LocationViewControllerDelegate;
 
@@ -21,9 +22,13 @@
 
 
 //参数
-@property (nonatomic, strong) NSString *selectCity;
-@property (nonatomic, strong) NSString *selectPro;
+//@property (nonatomic, strong) NSString *selectCity;
+//@property (nonatomic, strong) NSString *selectPro;
 @property (strong, nonatomic) NSMutableDictionary *selectDic;
+
+@property (strong, nonatomic) XBProvince *selectProvince;
+@property (strong, nonatomic) XBCity *selectCity;
+@property (strong, nonatomic) XBArea *selectArea;
 
 @end
 

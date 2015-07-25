@@ -554,19 +554,22 @@
         button.layer.cornerRadius = 3;
         if(state == 0){
             [button setTitle:@"发布课程" forState:UIControlStateNormal];
+            [button setBackgroundColor:RGB(33, 180, 120)];
         }else{
             [button setTitle:@"当天停课" forState:UIControlStateNormal];
+            [button setBackgroundColor:[UIColor redColor]];
+            button.backgroundColor = [UIColor redColor];
         }
         button.tag = state;
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(clickForTodayOPenClose:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:button];
         
-        //设置按钮背景
-        UIImage *image1 = [[UIImage imageNamed:@"background_check_geton"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-        UIImage *image2 = [[UIImage imageNamed:@"background_check_geton_h"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-        [button setBackgroundImage:image1 forState:UIControlStateNormal];
-        [button setBackgroundImage:image2 forState:UIControlStateHighlighted];
+//        //设置按钮背景
+//        UIImage *image1 = [[UIImage imageNamed:@"background_check_geton"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+//        UIImage *image2 = [[UIImage imageNamed:@"background_check_geton_h"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
+//        [button setBackgroundImage:image1 forState:UIControlStateNormal];
+//        [button setBackgroundImage:image2 forState:UIControlStateHighlighted];
         
         view.frame = CGRectMake(0, 100, SCREEN_WIDTH, 41 + 13*2 + height);
         
@@ -643,10 +646,10 @@
     
     //状态 0:关闭 1：打开
     if ([state intValue] == 0) {
-        //关闭
-        if (indexPath.row == 0) {
-            return 45 + 8;
-        }
+//        //关闭
+//        if (indexPath.row == 0) {
+//            return 45 + 8;
+//        }
         return 45;
     }else{
         if (indexPath.row == 0) {
@@ -1565,7 +1568,6 @@
     NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
     //获取本月有几周
     NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
-    
     if (button.selected) {
         //收缩状态,显示一行日期
         //打开日期栏
@@ -2242,7 +2244,11 @@
             
             //滑动TabelView
             if(!self.openBtn.selected){
-                [self clickForOpenClose:self.openBtn];
+//                [self clickForOpenClose:self.openBtn];
+                int weekHeight = ceil(SCREEN_WIDTH / 7);
+                NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
+                NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
+                [self.mainTableView setContentOffset:CGPointMake(0, (weekCount - 2.3)*weekHeight) animated:YES];
             }
             
             [DejalBezelActivityView removeViewAnimated:YES];

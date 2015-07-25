@@ -52,6 +52,10 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     //判断教练是否能被邀请
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];

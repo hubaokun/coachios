@@ -31,7 +31,7 @@
     
     self.inviteCodeView.layer.borderWidth = 1;
     self.inviteCodeView.layer.borderColor = RGB(222, 222, 222).CGColor;
-
+    
 }
 
 - (void) getRecommendRecordList{
@@ -46,7 +46,7 @@
     [request setPostValue:self.inviteCode.text forKey:@"InviteCode"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"InvitedCoachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-
+    
     [request startAsynchronous];
 }
 
@@ -65,11 +65,19 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             if ([app.isregister isEqualToString:@"1"]) {
                 CoachInfoViewController *viewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
-                [app.mainController.navigationController pushViewController:viewController animated:YES];
                 app.isregister = @"0";
+                app.isInvited = @"0";
+                app.superViewNum = @"1";
+                [self.navigationController pushViewController:viewController animated:YES];
+            }else{
+                app.isInvited = @"0";
+                app.isregister = @"0";
+                MainViewController *viewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+                [self.navigationController pushViewController:viewController animated:YES];
             }
+            [self makeToast:@"推荐成功"];
         }else{
-            [self makeToast:@"您的账号已经被推荐过，请不要重复推荐"];
+            [self makeToast:@"请输入正确的推荐码"];
         }
         
         [DejalBezelActivityView removeViewAnimated:YES];
@@ -106,21 +114,26 @@
     }
 }
 
-
 //发送邀请码
 - (IBAction)clickForSure:(id)sender {
-    [self getRecommendRecordList];
-    
+    if (self.inviteCode.text.length == 0 || [self.inviteCode.text isEqualToString:@"请输入推荐码"]) {
+        [self makeToast:@"请输入正确的推荐码"];
+    }else{
+        [self getRecommendRecordList];
+    }
 }
 
 - (IBAction)clickForPop:(id)sender {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if ([app.isregister isEqualToString:@"1"]) {
         CoachInfoViewController *viewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
-        [app.mainController.navigationController pushViewController:viewController animated:YES];
         app.isregister = @"0";
+        app.isInvited = @"0";
+        app.superViewNum = @"1";
+        [self.navigationController pushViewController:viewController animated:YES];
     }else{
         app.isInvited = @"0";
+        app.isregister = @"0";
         MainViewController *viewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
         [self.navigationController pushViewController:viewController animated:YES];
     }
@@ -132,13 +145,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

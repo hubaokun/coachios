@@ -13,6 +13,7 @@
 #import "MyInfoTextViewCell.h"
 #import "TPKeyboardAvoidingScrollView.h"
 #import "LoginViewController.h"
+#import "XBProvince.h"
 
 @interface MyDetailInfoViewController ()<UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, DatePickerViewControllerDelegate, LocationViewControllerDelegate, UITextViewDelegate> {
     CGFloat _y;
@@ -24,6 +25,8 @@
     UITextRange *previousSelection;
     UIColor *strColor;
     NSInteger selectRow;
+    
+    NSString *isChangeCity;
 }
 @property (strong, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -36,6 +39,11 @@
 @property (strong, nonatomic) NSDictionary *stateZips;//省市
 @property (strong, nonatomic) NSArray *cityArray;
 @property (strong, nonatomic) NSArray *provinceArray;
+
+// 省市区
+@property (strong, nonatomic) XBProvince *selectProvince;
+@property (strong, nonatomic) XBCity *selectCity;
+@property (strong, nonatomic) XBArea *selectArea;
 
 // 选择器数组
 @property (strong, nonatomic) NSArray *sexArray; // 性别
@@ -57,7 +65,7 @@
     [super viewDidLoad];
     
     _carSchoolArray = [[NSMutableArray alloc] init];
-    
+    isChangeCity = @"0";
 //    NSDictionary *dic1 = [NSDictionary dictionaryWithObject:@"飞翔驾校" forKey:@"name"];
 //    NSDictionary *dic2 = [NSDictionary dictionaryWithObject:@"蓝天驾校" forKey:@"name"];
 //    NSDictionary *dic3 = [NSDictionary dictionaryWithObject:@"平安驾校" forKey:@"name"];
@@ -163,7 +171,7 @@
             str = userInfo[@"birthday"];
         }else if (i == 1){
             //所在城市
-            str = userInfo[@"city"];
+            str = userInfo[@"locationname"];
         }else if (i == 2){
             //联系地址
             str = userInfo[@"address"];
@@ -633,12 +641,24 @@
 
 #pragma mark - LocationViewControllerDelegate
 - (void)location:(LocationViewController *)viewController selectDic:(NSDictionary *)selectDic{
-    NSString *pro = selectDic[@"province"];
-    NSString *city = selectDic[@"city"];
+    
+    isChangeCity = @"1";
+    
+    self.selectProvince = selectDic[@"province"];
+    self.selectCity = selectDic[@"city"];
+    self.selectArea = selectDic[@"area"];
+    
+    NSString *addrStr = nil;
+    NSString *areaStr = [self.selectArea.areaName stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if (self.selectProvince.isZxs) { // 直辖市
+        addrStr = [NSString stringWithFormat:@"%@ - %@", self.selectProvince.provinceName, areaStr];
+    } else {
+        addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.selectProvince.provinceName, self.selectCity.cityName, areaStr];
+    }
     
     if (_rows > 2) {
         MyInfoCell *curCell = _cells[1];
-        curCell.contentField.text = [NSString stringWithFormat:@"%@  %@", pro, city];
+        curCell.contentField.text = addrStr;
         
         //可以提交
         if (self.commitBtn.enabled == NO) {
@@ -818,8 +838,8 @@
             userKey = @"birthday";
         }else if (i == 1){
             //所在城市
-            str = @"city";
-            userKey = @"city";
+            str = @"locationname";
+            userKey = @"locationname";
         }else if (i == 2){
             //联系地址
             str = @"address";
@@ -853,8 +873,14 @@
             }else{
                 [self.msgDic setObject:text forKey:userKey];
             }
-            
         }
+    }
+    
+    if ([isChangeCity intValue] == 1) {
+        [request setPostValue:self.selectProvince.provinceID forKey:@"provinceid"];
+        [request setPostValue:self.selectCity.cityID forKey:@"cityid"];
+        [request setPostValue:self.selectArea.areaID forKey:@"areaid"];
+        isChangeCity = @"0";
     }
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];

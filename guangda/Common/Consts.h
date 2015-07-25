@@ -19,8 +19,8 @@
 
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
 #define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
-//#define REQUEST_HOST   @"http://192.168.1.113:8080/guangda/"          //坤哥服务器
-//#define REQUEST_HOST   @"http://192.168.1.126:8080/xiaoba/"             //吴佳瑞
+//#define REQUEST_HOST   @"http://192.168.1.113:8080/"          //坤哥服务器
+//#define REQUEST_HOST   @"http://192.168.1.119:8080/xiaoba/"             //吴佳瑞
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]

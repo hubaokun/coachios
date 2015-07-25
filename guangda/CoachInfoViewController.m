@@ -13,11 +13,11 @@
 #import "CZPhotoPickerController.h"
 #import "DatePickerViewController.h"
 #import "LoginViewController.h"
-
+#import "AppDelegate.h"
 @interface CoachInfoViewController ()<UITextFieldDelegate, DatePickerViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
     CGFloat _y;
     NSInteger selectRow;
- 
+    
 }
 @property (strong, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -95,11 +95,11 @@
 @property (strong, nonatomic) IBOutlet UITextField *carCheckMadeTimeField;
 
 /*  以下4个view内部各有5个子控件，其tag为:
-    image:  100 200 300 400
-    label:  101 201 301 401
-    editBtn:102 202 302 402
-    bigPhotoBtn:103 203 303 403
-    deleteBtn:104 204 304 404
+ image:  100 200 300 400
+ label:  101 201 301 401
+ editBtn:102 202 302 402
+ bigPhotoBtn:103 203 303 403
+ deleteBtn:104 204 304 404
  */
 @property (strong, nonatomic) IBOutlet UIView *idCardFrontView;     // 身份证正面
 @property (strong, nonatomic) IBOutlet UIView *idCardBackView;      // 身份证反面
@@ -165,7 +165,7 @@
     [super viewDidLoad];
     [self.mainScrollView contentSizeToFit];
     [self getCoachDetail];
-   // _mainViewHeight.constant = 1360;
+    // _mainViewHeight.constant = 1360;
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     self.userState = [userInfo[@"state"] description];
     self.warmingLabel.text = @"正在查询您的审核状态...";
@@ -213,7 +213,7 @@
 
 // 跳过
 - (void)ignoreClick {
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeSelfView" object:nil];
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"closeSelfView" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -265,13 +265,13 @@
     
     //身份证
     self.idCardField.text = idNum;
-
+    
     //身份证到期时间时间
     self.cardMadeTimeField.text = creatTime;
-
+    
     //教练证
     self.coachCardField.text = coachNum;
-
+    
     //教练证到期时间时间
     self.coachMadeTimeField.text = coachNumPt;
     
@@ -282,7 +282,7 @@
     
     //车辆年检证
     self.carCheckField.text = carNum;
-
+    
     //车辆年检证到期时间时间
     self.carCheckMadeTimeField.text = carNumPt;
     
@@ -297,9 +297,9 @@
     self.teachCarCardField.text = carModel;
     
     //准教车型
-     self.myCarModelArray = [NSMutableArray arrayWithArray:userInfo[@"modellist"]];
-     [self loadTestInfo];
-
+    self.myCarModelArray = [NSMutableArray arrayWithArray:userInfo[@"modellist"]];
+    [self loadTestInfo];
+    
     
     /******相关证件*******/
     
@@ -309,7 +309,7 @@
         [self.idCardImageView sd_setImageWithURL:[NSURL URLWithString:idCardImage] placeholderImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
         self.idCardDelBtn.hidden = YES;
         self.idCardLabel.hidden = NO;
-
+        
     }
     
     //身份证反面
@@ -327,7 +327,7 @@
         self.coachCardDelBtn.hidden = YES;
         self.coachCardLabel.hidden = NO;
     }
-   
+    
     
     //教练驾驶证
     if (![CommonUtil isEmpty:coachBackImage]) {
@@ -374,11 +374,11 @@
         if ([view isKindOfClass:[UILabel class]]) {
             UILabel *label = (UILabel *)view;
             if ([name isEqualToString:label.text]) {
-               continue;
+                continue;
             }
         }
     }
-
+    
     
     CGFloat addHeight = 0;
     if (_myCarModelArray.count == 0) {
@@ -392,7 +392,7 @@
         self.carModelField.text = dic[@"modelname"];
         
         for (int i = 1; i < _myCarModelArray.count; i++) {
-           dic = _myCarModelArray[i];
+            dic = _myCarModelArray[i];
             
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 39 * (i - 1), 150, 18)];
             label.font = [UIFont systemFontOfSize:18];
@@ -437,7 +437,7 @@
 #pragma mark - PickerVIew
 // 准教车型数据
 - (void)initCarModelData {
-
+    
     _carModelArray = [CommonUtil getObjectFromUD:@"modellist"];
     if (_carModelArray.count == 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"getModelList" object:nil];//重新获取
@@ -461,11 +461,11 @@
 // 每组行数
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     if ([pickerView isEqual:self.carModelPicker]) {
-      if(self.teachCarTag == 0){
+        if(self.teachCarTag == 0){
             if(_carModelArray.count == 0){
                 return 0;
             }else{
-               return _carModelArray.count;
+                return _carModelArray.count;
             }
         }else if(self.teachCarTag == 1){
             return _TeachCarModeArray.count;
@@ -485,7 +485,7 @@
         myView = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
         myView.textAlignment = NSTextAlignmentCenter;
         if(_teachCarTag == 0){
-             NSDictionary *dic = [_carModelArray objectAtIndex:row];
+            NSDictionary *dic = [_carModelArray objectAtIndex:row];
             myView.text = dic[@"modelname"];
         }else if(_teachCarTag == 1){
             NSDictionary *dict = [_TeachCarModeArray objectAtIndex:row];
@@ -495,7 +495,7 @@
             myView.text = dict[@"name"];
         }
         myView.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
-    
+        
         myView.textColor = RGB(161, 161, 161);
         
         myView.backgroundColor = [UIColor clearColor];
@@ -630,21 +630,21 @@
 
 // 重新进行选择车型
 - (IBAction)clickagainCarModelDone:(id)sender {
-//    [_myCarModelArray removeAllObjects];
-//    while (self.keepLabelView.subviews.count) {
-//        UIView* child = self.keepLabelView.subviews.lastObject;
-//        [child removeFromSuperview];
-//    }
-//    self.carModelField.text = @"";
-//    _keepViewConstraint.constant = 1;
-//    _carModelViewHeight.constant = 85;
-//    _mainViewHeight.constant = 1485;
-//    [self.selectView removeFromSuperview];
+    //    [_myCarModelArray removeAllObjects];
+    //    while (self.keepLabelView.subviews.count) {
+    //        UIView* child = self.keepLabelView.subviews.lastObject;
+    //        [child removeFromSuperview];
+    //    }
+    //    self.carModelField.text = @"";
+    //    _keepViewConstraint.constant = 1;
+    //    _carModelViewHeight.constant = 85;
+    //    _mainViewHeight.constant = 1485;
+    //    [self.selectView removeFromSuperview];
 }
 
 // 完成准教车型选择
 - (IBAction)clickForCarModelDone:(id)sender {
-
+    
     
     NSInteger row = [self.carModelPicker selectedRowInComponent:0];
     if(_teachCarTag == 0){
@@ -666,7 +666,7 @@
         }else{
             self.teachCarBtnOutlet.hidden = NO;
             _teachCarCardField.placeholder = @"";
-             NSDictionary *dic = _TeachCarModeArray[row];
+            NSDictionary *dic = _TeachCarModeArray[row];
             _teachCarCardField.text = dic[@"modelname"];
             _teachCarID = dic[@"modelid"];
         }
@@ -688,43 +688,49 @@
     [self.selectView removeFromSuperview];
 }
 
-// 选择准教车型
-- (IBAction)clickForCarModel:(id)sender {
-    if([sender tag] == 0){
-        self.teachCarTag = 0;
-        self.keepBtnOutlet.hidden = YES;
-        [self getCarMode];
-        
-    }else{
-        self.teachCarTag = 1;
-        self.keepBtnOutlet.hidden = YES;
-        [self getTeachCarMode]; // 获取教练教学用车型号
-    }
-}
+//// 选择准教车型
+//- (IBAction)clickForCarModel:(id)sender {
+//    if([sender tag] == 0){
+//        self.teachCarTag = 0;
+//        self.keepBtnOutlet.hidden = YES;
+//        [self getCarMode];
+//
+//    }else{
+//        self.teachCarTag = 1;
+//        self.keepBtnOutlet.hidden = YES;
+//        [self getTeachCarMode]; // 获取教练教学用车型号
+//    }
+//}
 
-// 选择时间
-- (IBAction)clickForCardMadeTime:(id)sender {
-    self.dataTag = [sender tag];
-    //日期
-    DatePickerViewController *viewController = [[DatePickerViewController alloc] initWithNibName:@"DatePickerViewController" bundle:nil];
-    viewController.delegate = self;
-    UIViewController* controller = self.view.window.rootViewController;
-    if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
-        viewController.modalPresentationStyle=UIModalPresentationOverCurrentContext;
-    }else{
-        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
-    }
-    
-    [controller presentViewController:viewController animated:YES completion:^{
-        viewController.view.superview.backgroundColor = [UIColor clearColor];
-    }];
-   // self.cardMadeTimeField.text = self.dateTimeTextField.text;
-}
+//// 选择时间
+//- (IBAction)clickForCardMadeTime:(id)sender {
+//    self.dataTag = [sender tag];
+//    //日期
+//    DatePickerViewController *viewController = [[DatePickerViewController alloc] initWithNibName:@"DatePickerViewController" bundle:nil];
+//    viewController.delegate = self;
+//    UIViewController* controller = self.view.window.rootViewController;
+//    if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
+//        viewController.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+//    }else{
+//        controller.modalPresentationStyle = UIModalPresentationCurrentContext;
+//    }
+//
+//    [controller presentViewController:viewController animated:YES completion:^{
+//        viewController.view.superview.backgroundColor = [UIColor clearColor];
+//    }];
+//   // self.cardMadeTimeField.text = self.dateTimeTextField.text;
+//}
 - (IBAction)backClick:(id)sender {
-    if ([_superViewNum intValue] == 0) {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    app.isregister = @"0";
+    app.isInvited = @"0";
+    if ([app.superViewNum intValue] == 1) {
         // 登录注册界面过来的
+        app.isInvited = @"0";
+        app.superViewNum = @"0";
+        app.isInvited = @"0";
+//        MainViewController *viewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
         [self.navigationController popToRootViewControllerAnimated:YES];
-        
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -732,10 +738,10 @@
 
 // 拍证件照片
 - (IBAction)clickForPhoto:(UIButton *)sender {
-//    if ([self.userState intValue] == 2) {
-//        //通过审核不可修改
-//        return;
-//    }
+    //    if ([self.userState intValue] == 2) {
+    //        //通过审核不可修改
+    //        return;
+    //    }
     
     // 身份证正面
     if (sender.tag == 102) {
@@ -762,19 +768,19 @@
 //- (void)clickForDeleteCardFront:(id)sender {
 //    UIImageView *imageView = (UIImageView *)[self.idCardFrontView viewWithTag:100];
 //    [imageView setImage:[UIImage imageNamed:@"bg_myinfo_camera"]];
-//    
+//
 //    // 显示文字
 //    UILabel *label = (UILabel *)[self.idCardFrontView viewWithTag:101];
 //    label.hidden = NO;
-//    
+//
 //    // 显示编辑按钮
 //    UIButton *button = (UIButton *)[self.idCardFrontView viewWithTag:102];
 //    button.hidden = NO;
-//    
+//
 //    // 隐藏查看大图按钮
 //    button = (UIButton *)[self.idCardFrontView viewWithTag:103];
 //    button.hidden = YES;
-//    
+//
 //    // 隐藏删除按钮
 //    button = (UIButton *)[self.idCardFrontView viewWithTag:104];
 //    button.hidden = YES;
@@ -839,10 +845,10 @@
 #pragma mark - 弹框方法
 //弹框
 - (IBAction)clickForAlert:(id)sender {
-//    if ([self.userState intValue] == 2) {
-//        //通过审核不可修改
-//        return;
-//    }
+    //    if ([self.userState intValue] == 2) {
+    //        //通过审核不可修改
+    //        return;
+    //    }
     if (self.userState.intValue == 2) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
@@ -902,10 +908,10 @@
 
 // 上传图片
 - (IBAction)clickForImage:(id)sender {
-//    if ([self.userState intValue] == 2) {
-//        //通过审核不可修改
-//        return;
-//    }
+    //    if ([self.userState intValue] == 2) {
+    //        //通过审核不可修改
+    //        return;
+    //    }
     
     UIButton *button = (UIButton *)sender;
     
@@ -922,10 +928,10 @@
 }
 
 - (IBAction)clickForDelImage:(id)sender {
-//    if ([self.userState intValue] == 2) {
-//        //通过审核不可修改
-//        return;
-//    }
+    //    if ([self.userState intValue] == 2) {
+    //        //通过审核不可修改
+    //        return;
+    //    }
     
     UIButton *button = (UIButton *)sender;
     if (button.tag == 0){
@@ -1034,48 +1040,48 @@
     [request setPostValue:coachId forKey:@"coachid"];             // 教练ID
     [request setPostValue:ds[@"token"] forKey:@"token"];
     
-//    if(![CommonUtil isEmpty:cardNum])
-//    {
-//        [request setPostValue:cardNum forKey:@"idnum"];              // 身份证号码
-//    }
-//    if(![CommonUtil isEmpty:cardNumPt])
-//    {
-//        [request setPostValue:cardNumPt forKey:@"idcardextime"];      // 身份证到期时间
-//    }
-//    if(![CommonUtil isEmpty:coachNum])
-//    {
-//        [request setPostValue:coachNum forKey:@"coachcardnum"];       // 教练证号
-//    }
-//    if(![CommonUtil isEmpty:cardNumPt])
-//    {
-//        [request setPostValue:coachNumPt forKey:@"coachcardextime"];      // 教练证到期时间
-//    }
-//    if(![CommonUtil isEmpty:driveNum])
-//    {
-//         [request setPostValue:driveNum forKey:@"drivecardnum"];              // 驾驶证号码
-//    }
-//    if(![CommonUtil isEmpty:driveNumPt])
-//    {
-//        [request setPostValue:driveNumPt forKey:@"drivecardextime"];      // 驾驶证到期时间
-//    }
-//    if(![CommonUtil isEmpty:carCNum])
-//    {
-//        [request setPostValue:carCNum forKey:@"carcardnum"];              // 车辆年检证号码
-//    }
-//    if(![CommonUtil isEmpty:carCNumPt])
-//    {
-//        [request setPostValue:carCNumPt forKey:@"carcardextime"];      // 车辆年检证到期时间
-//    }
-//    
-//    if(![CommonUtil isEmpty:_teachCarID]){
-//        [request setPostValue:_teachCarID forKey:@"carmodelid"];
-//    }else{
-//        if(![CommonUtil isEmpty:carModel])
-//        {
-//            [request setPostValue:carModel forKey:@"carmodel"];// 教学用车型号
-//        }
-//    }
-//    
+    //    if(![CommonUtil isEmpty:cardNum])
+    //    {
+    //        [request setPostValue:cardNum forKey:@"idnum"];              // 身份证号码
+    //    }
+    //    if(![CommonUtil isEmpty:cardNumPt])
+    //    {
+    //        [request setPostValue:cardNumPt forKey:@"idcardextime"];      // 身份证到期时间
+    //    }
+    //    if(![CommonUtil isEmpty:coachNum])
+    //    {
+    //        [request setPostValue:coachNum forKey:@"coachcardnum"];       // 教练证号
+    //    }
+    //    if(![CommonUtil isEmpty:cardNumPt])
+    //    {
+    //        [request setPostValue:coachNumPt forKey:@"coachcardextime"];      // 教练证到期时间
+    //    }
+    //    if(![CommonUtil isEmpty:driveNum])
+    //    {
+    //         [request setPostValue:driveNum forKey:@"drivecardnum"];              // 驾驶证号码
+    //    }
+    //    if(![CommonUtil isEmpty:driveNumPt])
+    //    {
+    //        [request setPostValue:driveNumPt forKey:@"drivecardextime"];      // 驾驶证到期时间
+    //    }
+    //    if(![CommonUtil isEmpty:carCNum])
+    //    {
+    //        [request setPostValue:carCNum forKey:@"carcardnum"];              // 车辆年检证号码
+    //    }
+    //    if(![CommonUtil isEmpty:carCNumPt])
+    //    {
+    //        [request setPostValue:carCNumPt forKey:@"carcardextime"];      // 车辆年检证到期时间
+    //    }
+    //
+    //    if(![CommonUtil isEmpty:_teachCarID]){
+    //        [request setPostValue:_teachCarID forKey:@"carmodelid"];
+    //    }else{
+    //        if(![CommonUtil isEmpty:carModel])
+    //        {
+    //            [request setPostValue:carModel forKey:@"carmodel"];// 教学用车型号
+    //        }
+    //    }
+    //
     if(![CommonUtil isEmpty:_carSchoolID]){
         [request setPostValue:_carSchoolID forKey:@"driveschoolid"];
     }else{
@@ -1084,22 +1090,22 @@
             [request setPostValue:carSchoolName forKey:@"driveschool"];// 教学用车型号
         }
     }
-//
-//    if(![CommonUtil isEmpty:carLicense])
-//    {
-//         [request setPostValue:carLicense forKey:@"carlicense"];         // 教学用车牌照
-//    }
+    //
+    //    if(![CommonUtil isEmpty:carLicense])
+    //    {
+    //         [request setPostValue:carLicense forKey:@"carlicense"];         // 教学用车牌照
+    //    }
     
     //5.判断相关证件是否为空
-//    if (!self.idCardDelBtn.hidden) {
-//        //身份证正面
-//        [request setData:UIImageJPEGRepresentation(self.idCardImageView.image, 0.75) forKey:@"cardpic1"];//身份证正面照
-//    }
-//    
-//    if (!self.idCardBackDelBtn.hidden) {
-//        //身份证反面
-//        [request setData:UIImageJPEGRepresentation(self.idCardBackImageView.image, 0.75) forKey:@"cardpic2"];//身份证反面照
-//    }
+    //    if (!self.idCardDelBtn.hidden) {
+    //        //身份证正面
+    //        [request setData:UIImageJPEGRepresentation(self.idCardImageView.image, 0.75) forKey:@"cardpic1"];//身份证正面照
+    //    }
+    //
+    //    if (!self.idCardBackDelBtn.hidden) {
+    //        //身份证反面
+    //        [request setData:UIImageJPEGRepresentation(self.idCardBackImageView.image, 0.75) forKey:@"cardpic2"];//身份证反面照
+    //    }
     
     if (!self.coachCardDelBtn.hidden) {
         //教练证正面照
@@ -1121,45 +1127,45 @@
         [request setData:UIImageJPEGRepresentation(self.carCheckBackImageView.image, 0.75) forKey:@"cardpic6"];//车辆行驶证反面
     }
     
-//    if (!self.coachTureIconDelBtn.hidden) {
-//        //教练真实头像
-//        [request setData:UIImageJPEGRepresentation(self.coachTureIconImageView.image, 0.75) forKey:@"cardpic7"];//教练真实头像
-//    }
-
-//    //准教车型
-//    if(carArray.count !=0){
-//        NSDictionary *dic = carArray[0];
-//        NSString *modelIds = dic[@"modelid"];
-//        //    for (NSDictionary *dict in carArray) {
-//        //        NSString *idStr = dict[@"modelid"];
-//        //        modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
-//        //    }
-//        for(int i = 1;i<carArray.count;i++)
-//        {
-//            NSDictionary *dict = [carArray objectAtIndex:i];
-//            NSString *idStr = dict[@"modelid"];
-//            modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
-//        }
-//        //NSLog(@"%@",modelIds);
-//        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
-//    }
-
+    //    if (!self.coachTureIconDelBtn.hidden) {
+    //        //教练真实头像
+    //        [request setData:UIImageJPEGRepresentation(self.coachTureIconImageView.image, 0.75) forKey:@"cardpic7"];//教练真实头像
+    //    }
+    
+    //    //准教车型
+    //    if(carArray.count !=0){
+    //        NSDictionary *dic = carArray[0];
+    //        NSString *modelIds = dic[@"modelid"];
+    //        //    for (NSDictionary *dict in carArray) {
+    //        //        NSString *idStr = dict[@"modelid"];
+    //        //        modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
+    //        //    }
+    //        for(int i = 1;i<carArray.count;i++)
+    //        {
+    //            NSDictionary *dict = [carArray objectAtIndex:i];
+    //            NSString *idStr = dict[@"modelid"];
+    //            modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
+    //        }
+    //        //NSLog(@"%@",modelIds);
+    //        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
+    //    }
+    
     
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
     
     //赋值
-//    [self.msgDic setObject:cardNum forKey:@"id_cardnum"];
-//    [self.msgDic setObject:cardNumPt forKey:@"id_cardexptime"];
-//    [self.msgDic setObject:coachNum forKey:@"coach_cardnum"];
-//    [self.msgDic setObject:coachNumPt forKey:@"coach_cardexptime"];
-//    [self.msgDic setObject:driveNum forKey:@"drive_cardnum"];
-//    [self.msgDic setObject:driveNumPt forKey:@"drive_cardexptime"];
-//    [self.msgDic setObject:carCNum forKey:@"car_cardnum"];
-//    [self.msgDic setObject:carCNumPt forKey:@"car_cardexptime"];
-//    [self.msgDic setObject:carLicense forKey:@"carlicense"];
-//    [self.msgDic setObject:carModel forKey:@"teachcarmodel"];
-//    [self.msgDic setObject:carArray forKey:@"modellist"];
+    //    [self.msgDic setObject:cardNum forKey:@"id_cardnum"];
+    //    [self.msgDic setObject:cardNumPt forKey:@"id_cardexptime"];
+    //    [self.msgDic setObject:coachNum forKey:@"coach_cardnum"];
+    //    [self.msgDic setObject:coachNumPt forKey:@"coach_cardexptime"];
+    //    [self.msgDic setObject:driveNum forKey:@"drive_cardnum"];
+    //    [self.msgDic setObject:driveNumPt forKey:@"drive_cardexptime"];
+    //    [self.msgDic setObject:carCNum forKey:@"car_cardnum"];
+    //    [self.msgDic setObject:carCNumPt forKey:@"car_cardexptime"];
+    //    [self.msgDic setObject:carLicense forKey:@"carlicense"];
+    //    [self.msgDic setObject:carModel forKey:@"teachcarmodel"];
+    //    [self.msgDic setObject:carArray forKey:@"modellist"];
     [self.msgDic setObject:carSchoolName forKey:@"driveschool"];
     
 }
@@ -1193,14 +1199,14 @@
             
             if (![CommonUtil isEmpty:result[@"cradpic1url"] ]) {
                 [ds setObject:result[@"cradpic1url"] forKey:@"id_cardpicfurl"];
-
+                
             }
             
             if (![CommonUtil isEmpty:result[@"cradpic2url"] ]) {
                 [ds setObject:result[@"cradpic2url"] forKey:@"id_cardpicburl"];
-
+                
             }
-          
+            
             if (![CommonUtil isEmpty:result[@"cradpic3url"] ]) {
                 [ds setObject:result[@"cradpic3url"] forKey:@"coach_cardpicurl"];
             }
@@ -1208,11 +1214,11 @@
             if (![CommonUtil isEmpty:result[@"cradpic4url"] ]) {
                 [ds setObject:result[@"cradpic4url"] forKey:@"drive_cardpicurl"];
             }
-           
+            
             if (![CommonUtil isEmpty:result[@"cradpic5url"] ]) {
                 [ds setObject:result[@"cradpic5url"] forKey:@"car_cardpicfurl"];
             }
-           
+            
             if (![CommonUtil isEmpty:result[@"cradpic6url"] ]) {
                 [ds setObject:result[@"cradpic6url"] forKey:@"car_cardpicburl"];
             }
@@ -1226,10 +1232,16 @@
             [CommonUtil saveObjectToUD:ds key:@"userInfo"];
             [self makeToast:@"提交成功，请等待审核"];
             
-            if ([_superViewNum intValue] == 0) {
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            app.isregister = @"0";
+            app.isInvited = @"0";
+            if ([app.superViewNum intValue] == 1) {
                 // 登录注册界面过来的
-                [self.navigationController popViewControllerAnimated:YES];
-                
+                app.isInvited = @"0";
+                app.superViewNum = @"0";
+                app.isInvited = @"0";
+                //        MainViewController *viewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }else{
                 [self.navigationController popViewControllerAnimated:YES];
             }

@@ -35,7 +35,10 @@
     self.recommendFriendButton.layer.masksToBounds = YES;
     
     [self performSelector:@selector(showMainView) withObject:nil afterDelay:0.3f];
-    self.CodeImage.image = [QRCodeGenerator qrImageForString:[NSString stringWithFormat:@"http://www.xiaobaxueche.com/coach/join/%@",self.CodeLabel.text] imageSize:self.CodeImage.frame.size.height];
+    if ([userInfo[@"realname"] isEqualToString:@""]) {
+        
+    }
+    self.CodeImage.image = [QRCodeGenerator qrImageForString:[[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] imageSize:self.CodeImage.frame.size.height];
 }
 
 
@@ -66,10 +69,9 @@
                                          appKey:@"55aa05f667e58ec7dc005698"
                                       shareText:[NSString stringWithFormat:@"小巴学车，只因改变\n加入小巴，月入过万"]
                                      shareImage:[UIImage imageNamed:@"300-icon.png"]
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToWechatTimeline,UMShareToWechatSession,nil]
                                        delegate:self];
-    //,UMShareToQQ,UMShareToQzone,UMShareToWechatTimeline,UMShareToWechatSession,
-    NSString *getURL = [NSString stringWithFormat:@"http://www.xiaobaxueche.com/coach/join/%@",self.CodeLabel.text];
+    NSString *getURL = [[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [UMSocialData defaultData].extConfig.qqData.shareText = @"小巴学车，只因改变\n加入小巴，月入过万";
     [UMSocialData defaultData].extConfig.qqData.title = [NSString stringWithFormat:@"%@邀请您加入小巴学车",userInfo[@"realname"]];
     [UMSocialData defaultData].extConfig.qqData.url = getURL;
@@ -83,7 +85,7 @@
     [UMSocialData defaultData].extConfig.wechatTimelineData.shareText = @"小巴学车，只因改变\n加入小巴，月入过万";
     [UMSocialData defaultData].extConfig.wechatTimelineData.url = getURL;
     
-    [UMSocialData defaultData].extConfig.sinaData.shareText = [NSString stringWithFormat:@"小巴学车，只因改变！  %@",getURL];
+    [UMSocialData defaultData].extConfig.sinaData.shareText = [NSString stringWithFormat:@"快来加入小巴学车，月入过万！  %@",getURL];
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/images/share.png"]]];
     [UMSocialData defaultData].extConfig.sinaData.shareImage = image;
     
