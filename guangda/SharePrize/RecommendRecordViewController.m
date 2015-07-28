@@ -27,6 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *noDataButton;
 
 - (IBAction)clickForCode:(id)sender;
+
 @end
 
 @implementation RecommendRecordViewController
@@ -150,59 +151,49 @@
             [recordList removeAllObjects];
         }
         NSMutableArray *array = [NSMutableArray array];
-        NSArray *invitlist = result[@"invitlist"];
         NSArray *RecommendList = result[@"RecommendList"];
-        NSArray *orderList = result[@"orderlist"];
         NSString *rflag = [result[@"rflag"] description];
         if ([rflag isEqualToString:@"0"]) {
             
         }else{
-//            if (invitlist.count == RecommendList.count == orderList.count) {
-                for (int i=0; i<invitlist.count; i++) {
-                    NSMutableDictionary *recordDic = [[NSMutableDictionary alloc]init];
-                    NSString *addtime = [RecommendList[i][@"addtime"] substringToIndex:10];
-                    [recordDic setObject:addtime forKey:@"addtime"];//注册时间
-                    
-                    NSString *reward = RecommendList[i][@"reward"];
-                    [recordDic setObject:reward forKey:@"reward"];//单个奖励
-                    
-                    NSString *realname = invitlist[i][@"realname"];
-                    if (realname) {
-                        [recordDic setObject:realname forKey:@"realname"];//真实姓名
-                    }else{
-                        NSString *phone = [invitlist[i][@"phone"] description];
-                        NSString *head3 = [phone substringToIndex:3];
-                        NSString *foot4 = [phone substringFromIndex:7];
-                        [recordDic setObject:[NSString stringWithFormat:@"%@****%@",head3,foot4] forKey:@"realname"];//真实姓名 或 手机号
-                    }
-                    
-                    
-                    NSString *state = [invitlist[i][@"state"] description];
-                    NSString *str1;
-                    if ([state isEqualToString:@"2"]) {
-                        str1 = @"已认证";
-                    }else{
-                        str1 = @"未认证";
-                    }
-                    [recordDic setObject:str1 forKey:@"state"];//认证状态
-                    
-                    NSString *isOrder = [orderList[i] description];
-                    NSString *str2;
-                    if ([isOrder isEqualToString:@"1"]) {
-                        str2 = @"已开单";
-                    }else{
-                        str2 = @"未开单";
-                    }
-                    [recordDic setObject:str2 forKey:@"isOrder"];//是否开单
-                    [array addObject:recordDic];
+            for (int i=0; i<RecommendList.count; i++) {
+                NSMutableDictionary *recordDic = [[NSMutableDictionary alloc]init];
+                NSString *addtime = [RecommendList[i][@"addtime"] substringToIndex:10];
+                [recordDic setObject:addtime forKey:@"addtime"];//注册时间
+                
+                NSString *reward = RecommendList[i][@"reward"];
+                [recordDic setObject:reward forKey:@"reward"];//单个奖励
+                
+                NSString *realname = RecommendList[i][@"invitedpeoplename"];
+                if (realname) {
+                    [recordDic setObject:realname forKey:@"realname"];//真实姓名
+                }else{
+                    NSString *phone = [RecommendList[i][@"invitedpeopletelphone"] description];
+                    NSString *head3 = [phone substringToIndex:3];
+                    NSString *foot4 = [phone substringFromIndex:7];
+                    [recordDic setObject:[NSString stringWithFormat:@"%@****%@",head3,foot4] forKey:@"realname"];//真实姓名 或 手机号
                 }
-//            }else{
-//                [self makeToast:@"数据异常"];
-//                [_pullToMore setPullToMoreViewVisible:NO];
-//                [_pullToMore relocatePullToMoreView];
-//                [self getDataFinish];
-//                return;
-//            }
+                
+                
+                NSString *state = [RecommendList[i][@"ischecked"] description];
+                NSString *str1;
+                if ([state isEqualToString:@"1"]) {
+                    str1 = @"已认证";
+                }else{
+                    str1 = @"未认证";
+                }
+                [recordDic setObject:str1 forKey:@"state"];//认证状态
+                
+                NSString *isOrder = [RecommendList[i][@"isorder"] description];
+                NSString *str2;
+                if ([isOrder isEqualToString:@"1"]) {
+                    str2 = @"已开单";
+                }else{
+                    str2 = @"未开单";
+                }
+                [recordDic setObject:str2 forKey:@"isOrder"];//是否开单
+                [array addObject:recordDic];
+            }
         }
         
         
@@ -213,7 +204,7 @@
         }else{
             self.noDataButton.hidden = YES;
         }
-        NSString *reward = [result[@"reward"] description];
+        NSString *reward = [result[@"totalreward"] description];
         NSString *total = [result[@"total"] description];
         NSString *titleStr = [NSString stringWithFormat:@"您已推荐 %@ 位教练，获得 %@ 元奖励",total,reward];
         

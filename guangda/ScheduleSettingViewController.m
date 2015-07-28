@@ -48,6 +48,9 @@
 @property (strong, nonatomic) NSMutableArray *subjectArray;//科目
 @property (strong, nonatomic) NSString *addressId;//地址id
 @property (strong, nonatomic) NSString *subjectId;//科目id
+
+@property (strong, nonatomic) NSString *selectPickerTag;//选中的标记
+
 @property (nonatomic) CGRect viewRect;
 
 - (IBAction)clickForback:(id)sender;
@@ -59,6 +62,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.selectPickerTag = @"0";
     self.selectArray = [NSMutableArray array];
     self.addressArray = [NSMutableArray array];
     self.subjectArray = [NSMutableArray array];
@@ -455,6 +459,7 @@
         [self.selectArray removeAllObjects];
         self.selectView2.frame = self.view.frame;
         [self.view addSubview:self.selectView2];
+        self.selectPickerTag = @"1";
         [self.pricePickerView reloadAllComponents];
     }
     
@@ -516,12 +521,14 @@
 }
 
 - (IBAction)clickForRemoveSelect:(id)sender {
+    self.selectPickerTag = @"0";
     [self.selectView removeFromSuperview];
     [self.selectView2 removeFromSuperview];
 }
 
 - (IBAction)clickForSelect:(id)sender {
-    if (self.pricePickerView) {
+    if ([self.selectPickerTag intValue] == 1) {
+        self.selectPickerTag = @"0";
         NSString *str = [self.price substringToIndex:1];
         if ([str isEqualToString:@"0"]) {
             self.price = [self.price substringFromIndex:1];
@@ -545,7 +552,7 @@
         
         [self.selectView removeFromSuperview];
         self.comfirmBtn.selected = YES;
-        
+        self.selectPickerTag = @"0";
         [self.selectView2 removeFromSuperview];
     }
 }

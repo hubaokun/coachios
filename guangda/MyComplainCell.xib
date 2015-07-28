@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -55,7 +55,7 @@
                             <constraint firstAttribute="height" constant="24" id="oRW-Ac-pqW"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7oN-ED-bmj">
@@ -83,9 +83,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait_complain" translatesAutoresizingMaskIntoConstraints="NO" id="tJX-bW-S4s">
-                        <rect key="frame" x="62" y="112" width="25" height="27"/>
+                        <rect key="frame" x="62" y="112" width="25" height="25"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="27" id="O1v-3v-fpc"/>
+                            <constraint firstAttribute="height" constant="25" id="NK8-Hm-LqT"/>
                             <constraint firstAttribute="width" constant="25" id="uLO-WP-v8L"/>
                         </constraints>
                     </imageView>
@@ -96,7 +96,7 @@
                             <constraint firstAttribute="width" constant="100" id="jaP-lu-oJF"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_complain" translatesAutoresizingMaskIntoConstraints="NO" id="gcc-9d-tkz">
@@ -129,7 +129,7 @@
                             <constraint firstAttribute="height" constant="18" id="GaA-ZG-deF"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c23-S3-QgZ" userLabel="bottomline">
@@ -177,6 +177,7 @@
                     <constraint firstItem="Ysq-Vc-qZq" firstAttribute="leading" secondItem="tJX-bW-S4s" secondAttribute="trailing" constant="6" id="hI7-jj-MmF"/>
                     <constraint firstItem="83Y-Vn-LxO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="3" id="jL1-Pi-6eb"/>
                     <constraint firstAttribute="trailingMargin" secondItem="gbl-fq-bWx" secondAttribute="trailing" constant="15" id="kJz-lO-WiV"/>
+                    <constraint firstItem="CTh-6l-sRh" firstAttribute="top" secondItem="tJX-bW-S4s" secondAttribute="bottom" constant="17" id="keU-wf-9vP"/>
                     <constraint firstItem="c23-S3-QgZ" firstAttribute="top" secondItem="YRZ-b5-Aav" secondAttribute="bottom" constant="20" id="kjz-f8-GbU"/>
                     <constraint firstItem="YRZ-b5-Aav" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="54" id="ppR-FM-B2E"/>
                     <constraint firstItem="Oqq-Jr-vF3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="54" id="rie-eV-oot"/>
@@ -188,6 +189,11 @@
                     <constraint firstAttribute="trailingMargin" secondItem="YRZ-b5-Aav" secondAttribute="trailing" constant="15" id="zRr-Sn-94r"/>
                     <constraint firstItem="Isi-jL-pZW" firstAttribute="top" secondItem="Oqq-Jr-vF3" secondAttribute="bottom" constant="15" id="zTe-wa-Xwz"/>
                 </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="Y3e-f5-7WV"/>
+                    </mask>
+                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="complainContentHeight" destination="oRW-Ac-pqW" id="hev-9N-du1"/>

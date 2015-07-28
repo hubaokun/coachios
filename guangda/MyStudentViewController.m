@@ -115,8 +115,9 @@
         //已认证
         [cell.logoImageView sd_setImageWithURL:[NSURL URLWithString:logo] placeholderImage:[UIImage imageNamed:@"logo_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (image != nil) {
-                
-                [self updateUserLogo:cell.logoImageView];
+                cell.logoImageView.layer.cornerRadius = cell.logoImageView.bounds.size.width/2;
+                cell.logoImageView.layer.masksToBounds = YES;
+//                [self updateUserLogo:cell.logoImageView];
                 
             }
         }];

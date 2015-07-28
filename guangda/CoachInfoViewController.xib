@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoachInfoViewController">
@@ -362,7 +362,7 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="500" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_myinfo_camera" translatesAutoresizingMaskIntoConstraints="NO" id="AHS-r8-VR0">
                                                     <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车辆行驶证正面" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pV-0O-bF5" userLabel="车辆行驶证正面">
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="501" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车辆行驶证正本" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pV-0O-bF5" userLabel="车辆行驶证正面">
                                                     <rect key="frame" x="0.0" y="70" width="110" height="13"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="13" id="4VL-Xl-Xh4"/>
@@ -421,11 +421,11 @@
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="600" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_myinfo_camera" translatesAutoresizingMaskIntoConstraints="NO" id="DDf-Ax-vWN">
                                                     <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="601" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车辆行驶证反面" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drM-RF-CA4">
-                                                    <rect key="frame" x="0.0" y="70" width="110" height="13"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="601" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="车辆行驶证副本（带有效期）" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drM-RF-CA4">
+                                                    <rect key="frame" x="0.0" y="63" width="110" height="32"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="13" id="ctC-X7-9TA"/>
-                                                        <constraint firstAttribute="width" constant="110" id="jGf-Jw-GFV"/>
+                                                        <constraint firstAttribute="width" constant="110" id="JZX-P0-Zo5"/>
+                                                        <constraint firstAttribute="height" constant="32" id="hEK-xv-l1g"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.64313725489999995" green="0.6705882353" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -458,17 +458,17 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstItem="DDf-Ax-vWN" firstAttribute="leading" secondItem="og1-MF-0lE" secondAttribute="leading" id="45e-2c-zYn"/>
-                                                <constraint firstItem="drM-RF-CA4" firstAttribute="leading" secondItem="og1-MF-0lE" secondAttribute="leading" id="4Ws-Hq-J1O"/>
                                                 <constraint firstAttribute="bottom" secondItem="DDf-Ax-vWN" secondAttribute="bottom" id="9Nl-tq-vg3"/>
+                                                <constraint firstAttribute="bottom" secondItem="drM-RF-CA4" secondAttribute="bottom" constant="15" id="CT5-HY-Uog"/>
                                                 <constraint firstAttribute="trailing" secondItem="7vo-5x-5Ue" secondAttribute="trailing" constant="-5" id="H5M-np-WRR"/>
                                                 <constraint firstAttribute="trailing" secondItem="EFs-IU-Xe0" secondAttribute="trailing" id="HEI-2R-PRD"/>
                                                 <constraint firstAttribute="trailing" secondItem="DDf-Ax-vWN" secondAttribute="trailing" id="JXK-DH-RXn"/>
                                                 <constraint firstItem="EFs-IU-Xe0" firstAttribute="leading" secondItem="og1-MF-0lE" secondAttribute="leading" id="LbV-UL-LVT"/>
+                                                <constraint firstAttribute="trailing" secondItem="drM-RF-CA4" secondAttribute="trailing" id="OS8-1r-jOS"/>
                                                 <constraint firstItem="EFs-IU-Xe0" firstAttribute="top" secondItem="og1-MF-0lE" secondAttribute="top" id="V7G-mM-F0a"/>
                                                 <constraint firstItem="DDf-Ax-vWN" firstAttribute="top" secondItem="og1-MF-0lE" secondAttribute="top" id="aeA-yW-orI"/>
-                                                <constraint firstAttribute="bottom" secondItem="drM-RF-CA4" secondAttribute="bottom" constant="27" id="e4H-eH-MGe"/>
-                                                <constraint firstAttribute="trailing" secondItem="drM-RF-CA4" secondAttribute="trailing" id="emo-vW-BuZ"/>
                                                 <constraint firstAttribute="width" constant="110" id="kKK-zQ-AeK"/>
+                                                <constraint firstItem="drM-RF-CA4" firstAttribute="leading" secondItem="og1-MF-0lE" secondAttribute="leading" id="okv-T7-r6L"/>
                                                 <constraint firstItem="7vo-5x-5Ue" firstAttribute="top" secondItem="og1-MF-0lE" secondAttribute="top" constant="-5" id="qaz-7j-t7P"/>
                                                 <constraint firstAttribute="height" constant="110" id="s1g-TG-XXS"/>
                                                 <constraint firstAttribute="bottom" secondItem="EFs-IU-Xe0" secondAttribute="bottom" id="vBo-BG-y5L"/>

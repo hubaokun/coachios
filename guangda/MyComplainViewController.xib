@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyComplainViewController">
@@ -172,9 +172,9 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait_stuinfo" translatesAutoresizingMaskIntoConstraints="NO" id="W5c-6L-7Bc">
-                            <rect key="frame" x="83" y="28" width="74" height="80"/>
+                            <rect key="frame" x="80" y="28" width="80" height="80"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="74" id="6cj-3w-RsT"/>
+                                <constraint firstAttribute="width" constant="80" id="61T-2Q-ELt"/>
                                 <constraint firstAttribute="height" constant="80" id="MPU-Zl-s6n"/>
                             </constraints>
                         </imageView>

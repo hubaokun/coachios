@@ -10,7 +10,7 @@
 #import "FeedBackViewController.h"
 #import "AboutUsViewController.h"
 #import "LoginViewController.h"
-
+#import "CoachRuleViewController.h"
 @interface SetViewController ()
 @property (strong, nonatomic) IBOutlet UISwitch *taskChangedSwitch;
 
@@ -19,6 +19,8 @@
 - (IBAction)clickFeedBack:(id)sender;
 - (IBAction)clickAboutUs:(id)sender;
 - (IBAction)clickLogOff:(id)sender;
+- (IBAction)clickForRule:(id)sender;
+
 
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 
@@ -92,6 +94,11 @@
     
     [self sendNotification];
     
+}
+
+- (IBAction)clickForRule:(id)sender {
+    CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
+    [self.navigationController pushViewController:viewController animated:YES];
 }
 
 #pragma mark - 接受新任务通知接口

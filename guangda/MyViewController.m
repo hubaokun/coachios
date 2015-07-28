@@ -172,7 +172,9 @@
         self.strokeImageView.hidden = YES;
         [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:logoUrl] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (image != nil) {
-                [self updateLogoImage:self.logoImageView];
+                self.logoImageView.layer.cornerRadius = self.logoImageView.bounds.size.width/2;
+                self.logoImageView.layer.masksToBounds = YES;
+//                [self updateLogoImage:self.logoImageView];
             }
         }];
         
@@ -222,7 +224,7 @@
         //小巴券时间
         int couponhour = [userInfo[@"couponhour"] intValue];
         
-        NSString *xiaobaTicketTime = [NSString stringWithFormat:@"小巴券时间：%d小时", couponhour];
+        NSString *xiaobaTicketTime = [NSString stringWithFormat:@"未兑换小巴券：%d张", couponhour];
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
         [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,[NSString stringWithFormat:@"%d",couponhour].length)];
@@ -267,79 +269,79 @@
 
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat _y = scrollView.contentOffset.y;
-//    NSLog(@"%f", _y);
-    CGFloat scale = (MAX(self.topView.frame.size.height - _y, 64) - 64)/131.0; // 195 - 64 = 131
-    if (_y > 0 && self.topView.frame.size.height > 64.0) {
-//        CGRect frame = self.topView.frame;
-//        NSLog(@"_y: %f height: %f", _y, frame.size.height);
-        self.topViewHeightCon.constant = MAX(self.topView.frame.size.height - _y, 64);
-        
-        
-//        self.portraitView.transform = CGAffineTransformMakeScale(1, 1);
-//        self.nameLabel.transform = CGAffineTransformMakeScale(1, 1);
-//        self.carAddrView.transform = CGAffineTransformMakeScale(1, 1);
-//        self.polygonImageView.transform = CGAffineTransformMakeScale(1, 1);
-        
-//        CGRect frame = self.portraitView.frame;
-//        frame.origin.y -= _y;
-//        self.portraitView.frame = frame;
+//    CGFloat _y = scrollView.contentOffset.y;
+////    NSLog(@"%f", _y);
+//    CGFloat scale = (MAX(self.topView.frame.size.height - _y, 64) - 64)/131.0; // 195 - 64 = 131
+//    if (_y > 0 && self.topView.frame.size.height > 64.0) {
+////        CGRect frame = self.topView.frame;
+////        NSLog(@"_y: %f height: %f", _y, frame.size.height);
+//        self.topViewHeightCon.constant = MAX(self.topView.frame.size.height - _y, 64);
 //        
-//        frame = self.nameLabel.frame;
-//        frame.origin.y -= _y;
-//        self.nameLabel.frame = frame;
 //        
-//        frame = self.carAddrView.frame;
-//        frame.origin.y -= _y;
-//        self.carAddrView.frame = frame;
+////        self.portraitView.transform = CGAffineTransformMakeScale(1, 1);
+////        self.nameLabel.transform = CGAffineTransformMakeScale(1, 1);
+////        self.carAddrView.transform = CGAffineTransformMakeScale(1, 1);
+////        self.polygonImageView.transform = CGAffineTransformMakeScale(1, 1);
 //        
-//        frame = self.polygonImageView.frame;
-//        frame.origin.y -= _y;
-//        self.polygonImageView.frame = frame;
-        
-//        self.portraitView.transform = CGAffineTransformMakeScale(scale, scale);
-//        self.nameLabel.transform = CGAffineTransformMakeScale(scale, scale);
-//        self.carAddrView.transform = CGAffineTransformMakeScale(scale, scale);
-//        self.polygonImageView.transform = CGAffineTransformMakeScale(scale * 0.25 + 0.75, scale * 0.25 + 0.75);
-        
-        self.portraitView.alpha = scale;
-        self.nameLabel.alpha = scale;
-        self.carAddrView.alpha = scale;
-        
-        scrollView.contentOffset = CGPointMake(0, 0);
-        
-    } else if (_y < 0  && self.topView.frame.size.height < 326) {
-//        CGRect frame = self.topView.frame;
-//        NSLog(@"_y: %f height: %f", _y, frame.size.height);
-        self.topViewHeightCon.constant = MIN(self.topView.frame.size.height - _y, 326);
-        
-//        self.portraitView.transform = CGAffineTransformMakeScale(1, 1);
-//        self.nameLabel.transform = CGAffineTransformMakeScale(1, 1);
-//        self.carAddrView.transform = CGAffineTransformMakeScale(1, 1);
-//        self.polygonImageView.transform = CGAffineTransformMakeScale(1, 1);
-        
-//        CGRect frame = self.portraitView.frame;
-//        frame.origin.y -= _y;
-//        self.portraitView.frame = frame;
+////        CGRect frame = self.portraitView.frame;
+////        frame.origin.y -= _y;
+////        self.portraitView.frame = frame;
+////        
+////        frame = self.nameLabel.frame;
+////        frame.origin.y -= _y;
+////        self.nameLabel.frame = frame;
+////        
+////        frame = self.carAddrView.frame;
+////        frame.origin.y -= _y;
+////        self.carAddrView.frame = frame;
+////        
+////        frame = self.polygonImageView.frame;
+////        frame.origin.y -= _y;
+////        self.polygonImageView.frame = frame;
 //        
-//        frame = self.nameLabel.frame;
-//        frame.origin.y -= _y;
-//        self.nameLabel.frame = frame;
+////        self.portraitView.transform = CGAffineTransformMakeScale(scale, scale);
+////        self.nameLabel.transform = CGAffineTransformMakeScale(scale, scale);
+////        self.carAddrView.transform = CGAffineTransformMakeScale(scale, scale);
+////        self.polygonImageView.transform = CGAffineTransformMakeScale(scale * 0.25 + 0.75, scale * 0.25 + 0.75);
 //        
-//        frame = self.carAddrView.frame;
-//        frame.origin.y -= _y;
-//        self.carAddrView.frame = frame;
+//        self.portraitView.alpha = scale;
+//        self.nameLabel.alpha = scale;
+//        self.carAddrView.alpha = scale;
 //        
-//        frame = self.polygonImageView.frame;
-//        frame.origin.y -= _y;
-//        self.polygonImageView.frame = frame;
-        
-        self.portraitView.alpha = scale;
-        self.nameLabel.alpha = scale;
-        self.carAddrView.alpha = scale;
-        
-        scrollView.contentOffset = CGPointMake(0, 0);
-    }
+//        scrollView.contentOffset = CGPointMake(0, 0);
+//        
+//    } else if (_y < 0  && self.topView.frame.size.height < 326) {
+////        CGRect frame = self.topView.frame;
+////        NSLog(@"_y: %f height: %f", _y, frame.size.height);
+//        self.topViewHeightCon.constant = MIN(self.topView.frame.size.height - _y, 326);
+//        
+////        self.portraitView.transform = CGAffineTransformMakeScale(1, 1);
+////        self.nameLabel.transform = CGAffineTransformMakeScale(1, 1);
+////        self.carAddrView.transform = CGAffineTransformMakeScale(1, 1);
+////        self.polygonImageView.transform = CGAffineTransformMakeScale(1, 1);
+//        
+////        CGRect frame = self.portraitView.frame;
+////        frame.origin.y -= _y;
+////        self.portraitView.frame = frame;
+////        
+////        frame = self.nameLabel.frame;
+////        frame.origin.y -= _y;
+////        self.nameLabel.frame = frame;
+////        
+////        frame = self.carAddrView.frame;
+////        frame.origin.y -= _y;
+////        self.carAddrView.frame = frame;
+////        
+////        frame = self.polygonImageView.frame;
+////        frame.origin.y -= _y;
+////        self.polygonImageView.frame = frame;
+//        
+//        self.portraitView.alpha = scale;
+//        self.nameLabel.alpha = scale;
+//        self.carAddrView.alpha = scale;
+//        
+//        scrollView.contentOffset = CGPointMake(0, 0);
+//    }
 }
 
 #pragma mark - 键盘遮挡输入框处理
@@ -875,7 +877,9 @@
             self.strokeImageView.hidden = YES;
             [self.logoImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 if (image != nil) {
-                    [self updateLogoImage:self.logoImageView];
+                    self.logoImageView.layer.cornerRadius = self.logoImageView.bounds.size.width/2;
+                    self.logoImageView.layer.masksToBounds = YES;
+//                    [self updateLogoImage:self.logoImageView];
                 }
             }];
             

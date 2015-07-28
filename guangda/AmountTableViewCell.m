@@ -57,6 +57,18 @@
         self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
         self.moneyLabel.textColor = RGB(32, 180, 120);
         
+    }else if ([type intValue] == 4){
+        //充值
+        self.titleLabel.text = @"推荐奖";
+        self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
+        self.moneyLabel.textColor = RGB(32, 180, 120);
+        
+    }else if ([type intValue] == 5){
+        //充值
+        self.titleLabel.text = @"被推荐教练开单奖";
+        self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
+        self.moneyLabel.textColor = RGB(32, 180, 120);
+        
     }
 }
 

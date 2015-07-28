@@ -526,26 +526,26 @@
             self.openOrCloseLabel.text = @"已开启，学员现在可以预定您今天的课程了";
         }
         
-        NSString *permiss = self.cancelPermission;//是否有设置当天订单可否取消的权限 0.可以设置  1.不可以设置
-        if ([permiss intValue] == 0) {
-            //可以设置
-            int cancel = [cancelState intValue];//0.可以取消 1.不可以取消
-            if (cancel == 0) {//可以取消教练的订单
-                [self.orderSwitch setOn:YES];
-                self.orderDescLabel.text = @"已开启，学员预定后可以取消对您下的订单";
-            }else{
-                [self.orderSwitch setOn:NO];
-                self.orderDescLabel.text = @"已关闭，学员预定后不可以取消对您下的订单";
-            }
-            self.orderMsgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80.0);
-            height = 80.0;
-        }else{
-            height = 0.0;
-            self.orderMsgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.0);
-        }
-        
-        
-        [view addSubview:self.orderMsgView];
+//        NSString *permiss = self.cancelPermission;//是否有设置当天订单可否取消的权限 0.可以设置  1.不可以设置
+//        if ([permiss intValue] == 0) {
+//            //可以设置
+//            int cancel = [cancelState intValue];//0.可以取消 1.不可以取消
+//            if (cancel == 0) {//可以取消教练的订单
+//                [self.orderSwitch setOn:YES];
+//                self.orderDescLabel.text = @"已开启，学员预定后可以取消对您下的订单";
+//            }else{
+//                [self.orderSwitch setOn:NO];
+//                self.orderDescLabel.text = @"已关闭，学员预定后不可以取消对您下的订单";
+//            }
+//            self.orderMsgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80.0);
+//            height = 80.0;
+//        }else{
+//            height = 0.0;
+//            self.orderMsgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.0);
+//        }
+//        
+//        
+//        [view addSubview:self.orderMsgView];
         
         //显示当天停课按钮
         CGFloat x = ceilf((SCREEN_WIDTH - 140)/2);

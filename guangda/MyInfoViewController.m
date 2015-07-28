@@ -94,6 +94,9 @@
 
 @implementation MyInfoViewController
 
+//self.userLogo.layer.cornerRadius = self.userLogo.bounds.size.width/2;
+//self.userLogo.layer.masksToBounds = YES;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.cells = [NSMutableArray array];
@@ -104,6 +107,9 @@
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
     
+    self.portraitImage.layer.cornerRadius = self.portraitImage.bounds.size.width/2;
+    self.portraitImage.layer.masksToBounds = YES;
+
     self.alertDetailView.layer.cornerRadius = 4;
     self.alertDetailView.layer.masksToBounds = YES;
     
@@ -175,7 +181,9 @@
     //头像
     [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image != nil) {
-            [self updateLogoImage:self.portraitImage];
+//            [self updateLogoImage:self.portraitImage];
+            self.portraitImage.layer.cornerRadius = self.portraitImage.bounds.size.width/2;
+            self.portraitImage.layer.masksToBounds = YES;
         }
     }];
     
@@ -797,7 +805,9 @@
             //头像
             [self.portraitImage sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                 if (image != nil) {
-                    [self updateLogoImage:self.portraitImage];
+                    self.portraitImage.layer.cornerRadius = self.portraitImage.bounds.size.width/2;
+                    self.portraitImage.layer.masksToBounds = YES;
+//                    [self updateLogoImage:self.portraitImage];
                 }
             }];
             

@@ -264,6 +264,10 @@ BMKLocationService *_locService;
         app.isregister = [NSString stringWithFormat:@"%d",isregister];
         int isInvited = [[result objectForKey:@"isInvited"] intValue];
         app.isInvited = [NSString stringWithFormat:@"%d",isInvited];
+        NSString *crewardamount = [result[@"crewardamount"] description];
+        app.crewardamount = crewardamount;
+        NSString *orewardamount = [result[@"orewardamount"] description];
+        app.orewardamount = orewardamount;
         app.userid = user[@"coachid"];
         [app toUploadDeviceInfo];
         

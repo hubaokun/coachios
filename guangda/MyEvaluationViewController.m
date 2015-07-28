@@ -555,7 +555,9 @@
     }
     [self.studentIconImageView sd_setImageWithURL:[NSURL URLWithString:strIcon] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image != nil) {
-            [self updateLogoImage:self.studentIconImageView];//裁切
+            self.studentIconImageView.layer.cornerRadius = self.studentIconImageView.bounds.size.width/2;
+            self.studentIconImageView.layer.masksToBounds = YES;
+//            [self updateLogoImage:self.studentIconImageView];//裁切
         }
     }];
     
@@ -580,7 +582,9 @@
     }
     [self.studentIconImageView sd_setImageWithURL:[NSURL URLWithString:strIcon] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image != nil) {
-            [self updateLogoImage:self.studentIconImageView];//裁切
+            self.studentIconImageView.layer.cornerRadius = self.studentIconImageView.bounds.size.width/2;
+            self.studentIconImageView.layer.masksToBounds = YES;
+//            [self updateLogoImage:self.studentIconImageView];//裁切
         }
     }];
     

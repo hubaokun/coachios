@@ -10,6 +10,7 @@
 #import "RecommendRecordViewController.h"
 #import "UMSocial.h"
 #import "QRCodeGenerator.h"
+#import "AppDelegate.h"
 @interface RecommendPrizeViewController ()<UMSocialUIDelegate>
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
@@ -17,7 +18,9 @@
 @property (strong, nonatomic) IBOutlet UIImageView *CodeImage; //二维码图片
 @property (strong, nonatomic) IBOutlet UILabel *CodeLabel;     //邀请码
 @property (strong, nonatomic) IBOutlet UIButton *recommendFriendButton;
-@property (strong, nonatomic) IBOutlet UILabel *footLabel;    //底部label
+
+@property (strong, nonatomic) IBOutlet UILabel *footLabel1;   //底部label1
+@property (strong, nonatomic) IBOutlet UILabel *footLabel;    //底部label2
 
 - (IBAction)clickForRecord:(id)sender;
 - (IBAction)clickForRecommendFriend:(id)sender;
@@ -39,6 +42,29 @@
         
     }
     self.CodeImage.image = [QRCodeGenerator qrImageForString:[[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] imageSize:self.CodeImage.frame.size.height];
+    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *str1 = [NSString stringWithFormat:@"◉ 推荐其他教练加盟小巴，在被推荐教练通过审核并开课后，可获赠%@元，3个工作日内到账户余额。",app.crewardamount];
+    NSString *str2 = [NSString stringWithFormat:@"◉ 开课成功后，被推荐教练首次订单完成，3个工作日内您可再获赠%@元到账户余额。",app.orewardamount];
+    if ([app.crewardamount intValue] == 0) {
+        if ([app.orewardamount intValue] == 0) {
+            self.footLabel.hidden = YES;
+            self.footLabel1.hidden = YES;
+        }else{
+            self.footLabel1.hidden = NO;
+            self.footLabel1.text = str2;
+            self.footLabel.hidden = YES;
+        }
+    }else{
+        if ([app.orewardamount intValue] == 0) {
+            self.footLabel.hidden = YES;
+        }else{
+            self.footLabel.hidden = NO;
+            self.footLabel.text = str2;
+        }
+        self.footLabel1.text = str1;
+    }
+    
 }
 
 

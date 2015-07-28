@@ -10,6 +10,7 @@
                 <outlet property="CodeImage" destination="BRb-KQ-VIu" id="mOH-QF-Lrb"/>
                 <outlet property="CodeLabel" destination="0qW-Oo-WzI" id="v7P-IH-qcC"/>
                 <outlet property="footLabel" destination="1LA-ig-n3M" id="PrI-IS-l8s"/>
+                <outlet property="footLabel1" destination="cm8-XU-fio" id="2wB-8n-zCS"/>
                 <outlet property="mainScrollView" destination="Ip2-33-jgT" id="BKK-x0-NJQ"/>
                 <outlet property="mainView" destination="glg-b1-8Ln" id="0VH-AX-V7c"/>
                 <outlet property="recommendFriendButton" destination="XMq-yW-sex" id="Red-Wd-Ztn"/>
@@ -168,16 +169,6 @@
                         <constraint firstAttribute="height" constant="1" id="bHU-UJ-I29"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下载小巴APP后，登录直接输入" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXW-lv-kPf">
-                    <rect key="frame" x="182" y="355" width="237" height="46"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="237" id="Xtr-O2-m6T"/>
-                        <constraint firstAttribute="height" constant="46" id="xm2-TB-ijX"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XMq-yW-sex">
                     <rect key="frame" x="15" y="409" width="570" height="45"/>
                     <color key="backgroundColor" red="0.99215686274509807" green="0.80784313725490198" blue="0.18431372549019609" alpha="1" colorSpace="calibratedRGB"/>
@@ -221,6 +212,22 @@
                     <fontDescription key="fontDescription" type="system" pointSize="26"/>
                     <color key="textColor" red="0.96470588239999999" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下载小巴APP后，登录直接输入以上推荐码" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXW-lv-kPf">
+                    <rect key="frame" x="200" y="355" width="200" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="237" id="Xtr-O2-m6T"/>
+                        <constraint firstAttribute="width" constant="200" id="eeW-q6-jNN"/>
+                        <constraint firstAttribute="height" constant="46" id="xm2-TB-ijX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <variation key="default">
+                        <mask key="constraints">
+                            <exclude reference="Xtr-O2-m6T"/>
+                        </mask>
+                    </variation>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -231,11 +231,11 @@
 {
     NSString *str = [NSString stringWithFormat:@"%@",sender];
     if ([str isEqualToString:@"0"]) {
-        str = @"由官方平台发布";
+        str = @"由官方平台发行";
     }else if ([str isEqualToString:@"1"]){
-        str = @"由驾校发布";
+        str = @"由驾校发行";
     }else if ([str isEqualToString:@"2"]){
-        str = @"由教练发布";
+        str = @"由教练发行";
     }
     return str;
 }
@@ -336,7 +336,7 @@
                     [array addObject:dic];
                 }
             }
-            NSString *str1 = [NSString stringWithFormat:@"共%lu张小巴券 有%lu张可兑换 \n已兑换的小巴券，请联系发布者结算",(unsigned long)self.ticketArray.count,(unsigned long)array.count];
+            NSString *str1 = [NSString stringWithFormat:@"共%lu张小巴券 有%lu张可兑换 \n已兑换的小巴券，请联系发行者结算",(unsigned long)self.ticketArray.count,(unsigned long)array.count];
             self.headLabel.text = str1;
             [self handleTicketArray];
             [self.mainTableView reloadData];

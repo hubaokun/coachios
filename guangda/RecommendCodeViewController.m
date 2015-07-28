@@ -58,28 +58,31 @@
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
     NSString *isRecommended = [result[@"isRecommended"] description];
-    
+    NSString *inviteCode = [result[@"inviteCode"] description];
     // 取得数据成功
     if ([code intValue] == 1) {
-        if ([isRecommended intValue] == 1) {
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            if ([app.isregister isEqualToString:@"1"]) {
-                CoachInfoViewController *viewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
-                app.isregister = @"0";
-                app.isInvited = @"0";
-                app.superViewNum = @"1";
-                [self.navigationController pushViewController:viewController animated:YES];
-            }else{
-                app.isInvited = @"0";
-                app.isregister = @"0";
-                MainViewController *viewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
-                [self.navigationController pushViewController:viewController animated:YES];
-            }
-            [self makeToast:@"推荐成功"];
+        if ([inviteCode intValue] == 0) {
+            [self makeToast:@"请输入8位的推荐码"];
         }else{
-            [self makeToast:@"请输入正确的推荐码"];
+            if ([isRecommended intValue] == 1) {
+                AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+                if ([app.isregister isEqualToString:@"1"]) {
+                    CoachInfoViewController *viewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
+                    app.isregister = @"0";
+                    app.isInvited = @"0";
+                    app.superViewNum = @"1";
+                    [self.navigationController pushViewController:viewController animated:YES];
+                }else{
+                    app.isInvited = @"0";
+                    app.isregister = @"0";
+                    MainViewController *viewController = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+                    [self.navigationController pushViewController:viewController animated:YES];
+                }
+//                [self makeToast:@"推荐成功"];
+            }else{
+                [self makeToast:@"请输入正确的推荐码"];
+            }
         }
-        
         [DejalBezelActivityView removeViewAnimated:YES];
         
     } else if([code intValue] == 95){
@@ -117,7 +120,7 @@
 //发送邀请码
 - (IBAction)clickForSure:(id)sender {
     if (self.inviteCode.text.length == 0 || [self.inviteCode.text isEqualToString:@"请输入推荐码"]) {
-        [self makeToast:@"请输入正确的推荐码"];
+        [self makeToast:@"请输入8位的推荐码"];
     }else{
         [self getRecommendRecordList];
     }
