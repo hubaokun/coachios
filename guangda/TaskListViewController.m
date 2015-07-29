@@ -255,7 +255,22 @@
     NSDictionary *dic = [self.taskList objectAtIndex:indexPath.section];
     NSArray *array = dic[@"list"];
     dic = [array objectAtIndex:indexPath.row];
-    
+    NSString *agreecancel = [dic[@"agreecancel"] description]; //判断订单是否需要取消
+    cell.sureCancelBtn.indexPath = indexPath;
+    cell.noCancelBtn.indexPath = indexPath;
+    [cell.sureCancelBtn addTarget:self action:@selector(sureCancelClick:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.noCancelBtn addTarget:self action:@selector(noCancelClick:) forControlEvents:UIControlEventTouchUpInside];
+    if (!agreecancel.boolValue) {
+        cell.backgroundColor = RGB(253, 243, 144);
+        cell.cancelView.hidden = NO;
+        cell.getCarClick.hidden = YES;
+        cell.cancelLabel.hidden = NO;
+    }else{
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.cancelView.hidden = YES;
+        cell.getCarClick.hidden = NO;
+        cell.cancelLabel.hidden = YES;
+    }
     NSDictionary *studentInfo = [NSDictionary dictionaryWithDictionary:dic[@"studentinfo"]];//学员信息
     NSString *startTime = dic[@"start_time"];//开始时间
     NSString *endTime = dic[@"end_time"];//结束时间
@@ -646,6 +661,38 @@
     
     dic = [array objectAtIndex:self.selectIndexPath.row];
     [self getOffCarTask:[dic[@"orderid"] description]];
+}
+
+#pragma mark 点击同意取消订单
+- (void)sureCancelClick:(DSButton *)button
+{
+    self.selectIndexPath = button.indexPath;
+    if (self.selectIndexPath.section >= self.taskList.count) {
+        return;//数组越界判断
+    }
+    NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
+    NSArray *array = dic[@"list"];
+    if (self.selectIndexPath.row >= array.count) {
+        return;//数组越界判断
+    }
+    dic = [array objectAtIndex:self.selectIndexPath.row];
+    [self sureCancle:[dic[@"orderid"] description]];
+}
+
+#pragma mark 点击不同意取消订单
+- (void)noCancelClick:(DSButton *)button
+{
+    self.selectIndexPath = button.indexPath;
+    if (self.selectIndexPath.section >= self.taskList.count) {
+        return;//数组越界判断
+    }
+    NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
+    NSArray *array = dic[@"list"];
+    if (self.selectIndexPath.row >= array.count) {
+        return;//数组越界判断
+    }
+    dic = [array objectAtIndex:self.selectIndexPath.row];
+    [self noCancle:[dic[@"orderid"] description]];
 }
 
 #pragma mark - alertViewDelegate
@@ -1053,6 +1100,34 @@
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
 }
+#pragma mark 确认取消课程
+- (void)sureCancle:(NSString *)orderId
+{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kOrderServlet]];
+    request.delegate = self;
+    request.tag = 4;
+    [request setPostValue:@"CancelOrderAgree" forKey:@"action"];
+    [request setPostValue:orderId forKey:@"orderid"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    [request setPostValue:@"0" forKey:@"agree"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request startAsynchronous];
+}
+#pragma mark 不同意取消课程
+- (void)noCancle:(NSString *)orderId
+{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kOrderServlet]];
+    request.delegate = self;
+    request.tag = 5;
+    [request setPostValue:@"CancelOrderAgree" forKey:@"action"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    [request setPostValue:orderId forKey:@"orderid"];
+    [request setPostValue:@"1" forKey:@"agree"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request startAsynchronous];
+}
 
 #pragma mark 回调
 - (void)requestFinished:(ASIHTTPRequest *)request {
@@ -1137,6 +1212,19 @@
             
             [self clearEvaluate];
             
+            [self getTaskList];
+            
+        }else if (request.tag == 4){
+            //提交评论
+            [self makeToast:@"操作成功"];
+            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
+            pageNum = 0;
+            [self getTaskList];
+        }else if (request.tag == 5){
+            //提交评论
+            [self makeToast:@"操作成功"];
+            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
+            pageNum = 0;
             [self getTaskList];
             
         }

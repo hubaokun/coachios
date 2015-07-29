@@ -33,7 +33,10 @@
 @property (strong, nonatomic) IBOutlet UILabel *phoneLabel;//电话
 @property (strong, nonatomic) IBOutlet UILabel *studentNumLabel;//学员号
 
-
-
+//取消部分订单
+@property (strong, nonatomic) IBOutlet UIView *cancelView;
+@property (strong, nonatomic) IBOutlet DSButton *sureCancelBtn;
+@property (strong, nonatomic) IBOutlet DSButton *noCancelBtn;
+@property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
 
 @end

@@ -12,6 +12,12 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.sureCancelBtn.layer.cornerRadius = 3;
+    self.sureCancelBtn.layer.masksToBounds = YES;
+    
+    self.noCancelBtn.layer.cornerRadius = 3;
+    self.noCancelBtn.layer.masksToBounds = YES;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
