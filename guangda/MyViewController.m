@@ -158,6 +158,7 @@
     NSString *state = [userInfo[@"state"] description];//2:通过审核
     NSString *logoUrl = userInfo[@"avatarurl"];//头像
     NSString *name = userInfo[@"realname"];
+    NSString *phone = userInfo[@"phone"];//手机号
     state = @"2";//全部显示的为已经通过审核的UI
     
     if ([state intValue] == 2) {
@@ -179,7 +180,12 @@
         }];
         
         //昵称
-        self.nameLabel.text = name;
+        if (name.length == 0) {
+           self.nameLabel.text = phone;
+        }else{
+           self.nameLabel.text = name;
+        }
+        
         
         //余额
         if ([CommonUtil isEmpty:money]) {
@@ -234,8 +240,8 @@
         //
         float score = [userInfo[@"score"] floatValue];
         if(!self.starView){
-            self.priceWidthConstraint.constant = 5 * 18;
-            self.starView = [[TQStarRatingView alloc] initWithFrame:CGRectMake(0, 0, 5 * 18, 18) numberOfStar:5];
+//            self.priceWidthConstraint.constant = 5 * 20;
+            self.starView = [[TQStarRatingView alloc] initWithFrame:self.priceAndAddrBar.bounds numberOfStar:5];
             [self.priceAndAddrBar addSubview:self.starView];
         }
         [self.starView changeStarForegroundViewWithScore:score];

@@ -11,7 +11,16 @@
 #import "UMSocial.h"
 #import "QRCodeGenerator.h"
 #import "AppDelegate.h"
-@interface RecommendPrizeViewController ()<UMSocialUIDelegate>
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+
+@interface RecommendPrizeViewController ()<UMSocialUIDelegate,CLLocationManagerDelegate>
+{
+    NSArray *addressArray;
+    NSString *address;
+    CLLocationManager *locationManager;
+    CLLocation *checkinLocation;
+}
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 
@@ -65,6 +74,8 @@
         self.footLabel1.text = str1;
     }
     
+    [self setupLocationManager];
+    
 }
 
 
@@ -95,7 +106,7 @@
                                          appKey:@"55aa05f667e58ec7dc005698"
                                       shareText:[NSString stringWithFormat:@"小巴学车，只因改变\n加入小巴，月入过万"]
                                      shareImage:[UIImage imageNamed:@"300-icon.png"]
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToQQ,UMShareToQzone,UMShareToWechatTimeline,UMShareToWechatSession,nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,nil]
                                        delegate:self];
     NSString *getURL = [[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [UMSocialData defaultData].extConfig.qqData.shareText = @"小巴学车，只因改变\n加入小巴，月入过万";
@@ -116,6 +127,62 @@
     [UMSocialData defaultData].extConfig.sinaData.shareImage = image;
     
 }
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+    checkinLocation = newLocation;
+    //do something else
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if (error)
+         {
+             NSLog(@"failed with error: %@", error);
+             return;
+         }
+         if(placemarks.count > 0)
+         {
+             for(CLPlacemark *placemark in placemarks)
+             {
+                 NSLog(@"%@",placemark.addressDictionary);
+                 NSLog(@"国家：%@",[placemark.addressDictionary valueForKey:@"Country"]);
+                 NSLog(@"省：%@",[placemark.addressDictionary valueForKey:@"State"]);
+                 NSLog(@"市：%@",[placemark.addressDictionary valueForKey:@"City"]);
+                 NSLog(@"区：%@",[placemark.addressDictionary valueForKey:@"SubLocality"]);
+                 NSLog(@"街道：%@",[placemark.addressDictionary valueForKey:@"Street"]);
+                 
+                 //             NSString *State = [NSString stringWithFormat:@"%@",[placemark.addressDictionary valueForKey:@"State"]];
+                 NSString *City = [NSString stringWithFormat:@"%@",[placemark.addressDictionary valueForKey:@"City"]];
+                 NSString *SubLocality = [NSString stringWithFormat:@"%@-%@",City,[placemark.addressDictionary valueForKey:@"SubLocality"]];
+                 NSString *Street = [NSString stringWithFormat:@"%@-%@",SubLocality,[placemark.addressDictionary valueForKey:@"Street"]];
+                 
+                 addressArray = [[NSArray alloc]initWithObjects:City,SubLocality,Street,nil];
+                 [self makeToast:[NSString stringWithFormat:@"省：%@市：%@区：%@",[placemark.addressDictionary valueForKey:@"State"],[placemark.addressDictionary valueForKey:@"City"],[placemark.addressDictionary valueForKey:@"SubLocality"]]];
+             }
+         }else{
+             [locationManager startUpdatingLocation];
+         }
+     }];
+}
+
+
+- (void) setupLocationManager {
+    locationManager = [[CLLocationManager alloc] init];
+    if ([CLLocationManager locationServicesEnabled]) {
+        NSLog( @"Starting CLLocationManager" );
+        locationManager.delegate = self;
+        locationManager.distanceFilter = 200;
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        [locationManager startUpdatingLocation];
+    } else {
+        NSLog( @"Cannot Starting CLLocationManager" );
+        /*self.locationManager.delegate = self;
+         self.locationManager.distanceFilter = 200;
+         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+         [self.locationManager startUpdatingLocation];*/
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

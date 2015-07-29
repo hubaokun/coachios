@@ -173,8 +173,6 @@
                     NSString *foot4 = [phone substringFromIndex:7];
                     [recordDic setObject:[NSString stringWithFormat:@"%@****%@",head3,foot4] forKey:@"realname"];//真实姓名 或 手机号
                 }
-                
-                
                 NSString *state = [RecommendList[i][@"ischecked"] description];
                 NSString *str1;
                 if ([state isEqualToString:@"1"]) {

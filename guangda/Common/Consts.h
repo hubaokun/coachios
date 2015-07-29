@@ -21,6 +21,7 @@
 #define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.113:8080/"          //坤哥服务器
 //#define REQUEST_HOST   @"http://192.168.1.100:8080/xiaoba/"             //吴佳瑞
+//#define REQUEST_HOST   @"http://192.168.1.121:8080/xb/"             //卢磊
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]
@@ -46,9 +47,9 @@
 #define ERR_NETWORK             @"当前网络不稳定，请重试！"
 #define NO_NETWORK              @"没有连接网络"
 
-#define PGY_APPKEY              @"ad52d7777114fb5a1e47006123d11484"
+#define PGY_APPKEY              @"204452f5151ce20970e06fda732d7693"
 //正式蒲公英的app id             f353cb3b650dc32604ddc957ee914ddc
-//饶宏的蒲公英app id             ad52d7777114fb5a1e47006123d11484
+//饶宏的蒲公英app id             204452f5151ce20970e06fda732d7693
 //递推的蒲公英app id             8aa0bc0a1de506230cdef5ed1ffdbbad
 
 

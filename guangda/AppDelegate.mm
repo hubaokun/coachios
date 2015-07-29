@@ -13,6 +13,7 @@
 #import "UMSocial.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
+#import "MobClick.h"
 @interface AppDelegate ()<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate>
 @property (strong, nonatomic) UIView *lunchView;
 @end
@@ -47,9 +48,6 @@ BMKLocationService *_locService;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
-    
-    
     // 注册APNS
     [self registerRemoteNotification];
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -71,6 +69,16 @@ BMKLocationService *_locService;
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
+    //自动登录
+    [self autoLogin];
+    
+    //获取准教车型
+    [self getModelList];
+    
+    //注册监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getModelList) name:@"getModelList" object:nil];//获取准教车型
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needLogin:) name:@"needlogin" object:nil];
+
     //蒲公英
     // 设置用户反馈界面激活方式为三指拖动
     //    [[PgyManager sharedPgyManager] setFeedbackActiveType:kPGYFeedbackActiveTypeThreeFingersPan];
@@ -88,19 +96,11 @@ BMKLocationService *_locService;
     
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
-    //自动登录
-    [self autoLogin];
-    
-    //获取准教车型
-    [self getModelList];
-    
-    //注册监听
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getModelList) name:@"getModelList" object:nil];//获取准教车型
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(needLogin:) name:@"needlogin" object:nil];
-
     //广告位
     [self startRequestAdvertisement];
+    //友盟社会化分享与统计
     [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
+    [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"pgy"];
     //设置qqAPPId
     [UMSocialQQHandler setQQWithAppId:@"1104782996" appKey:@"zEktitzpVluS4r86" url:@"http://www.xiaobaxueche.com/"];
     //设置微信AppId、appSecret，分享url

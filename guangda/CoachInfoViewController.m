@@ -566,7 +566,7 @@
 
 #pragma mark - 按钮方法
 - (IBAction)clickForCommit:(id)sender {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"如果确定提交将会进入审核状态，在未通过审核前学员无法预订到您" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"提交后将会进入审核状态，在未通过审核前学员无法预约您的课程" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
 }
 
