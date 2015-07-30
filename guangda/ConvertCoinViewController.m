@@ -10,6 +10,14 @@
 
 @interface ConvertCoinViewController ()
 
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UIView *backView;
+@property (strong, nonatomic) IBOutlet UITextField *coinNumTextfield;
+@property (strong, nonatomic) IBOutlet UIButton *convertBtn;
+
+@property (strong, nonatomic) IBOutlet UIView *alertView;
+
+- (IBAction)clickForClose:(id)sender;
 @end
 
 @implementation ConvertCoinViewController
@@ -17,6 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.backView.layer.borderColor = RGB(222, 222, 222).CGColor;
+    self.backView.layer.borderWidth = 0.5;
+    
+    self.convertBtn.layer.cornerRadius = 4;
+    self.convertBtn.layer.masksToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,4 +47,6 @@
 }
 */
 
+- (IBAction)clickForClose:(id)sender {
+}
 @end

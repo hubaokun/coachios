@@ -28,6 +28,7 @@
 #import "LoginViewController.h"
 #import "APAuthV2Info.h"
 #import "RecommendPrizeViewController.h"
+#import "MyCoinViewController.h"
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
     CGRect _oldFrame2;
@@ -58,6 +59,9 @@
 //小巴券
 @property (strong, nonatomic) IBOutlet UILabel *xiaobaTicketLabel;
 @property (strong, nonatomic) IBOutlet UIButton *convertButton;
+//小巴币
+@property (strong, nonatomic) IBOutlet UILabel *xiaobaCoinLabel;
+@property (strong, nonatomic) IBOutlet UIButton *coinConvertButton;
 
 //弹框
 @property (strong, nonatomic) IBOutlet UIView *alertPhotoView;
@@ -119,6 +123,9 @@
     self.rechargeBtn.layer.masksToBounds = YES;
     self.convertButton.layer.cornerRadius = 2;
     self.convertButton.layer.masksToBounds = YES;
+    self.coinConvertButton.layer.cornerRadius = 2;
+    self.coinConvertButton.layer.masksToBounds = YES;
+    
 }
 - (void)changeMessageCount {
     [self getMessageCount];
@@ -130,7 +137,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 20);
+    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 80);
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -508,6 +515,11 @@
     MyTicketDetailViewController *nextController = [[MyTicketDetailViewController alloc] initWithNibName:@"MyTicketDetailViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
 }
+//查看小巴币详情
+- (IBAction)clickForCoinDetail:(id)sender {
+    MyCoinViewController *nextController = [[MyCoinViewController alloc] initWithNibName:@"MyCoinViewController" bundle:nil];
+    [self.navigationController pushViewController:nextController animated:YES];
+}
 
 // 取消取钱
 - (IBAction)clickForCancel:(id)sender {
@@ -562,6 +574,12 @@
     }
     if ([CommonUtil isEmpty:moneyFrozen]) {
         moneyFrozen = @"0";
+    }
+    
+    if ([price doubleValue] <50) {
+        //提现金额不得小于50
+        [self makeToast:@"请输入大于50元的数额进行提现"];
+        return;
     }
     
     //判断是否有这么多金额可以取    moneyFrozen//不用减去冻结金额

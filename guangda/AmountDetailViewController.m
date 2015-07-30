@@ -481,6 +481,12 @@
         moneyFrozen = @"0";
     }
     
+    if ([price doubleValue] <50) {
+        //提现金额不得小于50
+        [self makeToast:@"请输入大于50元的数额进行提现"];
+        return;
+    }
+    
     //判断是否有这么多金额可以取
     if ([price doubleValue] < [money doubleValue] - [gMoney doubleValue] - [moneyFrozen doubleValue]) {
         //提现金额足够
