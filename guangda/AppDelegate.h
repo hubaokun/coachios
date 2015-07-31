@@ -18,6 +18,7 @@
 @property (nonatomic) BOOL flgAutoLogin;
 @property (strong, nonatomic) NSString *isregister;
 @property (strong, nonatomic) NSString *isInvited;
+@property (strong, nonatomic) NSString *schoolName;//驾校名
 @property (strong, nonatomic) NSString *crewardamount;//认证奖励
 @property (strong, nonatomic) NSString *orewardamount;//开单奖励
 

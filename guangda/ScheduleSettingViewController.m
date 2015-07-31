@@ -629,10 +629,10 @@
         NSString *hourStr = [CommonUtil getStringForDate:strDate format:@"H"];
         
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        [dic setObject:hourStr forKey:@"hour"];
-        [dic setObject:state forKey:@"state"];
-        [dic setObject:cancelstate forKey:@"cancelstate"];
-        [dic setObject:price forKey:@"price"];
+        [dic setObject:[hourStr description] forKey:@"hour"];
+        [dic setObject:[state description] forKey:@"state"];
+        [dic setObject:[cancelstate description] forKey:@"cancelstate"];
+        [dic setObject:[price description] forKey:@"price"];
         if (self.stateSwitch.isOn) {
             //是否休息 0.不休息  1.休息
             [dic setObject:@"0" forKey:@"isrest"];
@@ -641,8 +641,8 @@
             [dic setObject:@"1" forKey:@"isrest"];
         }
         
-        [dic setObject:self.addressId forKey:@"addressid"];
-        [dic setObject:self.subjectId forKey:@"subjectid"];
+        [dic setObject:[self.addressId description] forKey:@"addressid"];
+        [dic setObject:[self.subjectId description] forKey:@"subjectid"];
         
         [msgArray addObject:dic];
     }
@@ -656,8 +656,25 @@
     [request setPostValue:[userInfo[@"coachid"] description] forKey:@"coachid"];
     [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
     [request setPostValue:self.date forKey:@"day"];
-    [request setPostValue:msgArray forKey:@"setjson"];
+    NSData *data = [self toJSONData:msgArray];
+    NSString *jsonString = [[NSString alloc] initWithData:data
+                                                 encoding:NSUTF8StringEncoding];
+    [request setPostValue:jsonString forKey:@"setjson"];
     [request startAsynchronous];
+}
+
+// 将字典或者数组转化为JSON串
+- (NSData *)toJSONData:(id)theData{
+    
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:theData
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    if ([jsonData length] > 0 && error == nil){
+        return jsonData;
+    }else{
+        return nil;
+    }
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request{

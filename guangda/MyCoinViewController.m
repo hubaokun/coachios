@@ -28,7 +28,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *applyTimeLabel;
 
 - (IBAction)clickForClose:(id)sender;
-- (IBAction)clickForRecord:(id)sender;
+
 @end
 
 @implementation MyCoinViewController
@@ -47,11 +47,7 @@
 - (IBAction)clickForClose:(id)sender {
     
 }
-//兑换记录
-- (IBAction)clickForRecord:(id)sender {
-    CoinRecordListViewController *nextController = [[CoinRecordListViewController alloc] initWithNibName:@"CoinRecordListViewController" bundle:nil];
-    [self.navigationController pushViewController:nextController animated:YES];
-}
+
 //教练兑换
 - (IBAction)ClickForCoachConvert:(id)sender {
     ConvertCoinViewController *nextController = [[ConvertCoinViewController alloc] initWithNibName:@"ConvertCoinViewController" bundle:nil];

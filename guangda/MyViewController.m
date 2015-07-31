@@ -28,7 +28,7 @@
 #import "LoginViewController.h"
 #import "APAuthV2Info.h"
 #import "RecommendPrizeViewController.h"
-#import "MyCoinViewController.h"
+#import "ConvertCoinViewController.h"
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
     CGRect _oldFrame2;
@@ -243,6 +243,13 @@
         [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,[NSString stringWithFormat:@"%d",couponhour].length)];
         self.xiaobaTicketLabel.attributedText = string;
         
+        //小巴币个数
+        NSString *coinnum = [userInfo[@"coinnum"] description];
+        
+        NSString *coinnumStr = [NSString stringWithFormat:@"小巴币个数：%@个",coinnum];
+        NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
+        [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,coinnum.length)];
+        self.xiaobaCoinLabel.attributedText = string2;
         
         //
         float score = [userInfo[@"score"] floatValue];
@@ -515,9 +522,10 @@
     MyTicketDetailViewController *nextController = [[MyTicketDetailViewController alloc] initWithNibName:@"MyTicketDetailViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
 }
+
 //查看小巴币详情
 - (IBAction)clickForCoinDetail:(id)sender {
-    MyCoinViewController *nextController = [[MyCoinViewController alloc] initWithNibName:@"MyCoinViewController" bundle:nil];
+    ConvertCoinViewController *nextController = [[ConvertCoinViewController alloc] initWithNibName:@"ConvertCoinViewController" bundle:nil];
     [self.navigationController pushViewController:nextController animated:YES];
 }
 
@@ -986,7 +994,7 @@
             NSString *money = [CommonUtil isEmpty:[result[@"money"] description]]?@"0":[result[@"money"] description];//用户余额
             NSString *fmoney = [CommonUtil isEmpty:[result[@"fmoney"] description]]?@"0":[result[@"fmoney"] description];//用户冻结金额
             NSString *gmoney = [CommonUtil isEmpty:[result[@"gmoney"] description]]?@"0":[result[@"gmoney"] description];//保证金金额(教练专有)
-            NSString *couponhour = [CommonUtil isEmpty:[result[@"couponhour"] description]]?@"0":[result[@"couponhour"] description];
+            NSString *couponhour = [CommonUtil isEmpty:[result[@"couponhour"] description]]?@"0":[result[@"couponhour"] description];//小巴券张数
             
             NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:[CommonUtil getObjectFromUD:@"userInfo"]];
             [userInfo setObject:money forKey:@"money"];
@@ -1012,11 +1020,16 @@
             [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,couponhour.length)];
             self.xiaobaTicketLabel.attributedText = string;
             
+            NSString *coinnum = [result[@"coinnum"] description];//小巴币个数
+            NSString *coinnumStr = [NSString stringWithFormat:@"小巴币个数：%@个",coinnum];
+            NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
+            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,coinnum.length)];
+            self.xiaobaCoinLabel.attributedText = string2;
+            
             NSInteger temp = [result[@"money"] integerValue] - [gmoney integerValue];
             if(temp < 0){
                temp = 0;
             }
-            
             
             NSString *gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
             NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, fmoney];

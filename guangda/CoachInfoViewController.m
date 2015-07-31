@@ -13,6 +13,7 @@
 #import "CZPhotoPickerController.h"
 #import "DatePickerViewController.h"
 #import "LoginViewController.h"
+#import "SchoolSelectViewController.h"
 #import "AppDelegate.h"
 @interface CoachInfoViewController ()<UITextFieldDelegate, DatePickerViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
     CGFloat _y;
@@ -233,7 +234,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if (app.schoolName.length != 0) {
+        self.schoolTextFiled.text = app.schoolName;
+    }
 }
 
 #pragma mark - 加载驾照信息
@@ -1354,9 +1358,12 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
         [alert show];
     }else{
-        self.teachCarTag = 2;
-        self.keepBtnOutlet.hidden = YES;
-        [self getCarSchool];
+        SchoolSelectViewController *nextViewController = [[SchoolSelectViewController alloc] initWithNibName:@"SchoolSelectViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+//    
+//        self.teachCarTag = 2;
+//        self.keepBtnOutlet.hidden = YES;
+//        [self getCarSchool];
     }
 }
 @end

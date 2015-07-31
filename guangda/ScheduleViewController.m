@@ -653,14 +653,15 @@
         return 45;
     }else{
         if (indexPath.row == 0) {
+            //+ 11 + 18  代表标注
             //上午
-            return (43 + 7) * 4 + 21 + 45 + 0 + 10 + 35 + 11 + 18 + 5;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
+            return (43 + 7) * 4 + 21 + 45 + 0 + 10 + 35  + 5;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
         }else if (indexPath.row == 1){
             //下午
-            return (43 + 7) * 4 + 21 + 45 + 10 + 35 + 11 + 18 + 5;//4行时间
+            return (43 + 7) * 4 + 21 + 45 + 10 + 35  + 5;//4行时间
         }else {
             //晚上
-            return (43 + 7) * 3 + 21 + 45 + 10 + 35 + 11 + 18 + 10;//3行时间
+            return (43 + 7) * 3 + 21 + 45 + 10 + 35  + 10;//3行时间
         }
     }
 }
@@ -948,11 +949,11 @@
                 marginX = ceil((SCREEN_WIDTH - 120*2)/3);
                 buttonY += (7 + 21 + 30);
                 
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(marginX, buttonY, 120, 11)];
-                imageView.image = [UIImage imageNamed:@"notice_image"];
-                [selectView addSubview:imageView];
-                
-                buttonY += 11 + 18;
+//                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(marginX, buttonY, 120, 11)];
+//                imageView.image = [UIImage imageNamed:@"notice_image"];
+//                [selectView addSubview:imageView];
+//                
+//                buttonY += 11 + 18;
                 
                 UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, ceil((SCREEN_WIDTH - 120*2)/3) + 120*2, 55)];
                 bottomView.backgroundColor = [UIColor clearColor];
