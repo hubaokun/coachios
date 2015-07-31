@@ -546,7 +546,11 @@
 //        
 //        
 //        [view addSubview:self.orderMsgView];
-        
+
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 120*2)/6, height+10, 120, 11)];
+        imageView.image = [UIImage imageNamed:@"notice_image"];
+        [view addSubview:imageView];
+        height = 21;
         //显示当天停课按钮
         CGFloat x = ceilf((SCREEN_WIDTH - 140)/2);
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -653,7 +657,7 @@
         return 45;
     }else{
         if (indexPath.row == 0) {
-            //+ 11 + 18  代表标注
+            //+ 11 + 18  代表开课不开课标记的高度
             //上午
             return (43 + 7) * 4 + 21 + 45 + 0 + 10 + 35  + 5;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
         }else if (indexPath.row == 1){
@@ -952,7 +956,7 @@
 //                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(marginX, buttonY, 120, 11)];
 //                imageView.image = [UIImage imageNamed:@"notice_image"];
 //                [selectView addSubview:imageView];
-//                
+//
 //                buttonY += 11 + 18;
                 
                 UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, ceil((SCREEN_WIDTH - 120*2)/3) + 120*2, 55)];

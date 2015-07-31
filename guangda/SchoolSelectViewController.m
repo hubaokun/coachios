@@ -160,10 +160,6 @@
             }
         }
     }
-    if ([searchText isEqualToString:@""]) {
-        self.showItems = [[NSMutableArray alloc]initWithArray:self.allItems];
-        [self makeToast:@"没有匹配的驾校"];
-    }
     
     [self.mainTableView reloadData];
 }
@@ -200,6 +196,7 @@
     }
     return YES;
 }
+
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {

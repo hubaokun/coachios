@@ -240,6 +240,12 @@
     }
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    app.schoolName = @"";
+}
+
 #pragma mark - 加载驾照信息
 - (void)updateUserMsg{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];

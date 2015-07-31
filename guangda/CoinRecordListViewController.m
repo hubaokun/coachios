@@ -85,6 +85,7 @@
     NSString *payertype = [dic[@"payertype"] description];
     NSString *coinnum = [dic[@"coinnum"] description];
     NSString *addtime = [dic[@"addtime"] description];
+    NSString *payername = [dic[@"payername"] description];
     
     NSString *coinFrom = [[NSString alloc]init];//小巴币支付方
     NSString *coinWay = [[NSString alloc]init];//小巴币方式
@@ -107,10 +108,15 @@
             NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
             coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
         }else if ([payertype intValue] == 3){
-            coinFrom = @"支付方：学员";
+            if (payername) {
+                coinFrom =[NSString stringWithFormat:@"支付方：%@",payername];
+            }else{
+                coinFrom =@"支付方：学员";
+            }
+            
         }
         coinNumStr = [NSString stringWithFormat:@"+%@",coinnum];
-        coinWay = @"小巴币支付";
+        coinWay = @"订单支付";
         cell.coinNum.textColor = [UIColor redColor];
     }else{
         if ([payertype intValue] == 0) {
