@@ -113,11 +113,24 @@
             }else{
                 coinFrom =@"支付方：学员";
             }
-            
         }
         coinNumStr = [NSString stringWithFormat:@"+%@",coinnum];
         coinWay = @"订单支付";
         cell.coinNum.textColor = [UIColor redColor];
+    }else if ([receivertype intValue] == 3){
+        if ([payertype intValue] == 0) {
+            coinFrom = @"支付方：小巴平台";
+        }else if ([payertype intValue] == 1){
+            coinFrom = @"支付方：驾校";
+        }else if ([payertype intValue] == 2){
+            NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
+            coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
+        }else if ([payertype intValue] == 3){
+            coinFrom = @"支付方：学员";
+        }
+        coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
+        coinWay = @"订单取消";
+        cell.coinNum.textColor = [UIColor greenColor];
     }else{
         if ([payertype intValue] == 0) {
             coinFrom = @"支付方：小巴平台";

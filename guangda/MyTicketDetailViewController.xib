@@ -23,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="wAv-rI-2ua">
-                    <rect key="frame" x="0.0" y="82" width="600" height="454"/>
+                    <rect key="frame" x="0.0" y="102" width="600" height="454"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A9d-HH-tfM">
@@ -176,6 +176,7 @@
                 <constraint firstItem="7e2-LQ-goZ" firstAttribute="top" secondItem="wAv-rI-2ua" secondAttribute="bottom" id="BjX-9Y-vOJ"/>
                 <constraint firstItem="wAv-rI-2ua" firstAttribute="top" secondItem="A9d-HH-tfM" secondAttribute="bottom" id="ETD-VL-BrM"/>
                 <constraint firstAttribute="trailing" secondItem="k9O-la-svf" secondAttribute="trailing" id="EWJ-Zc-SFC"/>
+                <constraint firstAttribute="bottom" secondItem="wAv-rI-2ua" secondAttribute="bottom" constant="44" id="FKS-kb-9xo"/>
                 <constraint firstItem="CVZ-k3-UGR" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="K0f-Am-A4O"/>
                 <constraint firstItem="CVZ-k3-UGR" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="M55-jm-B5e"/>
                 <constraint firstItem="k9O-la-svf" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MMP-HJ-gcN"/>
@@ -188,6 +189,7 @@
                 <constraint firstAttribute="bottom" secondItem="k9O-la-svf" secondAttribute="bottom" id="gd7-yg-AEP"/>
                 <constraint firstItem="k9O-la-svf" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="64" id="h4g-Gk-9pV"/>
                 <constraint firstItem="wAv-rI-2ua" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="82" id="oIt-xx-UAV"/>
+                <constraint firstItem="wAv-rI-2ua" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="102" id="sXn-ja-hmB"/>
                 <constraint firstItem="k9O-la-svf" firstAttribute="top" secondItem="CVZ-k3-UGR" secondAttribute="bottom" id="wEB-49-lBb"/>
                 <constraint firstItem="A9d-HH-tfM" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="62" id="xNx-GB-ezk"/>
             </constraints>
@@ -195,6 +197,8 @@
                 <mask key="constraints">
                     <exclude reference="wEB-49-lBb"/>
                     <exclude reference="ETD-VL-BrM"/>
+                    <exclude reference="oIt-xx-UAV"/>
+                    <exclude reference="BjX-9Y-vOJ"/>
                 </mask>
             </variation>
         </view>

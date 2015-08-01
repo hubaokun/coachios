@@ -202,13 +202,14 @@
         }else{
             self.noDataButton.hidden = YES;
         }
-        NSString *reward = [result[@"totalreward"] description];
+//        NSString *reward = [result[@"totalreward"] description];
         NSString *total = [result[@"total"] description];
-        NSString *titleStr = [NSString stringWithFormat:@"您已推荐 %@ 位教练，获得 %@ 元奖励",total,reward];
+        //，获得 %@ 元奖励 ,reward
+        NSString *titleStr = [NSString stringWithFormat:@"您已推荐 %@ 位教练",total];
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleStr];
         [string addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(5,total.length)];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(titleStr.length-reward.length-4,reward.length)];
+//        [string addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(titleStr.length-reward.length-4,reward.length)];
         self.titleLabel.attributedText = string;
         
         NSString *hasMore = result[@"hasmore"];//是否还有更多数据1：有0：没有

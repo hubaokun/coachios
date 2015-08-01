@@ -46,7 +46,7 @@
                                 <constraint firstAttribute="height" constant="1" id="tMg-Mq-kei"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐有奖" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVF-EI-SZB">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐教练加入" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVF-EI-SZB">
                             <rect key="frame" x="200" y="20" width="200" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="200" id="Q3T-zo-iA3"/>
@@ -183,16 +183,6 @@
                         <action selector="clickForRecommendFriend:" destination="-1" eventType="touchUpInside" id="afj-AB-DpT"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、推荐教练加盟小巴，即可获得50元现金，被推荐教练通过审核并激活(登录APP)后1个工作日内到账户余额。" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm8-XU-fio">
-                    <rect key="frame" x="157" y="470" width="286" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="2lR-Kp-84V"/>
-                        <constraint firstAttribute="width" constant="286" id="gCA-aW-aub"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2、被推荐教练激活开首单后，1个工作日内你可再获得50元现金到账户余额。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-ig-n3M">
                     <rect key="frame" x="157" y="528" width="286" height="46"/>
                     <constraints>
@@ -228,6 +218,16 @@
                             <exclude reference="Xtr-O2-m6T"/>
                         </mask>
                     </variation>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、推荐教练加盟小巴，即可获得50元现金，被推荐教练通过审核并激活(登录APP)后1个工作日内到账户余额。" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm8-XU-fio">
+                    <rect key="frame" x="157" y="470" width="286" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="2lR-Kp-84V"/>
+                        <constraint firstAttribute="width" constant="286" id="gCA-aW-aub"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
                 </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -21,7 +21,7 @@
 //#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.116:8080/"          //坤哥服务器
 //#define REQUEST_HOST   @"http://192.168.1.136:8080/xiaoba/"             //吴佳瑞
-#define REQUEST_HOST   @"http://192.168.1.132:8080/xb/"             //卢磊
+#define REQUEST_HOST   @"http://192.168.1.123:8080/xb/"             //卢磊
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]

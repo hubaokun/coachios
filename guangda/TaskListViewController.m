@@ -1215,17 +1215,17 @@
             [self getTaskList];
             
         }else if (request.tag == 4){
-            //提交评论
             [self makeToast:@"操作成功"];
-            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
+//            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
             pageNum = 0;
             [self getTaskList];
+            self.openIndexPath = nil;
         }else if (request.tag == 5){
-            //提交评论
             [self makeToast:@"操作成功"];
-            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
+//            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
             pageNum = 0;
             [self getTaskList];
+            self.openIndexPath = nil;
             
         }
         

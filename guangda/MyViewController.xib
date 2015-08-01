@@ -974,11 +974,11 @@
                                             <color key="textColor" red="0.63921568630000003" green="0.6705882353" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ico_分享有奖" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-WT-ZHI">
-                                            <rect key="frame" x="134" y="20" width="32" height="32"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_推荐教练" translatesAutoresizingMaskIntoConstraints="NO" id="xl4-WT-ZHI">
+                                            <rect key="frame" x="128" y="22" width="44" height="41"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="32" id="ga9-Od-Emq"/>
-                                                <constraint firstAttribute="width" constant="32" id="nB1-IS-73n"/>
+                                                <constraint firstAttribute="height" constant="41" id="bUZ-jT-Htb"/>
+                                                <constraint firstAttribute="width" constant="44" id="iDJ-q3-Pbi"/>
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahx-TX-5dX" userLabel="分享有奖">
@@ -995,17 +995,25 @@
                                     <constraints>
                                         <constraint firstItem="9Nt-us-cZG" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="17P-Ll-GeF"/>
                                         <constraint firstAttribute="trailing" secondItem="ahx-TX-5dX" secondAttribute="trailing" constant="8" id="1uE-6Q-g9b"/>
+                                        <constraint firstItem="9Nt-us-cZG" firstAttribute="top" secondItem="xl4-WT-ZHI" secondAttribute="bottom" constant="3" id="Eoq-Dh-7TN"/>
+                                        <constraint firstAttribute="centerX" secondItem="xl4-WT-ZHI" secondAttribute="centerX" id="GDf-9S-L9C"/>
+                                        <constraint firstItem="xl4-WT-ZHI" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="17" id="L18-1g-FIi"/>
                                         <constraint firstItem="N6U-c9-74v" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="N3D-EO-Aof"/>
                                         <constraint firstAttribute="trailing" secondItem="9Nt-us-cZG" secondAttribute="trailing" id="RfK-6o-5QH"/>
-                                        <constraint firstAttribute="centerX" secondItem="xl4-WT-ZHI" secondAttribute="centerX" id="S7O-O6-9PB"/>
                                         <constraint firstAttribute="trailing" secondItem="N6U-c9-74v" secondAttribute="trailing" id="cr2-wG-zOQ"/>
-                                        <constraint firstItem="xl4-WT-ZHI" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="20" id="fON-ct-iFO"/>
-                                        <constraint firstItem="9Nt-us-cZG" firstAttribute="top" secondItem="xl4-WT-ZHI" secondAttribute="bottom" constant="14" id="hIZ-hT-XQK"/>
+                                        <constraint firstItem="xl4-WT-ZHI" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="22" id="gDF-Ne-Cj9"/>
                                         <constraint firstItem="ahx-TX-5dX" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" id="nbe-Np-K1A"/>
                                         <constraint firstItem="ahx-TX-5dX" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" constant="8" id="oNg-Io-IHc"/>
+                                        <constraint firstItem="9Nt-us-cZG" firstAttribute="top" secondItem="xl4-WT-ZHI" secondAttribute="bottom" constant="8" id="oZU-Ps-4ef"/>
                                         <constraint firstAttribute="bottom" secondItem="ahx-TX-5dX" secondAttribute="bottom" id="omW-OA-szd"/>
                                         <constraint firstItem="N6U-c9-74v" firstAttribute="top" secondItem="9Nt-us-cZG" secondAttribute="bottom" constant="7" id="xb8-yX-9Ui"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="oZU-Ps-4ef"/>
+                                            <exclude reference="L18-1g-FIi"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bv8-2i-zVW" userLabel="充值">
                                     <rect key="frame" x="300" y="118" width="300" height="117"/>
@@ -1105,7 +1113,7 @@
                                         <constraint firstAttribute="height" constant="1" id="QSH-Ep-GW6"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴券时间：000小时" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9g-4C-URH">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴券时间：0小时" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9g-4C-URH">
                                     <rect key="frame" x="0.0" y="15" width="528" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="6QA-VC-Myn"/>
@@ -1165,7 +1173,7 @@
                                         <constraint firstAttribute="height" constant="1" id="ds1-Ra-RKu"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴币个数：0000个" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgE-qG-lK2">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴币个数：0个" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VgE-qG-lK2">
                                     <rect key="frame" x="0.0" y="15" width="528" height="22"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                     <color key="textColor" red="0.1450980392" green="0.1450980392" blue="0.1450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1424,7 +1432,7 @@
         <image name="btn_close" width="11" height="11"/>
         <image name="btn_green" width="139" height="40"/>
         <image name="btn_highlight_green" width="139" height="40"/>
-        <image name="ico_分享有奖" width="35" height="39"/>
+        <image name="ic_推荐教练" width="44" height="41"/>
         <image name="icon-notice" width="22" height="22"/>
         <image name="icon_arr_down" width="19" height="23"/>
         <image name="icon_chongzhi" width="52" height="29"/>
