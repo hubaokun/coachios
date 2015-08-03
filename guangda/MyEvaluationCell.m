@@ -63,6 +63,14 @@
         }
     }];
     
+    [self.coachIocnImageView sd_setImageWithURL:[NSURL URLWithString:self.studentIcon] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (image != nil) {
+            self.coachIocnImageView.layer.cornerRadius = self.coachIocnImageView.bounds.size.width/2;
+            self.coachIocnImageView.layer.masksToBounds = YES;
+            //            [self updateLogoImage:self.studentIocnImageView];//裁切头像
+        }
+    }];
+    
     self.evaluationTime.text = self.evaluationData;
     NSString *evaluationContent = self.evaluationContent;
     CGSize textSize;

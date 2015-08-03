@@ -18,18 +18,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.textView.delegate = self;
     self.textView.editable = NO;
 }
 
-- (void)textViewDidChangeSelection:(UITextView *)textView
-
+- (void)viewDidAppear:(BOOL)animated
 {
-    
+    [self.textView setContentOffset:CGPointMake(0, 0)];
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView
+{
     NSRange range;
     range.location = 0;
     range.length = 0;
     textView.selectedRange = range;
-    
 }
 
 - (void)didReceiveMemoryWarning {

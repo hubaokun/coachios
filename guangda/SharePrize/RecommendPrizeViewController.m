@@ -157,7 +157,7 @@
                  NSString *Street = [NSString stringWithFormat:@"%@-%@",SubLocality,[placemark.addressDictionary valueForKey:@"Street"]];
                  
                  addressArray = [[NSArray alloc]initWithObjects:City,SubLocality,Street,nil];
-                 [self makeToast:[NSString stringWithFormat:@"省：%@市：%@区：%@",[placemark.addressDictionary valueForKey:@"State"],[placemark.addressDictionary valueForKey:@"City"],[placemark.addressDictionary valueForKey:@"SubLocality"]]];
+//                 [self makeToast:[NSString stringWithFormat:@"省：%@市：%@区：%@",[placemark.addressDictionary valueForKey:@"State"],[placemark.addressDictionary valueForKey:@"City"],[placemark.addressDictionary valueForKey:@"SubLocality"]]];
              }
          }else{
              [locationManager startUpdatingLocation];

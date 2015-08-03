@@ -15,11 +15,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_self_eva" translatesAutoresizingMaskIntoConstraints="NO" id="VI6-Ha-QGO">
-                        <rect key="frame" x="11" y="17" width="34" height="34"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_portrait_default" translatesAutoresizingMaskIntoConstraints="NO" id="VI6-Ha-QGO">
+                        <rect key="frame" x="11" y="17" width="35" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="34" id="VyL-xg-n8n"/>
-                            <constraint firstAttribute="height" constant="34" id="qSk-Bx-FKF"/>
+                            <constraint firstAttribute="height" constant="35" id="1bG-e2-E1b"/>
+                            <constraint firstAttribute="width" constant="35" id="kT6-RK-56r"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评价内容" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eyH-3C-7rO">
@@ -80,8 +80,8 @@
                             <constraint firstAttribute="width" constant="9" id="kMg-fb-rAv"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="李雨瞳" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyL-MT-8Ly">
-                        <rect key="frame" x="93" y="130" width="100" height="18"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="李雨瞳" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyL-MT-8Ly">
+                        <rect key="frame" x="95" y="130" width="100" height="18"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="100" id="3Jw-j2-ZQd"/>
                             <constraint firstAttribute="height" constant="18" id="uvs-1x-j5t"/>
@@ -169,6 +169,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="coachIocnImageView" destination="VI6-Ha-QGO" id="sg2-2u-6Kf"/>
                 <outlet property="evaluationContentHeight" destination="NSh-xo-ZSz" id="Zkt-Ad-RaW"/>
                 <outlet property="evaluationContentLabel" destination="hil-G0-N5A" id="AD1-1i-hNa"/>
                 <outlet property="evaluationTime" destination="X5Y-8C-wlZ" id="i5N-Ml-ROv"/>
@@ -182,7 +183,7 @@
     </objects>
     <resources>
         <image name="arrow_complain" width="9" height="15"/>
-        <image name="icon_self_eva" width="34" height="34"/>
+        <image name="icon_portrait_default" width="83" height="83"/>
         <image name="portrait_complain" width="24" height="26"/>
     </resources>
 </document>

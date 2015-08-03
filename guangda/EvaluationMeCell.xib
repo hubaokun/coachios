@@ -16,27 +16,21 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait2_complain" translatesAutoresizingMaskIntoConstraints="NO" id="M8g-6y-kqK">
-                        <rect key="frame" x="11" y="17" width="35" height="38"/>
+                        <rect key="frame" x="11" y="17" width="35" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="38" id="5Nj-h6-f0Q"/>
+                            <constraint firstAttribute="height" constant="35" id="hBd-xp-Xw2"/>
                             <constraint firstAttribute="width" constant="35" id="rx0-SO-E65"/>
                         </constraints>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vxt-A9-SPY" userLabel="studentinfo">
                         <rect key="frame" x="11" y="17" width="35" height="35"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="38" id="6gw-LH-wd9"/>
-                            <constraint firstAttribute="width" constant="35" id="blV-Qh-6B9"/>
-                            <constraint firstAttribute="height" constant="35" id="wec-qe-nM8"/>
+                            <constraint firstAttribute="height" constant="35" id="Ila-Nh-pAb"/>
+                            <constraint firstAttribute="width" constant="35" id="k3f-ER-bbJ"/>
                         </constraints>
                         <state key="normal">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="6gw-LH-wd9"/>
-                            </mask>
-                        </variation>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评价内容" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nMt-P4-Tjc">
                         <rect key="frame" x="62" y="17" width="51" height="13"/>

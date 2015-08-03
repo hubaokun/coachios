@@ -15,8 +15,10 @@
 @property (copy, nonatomic) NSString *evaluationData;    // 任务时间
 @property (copy, nonatomic) NSString *studentName;       // 学员名字
 @property (copy, nonatomic) NSString *studentIcon;       // 学员头像
+@property (copy, nonatomic) NSString *coachIcon;       // 学员头像
 @property (assign, nonatomic) float score;               // 评分
 
+@property (strong, nonatomic) IBOutlet UIImageView *coachIocnImageView;
 @property (strong, nonatomic) IBOutlet UIImageView *studentIocnImageView; // 学员头像
 
 @property (strong, nonatomic) IBOutlet UIButton *studentInfoBtn;

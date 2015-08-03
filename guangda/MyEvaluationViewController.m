@@ -204,6 +204,8 @@
         NSDictionary *dic = [myDataArr objectAtIndex:indexPath.row];
         cell.evaluationContent = dic[@"content"]; // 评价详情
         cell.studentIcon = dic[@"studentavatar"]; // 学员头像
+        NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+        cell.coachIcon = [userInfo[@"avatarurl"] description];
         cell.studentName = dic[@"name"];          // 学员名字
         cell.score = [dic[@"score"] floatValue];  // 评分
         
