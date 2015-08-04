@@ -47,4 +47,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *studentContentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *studentTitleLabel;
 
+@property (strong, nonatomic) IBOutlet UIImageView *payerType;
+
 @end

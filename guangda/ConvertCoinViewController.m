@@ -9,7 +9,9 @@
 #import "ConvertCoinViewController.h"
 #import "CoinRecordListViewController.h"
 @interface ConvertCoinViewController ()<UITextFieldDelegate>
-
+{
+    NSString *coinCount;
+}
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UIView *backView;
 @property (strong, nonatomic) IBOutlet UITextField *coinNumTextfield;
@@ -78,11 +80,11 @@
 }
 
 - (IBAction)clickForConvertCoin:(id)sender {
-    if (self.coinNumTextfield.text.length>0) {
+//    if (self.coinNumTextfield.text.length>0) {
         [self getCoinRecord];
-    }else{
-        [self makeToast:@"请输入正确的兑换数量"];
-    }
+//    }else{
+//        [self makeToast:@"请输入正确的兑换数量"];
+//    }
 }
 
 #pragma mark - 接口
@@ -97,7 +99,7 @@
     request.requestMethod = @"POST";
     [request setPostValue:@"APPLYCOIN" forKey:@"action"];
     [request setPostValue:coachId forKey:@"coachid"];     // 教练ID
-    [request setPostValue:self.coinNumTextfield.text forKey:@"coinnum"];
+    [request setPostValue:coinCount forKey:@"coinnum"];
     [request startAsynchronous];
 }
 
@@ -140,20 +142,30 @@
     }else{
         //接口
         NSDictionary *result = [[request responseString] JSONValue];
-        
+        if (result) {
+            
+        }
         NSNumber *code = [result objectForKey:@"code"];
         NSString *message = [result objectForKey:@"message"];
         // 取得数据成功
         if ([code intValue] == 1) {
             NSDictionary *dic = [CommonUtil getObjectFromUD:@"userInfo"];
             NSString *realname = [[dic objectForKey:@"realname"] description];
+            if (realname.length == 0) {
+                realname = [[dic objectForKey:@"phone"] description];
+            }
             NSString *coinnum = [result[@"coinnum"] description];//小巴币个数
             NSString *titleLabelStr = [NSString stringWithFormat:@"可兑换%@教练小巴币：%@个",realname,coinnum];
             NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
             [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,realname.length+2)];
             [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3+realname.length+6,coinnum.length)];
             self.titleLabel.attributedText = string;
-
+            coinCount = coinnum;
+            if ([coinCount intValue] == 0) {
+                self.convertBtn.enabled = NO;
+            }else{
+                self.convertBtn.enabled = YES;
+            }
         } else {
             if ([CommonUtil isEmpty:message]) {
                 message = ERR_NETWORK;

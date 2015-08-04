@@ -7,16 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyCoinViewController">
             <connections>
-                <outlet property="applyTimeLabel" destination="Szt-J3-6Ww" id="1Vt-Ky-HGm"/>
-                <outlet property="circulateMoneyLabel" destination="CWZ-BE-6Uf" id="xPZ-KT-nyJ"/>
-                <outlet property="circulateNumLabel" destination="mdm-pu-6Zf" id="yFF-Dy-lSp"/>
-                <outlet property="circulatePeopleLabel" destination="et9-bQ-thB" id="i78-lZ-AjF"/>
                 <outlet property="coachCoin" destination="Apt-Bu-foL" id="dUA-Xo-zBf"/>
                 <outlet property="fromCoach" destination="zzj-Nf-2n7" id="F3F-pc-fbg"/>
                 <outlet property="fromPlatform" destination="TX4-9u-L7j" id="afs-RX-Am2"/>
                 <outlet property="fromSchool" destination="jxZ-lC-cMs" id="2RP-qI-YA6"/>
-                <outlet property="orderNumLabel" destination="nsz-1V-ZcL" id="L3l-rD-0ys"/>
-                <outlet property="peopleLabel" destination="mlX-Ic-TGT" id="YEE-vC-DNu"/>
                 <outlet property="platformCoin" destination="1Zd-SA-jN3" id="FYe-P1-tM2"/>
                 <outlet property="schoolCoin" destination="YP4-cN-YKi" id="E5i-Wl-i3O"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -272,100 +266,9 @@
                 <constraint firstAttribute="trailing" secondItem="8Vh-Hh-oWS" secondAttribute="trailing" id="oH4-ol-2WK"/>
             </constraints>
         </view>
-        <view contentMode="scaleToFill" id="0IO-3c-fzO" userLabel="弹框">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <subviews>
-                <view alpha="0.60000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Aab-2k-l83" userLabel="背景">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pf2-ke-5cZ">
-                            <rect key="frame" x="160" y="195" width="280" height="210"/>
-                            <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="小巴币兑换证" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5op-6T-eqJ">
-                                    <rect key="frame" x="85" y="8" width="111" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" red="0.95294117649999999" green="0.50196078430000002" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nsz-1V-ZcL">
-                                    <rect key="frame" x="8" y="37" width="264" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="img_专用章" translatesAutoresizingMaskIntoConstraints="NO" id="eWv-Am-gqa">
-                                    <rect key="frame" x="180" y="66" width="78" height="78"/>
-                                </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mlX-Ic-TGT">
-                                    <rect key="frame" x="8" y="66" width="264" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="et9-bQ-thB">
-                                    <rect key="frame" x="8" y="95" width="264" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mdm-pu-6Zf">
-                                    <rect key="frame" x="8" y="124" width="264" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CWZ-BE-6Uf">
-                                    <rect key="frame" x="8" y="152" width="264" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Szt-J3-6Ww">
-                                    <rect key="frame" x="8" y="181" width="264" height="21"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fA3-da-dBL">
-                                    <rect key="frame" x="236" y="0.0" width="44" height="44"/>
-                                    <state key="normal" image="btn_关闭">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="clickForClose:" destination="-1" eventType="touchUpInside" id="9gG-fl-dbv"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                            <color key="backgroundColor" red="0.99215686274509807" green="0.95294117647058818" blue="0.56470588235294117" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="280" id="IJM-wf-lg1"/>
-                                <constraint firstAttribute="height" constant="210" id="xlc-BC-BZj"/>
-                            </constraints>
-                        </view>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    <gestureRecognizers/>
-                    <constraints>
-                        <constraint firstAttribute="centerX" secondItem="pf2-ke-5cZ" secondAttribute="centerX" id="Re6-ZM-XVW"/>
-                        <constraint firstAttribute="centerY" secondItem="pf2-ke-5cZ" secondAttribute="centerY" id="VbH-ek-8QJ"/>
-                    </constraints>
-                </view>
-            </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="Aab-2k-l83" firstAttribute="leading" secondItem="0IO-3c-fzO" secondAttribute="leading" id="Byz-Qa-K2H"/>
-                <constraint firstAttribute="bottom" secondItem="Aab-2k-l83" secondAttribute="bottom" id="NQb-fM-9gf"/>
-                <constraint firstAttribute="trailing" secondItem="Aab-2k-l83" secondAttribute="trailing" id="YXe-r9-KBU"/>
-                <constraint firstItem="Aab-2k-l83" firstAttribute="top" secondItem="0IO-3c-fzO" secondAttribute="top" id="Z5K-kg-yXL"/>
-            </constraints>
-            <point key="canvasLocation" x="1054" y="377"/>
-        </view>
     </objects>
     <resources>
-        <image name="btn_关闭" width="44" height="44"/>
         <image name="icon_arrow_back" width="13" height="11"/>
-        <image name="img_专用章" width="78" height="78"/>
         <image name="line_navibottom" width="1" height="1"/>
     </resources>
 </document>

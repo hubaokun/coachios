@@ -310,6 +310,17 @@
     }else{
         cell.timeLabel.textColor = RGB(28, 28, 28);
     }
+    //支付方式   1：现金 2：小巴券 3：小巴币
+    NSString *paytype = [dic[@"paytype"] description];
+    if ([paytype intValue] == 1) {
+        cell.payerType.image = [UIImage imageNamed:@"moneyPay-90"];
+    }else if ([paytype intValue] == 2) {
+        cell.payerType.image = [UIImage imageNamed:@"couponPay-90"];
+    }else if ([paytype intValue] == 3) {
+        cell.payerType.image = [UIImage imageNamed:@"coinPay-90"];
+    }else{
+        cell.payerType.backgroundColor = [UIColor whiteColor];
+    }
     
     //头像
     NSString *logo = [CommonUtil isEmpty:[studentInfo[@"avatarurl"] description]]?@"":[studentInfo[@"avatarurl"] description];

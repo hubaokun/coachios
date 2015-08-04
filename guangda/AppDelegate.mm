@@ -269,7 +269,14 @@ BMKLocationService *_locService;
         NSString *orewardamount = [result[@"orewardamount"] description];
         app.orewardamount = orewardamount;
         app.userid = user[@"coachid"];
-        [app toUploadDeviceInfo];
+        // 3秒后在异步线程中上传设备号
+        dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 3*NSEC_PER_SEC);
+        dispatch_after(time, queue, ^{
+            if (![CommonUtil isEmpty:self.deviceToken]) {
+                [app toUploadDeviceInfo];
+            }
+        });
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshTaskData" object:nil];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
@@ -314,7 +321,6 @@ BMKLocationService *_locService;
         if ([CommonUtil isEmpty:coachId] || [CommonUtil isEmpty:self.deviceToken]) {
             return;
         }
-    
     [request setPostValue:coachId forKey:@"userid"];   // 教练ID
     [request setPostValue:@"1" forKey:@"usertype"];      // 用户类型 1.教练  2 学员
     [request setPostValue:@"1" forKey:@"devicetype"];           // 设备类型 0安卓  1IOS

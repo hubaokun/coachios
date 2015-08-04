@@ -39,4 +39,5 @@
 @property (strong, nonatomic) IBOutlet DSButton *noCancelBtn;
 @property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
 
+@property (strong, nonatomic) IBOutlet UIImageView *payerType;
 @end

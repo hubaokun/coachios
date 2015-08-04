@@ -268,7 +268,7 @@
     NSString *date = dic[@"date"];//日期
     NSString *startTime = dic[@"start_time"];
     NSString *endTime = dic[@"end_time"];
-    
+    NSString *total = [dic[@"total"] description];
     //头像
     NSString *logo = [CommonUtil isEmpty:[studentInfo[@"avatarurl"] description]]?@"":[studentInfo[@"avatarurl"] description];
     NSString *studentState = [studentInfo[@"coachstate"] description];//0.未认证 1.认证.
@@ -302,12 +302,26 @@
         endTime = [CommonUtil getStringForDate:[CommonUtil getDateForString:endTime format:@"yyyy-MM-dd HH:mm:ss"] format:@"HH:mm"];
     }
     
+    //支付方式   1：现金 2：小巴券 3：小巴币
+    NSString *paytype = [dic[@"paytype"] description];
+    if ([paytype intValue] == 1) {
+        cell.payerType.image = [UIImage imageNamed:@"moneyPay-90"];
+    }else if ([paytype intValue] == 2) {
+        cell.payerType.image = [UIImage imageNamed:@"couponPay-90"];
+    }else if ([paytype intValue] == 3) {
+        cell.payerType.image = [UIImage imageNamed:@"coinPay-90"];
+    }else{
+        cell.payerType.backgroundColor = [UIColor whiteColor];
+    }
+    
     //任务时间
-    NSString *time = [NSString stringWithFormat:@"%@ %@ ~ %@", date, startTime, endTime];
+    NSString *time = [NSString stringWithFormat:@"%@ %@~%@  %@元", date, startTime, endTime,total];
     NSMutableAttributedString *timeStr = [[NSMutableAttributedString alloc] initWithString:time];
     [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(date.length + 1, startTime.length)];
-    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(time.length - endTime.length, endTime.length)];
-    [timeStr addAttribute:NSForegroundColorAttributeName value:RGB(210, 210, 210) range:NSMakeRange(time.length - endTime.length - 2, 1)];
+    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(time.length - endTime.length- total.length - 3, endTime.length)];
+    [timeStr addAttribute:NSForegroundColorAttributeName value:RGB(210, 210, 210) range:NSMakeRange(time.length - endTime.length - total.length - 4, 1)];
+    [timeStr addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(time.length - total.length - 1, total.length)];
+    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:16] range:NSMakeRange(time.length - total.length - 1, total.length)];
     cell.timeLabel.attributedText = timeStr;
     
     //地址

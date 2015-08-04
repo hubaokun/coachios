@@ -17,9 +17,20 @@
     BOOL isRefresh;//是否刷新
     NSMutableArray *coinRecordList;
 }
+@property (strong, nonatomic) IBOutlet UIButton *nodataView;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
 @property (strong, nonatomic) DSBottomPullToMoreManager *pullToMore;    // 上拉加载
+
+@property (strong, nonatomic) IBOutlet UIView *cheakView;
+
+@property (strong, nonatomic) IBOutlet UILabel *convertID;//兑换订单号
+@property (strong, nonatomic) IBOutlet UILabel *convertPeople;//兑换人
+@property (strong, nonatomic) IBOutlet UILabel *ownerLabel;//发放人
+@property (strong, nonatomic) IBOutlet UILabel *convertCount;//兑换数量
+@property (strong, nonatomic) IBOutlet UILabel *moneyCount;//折算金额
+@property (strong, nonatomic) IBOutlet UILabel *orderTime;//申请时间
+
 @end
 
 @implementation CoinRecordListViewController
@@ -35,7 +46,7 @@
     //隐藏加载更多
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.mainTableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
-    
+    self.nodataView.enabled = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
 }
 
@@ -106,7 +117,7 @@
             coinFrom = @"支付方：驾校";
         }else if ([payertype intValue] == 2){
             NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
-            coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
+            coinFrom = [NSString stringWithFormat:@"支付方：%@教练",[dic1[@"realname"] description]];
         }else if ([payertype intValue] == 3){
             if (payername) {
                 coinFrom =[NSString stringWithFormat:@"支付方：%@",payername];
@@ -117,34 +128,41 @@
         coinNumStr = [NSString stringWithFormat:@"+%@",coinnum];
         coinWay = @"订单支付";
         cell.coinNum.textColor = [UIColor redColor];
-    }else if ([receivertype intValue] == 3){
+        cell.cheakBtn.hidden = YES;
+    }
+//    else if ([receivertype intValue] == 3){
+//        if ([payertype intValue] == 0) {
+//            coinFrom = @"支付方：小巴平台";
+//        }else if ([payertype intValue] == 1){
+//            coinFrom = @"支付方：驾校";
+//        }else if ([payertype intValue] == 2){
+//            NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
+//            coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
+//        }else if ([payertype intValue] == 3){
+//            coinFrom = @"支付方：学员";
+//        }
+//        coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
+//        coinWay = @"订单取消";
+//        cell.coinNum.textColor = [UIColor greenColor];
+//        cell.cheakBtn.hidden = YES;
+//    }else
+    if ([payertype intValue] == 2) {
         if ([payertype intValue] == 0) {
             coinFrom = @"支付方：小巴平台";
         }else if ([payertype intValue] == 1){
             coinFrom = @"支付方：驾校";
         }else if ([payertype intValue] == 2){
             NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
-            coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
-        }else if ([payertype intValue] == 3){
-            coinFrom = @"支付方：学员";
-        }
-        coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
-        coinWay = @"订单取消";
-        cell.coinNum.textColor = [UIColor greenColor];
-    }else{
-        if ([payertype intValue] == 0) {
-            coinFrom = @"支付方：小巴平台";
-        }else if ([payertype intValue] == 1){
-            coinFrom = @"支付方：驾校";
-        }else if ([payertype intValue] == 2){
-            NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
-            coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
+            coinFrom = [NSString stringWithFormat:@"支付方：%@教练",[dic1[@"realname"] description]];
         }else if ([payertype intValue] == 3){
             coinFrom = @"支付方：学员";
         }
         coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
         coinWay = @"小巴币兑换";
         cell.coinNum.textColor = [UIColor greenColor];
+        cell.cheakBtn.hidden = NO;
+        [cell.cheakBtn addTarget:self action:@selector(clickForCheak:) forControlEvents:UIControlEventTouchUpInside];
+        cell.cheakBtn.tag = indexPath.row;
     }
     cell.coinForm.text = coinFrom;
     cell.coinTime.text = coinTime;
@@ -153,6 +171,23 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (void)clickForCheak:(UIButton *)button
+{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSDictionary *dic = coinRecordList[button.tag];
+    self.convertID.text = [NSString stringWithFormat:@"兑换订单号：%@",[dic[@"coinrecordid"] description]];
+    self.convertPeople.text = [NSString stringWithFormat:@"兑换人：%@",[userInfo[@"realname"] description]];
+    self.ownerLabel.text = @"发行人：";
+    self.convertCount.text = [NSString stringWithFormat:@"兑换数量：%@个",[dic[@"coinnum"] description]];
+    self.moneyCount.text = [NSString stringWithFormat:@"折算金额：%@元",[dic[@"coinnum"] description]];
+    self.orderTime.text = [NSString stringWithFormat:@"申请时间：%@",[dic[@"addtime"] description]];
+    self.cheakView.frame = self.view.frame;
+    [self.view addSubview:self.cheakView];
+}
+- (IBAction)clickForClose:(id)sender {
+    [self.cheakView removeFromSuperview];
 }
 
 #pragma mark - DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient
@@ -175,7 +210,6 @@
 /* 刷新处理 */
 - (void)pullToRefreshTriggered:(DSPullToRefreshManager *)manager {
     pageNum = 0;
-    [coinRecordList removeAllObjects];
     [self getCoinRecord];
 }
 
@@ -218,6 +252,12 @@
             [coinRecordList removeAllObjects];
         }
         [coinRecordList addObjectsFromArray:result[@"recordlist"]];
+        if (coinRecordList.count == 0) {
+            //没有数据
+            self.nodataView.hidden = NO;
+        }else{
+            self.nodataView.hidden = YES;
+        }
         //receivertype :0平台 1驾校 2教练 3学员
         [self.mainTableView reloadData];
         [self getDataFinish];

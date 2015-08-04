@@ -240,13 +240,19 @@
         NSString *xiaobaTicketTime = [NSString stringWithFormat:@"未兑换小巴券：%d张", couponhour];
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,[NSString stringWithFormat:@"%d",couponhour].length)];
+        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(7,[NSString stringWithFormat:@"%d",couponhour].length)];
         self.xiaobaTicketLabel.attributedText = string;
         
         //小巴币个数
         NSString *coinnum = [userInfo[@"coinnum"] description];
+        NSString *coinnumStr;
+        if (coinnum) {
+            coinnumStr = [NSString stringWithFormat:@"小巴币个数：%@个",coinnum];
+        }else{
+            coinnum = @"0";
+            coinnumStr = [NSString stringWithFormat:@"小巴币个数：%@个",coinnum];
+        }
         
-        NSString *coinnumStr = [NSString stringWithFormat:@"小巴币个数：%@个",coinnum];
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
         [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,coinnum.length)];
         self.xiaobaCoinLabel.attributedText = string2;
@@ -1014,10 +1020,10 @@
                 couponhour = @"0";
             }
             
-            NSString *xiaobaTicketTime = [NSString stringWithFormat:@"小巴券时间：%@小时", couponhour];
+            NSString *xiaobaTicketTime = [NSString stringWithFormat:@"未兑换小巴券：%@张", couponhour];
             
             NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
-            [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(6,couponhour.length)];
+            [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(7,couponhour.length)];
             self.xiaobaTicketLabel.attributedText = string;
             
             NSString *coinnum = [result[@"coinnum"] description];//小巴币个数

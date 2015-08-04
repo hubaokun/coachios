@@ -8,8 +8,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConvertCoinViewController">
             <connections>
                 <outlet property="alertView" destination="5V7-Ma-rUv" id="xfv-uP-amD"/>
-                <outlet property="backView" destination="A2z-3Q-Pqf" id="Jyv-2l-Iyn"/>
-                <outlet property="coinNumTextfield" destination="6eh-eC-QEG" id="Uad-h9-DAh"/>
                 <outlet property="convertBtn" destination="hVG-Qo-Leq" id="PeF-62-HK4"/>
                 <outlet property="titleLabel" destination="SV8-Go-5aB" id="B8u-ne-tvu"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -84,40 +82,6 @@
                         <constraint firstAttribute="centerX" secondItem="8nk-in-3eh" secondAttribute="centerX" id="zUu-g1-xo4"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A2z-3Q-Pqf">
-                    <rect key="frame" x="157" y="117" width="286" height="44"/>
-                    <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入兑换个数" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6eh-eC-QEG">
-                            <rect key="frame" x="8" y="7" width="270" height="29"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
-                        </textField>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="6eh-eC-QEG" firstAttribute="top" secondItem="A2z-3Q-Pqf" secondAttribute="top" constant="7" id="CUt-Jz-Hhf"/>
-                        <constraint firstAttribute="width" constant="286" id="JVc-1A-lJ2"/>
-                        <constraint firstAttribute="bottom" secondItem="6eh-eC-QEG" secondAttribute="bottom" constant="8" id="UrS-cV-Lix"/>
-                        <constraint firstAttribute="trailing" secondItem="6eh-eC-QEG" secondAttribute="trailing" constant="8" id="cUr-Xf-ul6"/>
-                        <constraint firstItem="6eh-eC-QEG" firstAttribute="leading" secondItem="A2z-3Q-Pqf" secondAttribute="leading" constant="8" id="tw0-l1-TbB"/>
-                        <constraint firstAttribute="height" constant="44" id="vHz-j7-3Af"/>
-                    </constraints>
-                </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVG-Qo-Leq">
-                    <rect key="frame" x="157" y="178" width="286" height="48"/>
-                    <color key="backgroundColor" red="0.95294117649999999" green="0.50196078430000002" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="48" id="Qll-7Q-RIV"/>
-                        <constraint firstAttribute="width" constant="286" id="nel-ey-Rsw"/>
-                    </constraints>
-                    <state key="normal" title="立即兑换">
-                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="clickForConvertCoin:" destination="-1" eventType="touchUpInside" id="fss-Uo-aX6"/>
-                    </connections>
-                </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="可兑换" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SV8-Go-5aB">
                     <rect key="frame" x="157" y="88" width="286" height="21"/>
                     <constraints>
@@ -128,18 +92,31 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hVG-Qo-Leq">
+                    <rect key="frame" x="157" y="125" width="286" height="48"/>
+                    <color key="backgroundColor" red="0.95294117649999999" green="0.50196078430000002" blue="0.094117647060000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="286" id="2bC-oh-DfX"/>
+                        <constraint firstAttribute="height" constant="48" id="Qs7-Zb-luR"/>
+                    </constraints>
+                    <state key="normal" title="立即兑换">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="clickForConvertCoin:" destination="-1" eventType="touchUpInside" id="fss-Uo-aX6"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="A2z-3Q-Pqf" secondAttribute="centerX" id="BLH-EO-wqd"/>
+                <constraint firstItem="hVG-Qo-Leq" firstAttribute="top" secondItem="SV8-Go-5aB" secondAttribute="bottom" constant="16" id="Fg9-33-knN"/>
                 <constraint firstAttribute="trailing" secondItem="qjh-dL-ENp" secondAttribute="trailing" id="HUM-sY-O90"/>
-                <constraint firstAttribute="centerX" secondItem="hVG-Qo-Leq" secondAttribute="centerX" id="LC5-D2-B0U"/>
-                <constraint firstItem="A2z-3Q-Pqf" firstAttribute="top" secondItem="SV8-Go-5aB" secondAttribute="bottom" constant="8" id="NgG-NS-msa"/>
-                <constraint firstItem="hVG-Qo-Leq" firstAttribute="top" secondItem="A2z-3Q-Pqf" secondAttribute="bottom" constant="17" id="Owf-0S-QaX"/>
                 <constraint firstAttribute="centerX" secondItem="SV8-Go-5aB" secondAttribute="centerX" id="UzU-X2-ptg"/>
                 <constraint firstItem="qjh-dL-ENp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="X6R-L9-mBj"/>
                 <constraint firstItem="SV8-Go-5aB" firstAttribute="top" secondItem="qjh-dL-ENp" secondAttribute="bottom" constant="24" id="fO2-bR-R30"/>
                 <constraint firstItem="qjh-dL-ENp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="n99-MR-qTG"/>
+                <constraint firstAttribute="centerX" secondItem="hVG-Qo-Leq" secondAttribute="centerX" id="t6w-4X-o5S"/>
             </constraints>
         </view>
         <view contentMode="scaleToFill" id="5V7-Ma-rUv" userLabel="弹框">

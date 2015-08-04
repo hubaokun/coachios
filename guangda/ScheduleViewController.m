@@ -87,7 +87,7 @@
     // Do any additional setup after loading the view from its nib.
     self.cancelPermission = @"1";//默认不可设置
     isUpdateDate = YES;
-    maxdays = 30;
+    maxdays = 9;
     needSetDefault = NO;
     self.calenderDic = [NSMutableDictionary dictionary];
     self.nowDate = [CommonUtil getDateForString:[CommonUtil getStringForDate:[NSDate date] format:@"yyyy-MM-dd"] format:@"yyyy-MM-dd 00:00:00"];//格式化日期
@@ -2230,6 +2230,7 @@
                 }
                 self.selectDate = self.nowDate;
                 maxdays = [result[@"maxdays"] intValue];
+                maxdays = maxdays - 1; //实际可操作的天数要包括当天
                 self.endDate = [CommonUtil addDate2:self.nowDate year:0 month:0 day:maxdays];
                 
                 isUpdateDate = NO;
