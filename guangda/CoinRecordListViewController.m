@@ -177,7 +177,17 @@
 {
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     NSDictionary *dic = coinRecordList[button.tag];
-    self.convertID.text = [NSString stringWithFormat:@"兑换订单号：%@",[dic[@"coinrecordid"] description]];
+    NSString *coinrecordid = [dic[@"coinrecordid"] description];
+    //将兑换单号补齐到11位
+    NSMutableString *string1 = [[NSMutableString alloc]init];
+    if (coinrecordid.length <11) {
+        for (int i=0; i<11-coinrecordid.length; i++) {
+            [string1 appendString:@"0"];
+        }
+    }
+    [string1 appendString:coinrecordid];
+    coinrecordid = string1;
+    self.convertID.text = [NSString stringWithFormat:@"兑换订单号：%@",coinrecordid];
     self.convertPeople.text = [NSString stringWithFormat:@"兑换人：%@",[userInfo[@"realname"] description]];
     self.ownerLabel.text = @"发行人：";
     self.convertCount.text = [NSString stringWithFormat:@"兑换数量：%@个",[dic[@"coinnum"] description]];

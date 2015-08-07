@@ -305,13 +305,16 @@
     //支付方式   1：现金 2：小巴券 3：小巴币
     NSString *paytype = [dic[@"paytype"] description];
     if ([paytype intValue] == 1) {
+        cell.payerType.hidden = NO;
         cell.payerType.image = [UIImage imageNamed:@"moneyPay-90"];
     }else if ([paytype intValue] == 2) {
+        cell.payerType.hidden = NO;
         cell.payerType.image = [UIImage imageNamed:@"couponPay-90"];
     }else if ([paytype intValue] == 3) {
+        cell.payerType.hidden = NO;
         cell.payerType.image = [UIImage imageNamed:@"coinPay-90"];
     }else{
-        cell.payerType.backgroundColor = [UIColor whiteColor];
+        cell.payerType.hidden = YES;
     }
     
     //任务时间

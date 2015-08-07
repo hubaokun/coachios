@@ -205,7 +205,7 @@
 //        NSString *reward = [result[@"totalreward"] description];
         NSString *total = [result[@"total"] description];
         //，获得 %@ 元奖励 ,reward
-        NSString *titleStr = [NSString stringWithFormat:@"您已推荐 %@ 位教练",total];
+        NSString *titleStr = [NSString stringWithFormat:@"您已邀请 %@ 位教练",total];
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleStr];
         [string addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(5,total.length)];

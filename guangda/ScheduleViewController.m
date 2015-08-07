@@ -2080,7 +2080,33 @@
         if(self.defaultAlertView.superview){
             [self.defaultAlertView removeFromSuperview];
         }
-        [self.view addSubview:self.defaultAlertView];
+        NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
+        NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
+        if (dic == nil) {
+            dic = [NSMutableDictionary dictionary];
+        }
+        
+        NSArray *array = dic[@"list"];
+        if (array.count == 0) {
+            [self makeToast:@"数据获取中，请稍候"];
+            return;
+        }
+        BOOL allrest = YES;
+        for (int i = 1; i<array.count-1; i++) {
+            NSDictionary *dic = array[i];
+            NSString *isrest = [dic[@"isrest"] description];
+            if (isrest.intValue == 0) {
+                allrest = NO;
+                break;
+            }
+        }
+        if (allrest) {
+            [self makeToast:@"至少有一节课是开课状态才能发布"];
+        }else{
+            [self.view addSubview:self.defaultAlertView];
+        }
+        
+       
     }else{
         [self clickForStop:nil];
     }

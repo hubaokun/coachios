@@ -313,13 +313,16 @@
     //支付方式   1：现金 2：小巴券 3：小巴币
     NSString *paytype = [dic[@"paytype"] description];
     if ([paytype intValue] == 1) {
+        cell.payerType.hidden = NO;
         cell.payerType.image = [UIImage imageNamed:@"moneyPay-90"];
     }else if ([paytype intValue] == 2) {
+        cell.payerType.hidden = NO;
         cell.payerType.image = [UIImage imageNamed:@"couponPay-90"];
     }else if ([paytype intValue] == 3) {
+        cell.payerType.hidden = NO;
         cell.payerType.image = [UIImage imageNamed:@"coinPay-90"];
     }else{
-        cell.payerType.backgroundColor = [UIColor whiteColor];
+        cell.payerType.hidden = YES;
     }
     
     //头像
@@ -1124,6 +1127,7 @@
     [request setPostValue:@"0" forKey:@"agree"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
 }
 #pragma mark 不同意取消课程
 - (void)noCancle:(NSString *)orderId
@@ -1138,6 +1142,7 @@
     [request setPostValue:@"1" forKey:@"agree"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
 }
 
 #pragma mark 回调
@@ -1231,16 +1236,15 @@
             pageNum = 0;
             [self getTaskList];
             self.openIndexPath = nil;
+            [DejalBezelActivityView removeViewAnimated:YES];
         }else if (request.tag == 5){
             [self makeToast:@"操作成功"];
 //            [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
             pageNum = 0;
             [self getTaskList];
             self.openIndexPath = nil;
-            
+            [DejalBezelActivityView removeViewAnimated:YES];
         }
-        
-        
     } else if([code intValue] == 95){
         [self makeToast:message];
         [CommonUtil logout];

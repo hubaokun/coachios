@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coinPay-90" translatesAutoresizingMaskIntoConstraints="NO" id="1mb-Kg-mRT">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1mb-Kg-mRT">
                         <rect key="frame" x="280" y="0.0" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="AJB-eL-AS4"/>
@@ -399,7 +399,6 @@
     </objects>
     <resources>
         <image name="background_check_geton" width="139" height="40"/>
-        <image name="coinPay-90" width="45" height="45"/>
         <image name="details_background" width="322" height="322"/>
         <image name="icon_address" width="10" height="12"/>
         <image name="icon_button_right" width="9" height="15"/>
