@@ -9,5 +9,5 @@
 #import "GreyTopViewController.h"
 
 @interface RecommendRecordViewController : GreyTopViewController
-
+@property (assign, nonatomic) int listType; //1:教练 2：学员
 @end

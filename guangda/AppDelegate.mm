@@ -54,12 +54,12 @@ BMKLocationService *_locService;
     
     // 要使用百度地图，请先启动BaiduMapManager
     self.cityName = @"杭州市";//默认为杭州市
-    _mapManager = [[BMKMapManager alloc] init];
-    BOOL ret = [_mapManager start:@"v0OG6HFdqcGk2dAfG3TpfInk" generalDelegate:self];
+    _mapManager = [[BMKMapManager alloc] init]; 
+    //正式上传appstore百度地图key：CgYEZc4f07w7aZ7AwVD296Ee    企业账号百度地图key：CgYEZc4f07w7aZ7AwVD296Ee
+    BOOL ret = [_mapManager start:@"CgYEZc4f07w7aZ7AwVD296Ee" generalDelegate:self];
     if (!ret) {
         NSLog(@"manager start failed!");
     }
-    
     //定位
     [self startLocation];
     
@@ -101,12 +101,22 @@ BMKLocationService *_locService;
     //友盟社会化分享与统计
     [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
     [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"pgy"];
+#pragma mark - 企业账号的友盟设置，记得设置URL
     //设置qqAPPId
     [UMSocialQQHandler setQQWithAppId:@"1104782996" appKey:@"zEktitzpVluS4r86" url:@"http://www.xiaobaxueche.com/"];
     //设置微信AppId、appSecret，分享url
     [UMSocialWechatHandler setWXAppId:@"wx73349ac49481503b" appSecret:@"55cf487e6310b92009b4a776255f095b" url:@"http://www.xiaobaxueche.com/"];
+    //URL: 微信：wx73349ac49481503b   QQ:QQ41D9A694
+    
+//#pragma mark - 上传到appstore的友盟设置，记得设置URL
+//    //设置qqAPPId
+//    [UMSocialQQHandler setQQWithAppId:@"1104653815" appKey:@"oUgKlUs1Ya79zwca" url:@"http://www.xiaobaxueche.com/"];
+//    //设置微信AppId、appSecret，分享url
+//    [UMSocialWechatHandler setWXAppId:@"wx6e408d648087cffb" appSecret:@"648bdd4b00bcfa025944b56d6176d031" url:@"http://www.xiaobaxueche.com/"];
+    //URL: 微信：wx6e408d648087cffb   QQ:QQ41D7ADF7
     
     return YES;
+    
 }
 
 //获取是否要使用广告

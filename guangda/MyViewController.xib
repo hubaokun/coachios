@@ -965,7 +965,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请教练加入" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6U-c9-74v">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请教练/学员加入" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6U-c9-74v">
                                             <rect key="frame" x="0.0" y="91" width="300" height="12"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="12" id="RvC-gp-BBj"/>
@@ -982,7 +982,7 @@
                                             </constraints>
                                         </imageView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ahx-TX-5dX" userLabel="分享有奖">
-                                            <rect key="frame" x="8" y="0.0" width="284" height="117"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="117"/>
                                             <state key="normal">
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -994,26 +994,18 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <constraints>
                                         <constraint firstItem="9Nt-us-cZG" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="17P-Ll-GeF"/>
-                                        <constraint firstAttribute="trailing" secondItem="ahx-TX-5dX" secondAttribute="trailing" constant="8" id="1uE-6Q-g9b"/>
+                                        <constraint firstItem="ahx-TX-5dX" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" id="Cwt-C5-hke"/>
                                         <constraint firstItem="9Nt-us-cZG" firstAttribute="top" secondItem="xl4-WT-ZHI" secondAttribute="bottom" constant="3" id="Eoq-Dh-7TN"/>
                                         <constraint firstAttribute="centerX" secondItem="xl4-WT-ZHI" secondAttribute="centerX" id="GDf-9S-L9C"/>
-                                        <constraint firstItem="xl4-WT-ZHI" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="17" id="L18-1g-FIi"/>
+                                        <constraint firstItem="ahx-TX-5dX" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="Kha-Nn-qZ9"/>
                                         <constraint firstItem="N6U-c9-74v" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" id="N3D-EO-Aof"/>
                                         <constraint firstAttribute="trailing" secondItem="9Nt-us-cZG" secondAttribute="trailing" id="RfK-6o-5QH"/>
+                                        <constraint firstAttribute="bottom" secondItem="ahx-TX-5dX" secondAttribute="bottom" id="b9d-XK-rZK"/>
                                         <constraint firstAttribute="trailing" secondItem="N6U-c9-74v" secondAttribute="trailing" id="cr2-wG-zOQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="ahx-TX-5dX" secondAttribute="trailing" id="g2H-SM-flP"/>
                                         <constraint firstItem="xl4-WT-ZHI" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" constant="22" id="gDF-Ne-Cj9"/>
-                                        <constraint firstItem="ahx-TX-5dX" firstAttribute="top" secondItem="Qxf-Ws-s73" secondAttribute="top" id="nbe-Np-K1A"/>
-                                        <constraint firstItem="ahx-TX-5dX" firstAttribute="leading" secondItem="Qxf-Ws-s73" secondAttribute="leading" constant="8" id="oNg-Io-IHc"/>
-                                        <constraint firstItem="9Nt-us-cZG" firstAttribute="top" secondItem="xl4-WT-ZHI" secondAttribute="bottom" constant="8" id="oZU-Ps-4ef"/>
-                                        <constraint firstAttribute="bottom" secondItem="ahx-TX-5dX" secondAttribute="bottom" id="omW-OA-szd"/>
                                         <constraint firstItem="N6U-c9-74v" firstAttribute="top" secondItem="9Nt-us-cZG" secondAttribute="bottom" constant="7" id="xb8-yX-9Ui"/>
                                     </constraints>
-                                    <variation key="default">
-                                        <mask key="constraints">
-                                            <exclude reference="oZU-Ps-4ef"/>
-                                            <exclude reference="L18-1g-FIi"/>
-                                        </mask>
-                                    </variation>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bv8-2i-zVW" userLabel="充值">
                                     <rect key="frame" x="300" y="118" width="300" height="117"/>
@@ -1238,13 +1230,21 @@
                         <constraint firstAttribute="trailing" secondItem="iPi-dL-s4M" secondAttribute="trailing" id="hfA-JO-0I2"/>
                         <constraint firstAttribute="height" constant="372" id="iRl-z0-gJe"/>
                         <constraint firstItem="iPi-dL-s4M" firstAttribute="top" secondItem="TBL-oJ-uEe" secondAttribute="bottom" id="l6U-Xl-tjj"/>
+                        <constraint firstAttribute="height" constant="423" id="mmU-0i-le3"/>
                         <constraint firstItem="HRE-JX-hay" firstAttribute="top" secondItem="iPi-dL-s4M" secondAttribute="bottom" id="ret-ha-NEe"/>
                     </constraints>
                     <variation key="default">
                         <mask key="constraints">
                             <exclude reference="7Uc-18-Z0e"/>
+                            <exclude reference="mmU-0i-le3"/>
                             <exclude reference="Mdg-hh-5zh"/>
                             <exclude reference="hKi-D9-BQf"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular">
+                        <mask key="constraints">
+                            <exclude reference="iRl-z0-gJe"/>
+                            <include reference="mmU-0i-le3"/>
                         </mask>
                     </variation>
                 </view>

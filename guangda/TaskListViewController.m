@@ -19,11 +19,17 @@
 #import "AppDelegate.h"
 #import "GoComplaintViewController.h"
 
-@interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate, UITextViewDelegate>{
+@interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate,BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate, UITextViewDelegate>{
     int pageNum;
     BOOL hasTask;//是否有进行中的任务
     BOOL isRefresh;//是否刷新
+    BMKLocationService *_locService;
+    NSString *upcarOrderId;
 }
+//用户定位
+@property (nonatomic) CLLocationCoordinate2D userCoordinate;
+@property (strong, nonatomic) NSString *cityName;//城市
+@property (strong, nonatomic) NSString *address;//地址
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
@@ -637,12 +643,12 @@
         
         dic = [array objectAtIndex:self.selectIndexPath.row];
         
-        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [app startLocation];//开始定位
+//        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        [self startLocation];//开始定位
         
         [DejalBezelActivityView activityViewForView:self.view];
-        [self performSelector:@selector(ComfirmTask:) withObject:[dic[@"orderid"] description] afterDelay:5];
-        
+        upcarOrderId = [dic[@"orderid"] description];
+        self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(ComfirmTask:) userInfo:nil repeats:NO];
         
     }else{
         //未认证过的话,弹出提示
@@ -661,7 +667,6 @@
     
     DSButton *button = (DSButton *)sender;
     self.selectIndexPath = button.indexPath;
-    
     //确认下车
     if (self.selectIndexPath.section >= self.taskList.count) {
         return;//数组越界判断
@@ -674,7 +679,11 @@
     }
     
     dic = [array objectAtIndex:self.selectIndexPath.row];
-    [self getOffCarTask:[dic[@"orderid"] description]];
+    [self startLocation];//开始定位
+    
+    [DejalBezelActivityView activityViewForView:self.view];
+    upcarOrderId = [dic[@"orderid"] description];
+    self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(getOffCarTask:) userInfo:nil repeats:NO];
 }
 
 #pragma mark 点击同意取消订单
@@ -750,11 +759,12 @@
             //上车
 //            NSDictionary *studentInfo = [NSDictionary dictionaryWithDictionary:dic[@"studentinfo"]];//学员信息
 //            [self ComfirmTask:[dic[@"orderid"] description]];
-            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-            [app startLocation];//开始定位
+//            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [self startLocation];//开始定位
             
             [DejalBezelActivityView activityViewForView:self.view];
-            [self performSelector:@selector(ComfirmTask:) withObject:[dic[@"orderid"] description] afterDelay:5];
+            upcarOrderId = [dic[@"orderid"] description];
+            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(ComfirmTask:) userInfo:nil repeats:NO];
         }
     }else if (alertView.tag == 1){
         if (buttonIndex == 1) {
@@ -773,6 +783,113 @@
     }
 
 }
+
+#pragma mark - 定位 BMKLocationServiceDelegate
+- (void)startLocation {
+    //定位 初始化BMKLocationService
+    _locService = [[BMKLocationService alloc] init];
+    _locService.delegate = self;
+    //启动LocationService
+    [_locService startUserLocationService];
+}
+
+/**
+ *用户位置更新后，会调用此函数(无法调用这个方法，可能更新的百度地图.a文件有关)
+ *@param userLocation 新的用户位置
+ */
+- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation {
+    _userCoordinate = userLocation.location.coordinate;
+    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
+        NSLog(@"位置不正确");
+        return;
+    } else  {
+        [_locService stopUserLocationService];
+    }
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
+    
+    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+    _geoSearcher.delegate = self;
+    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if (flag) {
+        NSLog(@"地理编码检索");
+    } else {
+        NSLog(@"地理编码检索失败");
+    }
+}
+
+/**
+ *用户位置更新后，会调用此函数(调用这个方法，可能更新的百度地图.a文件有关)
+ *@param userLocation 新的用户位置
+ */
+- (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
+{
+    NSLog(@"didUpdateBMKUserLocation lat %f,long %f, sutitle: %@",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude, userLocation.subtitle);
+    _userCoordinate = userLocation.location.coordinate;
+    if (_userCoordinate.latitude == 0 || _userCoordinate.longitude == 0) {
+        NSLog(@"位置不正确");
+        return;
+    } else  {
+        [_locService stopUserLocationService];
+    }
+    
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+    reverseGeoCodeSearchOption.reverseGeoPoint = _userCoordinate;
+    
+    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+    _geoSearcher.delegate = self;
+    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if (flag) {
+        NSLog(@"地理编码检索");
+    } else {
+        NSLog(@"地理编码检索失败");
+    }
+}
+
+/**
+ *定位失败后，会调用此函数
+ *@param error 错误号
+ */
+- (void)didFailToLocateUserWithError:(NSError *)error {
+    [_locService stopUserLocationService];
+    NSLog(@"定位失败%@", error);
+}
+
+/**
+ *返回反地理编码搜索结果
+ *@param searcher 搜索对象
+ *@param result 搜索结果
+ *@param error 错误号，@see BMKSearchErrorCode
+ */
+- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
+    
+    if (error == BMK_SEARCH_NO_ERROR) {
+        self.cityName = result.addressDetail.city;
+        self.address = result.address;
+        [self.confirmTimer fire];
+    }
+}
+
+// 测试反地理编码
+- (void)testLocation {
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[ BMKReverseGeoCodeOption alloc] init];
+    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    reverseGeoCodeSearchOption.reverseGeoPoint = delegate.userCoordinate;
+    
+    BMKGeoCodeSearch *_geoSearcher = [[BMKGeoCodeSearch alloc] init];
+    _geoSearcher.delegate = self;
+    BOOL flag = [_geoSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if (flag) {
+        NSLog(@"地理编码检索");
+    } else {
+        NSLog(@"地理编码检索失败");
+    }
+}
+
+
 
 #pragma mark details收起
 - (void)hideDetailsCell:(TaskListTableViewCell *)cell
@@ -1046,13 +1163,10 @@
 
 #pragma mark 确认上车接口
 - (void)ComfirmTask:(NSString *)orderId{
-    
-    
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    double lat = app.userCoordinate.latitude;
-    double log = app.userCoordinate.longitude;
-    NSString *address = [CommonUtil isEmpty:app.address]?@"":app.address;
+    double lat = self.userCoordinate.latitude;
+    double log = self.userCoordinate.longitude;
+    NSString *address = [CommonUtil isEmpty:self.address]?@"":self.address;
     
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kTaskServlet]];
     
@@ -1062,7 +1176,7 @@
     [request setPostValue:@"ConfirmOn" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:orderId forKey:@"orderid"];
+    [request setPostValue:upcarOrderId forKey:@"orderid"];
     [request setPostValue:[NSString stringWithFormat:@"%f", lat] forKey:@"lat"];
     [request setPostValue:[NSString stringWithFormat:@"%f", log] forKey:@"lon"];
     [request setPostValue:address forKey:@"detail"];
@@ -1073,10 +1187,9 @@
 #pragma mark 确认下车接口
 - (void)getOffCarTask:(NSString *)orderId{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    double lat = app.userCoordinate.latitude;
-    double log = app.userCoordinate.longitude;
-    NSString *address = [CommonUtil isEmpty:app.address]?@"":app.address;
+    double lat = self.userCoordinate.latitude;
+    double log = self.userCoordinate.longitude;
+    NSString *address = [CommonUtil isEmpty:self.address]?@"":self.address;
     
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kTaskServlet]];
     
@@ -1085,7 +1198,7 @@
     [request setPostValue:@"ConfirmDown" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:orderId forKey:@"orderid"];
+    [request setPostValue:upcarOrderId forKey:@"orderid"];
     [request setPostValue:[NSString stringWithFormat:@"%f", lat] forKey:@"lat"];
     [request setPostValue:[NSString stringWithFormat:@"%f", log] forKey:@"lon"];
     [request setPostValue:address forKey:@"detail"];

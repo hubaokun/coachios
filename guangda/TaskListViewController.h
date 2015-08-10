@@ -11,5 +11,5 @@
 @interface TaskListViewController : GreyTopViewController
 
 @property (strong, nonatomic) NSString *userId;
-
+@property (strong, nonatomic) NSTimer *confirmTimer;
 @end

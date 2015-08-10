@@ -281,6 +281,11 @@
         return;
     }
     
+    if ([phone isEqualToString:@"18888888888"]) {
+        [self makeToast:@"测试账号，请使用默认验证码"];
+        return;
+    }
+    
     //请求验证码
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kSuserServlet]];
     request.delegate = self;

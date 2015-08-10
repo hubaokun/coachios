@@ -128,7 +128,7 @@
                         <constraint firstAttribute="height" constant="1" id="knt-oQ-uUv"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="被推荐教练通过微信扫码，即可注册" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uSe-DI-NrV">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="被邀请教练/学员通过扫码，即可注册" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uSe-DI-NrV">
                     <rect key="frame" x="180" y="44" width="240" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="240" id="SfG-if-t0z"/>
@@ -145,7 +145,7 @@
                         <constraint firstAttribute="height" constant="200" id="yIA-m7-Wa3"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="专属推荐码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ts-cX-i9b">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="专属邀请码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ts-cX-i9b">
                     <rect key="frame" x="250" y="281" width="100" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="100" id="2pR-T8-jFx"/>
@@ -175,7 +175,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="45" id="w8n-Ac-YNr"/>
                     </constraints>
-                    <state key="normal" title="推荐给朋友">
+                    <state key="normal" title="邀请朋友">
                         <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -183,16 +183,6 @@
                         <action selector="clickForRecommendFriend:" destination="-1" eventType="touchUpInside" id="afj-AB-DpT"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2、被推荐教练激活开首单后，1个工作日内你可再获得50元现金到账户余额。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-ig-n3M">
-                    <rect key="frame" x="157" y="528" width="286" height="46"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="46" id="1FL-xW-kQf"/>
-                        <constraint firstAttribute="width" constant="286" id="mMS-o3-5WD"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qW-Oo-WzI">
                     <rect key="frame" x="230" y="315" width="140" height="30"/>
                     <constraints>
@@ -203,7 +193,7 @@
                     <color key="textColor" red="0.96470588239999999" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下载小巴APP后，登录直接输入以上推荐码" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXW-lv-kPf">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下载小巴APP后，登录直接输入以上邀请码" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXW-lv-kPf">
                     <rect key="frame" x="200" y="355" width="200" height="46"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="237" id="Xtr-O2-m6T"/>
@@ -219,11 +209,21 @@
                         </mask>
                     </variation>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、推荐教练加盟小巴，即可获得50元现金，被推荐教练通过审核并激活(登录APP)后1个工作日内到账户余额。" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm8-XU-fio">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、邀请教练加盟小巴，即可获得50元现金，被邀请教练通过审核并激活(登录APP)后1个工作日内到账户余额。" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm8-XU-fio">
                     <rect key="frame" x="157" y="470" width="286" height="50"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="2lR-Kp-84V"/>
                         <constraint firstAttribute="width" constant="286" id="gCA-aW-aub"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2、被邀请教练激活开首单后，1个工作日内你可再获得50元现金到账户余额。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-ig-n3M">
+                    <rect key="frame" x="157" y="528" width="286" height="46"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="46" id="1FL-xW-kQf"/>
+                        <constraint firstAttribute="width" constant="286" id="mMS-o3-5WD"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>

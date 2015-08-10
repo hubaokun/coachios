@@ -17,6 +17,12 @@
     int pageNum;
     NSMutableArray *recordList;
 }
+@property (strong, nonatomic) IBOutlet UILabel *peopleStateLabel;
+
+@property (strong, nonatomic) IBOutlet UIView *selectBarView;
+@property (strong, nonatomic) IBOutlet UIButton *coachListButton;
+@property (strong, nonatomic) IBOutlet UIButton *studentListButton;
+
 @property (strong, nonatomic) IBOutlet UILabel *titleLabel;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 
@@ -27,6 +33,8 @@
 @property (strong, nonatomic) IBOutlet UIButton *noDataButton;
 
 - (IBAction)clickForCode:(id)sender;
+- (IBAction)clickForCoachList:(id)sender;
+- (IBAction)clickForStudentList:(id)sender;
 
 @end
 
@@ -35,9 +43,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    // 设置边框
+    self.selectBarView.layer.cornerRadius = 13;
+    self.selectBarView.layer.borderWidth = 0.6;
+    self.selectBarView.layer.borderColor = [[UIColor blackColor] CGColor];
+    
+    [self settingView];
+    
     recordList = [[NSMutableArray alloc]init];
     self.mainTableView.delegate = self;
     self.mainTableView.dataSource = self;
+    
+    self.listType = 1;
+    self.coachListButton.selected = YES;
+    [self.coachListButton setBackgroundColor:[UIColor blackColor]];
+    self.noDataButton.enabled = NO;
     
     //刷新加载
     self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.mainTableView withClient:self];
@@ -47,7 +67,61 @@
     [self.mainTableView setContentOffset:CGPointMake(0, -60) animated:YES];
     [self pullToRefreshTriggered:self.pullToRefresh];
     
-    self.noDataButton.enabled = NO;
+}
+
+- (void)settingView {
+    self.mainTableView.allowsSelection = NO;
+//    self.studentInfoView.frame = [UIScreen mainScreen].bounds;
+//    
+//    // 设置圆角
+//    UIImage *backgroundImage = [[UIImage imageNamed:@"bar_tousu.png"]
+//                                resizableImageWithCapInsets:UIEdgeInsetsMake(0,13,0,13)];
+//    [self.backgoundImageView setImage:backgroundImage];
+//    
+//    self.selectBarView.layer.cornerRadius = 13;
+    
+    self.coachListButton.selected = YES;
+    self.studentListButton.selected = NO;
+    
+    [self.coachListButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.coachListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    [self.studentListButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.studentListButton setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+    
+    [self.coachListButton setBackgroundColor:[UIColor blackColor]];
+    [self.studentListButton setBackgroundColor:[UIColor clearColor]];
+
+}
+
+
+- (IBAction)clickForCoachList:(id)sender {
+    self.listType = 1;
+    pageNum = 0;
+    if (self.coachListButton.selected == YES) {
+        return;
+    } else {
+        self.coachListButton.selected = YES;
+        self.studentListButton.selected = NO;
+        [self.coachListButton setBackgroundColor:[UIColor blackColor]];
+        [self.studentListButton setBackgroundColor:[UIColor clearColor]];
+    }
+    [recordList removeAllObjects];
+    [self getRecommendRecordList];
+}
+
+- (IBAction)clickForStudentList:(id)sender {
+    self.listType = 2;
+    pageNum = 0;
+    if (self.studentListButton.selected == YES) {
+        return;
+    } else {
+        self.studentListButton.selected = YES;
+        self.coachListButton.selected = NO;
+        [self.studentListButton setBackgroundColor:[UIColor blackColor]];
+        [self.coachListButton setBackgroundColor:[UIColor clearColor]];
+    }
+    [recordList removeAllObjects];
+    [self getRecommendRecordList];
 }
 
 #pragma mark tableViewCell
@@ -79,6 +153,12 @@
     NSString *state = [dic[@"state"] description];
     NSString *isOrder = [dic[@"isOrder"] description];
     cell.stateLabel.text = [NSString stringWithFormat:@"%@/%@",state,isOrder];
+    
+    if (self.listType == 1) {
+        cell.stateLabel.hidden = NO;
+    }else if(self.listType == 2){
+        cell.stateLabel.hidden = YES;
+    }
     
     return cell;
 }
@@ -132,8 +212,16 @@
     request.tag = 0;
     [request setPostValue:@"CGETRECOMMENDLIST" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    if (self.listType == 1) {
+        [request setPostValue:@"1" forKey:@"type"]; //教练
+        self.peopleStateLabel.hidden = NO;
+    }else if(self.listType == 2){
+        [request setPostValue:@"2" forKey:@"type"]; //学员
+        self.peopleStateLabel.hidden = YES;
+    }
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     [request setPostValue:[NSString stringWithFormat:@"%d", pageNum] forKey:@"pagenum"];
+    [DejalBezelActivityView activityViewForView:self.view];
     [request startAsynchronous];
 }
 
@@ -144,7 +232,7 @@
     
     NSNumber *code = [result objectForKey:@"code"];
     NSString *message = [result objectForKey:@"message"];
-    
+    [DejalBezelActivityView removeViewAnimated:YES];
     // 取得数据成功
     if ([code intValue] == 1) {
         if (pageNum == 0){
@@ -205,7 +293,12 @@
 //        NSString *reward = [result[@"totalreward"] description];
         NSString *total = [result[@"total"] description];
         //，获得 %@ 元奖励 ,reward
-        NSString *titleStr = [NSString stringWithFormat:@"您已邀请 %@ 位教练",total];
+        NSString *titleStr;
+        if (self.listType == 1) {
+            titleStr = [NSString stringWithFormat:@"您已邀请 %@ 位教练",total];
+        }else if(self.listType == 2){
+            titleStr = [NSString stringWithFormat:@"您已邀请 %@ 位学员",total];
+        }
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleStr];
         [string addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(5,total.length)];
@@ -278,4 +371,5 @@
     ScanningCodeViewController *nextViewController = [[ScanningCodeViewController alloc] initWithNibName:@"ScanningCodeViewController" bundle:nil];
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
+
 @end

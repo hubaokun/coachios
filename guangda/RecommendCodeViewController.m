@@ -44,9 +44,9 @@
     request.tag = 0;
     [request setPostValue:@"CHEAKINVITECODE" forKey:@"action"];
     [request setPostValue:self.inviteCode.text forKey:@"InviteCode"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"InvitedCoachid"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"InvitedPeopleid"];
+    [request setPostValue:@"1" forKey:@"type"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    
     [request startAsynchronous];
 }
 

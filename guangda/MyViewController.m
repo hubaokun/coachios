@@ -125,7 +125,6 @@
     self.convertButton.layer.masksToBounds = YES;
     self.coinConvertButton.layer.cornerRadius = 2;
     self.coinConvertButton.layer.masksToBounds = YES;
-    
 }
 - (void)changeMessageCount {
     [self getMessageCount];
@@ -138,6 +137,7 @@
     [super viewDidAppear:animated];
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 80);
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -169,8 +169,9 @@
     state = @"2";//全部显示的为已经通过审核的UI
     
     if ([state intValue] == 2) {
-        self.dataView.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds));
+        self.dataView.frame = CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), CGRectGetHeight([UIScreen mainScreen].bounds)+80);
         [self.mainScrollView addSubview:self.dataView];
+        self.mainScrollView.userInteractionEnabled=YES;
         
         NSString *money = [userInfo[@"money"] description];//余额
         NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额

@@ -26,4 +26,5 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *strokeImageView;
 
+
 @end

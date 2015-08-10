@@ -7,8 +7,12 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecommendRecordViewController">
             <connections>
+                <outlet property="coachListButton" destination="Pbn-7p-WBw" id="8kq-vf-YvI"/>
                 <outlet property="mainTableView" destination="rUq-Ng-ik8" id="rUC-4b-xj7"/>
                 <outlet property="noDataButton" destination="wzg-2J-uBx" id="f28-e2-saX"/>
+                <outlet property="peopleStateLabel" destination="wbZ-qE-6pW" id="diX-ng-PFg"/>
+                <outlet property="selectBarView" destination="f9v-2X-nf8" id="gsH-fI-dZL"/>
+                <outlet property="studentListButton" destination="3ed-qu-hqv" id="EU9-tc-OVU"/>
                 <outlet property="titleLabel" destination="DVo-vu-H8C" id="fWV-1i-NMo"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -18,54 +22,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uEC-ug-crd">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTK-wq-90J">
-                            <rect key="frame" x="0.0" y="20" width="90" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="90" id="Qdc-gX-88S"/>
-                                <constraint firstAttribute="height" constant="44" id="iMF-Ym-zLt"/>
-                            </constraints>
-                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                            <state key="normal" image="icon_back_btn">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="nr6-Cd-Sg1"/>
-                            </connections>
-                        </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fS8-Jj-3mQ">
-                            <rect key="frame" x="0.0" y="63" width="600" height="1"/>
-                            <color key="backgroundColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="ciQ-zM-qGW"/>
-                            </constraints>
-                        </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请记录" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQx-JQ-KlK">
-                            <rect key="frame" x="200" y="20" width="200" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="5HN-fL-A3S"/>
-                                <constraint firstAttribute="width" constant="200" id="gtT-tk-lf9"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="gQx-JQ-KlK" firstAttribute="top" secondItem="uEC-ug-crd" secondAttribute="top" constant="20" id="3LD-HU-78i"/>
-                        <constraint firstAttribute="bottom" secondItem="eTK-wq-90J" secondAttribute="bottom" id="6uF-vX-cWs"/>
-                        <constraint firstItem="eTK-wq-90J" firstAttribute="leading" secondItem="uEC-ug-crd" secondAttribute="leading" id="9sL-ew-5g0"/>
-                        <constraint firstAttribute="bottom" secondItem="gQx-JQ-KlK" secondAttribute="bottom" id="D0a-0X-kwf"/>
-                        <constraint firstAttribute="bottom" secondItem="fS8-Jj-3mQ" secondAttribute="bottom" id="Lkm-kx-Mab"/>
-                        <constraint firstAttribute="height" constant="64" id="PKB-kG-pEs"/>
-                        <constraint firstAttribute="trailing" secondItem="fS8-Jj-3mQ" secondAttribute="trailing" id="j6A-cd-Jhu"/>
-                        <constraint firstItem="fS8-Jj-3mQ" firstAttribute="leading" secondItem="uEC-ug-crd" secondAttribute="leading" id="xfh-Fr-FwX"/>
-                        <constraint firstAttribute="centerX" secondItem="gQx-JQ-KlK" secondAttribute="centerX" id="z2s-Y2-Eu1"/>
-                    </constraints>
-                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="rUq-Ng-ik8">
                     <rect key="frame" x="0.0" y="232" width="600" height="368"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -212,6 +168,79 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uEC-ug-crd">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTK-wq-90J">
+                            <rect key="frame" x="0.0" y="20" width="90" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="90" id="Qdc-gX-88S"/>
+                                <constraint firstAttribute="height" constant="44" id="iMF-Ym-zLt"/>
+                            </constraints>
+                            <inset key="contentEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" image="icon_back_btn">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="nr6-Cd-Sg1"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fS8-Jj-3mQ">
+                            <rect key="frame" x="0.0" y="63" width="600" height="1"/>
+                            <color key="backgroundColor" red="0.74117647060000003" green="0.74117647060000003" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="ciQ-zM-qGW"/>
+                            </constraints>
+                        </view>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f9v-2X-nf8" userLabel="select">
+                            <rect key="frame" x="220" y="29" width="160" height="26"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="bar_tousu" translatesAutoresizingMaskIntoConstraints="NO" id="ei8-hI-BIx">
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="26"/>
+                                </imageView>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ed-qu-hqv">
+                                    <rect key="frame" x="78" y="0.0" width="82" height="26"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <state key="normal" title="邀请学员">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="clickForStudentList:" destination="-1" eventType="touchUpInside" id="aLD-HU-fp2"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pbn-7p-WBw">
+                                    <rect key="frame" x="0.0" y="0.0" width="78" height="26"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                    <state key="normal" title="邀请教练">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="clickForCoachList:" destination="-1" eventType="touchUpInside" id="zTZ-aO-KWi"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="26" id="BN5-gI-Nrn"/>
+                                <constraint firstAttribute="width" constant="160" id="d36-Tr-lYz"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="eTK-wq-90J" secondAttribute="bottom" id="6uF-vX-cWs"/>
+                        <constraint firstItem="eTK-wq-90J" firstAttribute="leading" secondItem="uEC-ug-crd" secondAttribute="leading" id="9sL-ew-5g0"/>
+                        <constraint firstAttribute="bottom" secondItem="fS8-Jj-3mQ" secondAttribute="bottom" id="Lkm-kx-Mab"/>
+                        <constraint firstItem="fS8-Jj-3mQ" firstAttribute="top" secondItem="f9v-2X-nf8" secondAttribute="bottom" constant="8" id="Oa1-oJ-VVU"/>
+                        <constraint firstAttribute="height" constant="64" id="PKB-kG-pEs"/>
+                        <constraint firstItem="f9v-2X-nf8" firstAttribute="top" secondItem="uEC-ug-crd" secondAttribute="top" constant="29" id="hMn-lh-7EI"/>
+                        <constraint firstAttribute="trailing" secondItem="fS8-Jj-3mQ" secondAttribute="trailing" id="j6A-cd-Jhu"/>
+                        <constraint firstAttribute="centerX" secondItem="f9v-2X-nf8" secondAttribute="centerX" id="mg2-Bj-brE"/>
+                        <constraint firstItem="fS8-Jj-3mQ" firstAttribute="leading" secondItem="uEC-ug-crd" secondAttribute="leading" id="xfh-Fr-FwX"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="deviceRGB"/>
             <constraints>
@@ -233,6 +262,7 @@
         </view>
     </objects>
     <resources>
+        <image name="bar_tousu" width="154" height="26"/>
         <image name="icon_back_btn" width="13" height="11"/>
         <image name="img_暂无记录" width="108" height="108"/>
     </resources>

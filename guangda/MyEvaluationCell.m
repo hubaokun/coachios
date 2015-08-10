@@ -63,7 +63,7 @@
         }
     }];
     
-    [self.coachIocnImageView sd_setImageWithURL:[NSURL URLWithString:self.studentIcon] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.coachIocnImageView sd_setImageWithURL:[NSURL URLWithString:self.coachIcon] placeholderImage:[UIImage imageNamed:@"icon_portrait_default"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (image != nil) {
             self.coachIocnImageView.layer.cornerRadius = self.coachIocnImageView.bounds.size.width/2;
             self.coachIocnImageView.layer.masksToBounds = YES;
