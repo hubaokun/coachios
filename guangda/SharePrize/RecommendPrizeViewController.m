@@ -25,7 +25,7 @@
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 
 @property (strong, nonatomic) IBOutlet UIImageView *CodeImage; //二维码图片
-@property (strong, nonatomic) IBOutlet UILabel *CodeLabel;     //邀请码
+@property (strong, nonatomic) IBOutlet UIButton *CodeButton;     //邀请码
 @property (strong, nonatomic) IBOutlet UIButton *recommendFriendButton;
 
 @property (strong, nonatomic) IBOutlet UILabel *footLabel1;   //底部label1
@@ -41,7 +41,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    self.CodeLabel.text = [NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]];
+    [self.CodeButton setTitle:[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]] forState:UIControlStateNormal];
+
     //圆角
     self.recommendFriendButton.layer.cornerRadius = 4;
     self.recommendFriendButton.layer.masksToBounds = YES;
@@ -50,7 +51,7 @@
     if ([userInfo[@"realname"] isEqualToString:@""]) {
         
     }
-    self.CodeImage.image = [QRCodeGenerator qrImageForString:[[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] imageSize:self.CodeImage.frame.size.height];
+    self.CodeImage.image = [QRCodeGenerator qrImageForString:[[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeButton.titleLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] imageSize:self.CodeImage.frame.size.height];
     
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     NSString *str1 = [NSString stringWithFormat:@"◉ 推荐其他教练加盟小巴，在被推荐教练通过审核并开课后，可获赠%@元，3个工作日内到账户余额。",app.crewardamount];
@@ -108,7 +109,7 @@
                                      shareImage:[UIImage imageNamed:@"300-icon.png"]
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToSina,UMShareToQQ,UMShareToQzone,nil]
                                        delegate:self];
-    NSString *getURL = [[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *getURL = [[NSString stringWithFormat:@"http://www.xiaobaxueche.com/share.jsp?code=%@&user=%@",self.CodeButton.titleLabel.text,userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [UMSocialData defaultData].extConfig.qqData.shareText = @"小巴学车，只因改变\n加入小巴，月入过万";
     [UMSocialData defaultData].extConfig.qqData.title = [NSString stringWithFormat:@"%@邀请您加入小巴学车",userInfo[@"realname"]];
     [UMSocialData defaultData].extConfig.qqData.url = getURL;
@@ -183,6 +184,12 @@
     }
 }
 
+- (IBAction)copyCode:(id)sender {
+    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+    NSString *stringToCopy = self.CodeButton.titleLabel.text;
+    [pasteboard setString:stringToCopy];
+    [self makeToast:@"已复制到剪贴板，长按输入框黏贴"];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

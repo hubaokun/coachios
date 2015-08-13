@@ -262,6 +262,7 @@
     NSDictionary *dict = [dataArr objectAtIndex:sender.tag];
     self.officialLabel.text = [dict objectForKey:@"content"];
     [self.view addSubview:self.officialView];
+    [self readNotification:dict];
 }
 
 // 关闭显示内容信息
@@ -303,6 +304,26 @@
     [request setPostValue:coachId forKey:@"coachid"];  // 教练ID
     [request setPostValue:ds[@"token"] forKey:@"token"];
     [request setPostValue:noticeId forKey:@"noticeid"];  // 删除通知ID
+    
+    [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
+}
+
+#pragma mark - 已读通知接口
+- (void)readNotification:(NSDictionary *)dic{
+    //    NSString *userid = [CommonUtils getLoginInfo:@"userid"];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
+    request.delegate = self;
+    request.requestMethod = @"POST";
+    [request setPostValue:@"DelNotice" forKey:@"action"];
+    request.tag = 2;
+    // 取出教练ID
+    NSDictionary * ds = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *coachId  = [ds objectForKey:@"coachid"];
+    
+    [request setPostValue:coachId forKey:@"coachid"];  // 教练ID
+    [request setPostValue:ds[@"token"] forKey:@"token"];
+    [request setPostValue:dic[@"noticeid"] forKey:@"noticeid"];  // 删除通知ID
     
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
@@ -363,7 +384,7 @@
                 }
             }
            }
-        }else{
+        }else if(request.tag == 1){
             [dataArr removeObjectAtIndex:currentCell];
             //NSLog(@"+++---");
             // 判断消息为空时显示其他

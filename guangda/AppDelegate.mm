@@ -55,8 +55,8 @@ BMKLocationService *_locService;
     // 要使用百度地图，请先启动BaiduMapManager
     self.cityName = @"杭州市";//默认为杭州市
     _mapManager = [[BMKMapManager alloc] init]; 
-    //正式上传appstore百度地图key：CgYEZc4f07w7aZ7AwVD296Ee    企业账号百度地图key：CgYEZc4f07w7aZ7AwVD296Ee
-    BOOL ret = [_mapManager start:@"CgYEZc4f07w7aZ7AwVD296Ee" generalDelegate:self];
+    //正式上传appstore百度地图key：CgYEZc4f07w7aZ7AwVD296Ee    企业账号百度地图key：v0OG6HFdqcGk2dAfG3TpfInk
+    BOOL ret = [_mapManager start:@"v0OG6HFdqcGk2dAfG3TpfInk" generalDelegate:self];
     if (!ret) {
         NSLog(@"manager start failed!");
     }

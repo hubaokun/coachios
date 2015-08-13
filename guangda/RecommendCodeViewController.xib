@@ -28,7 +28,7 @@
                                 <constraint firstAttribute="height" constant="1" id="Oas-H9-HPn"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="推荐码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCa-tx-2Jh">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请码" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HCa-tx-2Jh">
                             <rect key="frame" x="200" y="20" width="200" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="200" id="0y6-Tm-0F5"/>
@@ -50,7 +50,7 @@
                         <constraint firstItem="HCa-tx-2Jh" firstAttribute="top" secondItem="Ro4-On-Ym8" secondAttribute="top" constant="20" id="fu0-mf-H7h"/>
                     </constraints>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="若无推荐码请直接跳过" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Vq-Hv-0mv">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="若无邀请码请直接跳过" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Vq-Hv-0mv">
                     <rect key="frame" x="150" y="91" width="300" height="21"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="300" id="qb5-rG-76o"/>
@@ -84,7 +84,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4XP-DI-bu7">
                     <rect key="frame" x="150" y="131" width="300" height="48"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入推荐码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fLw-tV-wCx">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入邀请码" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fLw-tV-wCx">
                             <rect key="frame" x="8" y="9" width="284" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>

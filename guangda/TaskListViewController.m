@@ -14,7 +14,7 @@
 #import "DSBottomPullToMoreManager.h"
 #import "UploadPhotoViewController.h"
 #import "TQStarRatingView.h"
-
+#import "RecommendPrizeViewController.h"
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "GoComplaintViewController.h"
@@ -67,6 +67,13 @@
 @property (strong, nonatomic) NSIndexPath *closeIndexPath;//关闭的indexPath
 @property (strong, nonatomic) NSIndexPath *openIndexPath;//打开的indexPath
 
+//广告位
+@property (strong, nonatomic) IBOutlet UIView *advertisementView;
+@property (strong, nonatomic) IBOutlet UIButton *advertisementImageButton;
+@property (strong, nonatomic) NSString *advertisementUrl;//地址
+- (IBAction)closeAdvertisementView:(id)sender;
+
+
 @end
 
 @implementation TaskListViewController
@@ -100,7 +107,7 @@
     [self.pullToMore setPullToMoreViewVisible:NO];
     
     [self addStartEvaluate];
-
+    [self getAdvertisement];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     
     //设置默认分数
@@ -468,9 +475,11 @@
         //这一行不是打开状态,打开这一行
         self.closeIndexPath = self.openIndexPath;
         self.openIndexPath = indexPath;
+
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.closeIndexPath, self.openIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
+        
     }
-    
+    [tableView reloadData];
     [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]
                                 animated:YES
                           scrollPosition:UITableViewScrollPositionMiddle];
@@ -516,6 +525,21 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"telprompt://%@", sender.phone]]];
     }else{
         [self makeToast:@"该学员还未设置电话号码"];
+    }
+    
+}
+//关闭广告位
+- (IBAction)closeAdvertisementView:(id)sender {
+    [self.advertisementView removeFromSuperview];
+}
+
+//打开光该
+- (IBAction)openAdvertisement:(id)sender {
+    if ([self.advertisementUrl isEqualToString:@"recommend"]) {
+        RecommendPrizeViewController *nextViewController = [[RecommendPrizeViewController alloc] initWithNibName:@"RecommendPrizeViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }else{
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
     }
     
 }
@@ -1258,6 +1282,21 @@
     [DejalBezelActivityView activityViewForView:self.view];
 }
 
+#pragma mark - 广告位接口
+- (void)getAdvertisement{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kAdvertisement]];
+    
+    request.delegate = self;
+    request.tag = 6;
+    [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"id"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
+    [request startAsynchronous];
+}
+
 #pragma mark 回调
 - (void)requestFinished:(ASIHTTPRequest *)request {
     //接口
@@ -1275,7 +1314,6 @@
             if (pageNum == 0) {
                 //首页
                 [self.noSortArray removeAllObjects];
-                
             }
             
             [self.noSortArray addObjectsFromArray:array];
@@ -1357,6 +1395,22 @@
             [self getTaskList];
             self.openIndexPath = nil;
             [DejalBezelActivityView removeViewAnimated:YES];
+        }else if (request.tag == 6){
+            NSString *curldisplay = [result[@"curldisplay"] description];
+            if ([curldisplay intValue]!=0) { //0不展示，1展示 2邀请推荐
+                NSString *c_img = [result[@"c_img"] description];
+                [self.advertisementImageButton setBackgroundImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:c_img]]] forState:UIControlStateNormal];
+                NSString *c_url = [result[@"c_url"] description];
+                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+                NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                if ([curldisplay intValue]==1) {
+                    self.advertisementUrl = getURL;
+                }else{
+                    self.advertisementUrl = @"recommend";
+                }
+                self.advertisementView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
+                [self.tabBarController.view addSubview:self.advertisementView];
+            }
         }
     } else if([code intValue] == 95){
         [self makeToast:message];
@@ -1483,4 +1537,5 @@
     self.commentTextView.text = @"";
     self.commentOrderId = @"0";
 }
+
 @end

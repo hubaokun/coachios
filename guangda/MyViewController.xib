@@ -15,6 +15,7 @@
                 <outlet property="checkNameLabel" destination="b79-SV-vjb" id="CMy-Du-K6k"/>
                 <outlet property="checkView" destination="JIm-I9-nDo" id="Zwz-Xs-7vz"/>
                 <outlet property="coinConvertButton" destination="hMm-x8-lJY" id="zvg-uf-lZa"/>
+                <outlet property="coinRuleView" destination="cq4-9k-0Rw" id="bha-jK-8wA"/>
                 <outlet property="commitView" destination="vNW-Mu-snQ" id="MxZ-Xq-BkN"/>
                 <outlet property="complaintLabel" destination="cRL-ik-BOD" id="5Z5-mR-BPZ"/>
                 <outlet property="convertButton" destination="pXi-tM-rYh" id="He0-rg-DYf"/>
@@ -1105,7 +1106,7 @@
                                         <constraint firstAttribute="height" constant="1" id="QSH-Ep-GW6"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小巴券时间：0小时" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9g-4C-URH">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="未兑换小巴券：0小时" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y9g-4C-URH">
                                     <rect key="frame" x="0.0" y="15" width="528" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="6QA-VC-Myn"/>
@@ -1139,13 +1140,41 @@
                                         <action selector="clickForConvertTicket:" destination="-1" eventType="touchUpInside" id="zuh-aY-jeQ"/>
                                     </connections>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jme-69-Zj0">
+                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="47" id="JGj-fO-Gca"/>
+                                        <constraint firstAttribute="height" constant="51" id="lcy-lB-yNd"/>
+                                    </constraints>
+                                    <inset key="contentEdgeInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" image="ic_queg">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="JGj-fO-Gca"/>
+                                            <exclude reference="lcy-lB-yNd"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="heightClass=regular">
+                                        <mask key="constraints">
+                                            <include reference="JGj-fO-Gca"/>
+                                            <include reference="lcy-lB-yNd"/>
+                                        </mask>
+                                    </variation>
+                                    <connections>
+                                        <action selector="clickForCoinRuleView:" destination="-1" eventType="touchUpInside" id="yk2-1P-kU9"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="BSG-Sb-Qdb" firstAttribute="leading" secondItem="iPi-dL-s4M" secondAttribute="leading" id="CBh-sh-5yT"/>
                                 <constraint firstAttribute="bottom" secondItem="Daj-bp-pB8" secondAttribute="bottom" id="H9N-Ge-jne"/>
                                 <constraint firstItem="pXi-tM-rYh" firstAttribute="leading" secondItem="Y9g-4C-URH" secondAttribute="trailing" constant="16" id="HiS-2r-Xfd"/>
+                                <constraint firstAttribute="centerX" secondItem="jme-69-Zj0" secondAttribute="centerX" constant="-0.5" id="IED-GH-xWt"/>
                                 <constraint firstAttribute="trailing" secondItem="pXi-tM-rYh" secondAttribute="trailing" constant="16" id="JXc-CN-zMI"/>
                                 <constraint firstItem="pXi-tM-rYh" firstAttribute="leading" secondItem="BSG-Sb-Qdb" secondAttribute="trailing" constant="16" id="PJu-30-K4p"/>
+                                <constraint firstAttribute="centerY" secondItem="jme-69-Zj0" secondAttribute="centerY" id="TQB-eA-mfS"/>
                                 <constraint firstAttribute="centerY" secondItem="Y9g-4C-URH" secondAttribute="centerY" constant="-0.5" id="bUK-Ls-TmX"/>
                                 <constraint firstAttribute="bottom" secondItem="BSG-Sb-Qdb" secondAttribute="bottom" id="cBX-T2-hO1"/>
                                 <constraint firstItem="BSG-Sb-Qdb" firstAttribute="top" secondItem="iPi-dL-s4M" secondAttribute="top" id="gEA-kb-60q"/>
@@ -1155,6 +1184,24 @@
                                 <constraint firstItem="Daj-bp-pB8" firstAttribute="leading" secondItem="iPi-dL-s4M" secondAttribute="leading" id="n4r-RX-7Ew"/>
                                 <constraint firstItem="Y9g-4C-URH" firstAttribute="leading" secondItem="iPi-dL-s4M" secondAttribute="leading" id="zTL-Cz-x5P"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="subviews">
+                                    <exclude reference="jme-69-Zj0"/>
+                                </mask>
+                                <mask key="constraints">
+                                    <exclude reference="IED-GH-xWt"/>
+                                    <exclude reference="TQB-eA-mfS"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular">
+                                <mask key="subviews">
+                                    <include reference="jme-69-Zj0"/>
+                                </mask>
+                                <mask key="constraints">
+                                    <include reference="IED-GH-xWt"/>
+                                    <include reference="TQB-eA-mfS"/>
+                                </mask>
+                            </variation>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HRE-JX-hay">
                             <rect key="frame" x="0.0" y="122" width="600" height="51"/>
@@ -1193,12 +1240,39 @@
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3P-Xi-1N9">
+                                    <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="47" id="E9U-0d-trZ"/>
+                                        <constraint firstAttribute="height" constant="51" id="xeZ-4C-Q2c"/>
+                                    </constraints>
+                                    <inset key="contentEdgeInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" image="ic_queg">
+                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="E9U-0d-trZ"/>
+                                            <exclude reference="xeZ-4C-Q2c"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="heightClass=regular">
+                                        <mask key="constraints">
+                                            <include reference="E9U-0d-trZ"/>
+                                            <include reference="xeZ-4C-Q2c"/>
+                                        </mask>
+                                    </variation>
+                                    <connections>
+                                        <action selector="clickForCoinRuleView:" destination="-1" eventType="touchUpInside" id="xBT-jg-nwo"/>
+                                    </connections>
+                                </button>
                             </subviews>
                             <constraints>
                                 <constraint firstItem="hMm-x8-lJY" firstAttribute="leading" secondItem="Tx9-L2-Fdd" secondAttribute="trailing" constant="16" id="8w9-ga-Jjm"/>
                                 <constraint firstItem="hMm-x8-lJY" firstAttribute="top" secondItem="HRE-JX-hay" secondAttribute="top" constant="14" id="AIE-Qv-4YO"/>
                                 <constraint firstItem="vcP-aN-Il5" firstAttribute="top" secondItem="hMm-x8-lJY" secondAttribute="bottom" constant="12" id="IWr-CO-bSd"/>
                                 <constraint firstItem="VgE-qG-lK2" firstAttribute="leading" secondItem="HRE-JX-hay" secondAttribute="leading" id="KZI-nW-b86"/>
+                                <constraint firstAttribute="centerY" secondItem="f3P-Xi-1N9" secondAttribute="centerY" id="Kp0-67-QfB"/>
                                 <constraint firstItem="vcP-aN-Il5" firstAttribute="top" secondItem="VgE-qG-lK2" secondAttribute="bottom" constant="13" id="Ng7-UN-1MR"/>
                                 <constraint firstAttribute="trailing" secondItem="hMm-x8-lJY" secondAttribute="trailing" constant="16" id="OCq-hS-bI2"/>
                                 <constraint firstAttribute="trailing" secondItem="vcP-aN-Il5" secondAttribute="trailing" id="UMu-lq-5Zs"/>
@@ -1207,10 +1281,29 @@
                                 <constraint firstItem="hMm-x8-lJY" firstAttribute="leading" secondItem="VgE-qG-lK2" secondAttribute="trailing" constant="16" id="eZf-8Y-MN8"/>
                                 <constraint firstAttribute="height" constant="51" id="gXI-nt-g60"/>
                                 <constraint firstAttribute="bottom" secondItem="Tx9-L2-Fdd" secondAttribute="bottom" id="pV1-WV-Wbb"/>
+                                <constraint firstAttribute="centerX" secondItem="f3P-Xi-1N9" secondAttribute="centerX" constant="-0.5" id="rG8-xR-QZg"/>
                                 <constraint firstItem="Tx9-L2-Fdd" firstAttribute="top" secondItem="HRE-JX-hay" secondAttribute="top" id="tpJ-2e-Xlr"/>
                                 <constraint firstAttribute="bottom" secondItem="vcP-aN-Il5" secondAttribute="bottom" id="wrr-Qb-vGv"/>
                                 <constraint firstItem="Tx9-L2-Fdd" firstAttribute="leading" secondItem="HRE-JX-hay" secondAttribute="leading" id="zoJ-xb-Kgr"/>
                             </constraints>
+                            <variation key="default">
+                                <mask key="subviews">
+                                    <exclude reference="f3P-Xi-1N9"/>
+                                </mask>
+                                <mask key="constraints">
+                                    <exclude reference="Kp0-67-QfB"/>
+                                    <exclude reference="rG8-xR-QZg"/>
+                                </mask>
+                            </variation>
+                            <variation key="heightClass=regular">
+                                <mask key="subviews">
+                                    <include reference="f3P-Xi-1N9"/>
+                                </mask>
+                                <mask key="constraints">
+                                    <include reference="Kp0-67-QfB"/>
+                                    <include reference="rG8-xR-QZg"/>
+                                </mask>
+                            </variation>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1422,6 +1515,129 @@
             </constraints>
             <point key="canvasLocation" x="-422" y="495"/>
         </view>
+        <view contentMode="scaleToFill" id="cq4-9k-0Rw" userLabel="规则">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view alpha="0.60000002384185791" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9z7-9t-mTI" userLabel="背景">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02m-sG-Uuy">
+                    <rect key="frame" x="184" y="251" width="233" height="98"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg_my_top" translatesAutoresizingMaskIntoConstraints="NO" id="Laf-e7-PBS">
+                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                            <variation key="heightClass=regular" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="0.0" width="270" height="139"/>
+                            </variation>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z9e-Ab-245">
+                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                            <string key="text">①  学车完成后需双方互相评价，小巴券/小巴币才会结算到您的账户；
+
+</string>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <variation key="heightClass=regular" fixedFrame="YES">
+                                <rect key="frame" x="13" y="30" width="244" height="74.5"/>
+                            </variation>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1s-kn-ZKL">
+                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                            <state key="normal" image="icon_fork">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <variation key="heightClass=regular" fixedFrame="YES">
+                                <rect key="frame" x="0.0" y="0.0" width="41" height="41"/>
+                            </variation>
+                            <connections>
+                                <action selector="closeRuleView:" destination="-1" eventType="touchUpInside" id="ol6-T1-fkb"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="15" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ogO-Jb-I5g">
+                            <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
+                            <string key="text">② 若学员超过3天未评价，小巴券/小巴币将自动结算到您的账户。
+
+</string>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <nil key="highlightedColor"/>
+                            <variation key="heightClass=regular" fixedFrame="YES">
+                                <rect key="frame" x="13" y="76" width="244" height="69"/>
+                            </variation>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="270" id="Fhg-ua-5xd"/>
+                        <constraint firstAttribute="height" constant="139" id="h6Z-Mw-1j2"/>
+                    </constraints>
+                    <variation key="default">
+                        <mask key="subviews">
+                            <exclude reference="Laf-e7-PBS"/>
+                            <exclude reference="Z9e-Ab-245"/>
+                            <exclude reference="u1s-kn-ZKL"/>
+                            <exclude reference="ogO-Jb-I5g"/>
+                        </mask>
+                        <mask key="constraints">
+                            <exclude reference="Fhg-ua-5xd"/>
+                            <exclude reference="h6Z-Mw-1j2"/>
+                        </mask>
+                    </variation>
+                    <variation key="heightClass=regular">
+                        <mask key="subviews">
+                            <include reference="Laf-e7-PBS"/>
+                            <include reference="Z9e-Ab-245"/>
+                            <include reference="u1s-kn-ZKL"/>
+                            <include reference="ogO-Jb-I5g"/>
+                        </mask>
+                        <mask key="constraints">
+                            <include reference="Fhg-ua-5xd"/>
+                            <include reference="h6Z-Mw-1j2"/>
+                        </mask>
+                    </variation>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="9z7-9t-mTI" secondAttribute="trailing" id="4Qu-wP-Lwt"/>
+                <constraint firstAttribute="centerX" secondItem="02m-sG-Uuy" secondAttribute="centerX" id="FfD-nP-jTw"/>
+                <constraint firstItem="9z7-9t-mTI" firstAttribute="top" secondItem="cq4-9k-0Rw" secondAttribute="top" id="KCF-LU-mKA"/>
+                <constraint firstAttribute="centerY" secondItem="02m-sG-Uuy" secondAttribute="centerY" constant="-0.5" id="Swn-vX-ZT8"/>
+                <constraint firstAttribute="bottom" secondItem="9z7-9t-mTI" secondAttribute="bottom" id="e9k-sO-kwy"/>
+                <constraint firstItem="9z7-9t-mTI" firstAttribute="leading" secondItem="cq4-9k-0Rw" secondAttribute="leading" id="lUh-QV-hWH"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="02m-sG-Uuy"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="FfD-nP-jTw"/>
+                    <exclude reference="Swn-vX-ZT8"/>
+                    <exclude reference="4Qu-wP-Lwt"/>
+                    <exclude reference="KCF-LU-mKA"/>
+                    <exclude reference="e9k-sO-kwy"/>
+                    <exclude reference="lUh-QV-hWH"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular">
+                <mask key="subviews">
+                    <include reference="02m-sG-Uuy"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="FfD-nP-jTw"/>
+                    <include reference="Swn-vX-ZT8"/>
+                    <include reference="4Qu-wP-Lwt"/>
+                    <include reference="KCF-LU-mKA"/>
+                    <include reference="e9k-sO-kwy"/>
+                    <include reference="lUh-QV-hWH"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="984" y="-643"/>
+        </view>
     </objects>
     <resources>
         <image name="bg_chongzhi2" width="241" height="129"/>
@@ -1432,11 +1648,13 @@
         <image name="btn_close" width="11" height="11"/>
         <image name="btn_green" width="139" height="40"/>
         <image name="btn_highlight_green" width="139" height="40"/>
+        <image name="ic_queg" width="14" height="14"/>
         <image name="ic_推荐教练" width="44" height="41"/>
         <image name="icon-notice" width="22" height="22"/>
         <image name="icon_arr_down" width="19" height="23"/>
         <image name="icon_chongzhi" width="52" height="29"/>
         <image name="icon_coin" width="14" height="16"/>
+        <image name="icon_fork" width="11" height="11"/>
         <image name="icon_pencil" width="16" height="16"/>
         <image name="icon_portrait_default" width="83" height="83"/>
         <image name="icon_setting" width="22" height="22"/>

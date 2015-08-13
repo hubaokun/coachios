@@ -125,6 +125,7 @@
     self.defaultAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     needRefresh = YES;
+
 }
 
 - (IBAction)clickTest:(id)sender {
@@ -141,6 +142,22 @@
             return;
         }
         array = [NSMutableArray arrayWithArray:notification.object];
+        NSMutableArray *mutableArray = [NSMutableArray arrayWithArray:self.calenderArray];
+        for (int i=0; i<self.calenderArray.count; i++) {
+            NSDictionary *dic = self.calenderArray[i];
+            NSString *date = dic[@"date"];
+            NSString *hour = dic[@"hour"];
+            for (int j=0; j<array.count; j++) {
+                NSDictionary *arrayDic = array[j];
+                NSString *arrayDate = arrayDic[@"date"];
+                NSString *arrayHour = arrayDic[@"hour"];
+                if ([date isEqualToString:arrayDate] && [hour isEqualToString:arrayHour]) {
+                    [mutableArray replaceObjectAtIndex:i withObject:arrayDic];
+                }
+            }
+        }
+        self.calenderArray = mutableArray;
+        
     } else {
         array = [NSMutableArray arrayWithArray:dictionary];
     }
@@ -177,6 +194,9 @@
 
 //刷新数据
 - (void)refreshSchedule{
+    if (self.mainTableView.contentOffset.y != 0) {
+        [self.mainTableView setContentOffset:CGPointMake(0, 0)];
+    }
     //获取数据
     if(needRefresh){
         [self.mainTableView setContentOffset:CGPointMake(0, -60) animated:YES];//手动下拉
@@ -965,7 +985,7 @@
                 
                 //下划线
                 UIView *underline = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(bottomView.frame), 1)];
-                underline.backgroundColor = RGB(211, 211, 211);
+                underline.backgroundColor = RGB(246, 246, 246);
                 [bottomView addSubview:underline];
                 
                 //全选按钮
@@ -1199,6 +1219,20 @@
                         button.selected = YES;
                         selectLabel.hidden = NO;
                         selectLabel.text = @"已约";
+                    }
+                }
+                
+                //设置未开课的时间
+                NSMutableArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间
+                for (NSString *expire in expireArray) {
+                    if ([time isEqualToString:expire]) {
+                        button.selected = NO;
+                        
+                        //未选中状态
+                        priceLabel.text = @"已过期";
+                        timeLabel.textColor = RGB(210, 210, 210);
+                        priceLabel.textColor = RGB(180, 180, 180);
+                        priceView.backgroundColor = RGB(243, 243, 243);
                     }
                 }
             }
@@ -2140,10 +2174,37 @@
     [request setPostValue:@"ChangeAllDaySchedule" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    NSMutableArray *array = [NSMutableArray array];
+    for (int i=0; i<self.calenderArray.count; i++) {
+        NSDictionary *dic = self.calenderArray[i];
+        NSString *date = [dic[@"date"] description];
+        if ([date isEqualToString:[CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"]]) {
+            [array addObject:dic];
+        }
+    }
+    [array removeObjectAtIndex:0]; //去掉标志位，只保留19个
+    NSData *data = [self toJSONData:array];
+    NSString *jsonString = [[NSString alloc] initWithData:data
+                                                 encoding:NSUTF8StringEncoding];
+    [request setPostValue:jsonString forKey:@"setjson"];
     [request setPostValue:[CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"] forKey:@"day"];
     [request setPostValue:state forKey:@"type"];
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
+}
+
+// 将字典或者数组转化为JSON串
+- (NSData *)toJSONData:(id)theData{
+    
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:theData
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&error];
+    if ([jsonData length] > 0 && error == nil){
+        return jsonData;
+    }else{
+        return nil;
+    }
 }
 
 //修改订单式是否可以取消	 修改的状态 0.可以取消 1.不可以取消
@@ -2436,11 +2497,12 @@
             NSMutableArray *selectArray = [NSMutableArray array];//选中的时间点集合
             NSMutableArray *restArray = [NSMutableArray array];//未开课的时间点集合
             NSMutableArray *bookArray = [NSMutableArray array];//已经预约时间点集合
+            NSMutableArray *expireArray = [NSMutableArray array];//已过期时间点集合
             for (NSDictionary *timeDic in dicArray) {
                 int hour = [timeDic[@"hour"] intValue];
                 NSString *isrest = [timeDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
                 NSString *hasbooked = [timeDic[@"hasbooked"] description];//时间点是否已经被预约 0未被预约 1已经被预约
-                
+                NSString *expire = [timeDic[@"expire"] description];
                 if (hour > 0 && hour < 25){
                     if (hour < 12) {
                         if (j != 0) {
@@ -2454,6 +2516,13 @@
                             [restArray addObject:str];
                         }else{
 //                            [selectArray addObject:str];//工作
+                        }
+                        
+                        if ([expire intValue] == 1) {
+                            //已过期
+                            [expireArray addObject:str];
+                        }else{
+                            //                            [selectArray addObject:str];//工作
                         }
                         
                         if ([hasbooked intValue] == 1) {
@@ -2490,6 +2559,12 @@
                         }else{
 //                            [selectArray addObject:str];//工作
                         }
+                        if ([expire intValue] == 1) {
+                            //已过期
+                            [expireArray addObject:str];
+                        }else{
+                            //                            [selectArray addObject:str];//工作
+                        }
                         if ([hasbooked intValue] == 1) {
                             //已经预约
                             [bookArray addObject:str];
@@ -2521,6 +2596,12 @@
                             [restArray addObject:str];
                         }else{
 //                            [selectArray addObject:str];//工作
+                        }
+                        if ([expire intValue] == 1) {
+                            //已过期
+                            [expireArray addObject:str];
+                        }else{
+                            //                            [selectArray addObject:str];//工作
                         }
                        // continue;
                         if ([hasbooked intValue] == 1) {
@@ -2561,7 +2642,7 @@
             [selectDic setObject:selectArray forKey:@"selectArray"];
             [selectDic setObject:restArray forKey:@"restArray"];
             [selectDic setObject:bookArray forKey:@"bookArray"];
-            
+            [selectDic setObject:expireArray forKey:@"expireArray"];
             //判断是否全选
             NSString *allSelect = @"1";
             
@@ -3041,7 +3122,7 @@
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 22, weekWidth, 22)];
             label.text = @"未开课";
             label.font = [UIFont systemFontOfSize:10];
-            label.textColor = RGB(104, 104, 104);
+            label.textColor = RGB(180, 180, 180);
             label.textAlignment = NSTextAlignmentCenter;
             [view addSubview:label];
             

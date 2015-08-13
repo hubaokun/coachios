@@ -468,7 +468,7 @@
         
         [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:self.closeIndexPath, self.openIndexPath, nil] withRowAnimation:UITableViewRowAnimationFade];
     }
-    
+    [tableView reloadData];
     [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section]
                            animated:YES
                      scrollPosition:UITableViewScrollPositionMiddle];

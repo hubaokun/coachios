@@ -7,8 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RecommendPrizeViewController">
             <connections>
+                <outlet property="CodeButton" destination="v1c-rj-pCE" id="bid-U6-1SM"/>
                 <outlet property="CodeImage" destination="BRb-KQ-VIu" id="mOH-QF-Lrb"/>
-                <outlet property="CodeLabel" destination="0qW-Oo-WzI" id="v7P-IH-qcC"/>
                 <outlet property="footLabel" destination="1LA-ig-n3M" id="PrI-IS-l8s"/>
                 <outlet property="footLabel1" destination="cm8-XU-fio" id="2wB-8n-zCS"/>
                 <outlet property="mainScrollView" destination="Ip2-33-jgT" id="BKK-x0-NJQ"/>
@@ -46,7 +46,7 @@
                                 <constraint firstAttribute="height" constant="1" id="tMg-Mq-kei"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请教练加入" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVF-EI-SZB">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀请朋友加入" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gVF-EI-SZB">
                             <rect key="frame" x="200" y="20" width="200" height="44"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="200" id="Q3T-zo-iA3"/>
@@ -183,17 +183,17 @@
                         <action selector="clickForRecommendFriend:" destination="-1" eventType="touchUpInside" id="afj-AB-DpT"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0qW-Oo-WzI">
-                    <rect key="frame" x="230" y="315" width="140" height="30"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2、被邀请教练激活开首单后，1个工作日内你可再获得50元现金到账户余额。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-ig-n3M">
+                    <rect key="frame" x="157" y="528" width="286" height="46"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="140" id="SFK-UI-Q1o"/>
-                        <constraint firstAttribute="height" constant="30" id="wTd-GO-psD"/>
+                        <constraint firstAttribute="height" constant="46" id="1FL-xW-kQf"/>
+                        <constraint firstAttribute="width" constant="286" id="mMS-o3-5WD"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                    <color key="textColor" red="0.96470588239999999" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="下载小巴APP后，登录直接输入以上邀请码" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXW-lv-kPf">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击邀请码复制，安装小巴APP登录后，直接输入以上邀请码" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXW-lv-kPf">
                     <rect key="frame" x="200" y="355" width="200" height="46"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="237" id="Xtr-O2-m6T"/>
@@ -219,25 +219,30 @@
                     <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2、被邀请教练激活开首单后，1个工作日内你可再获得50元现金到账户余额。" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1LA-ig-n3M">
-                    <rect key="frame" x="157" y="528" width="286" height="46"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v1c-rj-pCE">
+                    <rect key="frame" x="230" y="315" width="140" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="46" id="1FL-xW-kQf"/>
-                        <constraint firstAttribute="width" constant="286" id="mMS-o3-5WD"/>
+                        <constraint firstAttribute="width" constant="140" id="d4S-KR-DI1"/>
+                        <constraint firstAttribute="height" constant="30" id="hos-Of-9NM"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <color key="textColor" red="0.52941176469999995" green="0.52941176469999995" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                    <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                    <state key="normal">
+                        <color key="titleColor" red="0.96470588239999999" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="copyCode:" destination="-1" eventType="touchUpInside" id="ch2-Wl-WPn"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Vce-Py-jsU" secondAttribute="trailing" id="3Yc-eS-gfM"/>
-                <constraint firstItem="tXW-lv-kPf" firstAttribute="top" secondItem="0qW-Oo-WzI" secondAttribute="bottom" constant="10" id="3tO-YK-m1u"/>
                 <constraint firstAttribute="centerX" secondItem="XMq-yW-sex" secondAttribute="centerX" id="5AF-sF-jHt"/>
                 <constraint firstItem="Y0s-3I-rEg" firstAttribute="centerY" secondItem="mXe-cX-1Yb" secondAttribute="centerY" id="6MJ-Uc-4is"/>
                 <constraint firstAttribute="centerX" secondItem="Y0s-3I-rEg" secondAttribute="centerX" id="9I8-wk-C5b"/>
                 <constraint firstItem="mXe-cX-1Yb" firstAttribute="leading" secondItem="Y0s-3I-rEg" secondAttribute="trailing" constant="20" id="CDx-o2-nea"/>
+                <constraint firstAttribute="centerX" secondItem="v1c-rj-pCE" secondAttribute="centerX" id="Ew4-rb-gaZ"/>
                 <constraint firstAttribute="centerX" secondItem="BRb-KQ-VIu" secondAttribute="centerX" id="HXo-bA-eSj"/>
                 <constraint firstItem="s53-4W-CmP" firstAttribute="leading" secondItem="glg-b1-8Ln" secondAttribute="leading" id="IDH-UY-vDq"/>
                 <constraint firstAttribute="trailing" secondItem="mXe-cX-1Yb" secondAttribute="trailing" id="OzX-WZ-qqh"/>
@@ -248,8 +253,9 @@
                 <constraint firstItem="XMq-yW-sex" firstAttribute="leading" secondItem="glg-b1-8Ln" secondAttribute="leading" constant="15" id="Tt0-gz-dIo"/>
                 <constraint firstAttribute="centerX" secondItem="0Ts-cX-i9b" secondAttribute="centerX" id="UZw-L5-NsY"/>
                 <constraint firstItem="Y0s-3I-rEg" firstAttribute="leading" secondItem="XPH-jl-LGA" secondAttribute="trailing" constant="20" id="VIv-gO-wnB"/>
-                <constraint firstAttribute="centerX" secondItem="0qW-Oo-WzI" secondAttribute="centerX" id="W8A-ur-aya"/>
+                <constraint firstItem="v1c-rj-pCE" firstAttribute="top" secondItem="0Ts-cX-i9b" secondAttribute="bottom" constant="13" id="Xdu-D4-U3o"/>
                 <constraint firstItem="Vce-Py-jsU" firstAttribute="leading" secondItem="0Ts-cX-i9b" secondAttribute="trailing" constant="10" id="ZiR-Z7-0e3"/>
+                <constraint firstItem="tXW-lv-kPf" firstAttribute="top" secondItem="v1c-rj-pCE" secondAttribute="bottom" constant="10" id="fMA-EI-1vM"/>
                 <constraint firstItem="1LA-ig-n3M" firstAttribute="top" secondItem="cm8-XU-fio" secondAttribute="bottom" constant="8" id="kcE-gN-jYA"/>
                 <constraint firstAttribute="trailing" secondItem="XMq-yW-sex" secondAttribute="trailing" constant="15" id="pI4-V0-9bQ"/>
                 <constraint firstItem="0Ts-cX-i9b" firstAttribute="top" secondItem="BRb-KQ-VIu" secondAttribute="bottom" constant="8" id="pMX-ss-fEd"/>
@@ -260,7 +266,6 @@
                 <constraint firstItem="XPH-jl-LGA" firstAttribute="leading" secondItem="glg-b1-8Ln" secondAttribute="leading" id="tWD-Fh-lbE"/>
                 <constraint firstItem="BRb-KQ-VIu" firstAttribute="top" secondItem="uSe-DI-NrV" secondAttribute="bottom" constant="8" id="upG-A8-29U"/>
                 <constraint firstItem="cm8-XU-fio" firstAttribute="top" secondItem="XMq-yW-sex" secondAttribute="bottom" constant="16" id="vS6-mt-45M"/>
-                <constraint firstItem="0qW-Oo-WzI" firstAttribute="top" secondItem="0Ts-cX-i9b" secondAttribute="bottom" constant="13" id="wzU-Uk-BB5"/>
                 <constraint firstAttribute="centerX" secondItem="tXW-lv-kPf" secondAttribute="centerX" constant="-0.5" id="xNO-Pk-Q8K"/>
                 <constraint firstItem="XMq-yW-sex" firstAttribute="top" secondItem="tXW-lv-kPf" secondAttribute="bottom" constant="8" id="ya8-CE-g5J"/>
                 <constraint firstItem="XPH-jl-LGA" firstAttribute="centerY" secondItem="Y0s-3I-rEg" secondAttribute="centerY" id="zU8-6f-LA4"/>
