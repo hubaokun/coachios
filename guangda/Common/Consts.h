@@ -17,11 +17,11 @@
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
-#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
-//#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
+//#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
+#define REQUEST_HOST   @"http://120.25.236.228:8080/dadmin/"          //测试服务器
 //#define REQUEST_HOST   @"http://192.168.1.133:8080/"          //坤哥服务器
 //#define REQUEST_HOST   @"http://192.168.1.144:8080/xiaoba/"             //吴佳瑞
-//#define REQUEST_HOST   @"http://192.168.1.115:8080/xb"             //卢磊
+//#define REQUEST_HOST   @"http://192.168.1.110:8080/xb"             //卢磊
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]

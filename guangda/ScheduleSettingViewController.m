@@ -734,7 +734,7 @@
 
 - (IBAction)clickForback:(id)sender {
     if (self.comfirmBtn.selected == YES) {   //添加一个退出的提示，防止教练在不经意的情况下退出了。
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您修改了课程设置，确定要退出吗？" delegate:self cancelButtonTitle:@"确认退出" otherButtonTitles:@"保存修改", nil];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请点击保存让您的修改生效" delegate:self cancelButtonTitle:@"保存" otherButtonTitles:@"放弃", nil];
         [alert show];
     }else{
         NSMutableArray *array = [NSMutableArray array];
@@ -746,11 +746,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        NSMutableArray *array = [NSMutableArray array];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
-        [self.navigationController popViewControllerAnimated:YES];
-    }else if(buttonIndex == 1){
-        
         if (self.stateSwitch.isOn){
             NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             if ([CommonUtil isEmpty:price]) {
@@ -773,6 +768,11 @@
         [self.priceTextField resignFirstResponder];
         
         [self comfirmMsg];
+    }else if(buttonIndex == 1){
+        NSMutableArray *array = [NSMutableArray array];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
+        [self.navigationController popViewControllerAnimated:YES];
+        
     }
 }
 

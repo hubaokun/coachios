@@ -360,13 +360,13 @@
                                 <action selector="openAdvertisement:" destination="-1" eventType="touchUpInside" id="6lX-zc-YWC"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0U-aU-3wB">
-                            <rect key="frame" x="423" y="60" width="22" height="61"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0U-aU-3wB">
+                            <rect key="frame" x="385" y="60" width="60" height="61"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="22" id="AAi-5P-Iq1"/>
-                                <constraint firstAttribute="height" constant="61" id="HyG-Ou-jTf"/>
+                                <constraint firstAttribute="height" constant="61" id="GzD-0m-j7X"/>
+                                <constraint firstAttribute="width" constant="60" id="Tv9-wX-Wfo"/>
                             </constraints>
-                            <state key="normal" backgroundImage="ic_close">
+                            <state key="normal" image="ic_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -376,11 +376,11 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
+                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-11" id="Ad8-9w-tc7"/>
                         <constraint firstAttribute="centerY" secondItem="OuB-td-aUS" secondAttribute="centerY" constant="-0.5" id="B9G-LV-wqZ"/>
-                        <constraint firstItem="K0U-aU-3wB" firstAttribute="top" secondItem="dhv-h6-Gfi" secondAttribute="top" constant="60" id="PBl-YY-kRz"/>
-                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-22" id="dnw-No-cj8"/>
-                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-11" id="naU-jy-Ijk"/>
+                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="r1G-cp-aBG"/>
                         <constraint firstAttribute="centerX" secondItem="OuB-td-aUS" secondAttribute="centerX" id="taT-UC-8t3"/>
+                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-11" id="xlY-uM-yM1"/>
                     </constraints>
                 </view>
             </subviews>

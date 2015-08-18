@@ -186,6 +186,13 @@
     [request setPostValue:@"Login" forKey:@"action"];
     [request setPostValue:userName forKey:@"loginid"]; // 手机号码
     [request setPostValue:passWord forKey:@"password"]; // 密码
+    // app版本
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    [request setPostValue:app_Version forKey:@"version"];
+    //手机型号
+    [request setPostValue:@"iPhone" forKey:@"phoneType"];
+    
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
 }

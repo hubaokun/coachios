@@ -3066,7 +3066,7 @@
             button.userInteractionEnabled = NO;//不可点击
             [button setTitleColor:RGB(104, 104, 104) forState:UIControlStateNormal];
             //文字
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 22, weekWidth, 22)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
             label.text = @"不可操作";
             label.font = [UIFont systemFontOfSize:10];
             label.textColor = RGB(104, 104, 104);
@@ -3077,7 +3077,7 @@
             button.userInteractionEnabled = NO;//不可点击
             [button setTitleColor:RGB(104, 104, 104) forState:UIControlStateNormal];
             //文字
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 22, weekWidth, 22)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
             label.text = @"";
             label.font = [UIFont systemFontOfSize:10];
             label.textColor = RGB(104, 104, 104);
@@ -3093,7 +3093,7 @@
         [button setTitleColor:RGB(34, 192, 100) forState:UIControlStateNormal];
         
         //文字
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 22, weekWidth, 22)];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
         label.text = @"今日";
         label.font = [UIFont systemFontOfSize:10];
         label.textColor = RGB(34, 192, 100);
@@ -3116,13 +3116,13 @@
         if (status == 0 || pointArray.count == 0){
             //未开课
             [button setTitle:dayStr forState:UIControlStateNormal];
-            [button setTitleColor:RGB(104, 104, 104) forState:UIControlStateNormal];
-            
+            [button setTitleColor:RGB(255, 255, 255) forState:UIControlStateNormal];
+            view.backgroundColor = RGB(102, 102, 102);
             //文字
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 22, weekWidth, 22)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
             label.text = @"未开课";
             label.font = [UIFont systemFontOfSize:10];
-            label.textColor = RGB(180, 180, 180);
+            label.textColor = RGB(255, 255, 255);
             label.textAlignment = NSTextAlignmentCenter;
             [view addSubview:label];
             
@@ -3132,6 +3132,7 @@
             }
         }else{
             //正常工作
+//            view.backgroundColor = RGB(34, 192, 100);
             [button setTitle:dayStr forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
@@ -3144,7 +3145,7 @@
             CGFloat x = (weekWidth - pointArray.count*4 - (pointArray.count - 1)*3)/2;
             
             for (int i = 0; i < pointArray.count; i++) {
-                UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(x + 4*i + 3*i, 34, 4, 4)];
+                UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(x + 4*i + 3*i, 27, 4, 4)];
                 
                 pointView.layer.cornerRadius = 2;
                 pointView.layer.masksToBounds = YES;
@@ -3160,13 +3161,23 @@
                     pointView.backgroundColor = RGB(19, 82, 226);
                 }
             }
+            
+            //文字
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
+            label.text = @"已开课";
+            label.font = [UIFont systemFontOfSize:10];
+            label.textColor = RGB(255, 255, 255);
+            if ([beginDate compare:self.selectDate] == NSOrderedSame) {
+                label.textColor = RGB(28, 28, 28);
+            }
+            label.textAlignment = NSTextAlignmentCenter;
+            [view addSubview:label];
         }
         
         if ([beginDate compare:self.selectDate] == NSOrderedSame) {
             //该日期是选中的日期
             [button setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
             view.backgroundColor = [UIColor whiteColor];
-            
         }
     }
     return view;

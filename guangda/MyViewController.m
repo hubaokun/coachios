@@ -241,24 +241,24 @@
         //小巴券时间
         int couponhour = [userInfo[@"couponhour"] intValue];
         
-        NSString *xiaobaTicketTime = [NSString stringWithFormat:@"未兑换小巴券：%d张", couponhour];
+        NSString *xiaobaTicketTime = [NSString stringWithFormat:@"%d张", couponhour];
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(7,[NSString stringWithFormat:@"%d",couponhour].length)];
+        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,[NSString stringWithFormat:@"%d",couponhour].length)];
         self.xiaobaTicketLabel.attributedText = string;
         
         //小巴币个数
         NSString *coinnum = [userInfo[@"coinnum"] description];
         NSString *coinnumStr;
         if (coinnum) {
-            coinnumStr = [NSString stringWithFormat:@"未兑换小巴币：%@个",coinnum];
+            coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
         }else{
             coinnum = @"0";
-            coinnumStr = [NSString stringWithFormat:@"未兑换小巴币：%@个",coinnum];
+            coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
         }
         
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
-        [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(7,coinnum.length)];
+        [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
         self.xiaobaCoinLabel.attributedText = string2;
         
         //
@@ -1037,17 +1037,17 @@
                 couponhour = @"0";
             }
             
-            NSString *xiaobaTicketTime = [NSString stringWithFormat:@"未兑换小巴券：%@张", couponhour];
+            NSString *xiaobaTicketTime = [NSString stringWithFormat:@"%@张", couponhour];
             
             NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
-            [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(7,couponhour.length)];
+            [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,couponhour.length)];
             self.xiaobaTicketLabel.attributedText = string;
             
             NSString *coinnum = [result[@"coinnum"] description];//小巴币个数
             
-            NSString *coinnumStr = [NSString stringWithFormat:@"未兑换小巴币：%@个",coinnum];
+            NSString *coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
             NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
-            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(7,coinnum.length)];
+            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
             self.xiaobaCoinLabel.attributedText = string2;
             
             NSInteger temp = [result[@"money"] integerValue] - [gmoney integerValue];

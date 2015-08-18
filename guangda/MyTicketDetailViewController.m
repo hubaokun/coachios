@@ -12,6 +12,8 @@
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
 @property (strong, nonatomic) IBOutlet UIButton *noDataButton;
 
+@property (strong, nonatomic) IBOutlet UIView *ruleView;//规则页面
+
 @property (strong, nonatomic) IBOutlet UIView *footBackView;
 @property (strong, nonatomic) IBOutlet UILabel *altogetherTime;
 @property (strong, nonatomic) IBOutlet UILabel *altogetherMoney;
@@ -291,6 +293,16 @@
     NSString *altogetherTimeStr = [NSString stringWithFormat:@"已选%@张共%@小时",ticketNum,altogetherHours];
     self.altogetherTime.text = altogetherTimeStr;
     
+}
+
+//兑换规则
+- (IBAction)clickForRule:(id)sender {
+    self.ruleView.frame = self.view.frame;
+    [self.view addSubview:self.ruleView];
+}
+
+- (IBAction)removeRuleView:(id)sender {
+    [self.ruleView removeFromSuperview];
 }
 
 #pragma mark - 接口
