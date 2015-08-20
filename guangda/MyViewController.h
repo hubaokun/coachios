@@ -19,6 +19,8 @@
 @property (strong, nonatomic) IBOutlet UIView *carAddrView;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *carAddrViewBottomCon;
 @property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) IBOutlet UILabel *phoneLabel;
+@property (strong, nonatomic) IBOutlet UILabel *trainTimeLabel;
 @property (strong, nonatomic) IBOutlet UIImageView *polygonImageView;
 @property (strong, nonatomic) IBOutlet UIView *dataView;
 //点击头像修改个人信息
@@ -26,5 +28,6 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *strokeImageView;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *starViewConstraint;
 
 @end

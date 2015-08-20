@@ -29,6 +29,7 @@
 #import "APAuthV2Info.h"
 #import "RecommendPrizeViewController.h"
 #import "ConvertCoinViewController.h"
+#import "UILabel+StringFrame.h"
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
     CGRect _oldFrame2;
@@ -169,6 +170,9 @@
     NSString *logoUrl = userInfo[@"avatarurl"];//头像
     NSString *name = userInfo[@"realname"];
     NSString *phone = userInfo[@"phone"];//手机号
+    //培训时长
+    NSString *totalTime = [userInfo[@"totaltime"] description];
+    totalTime = [CommonUtil isEmpty:totalTime]?@"0":totalTime;
     state = @"2";//全部显示的为已经通过审核的UI
     
     if ([state intValue] == 2) {
@@ -192,11 +196,13 @@
         
         //昵称
         if (name.length == 0) {
-           self.nameLabel.text = phone;
+           self.nameLabel.text = @"未设置";
         }else{
            self.nameLabel.text = name;
         }
         
+        self.phoneLabel.text = phone;
+        self.trainTimeLabel.text = [NSString stringWithFormat:@"已累计培训%@学时",totalTime];
         
         //余额
         if ([CommonUtil isEmpty:money]) {
@@ -264,8 +270,17 @@
         //
         float score = [userInfo[@"score"] floatValue];
         if(!self.starView){
-//            self.priceWidthConstraint.constant = 5 * 20;
-            self.starView = [[TQStarRatingView alloc] initWithFrame:self.priceAndAddrBar.bounds numberOfStar:5];
+            UILabel *label1 = [UILabel new];
+            label1.text = self.nameLabel.text;
+            label1.font =  [UIFont systemFontOfSize:20];
+            label1.numberOfLines = 0;        // 设置无限换行
+            CGSize size1 = [label1 boundingRectWithSize:CGSizeMake(0, self.nameLabel.frame.size.height)];
+            self.starViewConstraint.constant = -200+size1.width+10;
+            CGRect rect = self.priceAndAddrBar.bounds;
+            rect.origin.y = 3;
+            rect.size.height = 15;
+            rect.size.width = 103;
+            self.starView = [[TQStarRatingView alloc] initWithFrame:rect numberOfStar:5];
             [self.priceAndAddrBar addSubview:self.starView];
         }
         [self.starView changeStarForegroundViewWithScore:score];

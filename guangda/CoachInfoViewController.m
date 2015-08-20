@@ -63,6 +63,9 @@
 @property (strong, nonatomic) IBOutlet UITextField *teachCarCardField;
 
 // 准教车型
+@property (strong, nonatomic) IBOutlet UIButton *C1Button;
+@property (strong, nonatomic) IBOutlet UIButton *C2Button;
+
 @property (strong, nonatomic) IBOutlet UIView *carModelView;
 @property (strong, nonatomic) IBOutlet UITextField *carModelField;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *carModelViewHeight;
@@ -147,8 +150,8 @@
 @property (copy, nonatomic) NSString *carSchoolID;
 
 - (IBAction)clickForCommit:(id)sender;
-- (IBAction)clickForCarModel:(id)sender;
-- (IBAction)clickForCardMadeTime:(id)sender;
+//- (IBAction)clickForCarModel:(id)sender;
+//- (IBAction)clickForCardMadeTime:(id)sender;
 
 
 - (IBAction)clickForPhoto:(UIButton *)sender;
@@ -166,6 +169,7 @@
     [super viewDidLoad];
     [self.mainScrollView contentSizeToFit];
     [self getCoachDetail];
+//    [self getCarMode];
     // _mainViewHeight.constant = 1360;
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     self.userState = [userInfo[@"state"] description];
@@ -210,6 +214,11 @@
     
     //监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initCarModelData) name:@"updateModelList" object:nil];
+    
+    [self.C1Button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
+    [self.C1Button setImage:[UIImage imageNamed:@"coupon_selected"] forState:UIControlStateSelected];
+    [self.C2Button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
+    [self.C2Button setImage:[UIImage imageNamed:@"coupon_selected"] forState:UIControlStateSelected];
 }
 
 // 跳过
@@ -265,6 +274,8 @@
     NSString *carModel = [userInfo[@"teachcarmodel"] description]; // 教学用车型号
     NSString *driveschool = [userInfo[@"driveschool"]description];
     
+    NSString *modelid = [userInfo[@"modelid"]description];//准教车型id
+    
     NSString *idCardImage = [CommonUtil stringForID:userInfo[@"id_cardpicfurl"]]; // 身份证正面照片地址
     NSString *idCardBackImage = [CommonUtil stringForID:userInfo[@"id_cardpicburl"]]; // 身份证反面照片地址
     NSString *coachImage = [CommonUtil stringForID:userInfo[@"coach_cardpicurl"]]; // 教练证正面照片地址
@@ -308,6 +319,17 @@
     
     //准教车型
     self.myCarModelArray = [NSMutableArray arrayWithArray:userInfo[@"modellist"]];
+    NSArray *array = [modelid componentsSeparatedByString:@","];
+    for (int i=0; i<array.count; i++) {
+        NSString *model = array[i];
+        if ([model intValue] == 17) {
+            self.C1Button.selected = YES;
+        }
+        if ([model intValue] == 18) {
+            self.C2Button.selected = YES;
+        }
+    }
+    
     [self loadTestInfo];
     
     
@@ -578,6 +600,40 @@
 - (IBAction)clickForCommit:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"提交后将会进入审核状态，在未通过审核前学员无法预约您的课程" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
+}
+
+//C1或C2的选择
+- (IBAction)clickForC1:(id)sender {
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else{
+        if (self.C1Button.selected) {
+            self.C1Button.selected = NO;
+        }else{
+            self.C1Button.selected = YES;
+        }
+    }
+    
+}
+
+- (IBAction)clickForC2:(id)sender {
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else{
+        if (self.C2Button.selected) {
+            self.C2Button.selected = NO;
+        }else{
+            self.C2Button.selected = YES;
+        }
+    }
 }
 
 // 监听弹话框点击事件
@@ -1015,15 +1071,15 @@
 
 #pragma mark - 接口
 - (void)getCarMode{
-    NSArray *ds = [CommonUtil getObjectFromUD:@"modellist"];
-    if (ds.count > 0) {
-        [self.carModelArray removeAllObjects];
-        [self.carModelArray addObjectsFromArray:ds];
-        [self.carModelPicker reloadAllComponents];
-        self.selectView.frame = [UIScreen mainScreen].bounds;
-        [self.view addSubview:self.selectView];
-        return;
-    }
+//    NSArray *ds = [CommonUtil getObjectFromUD:@"modellist"];
+//    if (ds.count > 0) {
+//        [self.carModelArray removeAllObjects];
+//        [self.carModelArray addObjectsFromArray:ds];
+//        [self.carModelPicker reloadAllComponents];
+//        self.selectView.frame = [UIScreen mainScreen].bounds;
+//        [self.view addSubview:self.selectView];
+//        return;
+//    }
     
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kUserServlet]];
     request.tag = 2;
@@ -1083,14 +1139,14 @@
     //        [request setPostValue:carCNumPt forKey:@"carcardextime"];      // 车辆年检证到期时间
     //    }
     //
-    //    if(![CommonUtil isEmpty:_teachCarID]){
-    //        [request setPostValue:_teachCarID forKey:@"carmodelid"];
-    //    }else{
-    //        if(![CommonUtil isEmpty:carModel])
-    //        {
-    //            [request setPostValue:carModel forKey:@"carmodel"];// 教学用车型号
-    //        }
-    //    }
+        if(![CommonUtil isEmpty:_teachCarID]){
+            [request setPostValue:_teachCarID forKey:@"carmodelid"];
+        }else{
+            if(![CommonUtil isEmpty:carModel])
+            {
+                [request setPostValue:carModel forKey:@"carmodel"];// 教学用车型号
+            }
+        }
     //
     if(![CommonUtil isEmpty:_carSchoolID]){
         [request setPostValue:_carSchoolID forKey:@"driveschoolid"];
@@ -1142,23 +1198,38 @@
     //        [request setData:UIImageJPEGRepresentation(self.coachTureIconImageView.image, 0.75) forKey:@"cardpic7"];//教练真实头像
     //    }
     
-    //    //准教车型
-    //    if(carArray.count !=0){
-    //        NSDictionary *dic = carArray[0];
-    //        NSString *modelIds = dic[@"modelid"];
-    //        //    for (NSDictionary *dict in carArray) {
-    //        //        NSString *idStr = dict[@"modelid"];
-    //        //        modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
-    //        //    }
-    //        for(int i = 1;i<carArray.count;i++)
-    //        {
-    //            NSDictionary *dict = [carArray objectAtIndex:i];
-    //            NSString *idStr = dict[@"modelid"];
-    //            modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
-    //        }
-    //        //NSLog(@"%@",modelIds);
-    //        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
-    //    }
+    //准教车型
+    NSString *modelIds;
+    if (self.C1Button.selected) {
+        if (self.C2Button.selected) {
+            modelIds = @"17,18"; //17:C1 18:C2
+        }else{
+            modelIds = @"17";
+        }
+    }else{
+        if (self.C2Button.selected) {
+            modelIds = @"18";
+        }else{
+            modelIds = @"";
+        }
+    }
+    [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
+//    if(carArray.count !=0){
+//        NSDictionary *dic = carArray[0];
+//        NSString *modelIds = dic[@"modelid"];
+//        //    for (NSDictionary *dict in carArray) {
+//        //        NSString *idStr = dict[@"modelid"];
+//        //        modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
+//        //    }
+//        for(int i = 1;i<carArray.count;i++)
+//        {
+//            NSDictionary *dict = [carArray objectAtIndex:i];
+//            NSString *idStr = dict[@"modelid"];
+//            modelIds = [NSString stringWithFormat:@"%@,%@", modelIds, idStr];
+//        }
+//        //NSLog(@"%@",modelIds);
+//        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
+//    }
     
     
     [request startAsynchronous];
@@ -1174,7 +1245,7 @@
     //    [self.msgDic setObject:carCNum forKey:@"car_cardnum"];
     //    [self.msgDic setObject:carCNumPt forKey:@"car_cardexptime"];
     //    [self.msgDic setObject:carLicense forKey:@"carlicense"];
-    //    [self.msgDic setObject:carModel forKey:@"teachcarmodel"];
+//    [self.msgDic setObject:carModel forKey:@"carmodel"];
     //    [self.msgDic setObject:carArray forKey:@"modellist"];
     [self.msgDic setObject:carSchoolName forKey:@"driveschool"];
     
@@ -1269,9 +1340,9 @@
             NSArray *arr = [result objectForKey:@"modellist"];
             [self.carModelArray removeAllObjects];
             [self.carModelArray addObjectsFromArray:arr];
-            [self.carModelPicker reloadAllComponents];
-            self.selectView.frame = [UIScreen mainScreen].bounds;
-            [self.view addSubview:self.selectView];
+//            [self.carModelPicker reloadAllComponents];
+//            self.selectView.frame = [UIScreen mainScreen].bounds;
+//            [self.view addSubview:self.selectView];
         }
         
     } else if([code intValue] == 95){
