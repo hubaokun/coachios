@@ -160,6 +160,7 @@
 - (IBAction)clickForSelectSchool:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *selectSchoolButton;
 
+@property (copy, nonatomic) NSString *schoolid;
 
 @end
 
@@ -246,6 +247,7 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if (app.schoolName.length != 0) {
         self.schoolTextFiled.text = app.schoolName;
+        self.schoolid = app.driveschoolid;
     }
 }
 
@@ -1248,7 +1250,9 @@
 //    [self.msgDic setObject:carModel forKey:@"carmodel"];
     //    [self.msgDic setObject:carArray forKey:@"modellist"];
     [self.msgDic setObject:carSchoolName forKey:@"driveschool"];
-    
+    if (self.schoolid.length != 0) {
+        [self.msgDic setObject:self.schoolid forKey:@"driveschoolid"];
+    }
 }
 
 - (void)requestFinished:(ASIHTTPRequest *)request {

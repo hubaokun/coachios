@@ -181,8 +181,8 @@
         self.mainScrollView.userInteractionEnabled=YES;
         
         NSString *money = [userInfo[@"money"] description];//余额
-        NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额
-        NSString *gMoney = [userInfo[@"gmoney"] description];//保证金
+//        NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额
+//        NSString *gMoney = [userInfo[@"gmoney"] description];//保证金
         
         //头像
         self.strokeImageView.hidden = YES;
@@ -208,41 +208,45 @@
         if ([CommonUtil isEmpty:money]) {
             money = @"0";
         }
-        money = [NSString stringWithFormat:@"余额：%@元", money];
-        [self.moneyBtn setTitle:money forState:UIControlStateNormal];
+        NSString *money1 = [NSString stringWithFormat:@"%@元", money];
+//        [self.moneyBtn setTitle:money forState:UIControlStateNormal];
         
-        NSInteger moneyf = 0;
-        NSInteger fmoneyf = 0;
-        NSInteger gmoneyf = 0;
+//        NSInteger moneyf = 0;
+//        NSInteger fmoneyf = 0;
+//        NSInteger gmoneyf = 0;
+//        
+//        // 保证金及冻结金额
+//        if (![CommonUtil isEmpty:gMoney]){
+//            gmoneyf = [gMoney integerValue];
+//        }
+//        if (![CommonUtil isEmpty:moneyFrozen]) {
+//            fmoneyf = [moneyFrozen integerValue];
+//        }
+//        
+//        if (![CommonUtil isEmpty:userInfo[@"money"]]) {
+//            moneyf = [userInfo[@"money"] integerValue];
+//        }
+//        
+//        NSInteger temp = moneyf - gmoneyf;
+//        if(temp < 0){
+//            temp = 0;
+//        }
+//        
+//        
+//        gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
+//        moneyFrozen = [NSString stringWithFormat:@"%ld",(long)fmoneyf];
+//        
+//        NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, moneyFrozen];
+//        
+//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:moneyStr];
+//        [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,gMoney.length)];
+//        [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + gMoney.length,1)];
+//        [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(moneyStr.length - 6 - moneyFrozen.length,moneyFrozen.length)];
         
-        // 保证金及冻结金额
-        if (![CommonUtil isEmpty:gMoney]){
-            gmoneyf = [gMoney integerValue];
-        }
-        if (![CommonUtil isEmpty:moneyFrozen]) {
-            fmoneyf = [moneyFrozen integerValue];
-        }
-        
-        if (![CommonUtil isEmpty:userInfo[@"money"]]) {
-            moneyf = [userInfo[@"money"] integerValue];
-        }
-        
-        NSInteger temp = moneyf - gmoneyf;
-        if(temp < 0){
-            temp = 0;
-        }
-        
-        
-        gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
-        moneyFrozen = [NSString stringWithFormat:@"%ld",(long)fmoneyf];
-        
-        NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, moneyFrozen];
-        
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:moneyStr];
-        [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,gMoney.length)];
-        [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + gMoney.length,1)];
-        [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(moneyStr.length - 6 - moneyFrozen.length,moneyFrozen.length)];
-        self.cashLabel.attributedText = str;
+        NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money1];
+        [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money.length)];
+        [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
+        self.cashLabel.attributedText = str1;
         
         //小巴券时间
         int couponhour = [userInfo[@"couponhour"] intValue];
@@ -251,6 +255,7 @@
         
         NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
         [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,[NSString stringWithFormat:@"%d",couponhour].length)];
+        [string addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange([NSString stringWithFormat:@"%d",couponhour].length, 1)];
         self.xiaobaTicketLabel.attributedText = string;
         
         //小巴币个数
@@ -265,6 +270,7 @@
         
         NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
         [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
+        [string2 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(coinnum.length, 1)];
         self.xiaobaCoinLabel.attributedText = string2;
         
         //
@@ -472,7 +478,7 @@
     [self.coinRuleView removeFromSuperview];
 }
 
-// 更改头像
+// 查看小巴币/券规则
 - (IBAction)clickForCoinRuleView:(id)sender {
     //    self.photoView.hidden = NO;
     self.coinRuleView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
@@ -962,37 +968,44 @@
             self.commitView.hidden = YES;
             self.successAlertView.hidden = NO;
             
-            NSInteger fmoney = [result[@"fmoney"] integerValue];
-            NSInteger money = [result[@"money"] integerValue];
-            NSInteger gmoney = [result[@"gmoney"] integerValue];
-            NSString *moneyStr = [NSString stringWithFormat:@"%ld",(long)money];
-            NSString *fmoneyStr = [NSString stringWithFormat:@"%ld",(long)fmoney];
-            NSInteger temp = money - gmoney;
-            if(temp < 0){
-                 temp = 0;
-            }
+//            NSInteger fmoney = [result[@"fmoney"] integerValue];
+//            NSInteger money = [result[@"money"] integerValue];
+//            NSInteger gmoney = [result[@"gmoney"] integerValue];
+//            NSString *moneyStr = [NSString stringWithFormat:@"%ld",(long)money];
+//            NSString *fmoneyStr = [NSString stringWithFormat:@"%ld",(long)fmoney];
+//            NSInteger temp = money - gmoney;
+//            if(temp < 0){
+//                 temp = 0;
+//            }
+//            
+//            
+//            NSString *canApplyStr = [NSString stringWithFormat:@"%ld",(long)temp];
+//            //刷新金额
+//            NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+//            
+//            [dic setObject:fmoneyStr forKey:@"money_frozen"];
+//            [dic setObject:moneyStr forKey:@"money"];
+//            [CommonUtil saveObjectToUD:dic key:@"userInfo"];
+//            
+//            NSString *str1 = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", canApplyStr, fmoneyStr];
+//            
+//            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:str1];
+//            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,canApplyStr.length)];
+//            [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + fmoneyStr.length,1)];
+//            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(str1.length - 6 - fmoneyStr.length,fmoneyStr.length)];
+//            
+//            self.cashLabel.attributedText = str;
+            NSString *money1 = [result[@"money"] description];
+            NSString *money = [NSString stringWithFormat:@"%@元",money1];
             
+            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money];
+            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money1.length)];
+            [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
+            self.cashLabel.attributedText = str1;
             
-            NSString *canApplyStr = [NSString stringWithFormat:@"%ld",(long)temp];
-            //刷新金额
-            NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-            
-            [dic setObject:fmoneyStr forKey:@"money_frozen"];
-            [dic setObject:moneyStr forKey:@"money"];
-            [CommonUtil saveObjectToUD:dic key:@"userInfo"];
-            
-            NSString *str1 = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", canApplyStr, fmoneyStr];
-            
-            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:str1];
-            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,canApplyStr.length)];
-            [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + fmoneyStr.length,1)];
-            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(str1.length - 6 - fmoneyStr.length,fmoneyStr.length)];
-            
-            self.cashLabel.attributedText = str;
-            
-            NSString *moneyStr1 = [NSString stringWithFormat:@"余额：%ld元", (long)money];
-            [self.moneyBtn setTitle:moneyStr1 forState:UIControlStateNormal];
+//            NSString *moneyStr1 = [NSString stringWithFormat:@"余额：%ld元", (long)money];
+//            [self.moneyBtn setTitle:moneyStr1 forState:UIControlStateNormal];
             
             //清空数据
             self.moneyYuanField.text = @"";
@@ -1045,8 +1058,8 @@
             if ([CommonUtil isEmpty:money]) {
                 money = @"0";
             }
-            money = [NSString stringWithFormat:@"余额：%@元", money];
-            [self.moneyBtn setTitle:money forState:UIControlStateNormal];
+//            money = [NSString stringWithFormat:@"余额：%@元", money];
+//            [self.moneyBtn setTitle:money forState:UIControlStateNormal];
             
             if([CommonUtil isEmpty:couponhour]){
                 couponhour = @"0";
@@ -1056,6 +1069,7 @@
             
             NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
             [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,couponhour.length)];
+            [string addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(couponhour.length, 1)];
             self.xiaobaTicketLabel.attributedText = string;
             
             NSString *coinnum = [result[@"coinnum"] description];//小巴币个数
@@ -1063,22 +1077,29 @@
             NSString *coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
             NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
             [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
+            [string2 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(coinnum.length, 1)];
             self.xiaobaCoinLabel.attributedText = string2;
             
-            NSInteger temp = [result[@"money"] integerValue] - [gmoney integerValue];
-            if(temp < 0){
-               temp = 0;
-            }
+//            NSInteger temp = [result[@"money"] integerValue] - [gmoney integerValue];
+//            if(temp < 0){
+//               temp = 0;
+//            }
+//            
+//            NSString *gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
+//            NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, fmoney];
+//            
+//            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:moneyStr];
+//            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,gMoney.length)];
+//            [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + gMoney.length,1)];
+//            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(moneyStr.length - 6 - fmoney.length,fmoney.length)];
+//            self.cashLabel.attributedText = str;
+
+            NSString *money1 = [NSString stringWithFormat:@"%@元",money];
             
-            NSString *gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
-            NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, fmoney];
-            
-            NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:moneyStr];
-            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,gMoney.length)];
-            [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + gMoney.length,1)];
-            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(moneyStr.length - 6 - fmoney.length,fmoney.length)];
-            self.cashLabel.attributedText = str;
-            
+            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money1];
+            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money.length)];
+            [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
+            self.cashLabel.attributedText = str1;
             
         }else if (request.tag == 5){
             NSString *partner = [result[@"partner"] description];//合作者身份ID

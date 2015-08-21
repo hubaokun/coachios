@@ -122,10 +122,12 @@
     if (self.showItems.count > 0) {
         NSDictionary *dic = self.showItems[indexPath.row];
         app.schoolName = [dic[@"name"] description];
+        app.driveschoolid = [dic[@"schoolid"] description];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         NSDictionary *dic = self.allItems[indexPath.row];
         app.schoolName = [dic[@"name"] description];
+        app.driveschoolid = [dic[@"schoolid"] description];
         [self.navigationController popViewControllerAnimated:YES];
     }
     [self.search resignFirstResponder];
