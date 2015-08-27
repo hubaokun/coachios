@@ -129,6 +129,8 @@
     self.convertButton.layer.masksToBounds = YES;
     self.coinConvertButton.layer.cornerRadius = 2;
     self.coinConvertButton.layer.masksToBounds = YES;
+    
+    
 }
 - (void)changeMessageCount {
     [self getMessageCount];
@@ -142,6 +144,11 @@
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 80);
     
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -181,8 +188,6 @@
         self.mainScrollView.userInteractionEnabled=YES;
         
         NSString *money = [userInfo[@"money"] description];//余额
-//        NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额
-//        NSString *gMoney = [userInfo[@"gmoney"] description];//保证金
         
         //头像
         self.strokeImageView.hidden = YES;
@@ -275,20 +280,24 @@
         
         //
         float score = [userInfo[@"score"] floatValue];
-        if(!self.starView){
-            UILabel *label1 = [UILabel new];
-            label1.text = self.nameLabel.text;
-            label1.font =  [UIFont systemFontOfSize:20];
-            label1.numberOfLines = 0;        // 设置无限换行
-            CGSize size1 = [label1 boundingRectWithSize:CGSizeMake(0, self.nameLabel.frame.size.height)];
-            self.starViewConstraint.constant = -200+size1.width+10;
-            CGRect rect = self.priceAndAddrBar.bounds;
-            rect.origin.y = 3;
-            rect.size.height = 15;
-            rect.size.width = 103;
-            self.starView = [[TQStarRatingView alloc] initWithFrame:rect numberOfStar:5];
-            [self.priceAndAddrBar addSubview:self.starView];
+//        if(!self.starView){
+//            
+//        }
+        UILabel *label1 = [UILabel new];
+        label1.text = self.nameLabel.text;
+        label1.font =  [UIFont systemFontOfSize:20];
+        label1.numberOfLines = 0;        // 设置无限换行
+        CGSize size1 = [label1 boundingRectWithSize:CGSizeMake(0, self.nameLabel.frame.size.height)];
+        self.starViewConstraint.constant = -100+size1.width+10;
+        if (self.starViewConstraint.constant > 10) {
+            self.starViewConstraint.constant = 10;
         }
+        CGRect rect = self.priceAndAddrBar.bounds;
+        rect.origin.y = 3;
+        rect.size.height = 15;
+        rect.size.width = 103;
+        self.starView = [[TQStarRatingView alloc] initWithFrame:rect numberOfStar:5];
+        [self.priceAndAddrBar addSubview:self.starView];
         [self.starView changeStarForegroundViewWithScore:score];
         
     }else{

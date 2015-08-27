@@ -137,15 +137,7 @@
     
     self.addressId = self.timeDic[@"addressid"];
     self.subjectId = self.timeDic[@"subjectid"];
-    
-    NSString *isRest = self.timeDic[@"isrest"];//1:休息
-    if ([isRest integerValue] == 1) {
-        [self.stateSwitch setOn:NO];
-    }else{
-        [self.stateSwitch setOn:YES];
-    }
-    
-    if (self.stateSwitch.isOn) {
+
         //打开状态
         self.timeStateLabel.text = @"开课状态，若关闭，以上时间点屏蔽任何 学员选课！";
         
@@ -163,26 +155,6 @@
         self.contentPencilBtn.hidden = NO;
         self.contentTextField.textColor = RGB(37, 37, 37);
         self.contentTitleLabel.textColor = RGB(37, 37, 37);
-        
-    }else{
-        //关闭状态
-        self.timeStateLabel.text = @"未开课，以上时间点屏蔽任何学员选课！";
-        
-        //时间单价状态
-        self.priceTitleLabel.textColor = RGB(210, 210, 210);
-        self.priceTextField.textColor = RGB(210, 210, 210);
-        self.pricePencilBtn.hidden = YES;
-        
-        //上车地址状态
-        self.addressTitleLabel.textColor = RGB(210, 210, 210);
-        self.addressTextField.textColor = RGB(210, 210, 210);
-        self.addressPencilBtn.hidden = YES;
-        
-        //教学内容状态
-        self.contentPencilBtn.hidden = YES;
-        self.contentTextField.textColor = RGB(210, 210, 210);
-        self.contentTitleLabel.textColor = RGB(210, 210, 210);
-    }
     
 }
 
@@ -236,7 +208,7 @@
             myView2 = nil;
             myView2 = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, 320, 45)];
             myView2.textAlignment = NSTextAlignmentCenter;
-            myView2.text = [array10 objectAtIndex:row];
+                myView2.text = [array10 objectAtIndex:row];
             myView2.font = [UIFont systemFontOfSize:21];         //用label来设置字体大小
             myView2.textColor = [UIColor whiteColor];
             myView2.backgroundColor = [UIColor clearColor];
@@ -455,19 +427,32 @@
 
 //价格
 - (IBAction)clickForPrice:(id)sender {
-    if (self.stateSwitch.isOn) {
         [self.selectArray removeAllObjects];
+//    if ([self.priceTextField.text intValue] <=500 && [self.priceTextField.text intValue] >=50) {
+//        if (self.priceTextField.text.length == 2) {
+//            NSString *str1 = [self.priceTextField.text substringWithRange:NSMakeRange(0, 1)];
+//            NSString *str2 = [self.priceTextField.text substringWithRange:NSMakeRange(1, 1)];
+//            [self.pricePickerView selectRow:0 inComponent:0 animated:YES];
+//            [self.pricePickerView selectRow:[str1 intValue]-5 inComponent:1 animated:YES];
+//            [self.pricePickerView selectRow:[str2 intValue] inComponent:2 animated:YES];
+//        }
+//        if (self.priceTextField.text.length == 3) {
+//            NSString *str1 = [self.priceTextField.text substringWithRange:NSMakeRange(0, 1)];
+//            NSString *str2 = [self.priceTextField.text substringWithRange:NSMakeRange(1, 1)];
+//            NSString *str3 = [self.priceTextField.text substringWithRange:NSMakeRange(2, 1)];
+//            [self.pricePickerView selectRow:[str1 intValue] inComponent:0 animated:YES];
+//            [self.pricePickerView selectRow:[str2 intValue] inComponent:1 animated:YES];
+//            [self.pricePickerView selectRow:[str3 intValue] inComponent:2 animated:YES];
+//        }
+//    }
         self.selectView2.frame = self.view.frame;
         [self.view addSubview:self.selectView2];
         self.selectPickerTag = @"1";
         [self.pricePickerView reloadAllComponents];
-    }
-    
 }
 
 //选择地址
 - (IBAction)clickForChooseAddress:(id)sender {
-    if (self.stateSwitch.isOn) {
         [self.selectArray removeAllObjects];
         
         for (NSDictionary *dic in self.addressArray) {
@@ -478,23 +463,27 @@
             if ([CommonUtil isEmpty:addressid]) {
                 addressid = @"";
             }
-            
             NSMutableDictionary *dataDic = [NSMutableDictionary dictionary];
             [dataDic setObject:detail forKey:@"name"];
             [dataDic setObject:addressid forKey:@"id"];
             [self.selectArray addObject:dataDic];
         }
-        
+    for (int i=0; i<self.selectArray.count; i++) {
+        NSDictionary *dic = self.selectArray[i];
+        NSString *arrayId = [dic[@"id"] description];
+        NSString *addressid = [self.timeDic[@"addressid"] description];
+        if ([arrayId intValue] == [addressid intValue]) {
+            [self.selectPickerView selectRow:i inComponent:0 animated:YES];
+        }
+    }
         self.selectPickerView.tag = 0;
         self.selectView.frame = self.view.frame;
         [self.view addSubview:self.selectView];
         [self.selectPickerView reloadAllComponents];
-    }
 }
 
 //教学内容
 - (IBAction)clickForContent:(id)sender {
-    if (self.stateSwitch.isOn) {
         [self.selectArray removeAllObjects];
         
         for (NSDictionary *dic in self.subjectArray) {
@@ -512,12 +501,18 @@
             [dataDic setObject:subjectId forKey:@"id"];
             [self.selectArray addObject:dataDic];
         }
-        
+    for (int i=0; i<self.selectArray.count; i++) {
+        NSDictionary *dic = self.selectArray[i];
+        NSString *arrayId = [dic[@"id"] description];
+        NSString *subjectid = [self.timeDic[@"subjectid"] description];
+        if ([arrayId intValue] == [subjectid intValue]) {
+            [self.selectPickerView selectRow:i inComponent:0 animated:YES];
+        }
+    }
         self.selectPickerView.tag = 1;
         self.selectView.frame = self.view.frame;
         [self.view addSubview:self.selectView];
         [self.selectPickerView reloadAllComponents];
-    }
 }
 
 - (IBAction)clickForRemoveSelect:(id)sender {
@@ -560,7 +555,6 @@
 - (IBAction)clickForConfirm:(id)sender {
     if (self.comfirmBtn.selected) {
         
-        if (self.stateSwitch.isOn){
             NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             if ([CommonUtil isEmpty:price]) {
                 [self makeToast:@"请输入时间单价"];
@@ -577,7 +571,6 @@
                 [self makeToast:@"请选择教学内容"];
                 return;
             }
-        }
         
         [self.priceTextField resignFirstResponder];
         
@@ -613,6 +606,8 @@
 - (void)comfirmMsg{
     NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *state = [self.timeDic[@"state"] description];
+    NSString *subject = [self.contentTextField.text description];
+    NSString *addressdetail = [self.addressTextField.text description];
     if ([CommonUtil isEmpty:state]) {
         state = @"";
     }
@@ -627,27 +622,44 @@
     for (NSString *str in timeArray) {
         NSDate *strDate = [CommonUtil getDateForString:str format:@"HH:00"];
         NSString *hourStr = [CommonUtil getStringForDate:strDate format:@"H"];
-        
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setObject:[hourStr description] forKey:@"hour"];
         [dic setObject:[state description] forKey:@"state"];
         [dic setObject:[cancelstate description] forKey:@"cancelstate"];
         [dic setObject:[price description] forKey:@"price"];
-        if (self.stateSwitch.isOn) {
-            //是否休息 0.不休息  1.休息
-            [dic setObject:@"0" forKey:@"isrest"];
-        }else{
-            //休息
-            [dic setObject:@"1" forKey:@"isrest"];
-        }
-        
+        [dic setObject:@"1" forKey:@"isrest"];
         [dic setObject:[self.addressId description] forKey:@"addressid"];
         [dic setObject:[self.subjectId description] forKey:@"subjectid"];
-        
         [msgArray addObject:dic];
     }
     
     [DejalBezelActivityView activityViewForView:self.view];
+    
+    NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:self.timeDic];
+    [mutableDic setObject:price forKey:@"price"];
+    [mutableDic setObject:[self.subjectId description] forKey:@"subjectid"];
+    [mutableDic setObject:subject forKey:@"subject"];
+    [mutableDic setObject:[self.addressId description] forKey:@"addressid"];
+    [mutableDic setObject:addressdetail forKey:@"addressdetail"];
+    self.timeDic = mutableDic;
+    
+    NSMutableArray *testArray = [NSMutableArray arrayWithArray:self.allDayArray];
+    for (int i=0; i<testArray.count; i++) {
+        NSDictionary *timeDic = testArray[i];
+        NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
+        NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
+        for (int j=0; j<timeArray.count; j++) {
+            if ([timeArray[j] isEqualToString:str]) {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:mutableDic];
+                [dic setObject:[timeDic[@"hour"] description] forKey:@"hour"];
+                [testArray replaceObjectAtIndex:i withObject:dic];
+                
+            }
+        }
+    }
+    
+    self.allDayArray = testArray;
+    
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kScheduleServlet]];
     request.tag = 2;
@@ -692,13 +704,11 @@
             self.subjectArray = [NSMutableArray arrayWithArray:result[@"subjectlist"]];
         }else if (request.tag == 2){
             [DejalBezelActivityView removeViewAnimated:YES];
-            
             //提交修改信息
             [self makeToast:@"修改成功"];
             [self.navigationController popViewControllerAnimated:YES];
-            
-            NSMutableArray *array = [NSMutableArray arrayWithArray:result[@"datelist"]];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
+//            NSMutableArray *array = [NSMutableArray arrayWithArray:result[@"datelist"]];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:self.allDayArray];
         }
     }else if([code intValue] == 95){
         [self makeToast:message];
@@ -746,7 +756,6 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-        if (self.stateSwitch.isOn){
             NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             if ([CommonUtil isEmpty:price]) {
                 [self makeToast:@"请输入时间单价"];
@@ -763,7 +772,6 @@
                 [self makeToast:@"请选择教学内容"];
                 return;
             }
-        }
         
         [self.priceTextField resignFirstResponder];
         

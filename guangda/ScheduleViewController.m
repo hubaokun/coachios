@@ -45,6 +45,7 @@
 @property (strong, nonatomic) IBOutlet UISwitch *openOrCloseSwitch;
 
 //参数
+@property (strong, nonatomic) NSMutableArray *DefaultSchedule;//默认的课程安排
 @property (strong, nonatomic) NSMutableArray *calenderArray;
 @property (strong, nonatomic) NSDate *nowDate;
 @property (strong, nonatomic) NSDate *selectDate;//选中的日期
@@ -57,6 +58,7 @@
 @property (strong, nonatomic) NSString *nowHour;//现在时间点
 
 @property (strong, nonatomic) IBOutlet UIButton *setDefaultButton;
+
 - (IBAction)clickForSetDefaultCheck:(id)sender;
 
 - (IBAction)clickTest:(id)sender;
@@ -77,6 +79,12 @@
 @property (strong, nonatomic) IBOutlet UIButton *defaultCancelButton;
 
 - (IBAction)clickForDefaultAlert:(id)sender;
+
+
+@property (strong, nonatomic) IBOutlet UIView *openOrCloseClassView;
+@property (strong, nonatomic) IBOutlet UIButton *writeScheduleButton;
+@property (strong, nonatomic) IBOutlet UIButton *sureIssueButton;
+@property (strong, nonatomic) IBOutlet UIButton *stopClassButton;
 
 @end
 
@@ -122,10 +130,20 @@
     self.defaultCancelButton.layer.cornerRadius = 5;
     self.defaultCancelButton.layer.masksToBounds = YES;
     
+    self.openOrCloseClassView.hidden = YES;
+    self.writeScheduleButton.layer.cornerRadius = 5;
+    self.writeScheduleButton.layer.masksToBounds = YES;
+    self.writeScheduleButton.hidden = YES;
+    self.sureIssueButton.layer.cornerRadius = 5;
+    self.sureIssueButton.layer.masksToBounds = YES;
+    self.sureIssueButton.hidden = YES;
+    self.stopClassButton.layer.cornerRadius = 5;
+    self.stopClassButton.layer.masksToBounds = YES;
+    self.stopClassButton.hidden = YES;
     self.defaultAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     needRefresh = YES;
-
+    
 }
 
 - (IBAction)clickTest:(id)sender {
@@ -202,6 +220,7 @@
         [self.mainTableView setContentOffset:CGPointMake(0, -60) animated:YES];//手动下拉
         [self.refreshManager tableViewReloadStart:[NSDate date] Animated:YES];
         [self getScheduleList];
+        self.openOrCloseClassView.hidden = YES;
     }
 }
 
@@ -268,9 +287,9 @@
     CGFloat height = 0;
     
     int weekHeight = ceil(SCREEN_WIDTH / 7);
- 
+    
     height = weekHeight;
-
+    
     if (!isShowCalendar) {
         //不显示日历
         height = 0;
@@ -295,7 +314,7 @@
 
 //sectionHeader的样式
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section;{
-
+    
     /************** 日期栏 ****************/
     self.dateView = [[UIView alloc] init];
     /*****  日历页面  *****/
@@ -304,7 +323,7 @@
     int weekWidth = ceil(SCREEN_WIDTH / 7.0);
     
     NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
-
+    
     //获取月末时间
     NSDate *lastDate = [CommonUtil getLastDayOfDate:firstDate];
     
@@ -321,7 +340,7 @@
     [self.dateView addSubview:self.monthDayView];
     
     CGFloat dayY = 0;
-
+    
     for (int i = 0; i < weekCount*7; i++) {
         
         int index = -1;
@@ -398,7 +417,7 @@
     if (section == 0) {
         if (isReload2Section) {
             //不显示第一行的section
-           return 0;
+            return 0;
         }
         return 16;
     }
@@ -523,79 +542,13 @@
 - (void)showTableFooterView{
     
     UIView *view = [[UIView alloc] init];
-    view.backgroundColor = [UIColor clearColor];
+    view.backgroundColor = [UIColor whiteColor];
     
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSDictionary *dic = [self.calenderDic objectForKey:chooseTime];
     if (dic != nil) {
-        int state = [[dic objectForKey:@"state"] intValue];//全天状态 0未开课  1开课
-        NSString *cancelState = [dic objectForKey:@"cancelstate"];//当天的订单是否可以取消 0.可以取消 1.不可以取消
-
-        if (self.orderMsgView.superview) {
-            [self.orderMsgView removeFromSuperview];
-        }
         
-        CGFloat height = 0;
-        
-        //判断全天开课或者停课
-        if(state == 0){//未开课
-            [self.openOrCloseSwitch setOn:NO];
-            self.openOrCloseLabel.text = @"已关闭，学员现在不可以预定您今天的课程了";
-        }else{//开课
-            [self.openOrCloseSwitch setOn:YES];
-            self.openOrCloseLabel.text = @"已开启，学员现在可以预定您今天的课程了";
-        }
-        
-//        NSString *permiss = self.cancelPermission;//是否有设置当天订单可否取消的权限 0.可以设置  1.不可以设置
-//        if ([permiss intValue] == 0) {
-//            //可以设置
-//            int cancel = [cancelState intValue];//0.可以取消 1.不可以取消
-//            if (cancel == 0) {//可以取消教练的订单
-//                [self.orderSwitch setOn:YES];
-//                self.orderDescLabel.text = @"已开启，学员预定后可以取消对您下的订单";
-//            }else{
-//                [self.orderSwitch setOn:NO];
-//                self.orderDescLabel.text = @"已关闭，学员预定后不可以取消对您下的订单";
-//            }
-//            self.orderMsgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 80.0);
-//            height = 80.0;
-//        }else{
-//            height = 0.0;
-//            self.orderMsgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.0);
-//        }
-//        
-//        
-//        [view addSubview:self.orderMsgView];
-
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 120*2)/6, height+10, 120, 11)];
-        imageView.image = [UIImage imageNamed:@"notice_image"];
-        [view addSubview:imageView];
-        height = 21;
-        //显示当天停课按钮
-        CGFloat x = ceilf((SCREEN_WIDTH - 140)/2);
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(x, height + 13, 140, 41);
-        button.layer.cornerRadius = 3;
-        if(state == 0){
-            [button setTitle:@"发布课程" forState:UIControlStateNormal];
-            [button setBackgroundColor:RGB(33, 180, 120)];
-        }else{
-            [button setTitle:@"当天停课" forState:UIControlStateNormal];
-            [button setBackgroundColor:[UIColor redColor]];
-            button.backgroundColor = [UIColor redColor];
-        }
-        button.tag = state;
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(clickForTodayOPenClose:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:button];
-        
-//        //设置按钮背景
-//        UIImage *image1 = [[UIImage imageNamed:@"background_check_geton"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-//        UIImage *image2 = [[UIImage imageNamed:@"background_check_geton_h"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)];
-//        [button setBackgroundImage:image1 forState:UIControlStateNormal];
-//        [button setBackgroundImage:image2 forState:UIControlStateHighlighted];
-        
-        view.frame = CGRectMake(0, 100, SCREEN_WIDTH, 41 + 13*2 + height);
+        view.frame = CGRectMake(0, 100, SCREEN_WIDTH, self.openOrCloseClassView.frame.size.height);
         
         self.mainTableView.tableFooterView = view;
     }
@@ -612,43 +565,6 @@
         return lastWeek - selectWeed;
     }else{
         return 3;
-//        NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
-//        NSDictionary *dic = [self.calenderDic objectForKey:chooseTime];
-//        
-//        NSArray *array = dic[@"list"];
-//        
-//        NSDictionary *stateDic = nil;
-//        for (NSDictionary *dateDic in array) {
-//            int hour = [dateDic[@"hour"] intValue];
-//            if (hour >= 25 || hour <= 0) {
-//                stateDic = dateDic;
-//                break;
-//            }
-//        }
-        
-        
-        
-//        if (stateDic == nil) {
-//            //没有全天状态，今天为开课状态
-//            return 3;
-//        }else{
-//            NSString *state = [stateDic[@"state"] description];//全天状态 0开课  1未开课
-//            if ([state intValue] == 1) {
-//                return 0;
-//            }else{
-//                return 3;
-//            }
-//        }
-        
-//        if (dic != nil) {
-//            NSString *state = [dic objectForKey:@"state"];//0：停课 1:开课（未开课）
-//            if ([state intValue] == 1) {
-//                //没有日程安排
-//                return 0;
-//            }
-//        }
-//        //显示当天停课按钮
-//        return 3;
     }
     
 }
@@ -664,30 +580,18 @@
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
     }
-    NSString *key = [NSString stringWithFormat:@"row%ld", (long)indexPath.row];
-    NSString *state = [dic objectForKey:key];
-    
-    
-    //状态 0:关闭 1：打开
-    if ([state intValue] == 0) {
-//        //关闭
-//        if (indexPath.row == 0) {
-//            return 45 + 8;
-//        }
-        return 45;
-    }else{
-        if (indexPath.row == 0) {
-            //+ 11 + 18  代表开课不开课标记的高度
-            //上午
-            return (43 + 7) * 4 + 21 + 45 + 0 + 10 + 35  + 5;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
-        }else if (indexPath.row == 1){
-            //下午
-            return (43 + 7) * 4 + 21 + 45 + 10 + 35  + 5;//4行时间
-        }else {
-            //晚上
-            return (43 + 7) * 3 + 21 + 45 + 10 + 35  + 10;//3行时间
-        }
+    if (indexPath.row == 0) {
+        //+ 11 + 18  代表开课不开课标记的高度
+        //上午
+        return (66 + 7) * 2 + 33;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
+    }else if (indexPath.row == 1){
+        //下午
+        return (66 + 7) * 2 + 13;//4行时间
+    }else {
+        //晚上
+        return (66 + 7) * 1 + 13;//3行时间
     }
+    //    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForDateRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -718,7 +622,7 @@
     
     //星期几frame
     int weekHeight = weekWidth;
-
+    
     /*******  月份view ******/
     UIView *monthDayView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, weekCount*weekHeight)];
     [cell.contentView addSubview:monthDayView];
@@ -776,7 +680,7 @@
         UIView *view = [self showDateButtonView:weekWidth dayStr:dayStr beginDate:beginDate status:status index:index lastDate:lastDate firstDate:firstDate month:month];
         view.frame = CGRectMake(i%7*weekWidth, dayY, weekWidth, weekHeight);
         [monthDayView addSubview:view];
-   
+        
         beginDate = [CommonUtil addDate2:beginDate year:0 month:0 day:1];
         //计算Y轴距离
         if (i>0 && (i+1)%7==0) {
@@ -807,20 +711,10 @@
         y = 0;
     }
     
-    /* ----  时间栏  ----- */
-    UIView *timeView = [[UIView alloc] initWithFrame:CGRectMake(0, y, SCREEN_WIDTH, 45)];
-    [cell.contentView addSubview:timeView];
-    
-    UIButton *clickButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    clickButton.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(timeView.frame));
-    [clickButton addTarget:self action:@selector(clickForChangeSchedule:) forControlEvents:UIControlEventTouchUpInside];
-    clickButton.tag = indexPath.row;
-    [timeView addSubview:clickButton];
-    
     //上划线
-    UIView *underline = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
-    underline.backgroundColor = RGB(211, 211, 211);
-    [timeView addSubview:underline];
+    UIView *underline = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+    underline.backgroundColor = RGB(244, 244, 244);
+    [cell.contentView addSubview:underline];
     
     //获取数据
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
@@ -829,427 +723,253 @@
         dic = [NSMutableDictionary dictionary];
     }
     
-    /* ----  点  ----- */
-    CGFloat pointY = ceilf((45 - 8)/2);
-    UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(16, pointY, 8, 8)];
-    pointView.layer.cornerRadius = 4;
-    pointView.layer.masksToBounds = YES;
-    [timeView addSubview:pointView];
-    
-    NSString *str = @"";
     if (indexPath.row == 0) {
-        //上午橙色，未开课显示灰色
-        str = dic[@"morning"];
-        if ([@"未开课" isEqualToString:str]) {
-            pointView.backgroundColor = RGB(193, 193, 193);
-        }else{
-            pointView.backgroundColor = RGB(247, 148, 29);
-        }
-        
-    }else if (indexPath.row == 1){
-        //下午红色，未开课显示灰色
-        str = dic[@"afternoon"];
-        if ([@"未开课" isEqualToString:str]) {
-            pointView.backgroundColor = RGB(193, 193, 193);
-        }else{
-            pointView.backgroundColor = RGB(213, 49, 47);
-        }
-        
-        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 120*2)/6, 10, 180, 11)];
+        imageView.image = [UIImage imageNamed:@"notice_image"];
+        [cell.contentView addSubview:imageView];
+        y = 20;
     }else{
-        //晚上蓝色，未开课显示灰色
-        str = dic[@"evening"];
-        if ([@"未开课" isEqualToString:str]) {
-            pointView.backgroundColor = RGB(193, 193, 193);
-        }else{
-            pointView.backgroundColor = RGB(19, 82, 226);
-        }
-        
+        y = 0;
     }
     
-    //时间
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(pointView.frame.origin.x + CGRectGetWidth(pointView.frame) + 8, 0, 30, 45)];
-    label.font = [UIFont systemFontOfSize:12];
-    label.textColor = RGB(85, 85, 85);
-    [timeView addSubview:label];
-    if (indexPath.row == 0) {
-        label.text = @"上午";
-    }else if (indexPath.row == 1){
-        label.text = @"下午";
-    }else{
-        label.text = @"晚上";
-    }
-   
+    //显示按钮
+    UIView *selectView = [[UIView alloc] init];//按钮区域
+    [cell.contentView addSubview:selectView];
     
-    NSString *key = [NSString stringWithFormat:@"row%ld", (long)indexPath.row];
-    NSString *state = [dic objectForKey:key];
-    //状态 0:关闭 1：打开
-    if ([state intValue] == 0) {
-        //关闭
+    //获取开始时间
+    NSDate *date = [CommonUtil getDateForString:@"5:00" format:@"H:00"];
+    if (indexPath.row == 1) {
+        date = [CommonUtil getDateForString:@"13:00" format:@"H:00"];
+    }else if (indexPath.row == 2){
+        //晚上
+        date = [CommonUtil getDateForString:@"20:00" format:@"H:00"];
+    }
+    
+    /* ----   显示按钮   ------*/
+    int count = 9; //7 个时间点 1个底部
+    if (indexPath.row == 1) {
+        //下午
+        count = 8;
+    }else if (indexPath.row == 2){
+        //晚上
+        count = 5;
+    }
+    
+    CGFloat marginX = ceil((SCREEN_WIDTH - 120*2)/6);
+    CGFloat buttonY = 6;
+    
+    //按钮状态
+    NSString *key1 = @"selectState";
+    NSDictionary *selectDic = [dic objectForKey:key1];
+    for (int i = 0; i < count; i++) {
         
-        //箭头
-        CGFloat x = SCREEN_WIDTH - 15 - 9;
-        pointY = ceilf((45 - 15)/2);
-        UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, pointY, 9, 15)];
-        arrowImageView.image = [UIImage imageNamed:@"arrow_complain"];
-        [timeView addSubview:arrowImageView];
-        
-        //文字
-        x = x - label.frame.origin.x - CGRectGetWidth(label.frame) - 10 - 8;
-        UILabel *descLabel = [[UILabel alloc] initWithFrame:CGRectMake(label.frame.origin.x + CGRectGetWidth(label.frame) + 10, 0, x, 45)];
-        descLabel.font = [UIFont boldSystemFontOfSize:17];
-        descLabel.textColor = RGB(28, 28, 28);
-        descLabel.textAlignment = NSTextAlignmentRight;
-        [timeView addSubview:descLabel];
-        
-        NSString *str = @"";
-        if (indexPath.row == 0) {
-            //上午
-            str = dic[@"morning"];
-            if ([CommonUtil isEmpty:str]) {
-                str = @"5:00~11:00";
-            }
-        }else if (indexPath.row == 1){
-            //下午
-            str = dic[@"afternoon"];
-            if ([CommonUtil isEmpty:str]) {
-                str = @"13:00~18:00";
-            }
+        if (i == count-1) {
         }else{
-            //晚上
-            str = dic[@"evening"];
-            if ([CommonUtil isEmpty:str]) {
-                str = @"20:00~23:00";
-            }
-        }
-        descLabel.text = str;
-        
-        y = 44;
-    }else{
-        //打开
-        //箭头
-        CGFloat x = SCREEN_WIDTH - 15 - 14;
-        pointY = ceilf((45 - 9)/2);
-        UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, pointY, 14, 9)];
-        arrowImageView.image = [UIImage imageNamed:@"arrow_down_black"];
-        [timeView addSubview:arrowImageView];
-        
-        y = 45;
-        
-        //显示按钮
-        UIView *selectView = [[UIView alloc] init];//按钮区域
-        [cell.contentView addSubview:selectView];
-        
-        //获取开始时间
-        NSDate *date = [CommonUtil getDateForString:@"5:00" format:@"H:00"];
-        if (indexPath.row == 1) {
-            date = [CommonUtil getDateForString:@"12:00" format:@"H:00"];
-        }else if (indexPath.row == 2){
-            //晚上
-            date = [CommonUtil getDateForString:@"19:00" format:@"H:00"];
-        }
-        
-        /* ----   显示按钮   ------*/
-        int count = 8; //7 个时间点 1个底部
-        if (indexPath.row == 1) {
-            //下午
-            count = 8;
-        }else if (indexPath.row == 2){
-            //晚上
-            count = 6;
-        }
-        
-        CGFloat marginX = ceil((SCREEN_WIDTH - 120*2)/3);
-        CGFloat buttonY = 10;
-        
-        //按钮状态
-        NSString *key1 = [NSString stringWithFormat:@"selectState%ld", (long)indexPath.row];
-        NSDictionary *selectDic = [dic objectForKey:key1];
-        NSString *allSelect = [selectDic objectForKey:@"allSelect"];//0:不是全选 1：全选
-        for (int i = 0; i < count; i++) {
-            
-            if (i == count-1) {
-                //显示底部栏
-                marginX = ceil((SCREEN_WIDTH - 120*2)/3);
-                buttonY += (7 + 21 + 30);
-                
-//                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(marginX, buttonY, 120, 11)];
-//                imageView.image = [UIImage imageNamed:@"notice_image"];
-//                [selectView addSubview:imageView];
-//
-//                buttonY += 11 + 18;
-                
-                UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, ceil((SCREEN_WIDTH - 120*2)/3) + 120*2, 55)];
-                bottomView.backgroundColor = [UIColor clearColor];
-                [selectView addSubview:bottomView];
-                
-                //下划线
-                UIView *underline = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(bottomView.frame), 1)];
-                underline.backgroundColor = RGB(246, 246, 246);
-                [bottomView addSubview:underline];
-                
-                //全选按钮
-                DateButton *button = [DateButton buttonWithType:UIButtonTypeCustom];
-                button.frame = CGRectMake(0, 0, 120, CGRectGetHeight(bottomView.frame));
-                [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 0)];
-                button.titleLabel.font = [UIFont systemFontOfSize:14];
-                [button setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
-                button.tag = indexPath.row;
-                [button setTitle:@"全选" forState:UIControlStateNormal];
-                button.date = @"-1";
-                [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-                [button addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
-                [bottomView addSubview:button];
-                
-                [button setImage:[UIImage imageNamed:@"btn_checkbox_unchecked"] forState:UIControlStateNormal];
-                [button setImage:[UIImage imageNamed:@"btn_checkbox_checked"] forState:UIControlStateSelected];
-                
-                //按钮状态//0:全选 1：不是全选
-                if ([allSelect integerValue] == 0) {
-                    //是全选
-                    button.selected = YES;
-                }
-                if ([CommonUtil isEmpty:allSelect]) {
-                    //显示默认值
-                    if (indexPath.row == 1){
-                        button.selected = NO;//下午
-                    }else if(indexPath.row == 2){
-                        button.selected = NO;//晚上
-                    }
-                }
-                
-                //修改按钮
-                x = CGRectGetWidth(bottomView.frame) - 84;
-                pointY = ceilf((CGRectGetHeight(bottomView.frame) - 32)/2);
-                DateButton *editBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-                editBtn.frame = CGRectMake(x, pointY, 84, 32);
-                editBtn.tag = indexPath.row;
-                [editBtn setTitle:@"批量设置" forState:UIControlStateNormal];
-                [editBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                editBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-                [editBtn setBackgroundColor:RGB(247, 148, 29)];
-                [editBtn addTarget:self action:@selector(clickForUpdateTime:) forControlEvents:UIControlEventTouchUpInside];
-                editBtn.layer.cornerRadius = 3;
-                editBtn.layer.masksToBounds = YES;
-                [bottomView addSubview:editBtn];
-                
-                //总高度
-                buttonY += CGRectGetHeight(bottomView.frame);
-                
+            if (i > 0 && i/4 >= 1) {
+                buttonY = (18 + 66);
             }else{
-                if (i > 0 && i%2 == 0) {
-                    buttonY += (8 + 43);
-                }
-                
-                if (i > 0 && i%2 == 0) {
-                    marginX = ceil((SCREEN_WIDTH - 120*2)/3);
-                }
-                
-                if (i > 0 && (i + 1) %2 == 0) {
-                    marginX = ceil((SCREEN_WIDTH - 120*2)/3) *2 + 120;
-                }
-                
-                //时间按
-                NSString *time = [CommonUtil getStringForDate:date format:@"H:00"];
-                date = [CommonUtil addTime:date hour:1 minute:0 second:0];
-                
-                /////////////////  时间view  /////////////////
-                //时间view
-                UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, 120, 43)];
-                contentView.backgroundColor = [UIColor clearColor];
-                
-                [selectView addSubview:contentView];
-
-                //时间
-                UIView *timeDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120-33, CGRectGetHeight(contentView.frame))];
-                timeDetailView.backgroundColor = [UIColor whiteColor];
-                timeDetailView.layer.borderWidth = 1;
-                timeDetailView.layer.borderColor = RGB(243, 243, 243).CGColor;
-                [contentView addSubview:timeDetailView];
-                
-                //日期显示
-                UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 0, CGRectGetWidth(timeDetailView.frame) - 26 - 8 - 7, CGRectGetHeight(timeDetailView.frame) - 16)];
-                timeLabel.font = [UIFont boldSystemFontOfSize:16];
-                //timeLabel.textColor = RGB(28, 28, 28);
-                timeLabel.textColor = RGB(32, 180, 120);
-                timeLabel.text = time;
-                [timeDetailView addSubview:timeLabel];
-                
-                //选中样式
-               /*
-                UIImageView *selectImageView = [[UIImageView alloc] initWithFrame:CGRectMake(timeLabel.frame.origin.x + CGRectGetWidth(timeLabel.frame), ceil((CGRectGetHeight(timeLabel.frame) - 8)/2), 12, 8)];
-                selectImageView.image = [UIImage imageNamed:@"icon_ok_black"];
-                selectImageView.hidden = YES;
-                [timeDetailView addSubview:selectImageView];
-                */
-                UILabel *selectLabel = [[UILabel alloc] initWithFrame:CGRectMake(timeLabel.frame.origin.x + CGRectGetWidth(timeLabel.frame), ceil((CGRectGetHeight(timeLabel.frame) - 14)/2), 26, 14)];
-                selectLabel.backgroundColor = [UIColor blackColor];
-                selectLabel.textAlignment = NSTextAlignmentCenter;
-                selectLabel.font = [UIFont systemFontOfSize:11];
-                selectLabel.textColor = [UIColor whiteColor];
-                selectLabel.text = @"选中";
-                selectLabel.hidden = YES;
-                [timeDetailView addSubview:selectLabel];
-                
-                //价格显示
-                UIView *priceView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(timeLabel.frame), CGRectGetWidth(timeDetailView.frame), 16)];
-                //priceView.backgroundColor = RGB(243, 243, 243);
-                priceView.backgroundColor = RGB(32, 180, 120);
-                [contentView addSubview:priceView];
-                
-                //获取价格
-                
-                NSString *price = @"0";
-                NSArray *array = dic[@"list"];
-                NSString *timeStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
-                for (NSDictionary *arrDic in array) {
-                    NSString *hour = arrDic[@"hour"];
-                    if ([timeStr intValue] == [hour intValue]) {
-                        price = [arrDic[@"price"] description];
-                        if ([CommonUtil isEmpty:price]) {
-                            price = @"0";
-                        }else{
-                            price = [NSString stringWithFormat:@"%.0f", [price floatValue]];
-                        }
-                        break;
+                buttonY = 6;
+            }
+            
+            if (i > 0 && i%4 == 0) {
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6);
+            }
+            
+            if (i > 0 && (i + 1) %4 == 0) {
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (66+10)*3;
+            }
+            
+            if (i > 0 && (i + 2) %4 == 0) {
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (66+10)*2;
+            }
+            
+            if (i > 0 && (i + 3) %4 == 0) {
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (66+10)*1;
+            }
+            
+            //时间按
+            NSString *time = [CommonUtil getStringForDate:date format:@"H:00"];
+            date = [CommonUtil addTime:date hour:1 minute:0 second:0];
+            
+            /////////////////  时间view  /////////////////
+            //时间view
+            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, 66, 70)];
+            contentView.backgroundColor = [UIColor clearColor];
+            
+            [selectView addSubview:contentView];
+            
+            //时间
+            UIView *timeDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 66, CGRectGetHeight(contentView.frame))];
+            timeDetailView.backgroundColor = RGB(174, 174, 174);
+            timeDetailView.layer.cornerRadius = 4;
+            timeDetailView.layer.borderColor = RGB(243, 243, 243).CGColor;
+            [contentView addSubview:timeDetailView];
+            
+            //日期显示
+            UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, 66, 26)];
+            timeLabel.font = [UIFont systemFontOfSize:17];
+            timeLabel.textAlignment = NSTextAlignmentCenter;
+            //timeLabel.textColor = RGB(28, 28, 28);
+            timeLabel.textColor = RGB(68, 68, 68);
+            timeLabel.text = time;
+            [timeDetailView addSubview:timeLabel];
+            
+            UIImageView *selectLabel = [[UIImageView alloc] initWithFrame:CGRectMake(timeLabel.frame.origin.x + CGRectGetWidth(timeLabel.frame)-8, ceil((CGRectGetHeight(timeLabel.frame) - 14)/2)-8, 16, 16)];
+            selectLabel.backgroundColor = [UIColor clearColor];
+            selectLabel.image = [UIImage imageNamed:@"blackRight"];
+            selectLabel.hidden = YES;
+            [contentView addSubview:selectLabel];
+            
+            UIImageView *alreadyOrder = [[UIImageView alloc] initWithFrame:CGRectMake(0.5, 0.5, 20, 20)];
+            alreadyOrder.backgroundColor = [UIColor clearColor];
+            alreadyOrder.image = [UIImage imageNamed:@"约"];
+            alreadyOrder.hidden = YES;
+            [contentView addSubview:alreadyOrder];
+            
+            //价格显示
+            UIView *priceView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(timeLabel.frame)+18, CGRectGetWidth(timeDetailView.frame), 16)];
+            [contentView addSubview:priceView];
+            
+            //科目内容
+            UILabel *teachTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,  CGRectGetHeight(timeLabel.frame),CGRectGetWidth(timeDetailView.frame), 26)];
+            //priceLabel.textColor = RGB(247, 148, 29);
+            teachTypeLabel.textColor = RGB(68, 68, 68);
+            teachTypeLabel.textAlignment = NSTextAlignmentCenter;
+            teachTypeLabel.font = [UIFont systemFontOfSize:13];
+            NSString *subject = @"暂无";
+            [contentView addSubview:teachTypeLabel];
+            
+            //获取价格 和科目
+            NSString *price = @"0";
+            NSString *subjectid = @"0";
+            NSString *isrest = @"2";
+            NSString *bookedername = @"";
+            NSArray *array = dic[@"list"];
+            NSString *timeStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
+            for (NSDictionary *arrDic in array) {
+                NSString *hour = arrDic[@"hour"];
+                if ([timeStr intValue] == [hour intValue]) {
+                    price = [arrDic[@"price"] description];
+                    subjectid = [arrDic[@"subjectid"] description];
+                    isrest = [arrDic[@"isrest"] description];
+                    bookedername = [arrDic[@"bookedername"] description];
+                    if ([CommonUtil isEmpty:subjectid]) {
+                        subjectid = @"0";
                     }
-                }
-                //价格label显示
-                UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(8, 0, CGRectGetWidth(priceView.frame) - 8, 16)];
-                //priceLabel.textColor = RGB(247, 148, 29);
-                priceLabel.textColor = [UIColor whiteColor];
-                priceLabel.font = [UIFont systemFontOfSize:10];
-                priceLabel.text = [NSString stringWithFormat:@"单价%@元", price];
-                [priceView addSubview:priceLabel];
-                
-                //点击按钮
-                DateButton *button = [DateButton buttonWithType:UIButtonTypeCustom];
-                button.frame = CGRectMake(0, 0, CGRectGetWidth(timeDetailView.frame), CGRectGetHeight(timeDetailView.frame));
-                button.tag = indexPath.row;
-                button.date = time;
-                button.index = [NSString stringWithFormat:@"%d", i];
-                [button addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
-                [contentView addSubview:button];
-                
-                
-                //------------------设置按钮---------------------
-                DateButton *settingBtn = [DateButton buttonWithType:UIButtonTypeCustom];
-                settingBtn.date = time;
-                settingBtn.tag = indexPath.row;
-                settingBtn.index = [NSString stringWithFormat:@"%d", i];
-                settingBtn.frame = CGRectMake(CGRectGetWidth(timeDetailView.frame) - 1, 0, 34, CGRectGetHeight(contentView.frame));
-                settingBtn.backgroundColor = [UIColor whiteColor];
-                [settingBtn setImage:[UIImage imageNamed:@"icon_setting_black"] forState:UIControlStateNormal];
-                [settingBtn addTarget:self action:@selector(clickForSetting:) forControlEvents:UIControlEventTouchUpInside];
-                settingBtn.layer.borderColor = RGB(243, 243, 243).CGColor;
-                settingBtn.layer.borderWidth = 1;
-                [contentView addSubview:settingBtn];
-                
-                
-                /*
-                DateButton *button = [DateButton buttonWithType:UIButtonTypeCustom];
-                button.frame = CGRectMake(marginX, buttonY, 115, 38);
-                [button setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 20)];
-                button.titleLabel.font = [UIFont boldSystemFontOfSize:26];
-                [button setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
-                [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-                button.tag = indexPath.row;
-                [button setTitle:time forState:UIControlStateNormal];
-                button.date = time;
-                [button addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
-                [selectView addSubview:button];
-                
-                //按钮背景
-                UIImage *image1 = [[UIImage imageNamed:@"btn_time_unselected"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 20)];
-                UIImage *image2 = [[UIImage imageNamed:@"btn_time_selected"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 20)];
-                [button setBackgroundImage:image1 forState:UIControlStateNormal];
-                [button setBackgroundImage:image2 forState:UIControlStateSelected];
-                */
-                
-                //按钮状态 0:全选 1：不是全选
-                NSArray *selectArray = [selectDic objectForKey:@"selectArray"];
-                NSArray *restArray = [selectDic objectForKey:@"restArray"];//未开课的时间
-                if ([CommonUtil isEmpty:allSelect] && selectArray.count == 0){
-                    //默认时间段， 12，18未开课
-                    if ([@"12:00" isEqualToString:time] || [@"18:00" isEqualToString:time]) {
-                        button.selected = NO;
-                        
-                        priceLabel.text = @"未开课";
-                        timeLabel.textColor = RGB(210, 210, 210);
-                        priceLabel.textColor = RGB(210, 210, 210);
-                        priceView.backgroundColor = RGB(243, 243, 243);
+                    if ([CommonUtil isEmpty:price]) {
+                        price = @"0";
                     }else{
-                        button.selected = YES;
-                        
-                        //选中状态
-                        timeDetailView.backgroundColor = [UIColor whiteColor];
-                        selectLabel.hidden = NO;
-                        selectLabel.text = @"选中";
+                        price = [NSString stringWithFormat:@"%.0f", [price floatValue]];
                     }
-                }else{
-                    for (NSString *selectTime in selectArray) {
-                        if ([time isEqualToString:selectTime]) {
-                            button.selected = YES;
-                            
-                            //选中状态
-                            timeDetailView.backgroundColor = [UIColor whiteColor];
-                            selectLabel.hidden = NO;
-                            selectLabel.text = @"选中";
-                        }
-                    }
+                    break;
                 }
-                
-                //设置未开课的时间
-                for (NSString *restTime in restArray) {
-                    if ([time isEqualToString:restTime]) {
-                        button.selected = NO;
-                        
-                        //未选中状态
-                        priceLabel.text = @"未开课";
-                        timeLabel.textColor = RGB(210, 210, 210);
-                        priceLabel.textColor = RGB(210, 210, 210);
-                        priceView.backgroundColor = RGB(243, 243, 243);
-                    }
+            }
+            if ([subjectid intValue]==1) {
+                subject = @"科目二";
+            }else if ([subjectid intValue]==2){
+                subject = @"科目三";
+            }else if ([subjectid intValue]==3){
+                subject = @"模拟适训";
+            }
+            teachTypeLabel.text = [NSString stringWithFormat:@"%@",subject];
+            
+            //价格label显示
+            UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(priceView.frame), 26)];
+            //priceLabel.textColor = RGB(247, 148, 29);
+            priceLabel.textColor = RGB(68, 68, 68);
+            priceLabel.textAlignment = NSTextAlignmentCenter;
+            priceLabel.font = [UIFont systemFontOfSize:13];
+            priceLabel.text = [NSString stringWithFormat:@"%@", price];
+            [priceView addSubview:priceLabel];
+            
+            //点击按钮
+            DateButton *button = [DateButton buttonWithType:UIButtonTypeCustom];
+            button.frame = CGRectMake(0, 0, CGRectGetWidth(contentView.frame), CGRectGetHeight(contentView.frame));
+            button.tag = indexPath.row;
+            button.date = time;
+            button.isrest = isrest;
+            button.index = [NSString stringWithFormat:@"%d", i];
+            [button addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
+            [contentView addSubview:button];
+            
+            //按钮状态 0:全选 1：不是全选
+            NSArray *selectArray = [selectDic objectForKey:@"selectArray"];
+            NSArray *restArray = [selectDic objectForKey:@"restArray"];//未开课的时间
+            for (NSString *selectTime in selectArray) {
+                if ([time isEqualToString:selectTime]) {
+                    button.selected = YES;
+                    selectLabel.hidden = NO;
                 }
-                
-                //设置未开课的时间
-                NSMutableArray *bookArray = [selectDic objectForKey:@"bookArray"];//已选时间
-                for (NSString *restTime in bookArray) {
-                    if ([time isEqualToString:restTime]) {
-                        button.selected = YES;
-                        selectLabel.hidden = NO;
-                        selectLabel.text = @"已约";
-                    }
+            }
+            //设置已开课的时间
+            NSMutableArray *unrestArray = [selectDic objectForKey:@"unrestArray"];//已开课时间
+            for (NSString *unrestTime in unrestArray) {
+                if ([time isEqualToString:unrestTime]) {
+                    timeDetailView.backgroundColor = RGB(80, 203, 140);
+                    timeLabel.textColor = [UIColor whiteColor];
+                    priceLabel.textColor = RGB(22, 127, 83);
+                    teachTypeLabel.textColor = RGB(22, 127, 83);
+                    alreadyOrder.hidden = YES;
+                    timeDetailView.layer.borderWidth = 0;
                 }
-                
-                //设置未开课的时间
-                NSMutableArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间
-                for (NSString *expire in expireArray) {
-                    if ([time isEqualToString:expire]) {
-                        button.selected = NO;
-                        
-                        //未选中状态
-                        priceLabel.text = @"已过期";
-                        timeLabel.textColor = RGB(210, 210, 210);
-                        priceLabel.textColor = RGB(180, 180, 180);
-                        priceView.backgroundColor = RGB(243, 243, 243);
+            }
+            
+            //设置未开课的时间
+            for (NSString *restTime in restArray) {
+                if ([time isEqualToString:restTime]) {
+                    button.selected = NO;
+                    //未选中状态
+//                    priceLabel.text = @"未开课";
+                    timeDetailView.backgroundColor = RGB(174, 174, 174);
+                    timeLabel.textColor = RGB(68, 68, 68);
+                    priceLabel.textColor = RGB(68, 68, 68);
+                    teachTypeLabel.textColor = RGB(68, 68, 68);
+                    alreadyOrder.hidden = YES;
+                    timeDetailView.layer.borderWidth = 0;
+                }
+            }
+            
+            //设置已约的时间
+            NSMutableArray *bookArray = [selectDic objectForKey:@"bookArray"];//已约时间
+            for (NSString *restTime in bookArray) {
+                if ([time isEqualToString:restTime]) {
+                    button.selected = YES;
+                    selectLabel.hidden = YES;
+                    timeDetailView.backgroundColor = RGB(239, 144, 60);
+                    timeLabel.textColor = [UIColor whiteColor];
+                    priceLabel.textColor = RGB(158, 85, 6);
+                    if (bookedername.length>0) {
+                        priceLabel.text = bookedername;
                     }
+                    teachTypeLabel.textColor = RGB(158, 85, 6);
+                    alreadyOrder.hidden = NO;
+                    timeDetailView.layer.borderWidth = 0;
+                }
+            }
+            
+            //设置已过期的时间
+            NSMutableArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间
+            for (NSString *expire in expireArray) {
+                if ([time isEqualToString:expire]) {
+                    button.selected = NO;
+                    
+                    //未选中状态
+                    priceLabel.text = @"已过期";
+                    timeDetailView.backgroundColor = [UIColor clearColor];
+                    timeLabel.textColor = RGB(185, 185, 185);
+                    priceLabel.textColor = RGB(185, 185, 185);
+                    teachTypeLabel.textColor = RGB(185, 185, 185);
+                    alreadyOrder.hidden = YES;
+                    timeDetailView.layer.borderWidth = 1;
                 }
             }
         }
-        selectView.frame = CGRectMake(0, y, SCREEN_WIDTH, buttonY);
-        
-        //下一个控件的Y轴
-        y = selectView.frame.origin.y + CGRectGetHeight(selectView.frame);
-        
     }
-    
-    //下划线
-    if (indexPath.row == 2){
-        underline = [[UIView alloc] initWithFrame:CGRectMake(0, y, SCREEN_WIDTH, 1)];
-        underline.backgroundColor = RGB(211, 211, 211);
-        [timeView addSubview:underline];
-    }
+    buttonY = (18 + 66);
+    selectView.frame = CGRectMake(0, y, SCREEN_WIDTH, buttonY*2);
+//    selectView.backgroundColor = [UIColor redColor];
+    //下一个控件的Y轴
+    y = selectView.frame.origin.y + CGRectGetHeight(selectView.frame);
     
     cell.backgroundColor = [UIColor whiteColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;//没有选中状态
@@ -1317,81 +1037,6 @@
     [self.refreshManager tableViewReloadFinishedAnimated:YES];
 }
 
-//停止拖拽的时候开始执行
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-//    
-//    NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
-//    NSMutableDictionary *dic = [self.stateDic objectForKey:chooseTime];
-//    if (dic == nil) {
-//        dic = [NSMutableDictionary dictionary];
-//    }
-//    NSString *state0 = [dic objectForKey:@"row0"];
-//    NSString *state1 = [dic objectForKey:@"row1"];
-//    NSString *state2 = [dic objectForKey:@"row2"];
-//    
-//    //状态 0:关闭 1：打开
-//    if ([state0 intValue] == 0 && [state1 intValue] == 0 && [state2 intValue] == 0 ) {
-//        //三个时间段都为关闭状态
-//        return;
-//    }
-//    
-//    int weekHeight = ceil(SCREEN_WIDTH / 7);
-//    NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
-//    //获取本月有几周
-//    NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
-//    
-//    if (scrollView.contentOffset.y > ceil(weekHeight*weekCount/2)
-//        && scrollView.contentOffset.y < weekHeight*weekCount+16) {
-//        //大于一半，收缩
-//        self.openBtn.selected = YES;//展开
-//        [self.mainTableView setContentOffset:CGPointMake(0, (weekCount - 1)*weekHeight) animated:YES];
-//        
-//    }else if (scrollView.contentOffset.y <= ceil(weekHeight*weekCount/2)){
-//        //小于一半，打开
-//        self.openBtn.selected = NO;//收缩
-//        [self.mainTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-//        
-//    }
-//    
-//}
-
-//减速的时候执行
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-//    NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
-//    NSMutableDictionary *dic = [self.stateDic objectForKey:chooseTime];
-//    if (dic == nil) {
-//        dic = [NSMutableDictionary dictionary];
-//    }
-//    NSString *state0 = [dic objectForKey:@"row0"];
-//    NSString *state1 = [dic objectForKey:@"row1"];
-//    NSString *state2 = [dic objectForKey:@"row2"];
-//    
-//    //状态 0:关闭 1：打开
-//    if ([state0 intValue] == 0 && [state1 intValue] == 0 && [state2 intValue] == 0 ) {
-//        //三个时间段都为关闭状态
-//        return;
-//    }
-//    
-//    //滑动效果
-//    int weekHeight = ceil(SCREEN_WIDTH / 7);
-//    NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
-//    //获取本月有几周
-//    NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
-//    
-//    if (scrollView.contentOffset.y > ceil(weekHeight*weekCount/2)
-//        && scrollView.contentOffset.y < weekHeight*weekCount+16) {
-//        //大于一半，收缩
-//        self.openBtn.selected = YES;//展开
-//        [self.mainTableView setContentOffset:CGPointMake(0, (weekCount - 1)*weekHeight) animated:YES];
-//        
-//    }else if (scrollView.contentOffset.y <= ceil(weekHeight*weekCount/2)){
-//        //小于一半，打开
-//        self.openBtn.selected = NO;//收缩
-//        [self.mainTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-//        
-//    }
-//}
-
 #pragma mark - private
 //比较日期查看上一个的按钮是否可以点击， 下一个日期是否可以点击
 - (void)compareBeforeDate:(NSDate *)date1 nowDate:(NSDate *)nowDate{
@@ -1435,51 +1080,63 @@
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
     }
+    NSMutableArray *list = [NSMutableArray arrayWithArray:dic[@"list"]];
+    for (int i=0; i<list.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:list[i]];
+        NSString *isrest = [dic[@"isrest"] description];
+        if ([isrest intValue]) {
+            if (self.DefaultSchedule.count > 0) {
+                for (int j=0; j<self.DefaultSchedule.count; j++) {
+                    NSDictionary *defaultDic = self.DefaultSchedule[j];
+                    if ([defaultDic[@"hour"] isEqualToString:[dic[@"hour"] description]]) {
+                        [dic setValue:[defaultDic[@"price"] description] forKey:@"price"];
+                        [dic setValue:[defaultDic[@"subjectid"] description] forKey:@"subjectid"];
+                        [dic setValue:[defaultDic[@"subject"] description] forKey:@"subject"];
+                        [dic setValue:[defaultDic[@"addressid"] description] forKey:@"addressid"];
+                        [dic setValue:[defaultDic[@"addressdetail"] description] forKey:@"addressdetail"];
+                        [list replaceObjectAtIndex:i withObject:dic];
+                    }
+                }
+            }
+           }else{
+            
+        }
+    }
+    [dic setObject:list forKey:@"list"];
+    NSMutableArray *oldArray = [NSMutableArray arrayWithArray:self.calenderArray];
+    for (int k=0; k<self.calenderArray.count; k++) {
+        NSDictionary *dic = self.calenderArray[k];
+        NSString *date = [dic[@"date"] description];
+        NSString *dicHour = [dic[@"hour"] description];
+        for (int f=0; f<list.count; f++) {
+            NSDictionary *changeDic = list[f];
+            NSString *changeDate = [changeDic[@"date"] description];
+            NSString *changeHour = [changeDic[@"hour"] description];
+            if ([date isEqualToString:changeDate] && [dicHour isEqualToString:changeHour]) {
+                [oldArray replaceObjectAtIndex:k withObject:changeDic];
+            }
+        }
+    }
     
-    for (int i = 0; i < 3; i++) {
+    self.calenderArray = oldArray;
+    for (int i = 0; i < 1; i++) {
         //获取该行的选中状态
-        NSString *key = [NSString stringWithFormat:@"selectState%d", i];
+        NSString *key = @"selectState";
         NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
         
         //获取该行是否是全选
         NSString *allState = [selectDic objectForKey:@"allSelect"];
         if ([allState intValue] == 0) {
             //全选
-            if (i == 0) {
-                 [dic setObject:@"5:00~11:00" forKey:@"morning"];
-                
-            }else if (i == 1){
-                [dic setObject:@"12:00~18:00" forKey:@"afternoon"];
-                
-            }else{
-                [dic setObject:@"19:00~23:00" forKey:@"evening"];
-                
-            }
-           
+            [dic setObject:@"5:00~23:00" forKey:@"allday"];
         }else{
             //不是全选
             
             //获取该行选中的时间
             NSMutableArray *restArray = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"restArray"]];//未开课的日期
             NSMutableArray *array = [NSMutableArray array];
-            
-            NSDate *date = [CommonUtil getDateForString:@"5:00" format:@"H:00"];
-            if (i == 0) {
-                array = [NSMutableArray arrayWithArray:self.morningAllTimeArray];
-                [array removeObjectsInArray:restArray];//工作的时间
-                
-            }else if (i == 1) {
-                date = [CommonUtil getDateForString:@"12:00" format:@"H:00"];
-                
-                array = [NSMutableArray arrayWithArray:self.afternoonAllTimeArray];
-                [array removeObjectsInArray:restArray];//工作的时间
-            }else if (i == 2){
-                //晚上
-                date = [CommonUtil getDateForString:@"19:00" format:@"H:00"];
-                
-                array = [NSMutableArray arrayWithArray:self.eveningAllTimeArray];
-                [array removeObjectsInArray:restArray];//工作的时间
-            }
+            array = [NSMutableArray arrayWithArray:self.morningAllTimeArray];
+            [array removeObjectsInArray:restArray];//工作的时间
             
             NSString *descTime = @"";
             NSString *startTime = @"";
@@ -1535,12 +1192,7 @@
                 }
             }
             
-            NSString *timeKey = @"morning";
-            if (i == 1){
-                timeKey = @"afternoon";
-            }else if (i == 2){
-                timeKey = @"evening";
-            }
+            NSString *timeKey = @"allday";
             [dic setObject:descTime forKey:timeKey];
         }
     }
@@ -1554,14 +1206,37 @@
 - (void)clickForDetail:(DateButton *)button{
     NSString *date = button.date;
     self.selectDate = [CommonUtil getDateForString:date format:@"yyyy-MM-dd"];
-    
-    //处理选中日期的数据
-    [self handelSelectDateDetail];
-    
-    [self showTableHeaderView];
-    [self.mainTableView reloadData];
-    [self showTableFooterView];
-   
+    [self testOpenOrCloseView];
+    [self getDefaultSchedule];
+}
+
+- (void)testOpenOrCloseView
+{
+    NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
+    NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
+    if (dic == nil) {
+        dic = [NSMutableDictionary dictionary];
+    }
+    NSString *key1 = @"selectState";
+    NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key1]];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
+    if (array.count == 0) {
+        self.openOrCloseClassView.hidden = YES;
+    }else{
+        NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
+        if ([unrestArray containsObject:array[0]]) {
+            self.writeScheduleButton.hidden = YES;
+            self.sureIssueButton.hidden = YES;
+            self.stopClassButton.hidden = NO;
+        }
+        NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
+        if ([restArray containsObject:array[0]]) {
+            self.writeScheduleButton.hidden = NO;
+            self.sureIssueButton.hidden = NO;
+            self.stopClassButton.hidden = YES;
+        }
+        self.openOrCloseClassView.hidden = NO;
+    }
 }
 
 //切换月份
@@ -1572,7 +1247,7 @@
     
     NSDate *date = [CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"];
     date = [CommonUtil getFirstDayOfDate:date];
-
+    
     if (button.tag == 0) {
         //上一个月
         date = [CommonUtil addDate2:date year:0 month:-1 day:0];
@@ -1595,12 +1270,11 @@
     [self showTableFooterView];
     [self showTableHeaderView];
     
-//    [self checkSlideDown];
 }
 
 //打开或者关闭日历
 - (void)clickForOpenClose:(id)sender{
-
+    
     UIButton *button = (UIButton *)sender;
     
     int weekHeight = ceil(SCREEN_WIDTH / 7);
@@ -1619,11 +1293,11 @@
     
     button.selected = !button.selected;
     [self showTableFooterView];
-
+    
 }
 
 //停课
-- (void)clickForStop:(id)sender{
+- (IBAction)clickForStop:(id)sender{
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
     if (dic == nil) {
@@ -1635,9 +1309,6 @@
         [self makeToast:@"数据获取中，请稍候"];
         return;
     }
-    
-//    [dic setObject:@"1" forKey:@"state"];
-//    [self.calenderDic setObject:dic forKey:chooseTime];
     
     //修改改天日程状态
     [self updateSchedateState:@"2"];//修改的状态1.全天开课 2.全天未开课
@@ -1651,15 +1322,12 @@
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
     }
-   
+    
     NSArray *array = dic[@"list"];
     if (array.count == 0) {
         [self makeToast:@"数据获取中，请稍候"];
         return;
     }
-//    
-//    [dic setObject:@"0" forKey:@"state"];
-//    [self.calenderDic setObject:dic forKey:chooseTime];
     
     //修改改天日程状态
     [self updateSchedateState:@"1"];//修改的状态1.全天开课 2.全天未开课
@@ -1668,137 +1336,133 @@
 
 //选择时间（）
 - (void)clickForChoose:(DateButton *)button{
+
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
     }
     
-    NSString *key1 = [NSString stringWithFormat:@"selectState%ld", (long)button.tag];
+    NSString *key1 = @"selectState";
     NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key1]];
+    
     NSMutableArray *bookArray = [selectDic objectForKey:@"bookArray"];
     
     NSString *time = button.date;
-    if ([@"-1" isEqualToString:time]) {
-        //全选
-        NSString *allSelect = selectDic[@"allSelect"];
-        if ([allSelect intValue] == 0) {
-            //全选，变成全不选
-            [selectDic setObject:@"1" forKey:@"allSelect"];//0:全选 1：不是全选
-            [selectDic setObject:[NSArray array] forKey:@"selectArray"];
-        }else{
-            //不是全选，变成全选
-            [selectDic setObject:@"0" forKey:@"allSelect"];//0:全选 1：不是全选
-            
-            NSMutableArray *array = nil;
-            if (button.tag == 0) {
-                //早上
-                array = [NSMutableArray arrayWithArray:self.morningAllTimeArray];
-                
-            }else if (button.tag == 1){
-                //下午
-                array = [NSMutableArray arrayWithArray:self.afternoonAllTimeArray];
-                
-            }else{
-                //晚上
-                array = [NSMutableArray arrayWithArray:self.eveningAllTimeArray];
-            }
-            if (array == nil) {
-                array = [NSMutableArray array];
-            }
-            
-            //移除已经预约的
-            [array removeObjectsInArray:bookArray];
-            
-            //移除当前时间之前的日期
-            if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
-                //小于当天
-                [array removeAllObjects];
-                [self makeToast:@"没有可以选择的时间点"];
-                return;
-                
-            }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
-                //等于当天
-                NSArray *hourArray = [NSArray arrayWithArray:array];
-                for (NSString *hour in hourArray) {
-                    NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:hour format:@"H:00"] format:@"H"];
-                    
-                    if ([hourStr intValue] <= [self.nowHour intValue]) {
-                        [array removeObject:hour];
-                    }
-                    
-                }
-
-            }
-            
-            if (array.count == 0) {
-                //没有可以选择的日期
-                [self makeToast:@"没有可以选择的时间点"];
-                return;
-            }
-            [selectDic setObject:array forKey:@"selectArray"];
-        }
+    //不是全选，点击日期
+    [selectDic setObject:@"1" forKey:@"allSelect"];//0:不是全选 1：全选
+    
+    //移除已经预约的
+    if ([bookArray containsObject:time]) {
+        [self makeToast:@"该时间点已被预约不可选择"];
+        return;
+    }
+    
+    //移除当前时间之前的日期
+    if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
+        //小于当天
+        [self makeToast:@"该时间点不可选择"];
+        return;
         
-    }else{
-        //不是全选，点击日期
-        [selectDic setObject:@"1" forKey:@"allSelect"];//0:不是全选 1：全选
-        
-        //移除已经预约的
-        if ([bookArray containsObject:time]) {
-            [self makeToast:@"该时间点已被预约不可选择"];
-            return;
-        }
-        
-        //移除当前时间之前的日期
-        if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
-            //小于当天
+    }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
+        //等于当天
+        NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
+        if ([hourStr intValue] <= [self.nowHour intValue]) {
             [self makeToast:@"该时间点不可选择"];
             return;
-            
-        }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
-            //等于当天
-            NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
-            if ([hourStr intValue] <= [self.nowHour intValue]) {
-                [self makeToast:@"该时间点不可选择"];
-                return;
+        }
+    }
+    
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
+    if ([array  containsObject:time]) {
+        //包含，就移除
+        [array removeObject:time];
+    }else{
+        //不包含，就添加
+        if (array.count > 1) {
+            if ([button.isrest intValue] == 1) {
+                NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
+                
+                if ([unrestArray containsObject:array[0]]) {
+                    [self makeToast:@"未开课和已开课不能同时选择"];
+                    return;
+                }else{
+                    [array addObject:time];
+                }
+            }else if([button.isrest intValue] == 0){
+                NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
+                if ([restArray containsObject:array[0]]) {
+                    [self makeToast:@"未开课和已开课不能同时选择"];
+                    return;
+                }else{
+                    [array addObject:time];
+                }
             }
             
-        }
-        
-        NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
-        if ([array  containsObject:time]) {
-            //包含，就移除
-            [array removeObject:time];
+        }else if(array.count ==1){
+            if ([button.isrest intValue] == 1) {
+                NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
+                
+                if ([unrestArray containsObject:array[0]]) {
+                    [array removeAllObjects];
+                    [array addObject:time];
+                }else{
+                    [array addObject:time];
+                }
+            }else if([button.isrest intValue] == 0){
+                NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
+                if ([restArray containsObject:array[0]]) {
+                    [array removeAllObjects];
+                    [array addObject:time];
+                }else{
+                    [array addObject:time];
+                }
+            }
         }else{
-            //不包含，就添加
             [array addObject:time];
         }
         
-        NSArray *sortArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-            NSString *str1 = (NSString *)obj1;
-            NSString *str2 = (NSString *)obj2;
-            str1 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str1 format:@"H:00"] format:@"H"];
-            str2 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str2 format:@"H:00"] format:@"H"];
-            
-            if ([str1 intValue] > [str2 intValue]) {
-                //小于
-                return NSOrderedDescending;
-            }else if ([str1 intValue] == [str2 intValue]){
-                return NSOrderedSame;
-            }else{
-                return NSOrderedAscending;
-            }
-            
-         }];
-        [selectDic setObject:sortArray forKey:@"selectArray"];
         
     }
-
+    if (array.count > 0) {
+        self.openOrCloseClassView.hidden = NO;
+    }
+    if ([button.isrest intValue] == 0) {
+        self.writeScheduleButton.hidden = YES;
+        self.sureIssueButton.hidden = YES;
+        self.stopClassButton.hidden = NO;
+    }else if([button.isrest intValue] == 1){
+        self.writeScheduleButton.hidden = NO;
+        self.sureIssueButton.hidden = NO;
+        self.stopClassButton.hidden = YES;
+    }
     
+    NSArray *sortArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSString *str1 = (NSString *)obj1;
+        NSString *str2 = (NSString *)obj2;
+        str1 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str1 format:@"H:00"] format:@"H"];
+        str2 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str2 format:@"H:00"] format:@"H"];
+        
+        if ([str1 intValue] > [str2 intValue]) {
+            //小于
+            return NSOrderedDescending;
+        }else if ([str1 intValue] == [str2 intValue]){
+            return NSOrderedSame;
+        }else{
+            return NSOrderedAscending;
+        }
+    }];
+    [selectDic setObject:sortArray forKey:@"selectArray"];
+    if (sortArray.count == 0) {
+        self.openOrCloseClassView.hidden = YES;
+        self.writeScheduleButton.hidden = YES;
+        self.sureIssueButton.hidden = YES;
+        self.stopClassButton.hidden = YES;
+    }
     [dic setObject:selectDic forKey:key1];
     [self.calenderDic setObject:dic forKey:chooseTime];
     
-    [self.mainTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:button.tag inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.mainTableView reloadData];
 }
 
 //打开或者关闭日程
@@ -1817,27 +1481,16 @@
         state = @"0";//关闭
         
         //获取该行的选中状态
-        NSString *stateKey = [NSString stringWithFormat:@"selectState%ld", (long)button.tag];
+        NSString *stateKey = @"selectState";
         NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:stateKey]];
-
-//        //获取该行选中的时间
-//        NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
-//        [selectDic setObject:array forKey:@"selectTime"];
-        
-        //获取该行是否是全选
-//        NSString *allState = [selectDic objectForKey:@"realAllSelect"];
-//        allState = [CommonUtil isEmpty:allState]?@"":allState;
-//        [selectDic setObject:allState forKey:@"allSelect"];//真正的是否全选
-
-        //保存数据
         [dic setObject:selectDic forKey:stateKey];
-
+        
         [self updateSelectTimeDesc];//更新日期描述
     }else{
         state = @"1";//打开
     }
     [dic setObject:state forKey:key];//时间状态 0:关闭 1：打开
-   
+    
     [self.calenderDic setObject:dic forKey:chooseTime];
     
     [self.mainTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:button.tag inSection:1]]  withRowAnimation:UITableViewRowAnimationFade];
@@ -1850,21 +1503,12 @@
     NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
     //获取本月有几周
     NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
-    //动画效果（遗弃）
-//    if (self.mainTableView.contentOffset.y > ceil(weekHeight*weekCount/2)
-//        && self.mainTableView.contentOffset.y < weekHeight*weekCount+16) {
-//        //大于一半，收缩
-//        self.openBtn.selected = YES;//展开
-//        [self.mainTableView setContentOffset:CGPointMake(0, (weekCount - 1)*weekHeight) animated:YES];
-//        
-//    }
     if (self.mainTableView.contentOffset.y > weekHeight*(weekCount - 1)) {
         if (!isReload2Section) {
             //显示第二个sectionHeader隐藏第一个sectionHeader，造成选中行停留的效果
             isReload2Section = YES;
             [self.mainTableView reloadData];
         }
-        
     }else{
         if (isReload2Section) {
             //显示第一个sectionHeader隐藏第二个sectionHeader，造成选中行打开的效果
@@ -1872,82 +1516,10 @@
             [self.mainTableView reloadData];
         }
     }
-    //动画效果（遗弃）
-//    if (self.mainTableView.contentOffset.y <= ceil(weekHeight*weekCount/2)){
-//        //小于一半，打开
-//        self.openBtn.selected = NO;//收缩
-//        [self.mainTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-//        
-//    }
 }
 
 #pragma mark 批量设置
-- (void)clickForUpdateTime:(id)sender{
-
-    UIButton *button = (UIButton *)sender;
-    
-//    NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
-//    NSMutableDictionary *dic = [self.stateDic objectForKey:chooseTime];
-//    if (dic == nil) {
-//        dic = [NSMutableDictionary dictionary];
-//    }
-//    
-////    BOOL hasData = NO;//是否选择日期
-//    for (int i = 0; i < 3; i++) {
-//        //修改3个日期的时间
-//
-//        
-//        //获取该行的选中状态
-//        NSString *key = [NSString stringWithFormat:@"selectState%d", i];
-//        NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
-//        
-//        //获取该行选中的时间
-//        NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
-//        [selectDic setObject:array forKey:@"realSelectTime"];
-//        
-//        //获取该行是否是全选
-//        NSString *allState = [selectDic objectForKey:@"allSelect"];
-//        allState = [CommonUtil isEmpty:allState]?@"0":allState;
-//        [selectDic setObject:allState forKey:@"realAllSelect"];//真正的是否全选
-//        
-//        //获取该行未开课的时间
-//        NSMutableArray *restArray = [NSMutableArray array];
-//        if (i == 0) {
-//            //早上
-//            restArray = [NSMutableArray arrayWithArray:self.morningAllTimeArray];
-//            
-//        }else if (i == 1){
-//            //下午
-//            restArray = [NSMutableArray arrayWithArray:self.afternoonAllTimeArray];
-//            
-//        }else{
-//            //晚上
-//            restArray = [NSMutableArray arrayWithArray:self.eveningAllTimeArray];
-//        }
-//        
-//        [restArray removeObjectsInArray:array];
-//        [selectDic setObject:restArray forKey:@"realRestTime"];
-//        [selectDic setObject:restArray forKey:@"restTime"];
-//        
-//        //保存数据
-//        [dic setObject:selectDic forKey:key];
-//        [self.stateDic setObject:dic forKey:chooseTime];
-//
-//    }
-//    
-//    //上传数据
-//    [self uploadTimeChange];
-    
-//    if (hasData) {
-//        //上传数据
-//        [self uploadTimeChange];
-//    }else{
-//        [self updateSelectTimeDesc];//更新日期描述
-//        
-//        [self.mainTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:button.tag inSection:1]]  withRowAnimation:UITableViewRowAnimationFade];
-// 
-//    }
-    
+- (IBAction)clickForUpdateTime:(id)sender{
     
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
@@ -1965,7 +1537,7 @@
     NSString *firstTime = @"";
     NSMutableDictionary *timeDic = [NSMutableDictionary dictionary];//获取选中日期的对象
     //获取对应时间段的选中状态
-    NSString *key = [NSString stringWithFormat:@"selectState%ld", (long)button.tag];
+    NSString *key = @"selectState";
     NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
     
     NSMutableArray *selectArray = selectDic[@"selectArray"];//选中的时间点集合
@@ -1983,23 +1555,6 @@
         [self makeToast:@"请选择修改时间点"];
         return;
     }
-//    for (int j = 0; j < 3; j++) {
-//        //获取对应时间段的选中状态
-//        NSString *key = [NSString stringWithFormat:@"selectState%d", j];
-//        NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
-//        
-//        NSMutableArray *selectArray = selectDic[@"selectArray"];//选中的时间点集合
-//        for (NSString *str in selectArray) {
-//            if ([CommonUtil isEmpty:time]) {
-//                time = str;
-//                firstTime = str;//获取第一个时间点，用来获取该时间点的具体数据
-//            }else{
-//                time = [NSString stringWithFormat:@"%@、%@", time, str];
-//            }
-//            
-//        }
-//    }
-    
     //获取第一个时间点的具体数据
     NSDate *strDate = [CommonUtil getDateForString:firstTime format:@"HH:00"];
     NSString *hourStr = [CommonUtil getStringForDate:strDate format:@"H"];
@@ -2017,6 +1572,7 @@
     nextController.time = time;
     nextController.timeDic = timeDic;
     nextController.date = chooseTime;
+    nextController.allDayArray = array;
     [self.navigationController pushViewController:nextController animated:YES];
 }
 
@@ -2035,7 +1591,7 @@
         return;
     }
     
-    NSString *key1 = [NSString stringWithFormat:@"selectState%ld", (long)button.tag];
+    NSString *key1 = @"selectState";
     NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key1]];
     NSMutableArray *bookArray = selectDic[@"bookArray"];
     
@@ -2081,69 +1637,35 @@
     [self.navigationController pushViewController:nextController animated:YES];
 }
 
-#pragma mark 订单是否取消
-- (IBAction)clickForChangeOrder:(id)sender {
-    UISwitch *ordSwit = (UISwitch *)sender;
-    NSInteger tag = ordSwit.tag;
+- (IBAction)clickForTodayOPenClose:(id)sender{
+    if(self.defaultAlertView.superview){
+        [self.defaultAlertView removeFromSuperview];
+    }
+    NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
+    NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
+    if (dic == nil) {
+        dic = [NSMutableDictionary dictionary];
+    }
     
-    
-    if(tag == 0){//是否开课
-        if(self.openOrCloseSwitch.isOn){
-            self.openOrCloseLabel.text = @"已开启，学员现在可以预定您今天的课程了";
-            [self clickForStart:nil];
-        }else{
-            self.openOrCloseLabel.text = @"已关闭，学员现在不可以预定您今天的课程了";
-            [self clickForStop:nil];
-        }
-    }else{//是否可以取消
-        if (ordSwit.isOn) {
-            self.orderDescLabel.text = @"已开启，学员预定后可以取消对您下的订单";
-            [self updateOrderState:@"0"];//修改的状态 0.可以取消 1.不可以取消
-        }else{
-            self.orderDescLabel.text = @"已关闭，学员预定后不可以取消对您下的订单";
-            [self updateOrderState:@"1"];//修改的状态 0.可以取消 1.不可以取消
+    NSArray *array = dic[@"list"];
+    if (array.count == 0) {
+        [self makeToast:@"数据获取中，请稍候"];
+        return;
+    }
+    BOOL allrest = YES;
+    for (int i = 1; i<array.count-1; i++) {
+        NSDictionary *dic = array[i];
+        NSString *isrest = [dic[@"isrest"] description];
+        if (isrest.intValue == 0) {
+            allrest = NO;
+            break;
         }
     }
-}
-
-- (void) clickForTodayOPenClose:(id)sender{
-    UIButton *ordSwit = (UIButton *)sender;
-    NSInteger tag = ordSwit.tag;
-    
-    if(tag == 0){
-        if(self.defaultAlertView.superview){
-            [self.defaultAlertView removeFromSuperview];
-        }
-        NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
-        NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
-        if (dic == nil) {
-            dic = [NSMutableDictionary dictionary];
-        }
-        
-        NSArray *array = dic[@"list"];
-        if (array.count == 0) {
-            [self makeToast:@"数据获取中，请稍候"];
-            return;
-        }
-        BOOL allrest = YES;
-        for (int i = 1; i<array.count-1; i++) {
-            NSDictionary *dic = array[i];
-            NSString *isrest = [dic[@"isrest"] description];
-            if (isrest.intValue == 0) {
-                allrest = NO;
-                break;
-            }
-        }
-        if (allrest) {
-            [self makeToast:@"至少有一节课是开课状态才能发布"];
-        }else{
-            [self.view addSubview:self.defaultAlertView];
-        }
-        
-       
-    }else{
-        [self clickForStop:nil];
-    }
+//    if (allrest) {
+//        [self makeToast:@"至少有一节课是开课状态才能发布"];
+//    }else{
+        [self.view addSubview:self.defaultAlertView];
+//    }
 }
 
 #pragma mark - 接口
@@ -2178,11 +1700,75 @@
     for (int i=0; i<self.calenderArray.count; i++) {
         NSDictionary *dic = self.calenderArray[i];
         NSString *date = [dic[@"date"] description];
-        if ([date isEqualToString:[CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"]]) {
+        NSString *date1 = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
+        if ([date isEqualToString:date1]) {
             [array addObject:dic];
         }
     }
-    [array removeObjectAtIndex:0]; //去掉标志位，只保留19个
+    //    [array removeObjectAtIndex:0]; //去掉标志位，只保留19个
+    NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
+    NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
+    if (dic == nil) {
+        dic = [NSMutableDictionary dictionary];
+    }
+    NSString *key = @"selectState";
+    NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+    NSArray *selectArray = selectDic[@"selectArray"];
+    NSMutableArray *changeArray = [NSMutableArray array];
+    for (int i=0; i<array.count; i++) {
+        NSMutableDictionary *timeDic = [NSMutableDictionary dictionaryWithDictionary:array[i]];
+        NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
+        NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
+        for (int j=0; j<selectArray.count; j++) {
+            NSString *selectString = selectArray[j];
+            if ([selectString isEqualToString:str]) {
+                if ([state intValue] == 2) {
+                   [timeDic setObject:@"1" forKey:@"isrest"];
+                }else{
+                   [timeDic setObject:@"0" forKey:@"isrest"];
+                }
+                [array replaceObjectAtIndex:i withObject:timeDic];
+                [changeArray addObject:timeDic];
+            }
+        }
+    }
+    
+    NSMutableArray *oldArray = [NSMutableArray arrayWithArray:self.calenderArray];
+    for (int k=0; k<self.calenderArray.count; k++) {
+        NSDictionary *dic = self.calenderArray[k];
+        NSString *date = [dic[@"date"] description];
+        NSString *dicHour = [dic[@"hour"] description];
+        for (int f=0; f<changeArray.count; f++) {
+            NSDictionary *changeDic = changeArray[f];
+            NSString *changeDate = [changeDic[@"date"] description];
+            NSString *changeHour = [changeDic[@"hour"] description];
+            if ([date isEqualToString:changeDate] && [dicHour isEqualToString:changeHour]) {
+                [oldArray replaceObjectAtIndex:k withObject:changeDic];
+            }
+        }
+    }
+    self.calenderArray = oldArray;
+    NSMutableDictionary *calenderDic1 = [self.calenderDic objectForKey:chooseTime];
+    NSMutableArray *list = [calenderDic1[@"list"] mutableCopy];
+    for (int o=0; o<list.count; o++) {
+        NSDictionary *dic = list[o];
+        NSString *date = [dic[@"date"] description];
+        NSString *dicHour = [dic[@"hour"] description];
+        for (int p=0; p<changeArray.count; p++) {
+            NSDictionary *changeDic = changeArray[p];
+            NSString *changeDate = [changeDic[@"date"] description];
+            NSString *changeHour = [changeDic[@"hour"] description];
+            if ([date isEqualToString:changeDate] && [dicHour isEqualToString:changeHour]) {
+                [list replaceObjectAtIndex:o withObject:changeDic];
+            }
+        }
+    }
+    [calenderDic1 setObject:list forKey:@"list"];
+    [self.calenderDic setObject:calenderDic1 forKey:chooseTime];
+    if ([state intValue]==1) {
+    }else{
+        array = changeArray;
+    }
     NSData *data = [self toJSONData:array];
     NSString *jsonString = [[NSString alloc] initWithData:data
                                                  encoding:NSUTF8StringEncoding];
@@ -2224,6 +1810,21 @@
     [DejalBezelActivityView activityViewForView:self.view];
 }
 
+//获取默认课程设置
+- (void)getDefaultSchedule{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kScheduleServlet]];
+    request.tag = 4;
+    request.delegate = self;
+    request.requestMethod = @"POST";
+    [request setPostValue:@"GETDEFAULTSCHEDULE" forKey:@"action"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
+}
+
 - (void)requestFinished:(ASIHTTPRequest *)request {
     //接口
     NSDictionary *result = [[request responseString] JSONValue];
@@ -2236,7 +1837,7 @@
     // 取得数据成功
     if ([code intValue] == 1) {
         if (request.tag == 1) {//修改日程
-
+            
         }else if (request.tag == 2){//更新日程状态
             NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
             NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
@@ -2255,14 +1856,20 @@
             
             [self handelDaySchedule:array];
             [self makeToast:@"修改成功"];
+            self.openOrCloseClassView.hidden = YES;
+            NSString *key1 = @"selectState";
+            NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key1]];
+            [selectDic setObject:[NSArray array] forKey:@"selectArray"];
+            [dic setObject:selectDic forKey:key1];
+            [self.calenderDic setObject:dic forKey:chooseTime];
+            [self handelCalender];//整理数据
+            [self.mainTableView reloadData];
             //如果需要设置为默认的话
             if(needSetDefault){
                 [self setTodayDefault];
             }else{
                 [DejalBezelActivityView removeViewAnimated:YES];
             }
-            
-            
         }else if (request.tag == 3){//修改是否可以取消
             NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
             NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
@@ -2281,6 +1888,15 @@
             
             [self handelDaySchedule:array];
             [self makeToast:@"修改成功"];
+            [DejalBezelActivityView removeViewAnimated:YES];
+        }else if (request.tag == 4){
+            self.DefaultSchedule = result[@"DefaultSchedule"];
+            //处理选中日期的数据
+            [self handelSelectDateDetail];
+            
+            [self showTableHeaderView];
+            [self.mainTableView reloadData];
+            [self showTableFooterView];
             [DejalBezelActivityView removeViewAnimated:YES];
         }else if(request.tag == 5){//设置为默认日期
             //更新数据
@@ -2337,7 +1953,7 @@
             
             //滑动TabelView
             if(!self.openBtn.selected){
-//                [self clickForOpenClose:self.openBtn];
+                //                [self clickForOpenClose:self.openBtn];
                 int weekHeight = ceil(SCREEN_WIDTH / 7);
                 NSDate *firstDate = [CommonUtil getFirstDayOfDate:[CommonUtil getDateForString:self.startTime format:@"yyyy-MM-dd"]];//获取月初时间
                 NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
@@ -2362,6 +1978,12 @@
         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请您先去设置默认学车地址,您必须有一个默认的学车地址,学员才能预定您的课程" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [alertView show];
+        
+    }else if([code intValue] == 6){
+        //没有默认地址
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        [self makeToast:message];
         
     }else {
         [DejalBezelActivityView removeViewAnimated:YES];
@@ -2489,174 +2111,89 @@
         NSString *state = @"0";//全天状态 0开课  1未开课
         NSString *cancelstate = @"0";//当天的订单是否可以取消 0.可以取消 1.不可以取消
         //对三个时间段进行整理
-        for (int j = 0; j < 3; j++) {
-            //获取对应时间段的选中状态
-            NSString *key = [NSString stringWithFormat:@"selectState%d", j];
-            NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[keyDic objectForKey:key]];
-            
-            NSMutableArray *selectArray = [NSMutableArray array];//选中的时间点集合
-            NSMutableArray *restArray = [NSMutableArray array];//未开课的时间点集合
-            NSMutableArray *bookArray = [NSMutableArray array];//已经预约时间点集合
-            NSMutableArray *expireArray = [NSMutableArray array];//已过期时间点集合
-            for (NSDictionary *timeDic in dicArray) {
-                int hour = [timeDic[@"hour"] intValue];
-                NSString *isrest = [timeDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
-                NSString *hasbooked = [timeDic[@"hasbooked"] description];//时间点是否已经被预约 0未被预约 1已经被预约
-                NSString *expire = [timeDic[@"expire"] description];
-                if (hour > 0 && hour < 25){
-                    if (hour < 12) {
-                        if (j != 0) {
-                            continue;
-                        }
-                        NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
-                        NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-                        
-                        if ([isrest intValue] == 1) {
-                            //未开课
-                            [restArray addObject:str];
-                        }else{
-//                            [selectArray addObject:str];//工作
-                        }
-                        
-                        if ([expire intValue] == 1) {
-                            //已过期
-                            [expireArray addObject:str];
-                        }else{
-                            //                            [selectArray addObject:str];//工作
-                        }
-                        
-                        if ([hasbooked intValue] == 1) {
-                            //已经预约
-                            [bookArray addObject:str];
-                        }else{
-                            NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
-                           
-                            //移除当前时间之前的日期
-                            if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
-                                //大于当天
-                                [selectArray addObject:str];//工作,默认全选
-                            }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
-                                //等于当天
-                                if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
-                                    //现在时间大于改时间点，选中状态
-                                    [selectArray addObject:str];//工作,默认全选
-                                }
-                                
-                            }
-
-                        }
-                        //continue;//早上整理完毕
-                    }else if (hour < 19){
-                        if (j != 1) {
-                            continue;
-                        }
-                        NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
-                        NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-                        
-                        if ([isrest intValue] == 1) {
-                            //未开课
-                            [restArray addObject:str];
-                        }else{
-//                            [selectArray addObject:str];//工作
-                        }
-                        if ([expire intValue] == 1) {
-                            //已过期
-                            [expireArray addObject:str];
-                        }else{
-                            //                            [selectArray addObject:str];//工作
-                        }
-                        if ([hasbooked intValue] == 1) {
-                            //已经预约
-                            [bookArray addObject:str];
-                        }else{
-                            NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
-                            
-                            //移除当前时间之前的日期
-                            if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
-                                //大于当天
-                                [selectArray addObject:str];//工作,默认全选
-                            }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
-                                //等于当天
-                                if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
-                                    //现在时间大于改时间点，选中状态
-                                    [selectArray addObject:str];//工作,默认全选
-                                }
-                                
-                            }
-                        }
-                    }else{
-                        if (j != 2) {
-                            continue;
-                        }
-                        NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"H"];
-                        NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-                        
-                        if ([isrest intValue] == 1) {
-                            //未开课
-                            [restArray addObject:str];
-                        }else{
-//                            [selectArray addObject:str];//工作
-                        }
-                        if ([expire intValue] == 1) {
-                            //已过期
-                            [expireArray addObject:str];
-                        }else{
-                            //                            [selectArray addObject:str];//工作
-                        }
-                       // continue;
-                        if ([hasbooked intValue] == 1) {
-                            //已经预约
-                            [bookArray addObject:str];
-                        }else{
-                            NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
-                            
-                            //移除当前时间之前的日期
-                            if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
-                                //大于当天
-                                [selectArray addObject:str];//工作,默认全选
-                            }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
-                                //等于当天
-                                if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
-                                    //现在时间大于改时间点，选中状态
-                                    [selectArray addObject:str];//工作,默认全选
-                                }
-                                
-                            }
-                        }
-                    }
+        //        for (int j = 0; j < 3; j++) {
+        //            //获取对应时间段的选中状态
+        NSString *key = @"selectState";
+        NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[keyDic objectForKey:key]];
+        
+        NSMutableArray *selectArray = [NSMutableArray array];//选中的时间点集合
+        NSMutableArray *restArray = [NSMutableArray array];//未开课的时间点集合
+        NSMutableArray *unrestArray = [NSMutableArray array];//开课的时间点集合
+        NSMutableArray *bookArray = [NSMutableArray array];//已经预约时间点集合
+        NSMutableArray *expireArray = [NSMutableArray array];//已过期时间点集合
+        for (NSDictionary *timeDic in dicArray) {
+            int hour = [timeDic[@"hour"] intValue];
+            NSString *isrest = [timeDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
+            NSString *hasbooked = [timeDic[@"hasbooked"] description];//时间点是否已经被预约 0未被预约 1已经被预约
+            NSString *expire = [timeDic[@"expire"] description];
+            if (hour > 0 && hour < 25){
+                NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
+                NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
+                
+                if ([isrest intValue] == 1) {
+                    //未开课
+                    [restArray addObject:str];
                 }else{
-                    //全体状态
-                    NSString *str = [timeDic[@"state"] description];
-                    NSString *cancelstateStr = [timeDic[@"cancelstate"] description];
-//                    if ([str intValue] == 0) {
-//                        continue;
-//                    }
-                    state = [CommonUtil isEmpty:str]?@"":str;
-                    cancelstate = [CommonUtil isEmpty:cancelstateStr]?@"":cancelstateStr;
-//                    break;
+                    [unrestArray addObject:str];
                 }
                 
+                if ([expire intValue] == 1) {
+                    //已过期
+                    [expireArray addObject:str];
+                }else{
+                }
+                
+                if ([hasbooked intValue] == 1) {
+                    //已经预约
+                    [bookArray addObject:str];
+                }else{
+                    NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
+                    //移除当前时间之前的日期
+                    if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
+                        //大于当天
+                        //                                [selectArray addObject:str];//工作,默认全选
+                    }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
+                        //等于当天
+                        if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
+                            //现在时间大于改时间点，选中状态
+                            //                                    [selectArray addObject:str];//工作,默认全选
+                        }
+                        
+                    }
+                    
+                }
+            }else{
+                //全体状态
+                NSString *str = [timeDic[@"state"] description];
+                NSString *cancelstateStr = [timeDic[@"cancelstate"] description];
+                //                    if ([str intValue] == 0) {
+                //                        continue;
+                //                    }
+                state = [CommonUtil isEmpty:str]?@"":str;
+                cancelstate = [CommonUtil isEmpty:cancelstateStr]?@"":cancelstateStr;
+                //                    break;
             }
-            
-            //将值保存下来
-            [selectDic setObject:selectArray forKey:@"selectArray"];
-            [selectDic setObject:restArray forKey:@"restArray"];
-            [selectDic setObject:bookArray forKey:@"bookArray"];
-            [selectDic setObject:expireArray forKey:@"expireArray"];
-            //判断是否全选
-            NSString *allSelect = @"1";
-            
-            if ((j == 0 && selectArray.count == 7)
-                || (j == 1 && selectArray.count == 7)
-                || (j == 2 && selectArray.count == 5)) {
-                //全选
-                allSelect = @"0";
-            }
-            [selectDic setObject:allSelect forKey:@"allSelect"];
-            
-            [keyDic setObject:selectDic forKey:key];//替换选中状态
             
         }
+        
+        //将值保存下来
+        [selectDic setObject:selectArray forKey:@"selectArray"];
+        [selectDic setObject:restArray forKey:@"restArray"];
+        [selectDic setObject:bookArray forKey:@"bookArray"];
+        [selectDic setObject:expireArray forKey:@"expireArray"];
+        [selectDic setObject:unrestArray forKey:@"unrestArray"];
+        //判断是否全选
+        NSString *allSelect = @"1";
+        
+        if (selectArray.count == 19){
+            
+            allSelect = @"0";
+        }
+        [selectDic setObject:allSelect forKey:@"allSelect"];
+        
+        [keyDic setObject:selectDic forKey:key];//替换选中状态
+        
+        //        }
         
         [keyDic setObject:state forKey:@"state"];//全体状态
         [keyDic setObject:cancelstate forKey:@"cancelstate"];//当天的订单是否可以取消 0.可以取消 1.不可以取消
@@ -2694,27 +2231,27 @@
         }
         
         NSString *time = @"";
-        for (int j = 0; j < 3; j++) {
-            NSString *key = [NSString stringWithFormat:@"selectState%d", j];
-            NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+        //        for (int j = 0; j < 3; j++) {
+        NSString *key = @"selectstate";
+        NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+        
+        //获取该行选中的时间
+        NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"restTime"]];//选择的日期
+        
+        for (NSString *str in array) {
+            //格式转换
+            NSDate *date = [CommonUtil getDateForString:str format:@"H:mm"];
+            NSString *dateStr = [CommonUtil getStringForDate:date format:@"H"];
             
-            //获取该行选中的时间
-            NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"restTime"]];//选择的日期
-            
-            for (NSString *str in array) {
-                //格式转换
-                NSDate *date = [CommonUtil getDateForString:str format:@"H:mm"];
-                NSString *dateStr = [CommonUtil getStringForDate:date format:@"H"];
-                
-                if ([CommonUtil isEmpty:time]) {
-                    time = dateStr;
-                }else{
-                    time = [NSString stringWithFormat:@"%@,%@", time, dateStr];
-                }
-                
+            if ([CommonUtil isEmpty:time]) {
+                time = dateStr;
+            }else{
+                time = [NSString stringWithFormat:@"%@,%@", time, dateStr];
             }
             
         }
+        
+        //        }
         
         [calenderDic setObject:time forKey:@"resttimes"];//未开课时间
         [calenderDic setObject:dic[@"state"] forKey:@"state"];
@@ -2730,27 +2267,27 @@
         }
         
         NSString *time = @"";
-        for (int j = 0; j < 3; j++) {
-            NSString *key = [NSString stringWithFormat:@"selectState%d", j];
-            NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+        //        for (int j = 0; j < 3; j++) {
+        NSString *key = @"selectState";
+        NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+        
+        //获取该行选中的时间
+        NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"restTime"]];//选择的日期
+        
+        for (NSString *str in array) {
+            //格式转换
+            NSDate *date = [CommonUtil getDateForString:str format:@"H:mm"];
+            NSString *dateStr = [CommonUtil getStringForDate:date format:@"H"];
             
-            //获取该行选中的时间
-            NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"restTime"]];//选择的日期
-            
-            for (NSString *str in array) {
-                //格式转换
-                NSDate *date = [CommonUtil getDateForString:str format:@"H:mm"];
-                NSString *dateStr = [CommonUtil getStringForDate:date format:@"H"];
-                
-                if ([CommonUtil isEmpty:time]) {
-                    time = dateStr;
-                }else{
-                    time = [NSString stringWithFormat:@"%@,%@", time, dateStr];
-                }
-                
+            if ([CommonUtil isEmpty:time]) {
+                time = dateStr;
+            }else{
+                time = [NSString stringWithFormat:@"%@,%@", time, dateStr];
             }
             
         }
+        
+        //        }
         
         [calenderDic setObject:time forKey:@"resttimes"];//未开课时间
         [calenderDic setObject:dic[@"state"] forKey:@"state"];
@@ -2767,7 +2304,7 @@
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
     }
-
+    
     
     //设置工作时间
     BOOL hasDate = NO;
@@ -2798,154 +2335,65 @@
     
     NSString *state = @"0";//全天状态 0开课  1未开课
     NSString *cancelstate = @"0";//当天的订单是否可以取消 0.可以取消 1.不可以取消
-    for (int j = 0; j < 3; j++) {
-        //获取对应时间段的选中状态
-        NSString *key = [NSString stringWithFormat:@"selectState%d", j];
-        NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+    //    for (int j = 0; j < 3; j++) {
+    //        //获取对应时间段的选中状态
+    NSString *key = @"selectState";
+    NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+    
+    NSMutableArray *selectArray = [NSMutableArray arrayWithArray:selectDic[@"selectArray"]];//选中的时间点集合
+    NSMutableArray *restArray = [NSMutableArray array];//未开课的时间点集合
+    NSMutableArray *bookArray = [NSMutableArray array];//已经预约时间点集合
+    for (NSDictionary *timeDic in dateArray) {
+        int hour = [timeDic[@"hour"] intValue];
+        NSString *isrest = [timeDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
+        NSString *hasbooked = [timeDic[@"hasbooked"] description];//时间点是否已经被预约 0未被预约 1已经被预约
         
-        NSMutableArray *selectArray = [NSMutableArray arrayWithArray:selectDic[@"selectArray"]];//选中的时间点集合
-        NSMutableArray *restArray = [NSMutableArray array];//未开课的时间点集合
-        NSMutableArray *bookArray = [NSMutableArray array];//已经预约时间点集合
-        for (NSDictionary *timeDic in dateArray) {
-            int hour = [timeDic[@"hour"] intValue];
-            NSString *isrest = [timeDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
-            NSString *hasbooked = [timeDic[@"hasbooked"] description];//时间点是否已经被预约 0未被预约 1已经被预约
+        if (hour > 0 && hour < 25){
+            NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
+            NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
             
-            if (hour > 0 && hour < 25){
-                if (hour < 12) {
-                    if (j != 0) {
-                        continue;
-                    }
-                    NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
-                    NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-                    
-                    if ([isrest intValue] == 1) {
-                        //未开课
-                        [restArray addObject:str];
-                    }else{
-                        //                            [selectArray addObject:str];//工作
-                    }
-                    
-                    if ([hasbooked intValue] == 1) {
-                        //已经预约
-                        [bookArray addObject:str];
-                    }else{
-//                        NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
-//                        
-//                        //移除当前时间之前的日期
-//                        if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
-//                            //大于当天
-//                            [selectArray addObject:str];//工作,默认全选
-//                        }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
-//                            //等于当天
-//                            if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
-//                                //现在时间大于改时间点，选中状态
-//                                [selectArray addObject:str];//工作,默认全选
-//                            }
-//                            
-//                        }
-                        
-                    }
-                    
-                }else if (hour < 19){
-                    if (j != 1) {
-                        continue;
-                    }
-                    NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
-                    NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-                    
-                    if ([isrest intValue] == 1) {
-                        //未开课
-                        [restArray addObject:str];
-                    }else{
-                        //                            [selectArray addObject:str];//工作
-                    }
-                    
-                    if ([hasbooked intValue] == 1) {
-                        //已经预约
-                        [bookArray addObject:str];
-                    }else{
-//                        NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
-//                        
-//                        //移除当前时间之前的日期
-//                        if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
-//                            //大于当天
-//                            [selectArray addObject:str];//工作,默认全选
-//                        }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
-//                            //等于当天
-//                            if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
-//                                //现在时间大于改时间点，选中状态
-//                                [selectArray addObject:str];//工作,默认全选
-//                            }
-//                            
-//                        }
-                        
-                    }
-                }else{
-                    if (j != 2) {
-                        continue;
-                    }
-                    NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"H"];
-                    NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
-                    
-                    if ([isrest intValue] == 1) {
-                        //未开课
-                        [restArray addObject:str];
-                    }else{
-                        //                            [selectArray addObject:str];//工作
-                    }
-                    // continue;
-                    if ([hasbooked intValue] == 1) {
-                        //已经预约
-                        [bookArray addObject:str];
-                    }else{
-//                        NSString *nowDateStr = [CommonUtil getStringForDate:self.nowDate format:@"yyyy-MM-dd"];
-//                        
-//                        //移除当前时间之前的日期
-//                        if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedAscending) {
-//                            //大于当天
-//                            [selectArray addObject:str];//工作,默认全选
-//                        }else if ([nowDateStr compare:[timeDic[@"date"] description]] == NSOrderedSame) {
-//                            //等于当天
-//                            if ([self.nowHour intValue] < [[timeDic[@"hour"] description] intValue]){
-//                                //现在时间大于改时间点，选中状态
-//                                [selectArray addObject:str];//工作,默认全选
-//                            }
-//                            
-//                        }
-                        
-                    }
-                }
+            if ([isrest intValue] == 1) {
+                //未开课
+                [restArray addObject:str];
             }else{
-                //全体状态
-                NSString *str = [timeDic[@"state"] description];
-                NSString *cancelstateStr = [timeDic[@"cancelstate"] description];
-
-                state = [CommonUtil isEmpty:str]?@"":str;
-                cancelstate = [CommonUtil isEmpty:cancelstateStr]?@"":cancelstateStr;
+                //                            [selectArray addObject:str];//工作
             }
             
+            if ([hasbooked intValue] == 1) {
+                //已经预约
+                [bookArray addObject:str];
+            }else{
+                
+            }
+            
+        }else{
+            //全体状态
+            NSString *str = [timeDic[@"state"] description];
+            NSString *cancelstateStr = [timeDic[@"cancelstate"] description];
+            
+            state = [CommonUtil isEmpty:str]?@"":str;
+            cancelstate = [CommonUtil isEmpty:cancelstateStr]?@"":cancelstateStr;
         }
-        
-        //将值保存下来
-        [selectDic setObject:selectArray forKey:@"selectArray"];
-        [selectDic setObject:restArray forKey:@"restArray"];
-        
-        //判断是否全选
-        NSString *allSelect = @"1";
-        
-        if ((j == 0 && selectArray.count == 7)
-            || (j == 1 && selectArray.count == 7)
-            || (j == 2 && selectArray.count == 5)) {
-            //全选
-            allSelect = @"0";
-        }
-        [selectDic setObject:allSelect forKey:@"allSelect"];
-        
-        [dic setObject:selectDic forKey:key];//替换选中状态
-        
         
     }
+    
+    //将值保存下来
+    [selectDic setObject:selectArray forKey:@"selectArray"];
+    [selectDic setObject:restArray forKey:@"restArray"];
+    
+    //判断是否全选
+    NSString *allSelect = @"1";
+    
+    if (selectArray.count == 19){
+        //全选
+        allSelect = @"0";
+    }
+    [selectDic setObject:allSelect forKey:@"allSelect"];
+    
+    [dic setObject:selectDic forKey:key];//替换选中状态
+    
+    
+    //    }
     
     [dic setObject:state forKey:@"state"];//全体状态
     [dic setObject:cancelstate forKey:@"cancelstate"];//全体状态
@@ -2964,62 +2412,25 @@
     }
     
     NSArray *array = dic[@"list"];
-    NSString *state = dic[@"state"];//全天状态 0开课  1未开课
+    //不未开课,判断上课状态
+    BOOL hasMorning = NO;
+    BOOL hasAfternoon = NO;
+    BOOL hasEvening = NO;
     
-    if ([state intValue] == 1) {
-        //不未开课,判断上课状态
-        BOOL hasMorning = NO;
-        BOOL hasAfternoon = NO;
-        BOOL hasEvening = NO;
-        
-        //没有数据，默认开课
-        if (array == nil) {
-            hasMorning = YES;
-            hasAfternoon = YES;
-            hasEvening = YES;
+    //没有数据，默认开课
+    if (array == nil) {
+        hasMorning = YES;
+        hasAfternoon = YES;
+        hasEvening = YES;
+    }
+    
+    //有数据，开始判断
+    for (NSDictionary *arrDic in array) {
+        NSString *hour = [arrDic[@"hour"] description];
+        NSString *isRest = [arrDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
+        if ([isRest intValue]==0) {
+            [pointArray addObject:hour];
         }
-        
-        //有数据，开始判断
-        for (NSDictionary *arrDic in array) {
-            NSString *hour = [arrDic[@"hour"] description];
-            NSString *isRest = [arrDic[@"isrest"] description];//是否未开课 0.不未开课  1.未开课
-            if ([hour integerValue] > 0 && [hour integerValue] < 25) {
-                if ([hour intValue] < 12) {
-                    //早上有上课时间
-                    if ([isRest intValue] == 0) {
-                        //上课
-                        hasMorning = YES;
-                    }
-                }else if ([hour intValue] < 19){
-                    //中午有上课时间
-                    if ([isRest intValue] == 0) {
-                        //上课
-                        hasAfternoon = YES;
-                    }
-                }else{
-                    //晚上有上课时间
-                    if ([isRest intValue] == 0) {
-                        //上课
-                        hasEvening = YES;
-                    }
-                }
-            }
-        }
-        
-        if (hasMorning) {
-            [pointArray addObject:@"morning"];
-            
-        }
-        
-        if (hasAfternoon) {
-            [pointArray addObject:@"afternoon"];
-            
-        }
-        
-        if (hasEvening) {
-            [pointArray addObject:@"evening"];
-        }
-        
     }
     
     return pointArray;
@@ -3113,11 +2524,11 @@
         [button addTarget:self action:@selector(clickForDetail:) forControlEvents:UIControlEventTouchUpInside];
         
         //显示按钮下方点
-        if (status == 0 || pointArray.count == 0){
+        if (pointArray.count == 0){
             //未开课
             [button setTitle:dayStr forState:UIControlStateNormal];
             [button setTitleColor:RGB(255, 255, 255) forState:UIControlStateNormal];
-            view.backgroundColor = RGB(102, 102, 102);
+            view.backgroundColor = RGB(43, 55, 51);
             //文字
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
             label.text = @"未开课";
@@ -3132,7 +2543,6 @@
             }
         }else{
             //正常工作
-//            view.backgroundColor = RGB(34, 192, 100);
             [button setTitle:dayStr forState:UIControlStateNormal];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
@@ -3141,27 +2551,7 @@
             if (dic == nil) {
                 dic = [NSDictionary dictionary];
             }
-            
-            CGFloat x = (weekWidth - pointArray.count*4 - (pointArray.count - 1)*3)/2;
-            
-            for (int i = 0; i < pointArray.count; i++) {
-                UIView *pointView = [[UIView alloc] initWithFrame:CGRectMake(x + 4*i + 3*i, 27, 4, 4)];
-                
-                pointView.layer.cornerRadius = 2;
-                pointView.layer.masksToBounds = YES;
-                [view addSubview:pointView];
-                
-                NSString *str = pointArray[i];
-                
-                if ([@"morning" isEqualToString:str]) {
-                    pointView.backgroundColor = RGB(247, 148, 29);
-                }else if ([@"afternoon" isEqualToString:str]){
-                    pointView.backgroundColor = RGB(224, 72, 62);
-                }else{
-                    pointView.backgroundColor = RGB(19, 82, 226);
-                }
-            }
-            
+            view.backgroundColor = RGB(44, 64, 33);
             //文字
             UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, weekWidth - 18, weekWidth, 22)];
             label.text = @"已开课";

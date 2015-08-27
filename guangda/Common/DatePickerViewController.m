@@ -31,11 +31,21 @@
     NSInteger day = [components day];
     NSInteger month= [components month];
 //    NSInteger year= [components year];
-
-    [_pickerView selectRow:100 inComponent:0 animated:NO];
-    [_pickerView selectRow:month - 1 inComponent:1 animated:NO];
-    [_pickerView selectRow:day - 1 inComponent:2 animated:NO];
     
+    if (self.pushString.length>0) {
+        NSString *yearStr = [self.pushString substringWithRange:NSMakeRange(0, 4)];
+        NSString *monthStr = [self.pushString substringWithRange:NSMakeRange(5, 2)];
+        NSString *dayStr = [self.pushString substringWithRange:NSMakeRange(8, 2)];
+        NSString *nowyear = [[NSString stringWithFormat:@"%@",[NSDate date]] substringToIndex:4];
+        [_pickerView selectRow:200-[nowyear intValue]+[yearStr intValue] inComponent:0 animated:NO];
+        [_pickerView selectRow:[monthStr intValue]-1 inComponent:1 animated:NO];
+        [_pickerView selectRow:[dayStr intValue] -1 inComponent:2 animated:NO];
+        self.selectDate = [CommonUtil getDateForString:self.pushString format:@"yyyy-M-d"];
+    }else{
+        [_pickerView selectRow:160 inComponent:0 animated:NO];
+        [_pickerView selectRow:month - 1 inComponent:1 animated:NO];
+        [_pickerView selectRow:day - 1 inComponent:2 animated:NO];
+    }
 //    CGFloat width = (CGRectGetWidth([UIScreen mainScreen].bounds) - 7*4) / 3;
 //    //添加分割线
 //    UIView *underline = [[UIView alloc] initWithFrame:CGRectMake(7, 0, width, 1)];
@@ -164,23 +174,19 @@
              year = [components year] - 100 + row;
         }
         label.textColor = RGB(161, 161, 161);
-//        if (year < [components year]) {
-//            label.textColor = RGB(161, 161, 161);
-//        } else {
-//            label.textColor = RGB(224, 32, 32);
-//        }
         
         label.text = [NSString stringWithFormat:@"%ld", (long)year];
         
         if (self.selectDate != nil) {
             NSString *yearStr = [CommonUtil getStringForDate:self.selectDate format:@"yyyy"];
-            if([yearStr integerValue] == 2015 && year == 1915){
+            if([yearStr integerValue] == 2015 && year == 1975){
                 label.textColor = RGB(34, 192, 100);
             }
                 
             if ([yearStr integerValue] == year) {
                 label.textColor = RGB(34, 192, 100);
             }
+
         }
         
         
@@ -199,7 +205,6 @@
             if ([month integerValue] == row+1) {
                 label.textColor = RGB(34, 192, 100);
             }
-
         }
         
         [view addSubview:label];
@@ -210,7 +215,7 @@
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, 32)];
         label.font = [UIFont systemFontOfSize:18];
         label.textAlignment = NSTextAlignmentCenter;
-        label.text = [NSString stringWithFormat:@"%d", row + 1];
+        label.text = [NSString stringWithFormat:@"%ld", row + 1];
         
         label.textColor = RGB(161, 161, 161);
 

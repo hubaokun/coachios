@@ -11,5 +11,5 @@
 @interface CoachInfoTextFieldViewController : GreyTopViewController
 
 @property (strong, nonatomic) NSString *viewType; //1：姓名   2：驾培教龄  3：个人评价
-
+@property (strong, nonatomic) NSString *textString;
 @end

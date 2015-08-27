@@ -102,8 +102,6 @@
 @property (strong, nonatomic) IBOutlet UIView *alertPhotoView;
 @property (strong, nonatomic) IBOutlet UIView *alertDetailView;
 
-
-
 @end
 
 @implementation MyInfoViewController
@@ -582,28 +580,6 @@
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    //    if (component == 0) {
-    //        //省
-    ////        NSString *pro = [self.provinceArray objectAtIndex:row];
-    ////        self.selectPro = [pro substringFromIndex:2];
-    ////
-    ////        //获取对应的市
-    ////        NSString *selectedState = [_provinceArray objectAtIndex:row];
-    ////        NSArray *array = [self.stateZips objectForKey:selectedState];
-    ////
-    ////        self.cityArray = array;
-    ////
-    ////        [self.pickerView selectRow:0 inComponent:1 animated:YES];
-    ////        if (array.count > 0){
-    ////            NSString *city = [_cityArray objectAtIndex:0];
-    ////            self.selectCity = city;
-    ////        }
-    //
-    //    }else{
-    //        //市
-    //        NSString *city = [_cityArray objectAtIndex:row];
-    //        self.selectCity = city;
-    //    }
     selectRow = row;
     [pickerView reloadComponent:0];
     
@@ -614,12 +590,16 @@
     NSLog(@"填写教练信息");
     CoachInfoTextFieldViewController *nextViewController = [[CoachInfoTextFieldViewController alloc] initWithNibName:@"CoachInfoTextFieldViewController" bundle:nil];
     UIButton *button = (UIButton *)sender;
+    
     if (button.tag == 1) {
         nextViewController.viewType = @"1";
+        nextViewController.textString = self.realNameLabel.text;
     }else if (button.tag == 2){
         nextViewController.viewType = @"2";
+        nextViewController.textString = [self.trainTimeLabel.text substringWithRange:NSMakeRange(0, self.trainTimeLabel.text.length-1)];
     }else if (button.tag == 3){
         nextViewController.viewType = @"3";
+        nextViewController.textString = self.selfEvaluationLabel.text;
     }
     
     [self.navigationController pushViewController:nextViewController animated:YES];
@@ -637,34 +617,6 @@
     MyDetailInfoViewController *targetViewController = [[MyDetailInfoViewController alloc] initWithNibName:@"MyDetailInfoViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
-
-//- (IBAction)clickToChangePwdView:(id)sender {
-//    NSLog(@"修改密码");
-//    
-//    NSString *pwd = self.pwdField.text;
-//    if ([CommonUtil isEmpty:pwd]) {
-//        [self makeToast:@"请输入原密码"];
-//        [self.pwdField becomeFirstResponder];
-//        return;
-//    }
-//    
-//    [self.pwdField resignFirstResponder];
-//    //1.验证原密码是否正确
-//    
-//    [self checkPwd];
-//
-//}
-
-//// 取消
-//- (IBAction)clickForCancel:(id)sender {
-//    [self.pwdProveView removeFromSuperview];
-//}
-//
-//// 验证原密码
-//- (IBAction)clickForProvePwd:(id)sender {
-//    self.pwdProveView.frame = [UIScreen mainScreen].bounds;
-//    [self.view addSubview:self.pwdProveView];
-//}
 
 // 开启驾校选择器
 - (void)clickForSelectSchool:(UIButton *)sender {
@@ -687,16 +639,37 @@
 
 // 性别
 - (IBAction)selectSex:(long)index {
+    if ([self.sexLabel.text isEqualToString:@"请选择"]) {
+        [self.pickerView selectRow:0 inComponent:0 animated:YES];
+        selectRow = 0;
+    }else if ([self.sexLabel.text isEqualToString:@"男"]){
+        [self.pickerView selectRow:0 inComponent:0 animated:YES];
+        selectRow = 0;
+    }else if ([self.sexLabel.text isEqualToString:@"女"]){
+        [self.pickerView selectRow:1 inComponent:0 animated:YES];
+        selectRow = 1;
+    }
     [self initSexData];
     [self.pickerView reloadAllComponents];
     self.selectView.frame = [UIScreen mainScreen].bounds;
     [self.view addSubview:self.selectView];
+    if ([self.sexLabel.text isEqualToString:@"请选择"]) {
+        [self.pickerView selectRow:0 inComponent:0 animated:YES];
+        selectRow = 0;
+    }else if ([self.sexLabel.text isEqualToString:@"男"]){
+        [self.pickerView selectRow:0 inComponent:0 animated:YES];
+        selectRow = 0;
+    }else if ([self.sexLabel.text isEqualToString:@"女"]){
+        [self.pickerView selectRow:1 inComponent:0 animated:YES];
+        selectRow = 1;
+    }
 }
 
 #pragma mark - DatePickerViewControllerDelegate
 - (void)datePicker:(DatePickerViewController *)viewController selectedDate:(NSDate *)selectedDate{
     NSString *time = [CommonUtil getStringForDate:selectedDate format:@"yyyy-MM-dd"];
     self.birthdayLabel.text = time;
+    [self updateUserDirthday];
     self.birthdayChange = @"1";
 }
 
@@ -706,6 +679,13 @@
     DatePickerViewController *viewController = [[DatePickerViewController alloc] initWithNibName:@"DatePickerViewController" bundle:nil];
     viewController.dicTag = 99;
     viewController.delegate = self;
+    if ([self.birthdayLabel.text isEqualToString:@"请选择"]) {
+        NSString *time = @"";
+        viewController.pushString = time;
+    }else{
+        NSString *time = self.birthdayLabel.text;
+        viewController.pushString = time;
+    }
     UIViewController* controller = self.view.window.rootViewController;
     if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
         viewController.modalPresentationStyle=UIModalPresentationOverCurrentContext;
@@ -728,6 +708,16 @@
     NSInteger row = [self.pickerView selectedRowInComponent:0];
     if(self.pickerView.tag == 1){
        self.sexLabel.text = self.selectArray[row];
+        NSString *text;
+        if ([@"男" isEqualToString:self.sexLabel.text]) {
+            text = @"1";
+        }else if ([@"女" isEqualToString:self.sexLabel.text]){
+            text = @"2";
+        }
+        [self updateUserData:@"gender" and:text];
+        if (![CommonUtil isEmpty:text]) {
+            [self.msgDic setObject:text forKey:@"gender"];
+        }
     }
     [self.selectView removeFromSuperview];
 }
@@ -740,29 +730,10 @@
         [self makeToast:@"必须选择性别"];
         return;
     }
-    [self updateUserData];
+//    [self updateUserData];
 }
 
 #pragma mark - 接口
-////验证密码
-//- (void)checkPwd{
-//    NSString *pwd = self.pwdField.text;
-//    pwd = [CommonUtil md5:pwd];
-//    
-//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-//
-//    
-//    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kUserServlet]];
-//    request.delegate = self;
-//    request.tag = 3;
-//    request.requestMethod = @"POST";
-//    [request setPostValue:@"VerifyPsw" forKey:@"action"];
-//    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"]; // 用户id
-//    [request setPostValue:userInfo[@"token"] forKey:@"token"];
-//    [request setPostValue:[pwd lowercaseString] forKey:@"password"]; // 密码
-//    [request startAsynchronous];
-//    [DejalBezelActivityView activityViewForView:self.view];
-//}
 
 // 获取所有驾校信息
 - (void)getCarSchool{
@@ -776,7 +747,7 @@
 }
 
 //提交个人资料
-- (void)updateUserData{
+- (void)updateUserData:(NSString *)key and:(id)value{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     NSString *coachId = userInfo[@"coachid"];
     
@@ -786,38 +757,61 @@
     request.requestMethod = @"POST";
     [request setPostValue:@"PerfectAccountInfo" forKey:@"action"];
     [request setPostValue:coachId forKey:@"coachid"];
+    
+    [request setPostValue:value forKey:key];
+    
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     
-    //判断数据
-    for (int i = 0; i < _cells.count; i++) {
-        NSString *text = @"";
-        MyInfoCell *cell = _cells[i];
-        text = [cell.contentField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
-        
-        NSString *str = @"";//提交的字段
-        NSString *userKey = @"";//useInfo中的字段
-        if (i == 0) {
-            //姓名
-            str = @"realname";
-            userKey = @"realname";
-        }else if (i == 1){
-            //性别1.男2.女
-            str = @"gender";
-            userKey = @"gender";
-            
-            if ([@"男" isEqualToString:text]) {
-                text = @"1";
-            }else if ([@"女" isEqualToString:text]){
-                text = @"2";
-            }
-        }
-        
-        
-        if (![CommonUtil isEmpty:text]) {
-            [request setPostValue:text forKey:str];
-            [self.msgDic setObject:text forKey:userKey];
-            
-        }
+//    //判断数据
+//    for (int i = 0; i < _cells.count; i++) {
+//        NSString *text = @"";
+//        MyInfoCell *cell = _cells[i];
+//        text = [cell.contentField.text stringByReplacingOccurrencesOfString:@" " withString:@""];
+//        
+//        NSString *str = @"";//提交的字段
+//        NSString *userKey = @"";//useInfo中的字段
+//        if (i == 0) {
+//            //姓名
+//            str = @"realname";
+//            userKey = @"realname";
+//        }else if (i == 1){
+//            //性别1.男2.女
+//            str = @"gender";
+//            userKey = @"gender";
+//            
+//            if ([@"男" isEqualToString:text]) {
+//                text = @"1";
+//            }else if ([@"女" isEqualToString:text]){
+//                text = @"2";
+//            }
+//        }
+//        
+//        
+//        if (![CommonUtil isEmpty:text]) {
+//            [request setPostValue:text forKey:str];
+//            [self.msgDic setObject:text forKey:userKey];
+//            
+//        }
+//    }
+    [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
+}
+
+//提交个人资料
+- (void)updateUserDirthday{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *coachId = userInfo[@"coachid"];
+    
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
+    request.delegate = self;
+    request.tag = 3;
+    request.requestMethod = @"POST";
+    [request setPostValue:@"PerfectPersonInfo" forKey:@"action"];
+    [request setPostValue:coachId forKey:@"coachid"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request setPostValue:self.birthdayLabel.text forKey:@"birthday"];
+    if (![CommonUtil isEmpty:self.birthdayLabel.text]) {
+        [self.msgDic setObject:self.birthdayLabel.text forKey:@"birthday"];
     }
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
@@ -855,7 +849,7 @@
             }else if (state.intValue == 3){   //审核未通过
                 self.coachInfoState.text = @"【未通过认证】";
             }else{                            //未设置
-                self.coachInfoState.text = @"【未认证初始】";
+                self.coachInfoState.text = @"【未初始设置】";
             }
         }else{
             NSString *message = responseObject[@"message"];
@@ -877,7 +871,6 @@
     
     // 取得数据成功
     if ([code intValue] == 1) {
-        
         if (request.tag == 1){
             NSMutableArray *arr = [result objectForKey:@"schoollist"];
             NSDictionary *di = [NSDictionary dictionaryWithObject:@"其它" forKey:@"name"];
@@ -899,11 +892,12 @@
             }
             [CommonUtil saveObjectToUD:ds key:@"userInfo"];
         }else if(request.tag == 3){
-//            //密码正确
-//            //2.正确的情况下修改密码
-//            ChangePwdViewController *targetViewController = [[ChangePwdViewController alloc] initWithNibName:@"ChangePwdViewController" bundle:nil];
-//            [self.pwdProveView removeFromSuperview];
-//            [self.navigationController pushViewController:targetViewController animated:YES];
+            [self makeToast:@"修改成功"];
+            NSMutableDictionary * ds = [NSMutableDictionary dictionaryWithDictionary:[CommonUtil getObjectFromUD:@"userInfo"]];
+            for (NSString *key in self.msgDic.allKeys) {
+                [ds setObject:[self.msgDic objectForKey:key] forKey:key];
+            }
+            [CommonUtil saveObjectToUD:ds key:@"userInfo"];
         }else if(request.tag == 4){
             [self makeToast:@"修改头像成功"];
             

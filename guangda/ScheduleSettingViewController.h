@@ -14,4 +14,5 @@
 @property (strong, nonatomic) NSArray *timeArray;
 @property (strong, nonatomic) NSDictionary *timeDic;//对应的日期
 @property (strong, nonatomic) NSString *date;//修改的日期<2015-03-01>
+@property (strong, nonatomic) NSArray *allDayArray;
 @end

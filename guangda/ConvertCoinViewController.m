@@ -11,7 +11,7 @@
 #import "CoinRecordListTableViewCell.h"
 #import "DSPullToRefreshManager.h"
 #import "DSBottomPullToMoreManager.h"
-@interface ConvertCoinViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient>
+@interface ConvertCoinViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient,UIAlertViewDelegate>
 {
     NSString *coinCount;
     int pageNum;
@@ -167,22 +167,6 @@
 //        cell.coinNum.textColor = [UIColor redColor];
         cell.cheakBtn.hidden = YES;
     }
-    //    else if ([receivertype intValue] == 3){
-    //        if ([payertype intValue] == 0) {
-    //            coinFrom = @"支付方：小巴平台";
-    //        }else if ([payertype intValue] == 1){
-    //            coinFrom = @"支付方：驾校";
-    //        }else if ([payertype intValue] == 2){
-    //            NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
-    //            coinFrom = [NSString stringWithFormat:@"支付方:%@教练",[dic1[@"realname"] description]];
-    //        }else if ([payertype intValue] == 3){
-    //            coinFrom = @"支付方：学员";
-    //        }
-    //        coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
-    //        coinWay = @"订单取消";
-    //        cell.coinNum.textColor = [UIColor greenColor];
-    //        cell.cheakBtn.hidden = YES;
-    //    }else
     if ([payertype intValue] == 2) {
         if ([payertype intValue] == 0) {
             coinFrom = @"支付方：小巴平台";
@@ -300,11 +284,15 @@
 }
 
 - (IBAction)clickForConvertCoin:(id)sender {
-//    if (self.coinNumTextfield.text.length>0) {
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定兑换所有小巴币吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alert show];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) {
         [self getAPPLYCOIN];
-//    }else{
-//        [self makeToast:@"请输入正确的兑换数量"];
-//    }
+    }
 }
 
 #pragma mark - 接口

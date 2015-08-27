@@ -124,7 +124,6 @@
     self.starRatingView1.isFill = YES;//整数显示
     //[self.starRatingView1 changeStarForegroundViewWithPoint:CGPointMake(0, 0)];
     [self.scoreStarView1 addSubview:self.starRatingView1];
-
     
     self.starRatingView2 = [[TQStarRatingView alloc] initWithFrame:self.scoreStarView2.bounds numberOfStar:5];
     self.starRatingView2.couldClick = YES;//可点击
@@ -1293,6 +1292,7 @@
     [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"id"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"id"];
     [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
     [request startAsynchronous];
 }

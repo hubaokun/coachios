@@ -7,6 +7,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoachInfoTextFieldViewController">
             <connections>
+                <outlet property="inputBackView" destination="6Gn-5n-Wg2" id="TFb-Q5-oqc"/>
+                <outlet property="inputTextView" destination="3bT-ps-HI3" id="ROO-HK-IBO"/>
                 <outlet property="inputTextfield" destination="1os-xn-U7F" id="LH4-bW-y8c"/>
                 <outlet property="titleLabel" destination="Ws1-h1-bf5" id="Mda-Ea-u1a"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -53,6 +55,9 @@
                                 <color key="titleColor" red="1" green="0.29803921568627451" blue="0.10980392156862745" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="clickForCommit:" destination="-1" eventType="touchUpInside" id="ccE-wc-Qbg"/>
+                            </connections>
                         </button>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="姓名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ws1-h1-bf5">
                             <rect key="frame" x="200" y="20" width="200" height="44"/>
@@ -98,6 +103,25 @@
                         <constraint firstItem="1os-xn-U7F" firstAttribute="leading" secondItem="SSc-sv-tA6" secondAttribute="leading" constant="8" id="nOI-P4-kYx"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Gn-5n-Wg2">
+                    <rect key="frame" x="0.0" y="78" width="600" height="140"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3bT-ps-HI3">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="140"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="3bT-ps-HI3" secondAttribute="trailing" id="4Sy-g6-Yq3"/>
+                        <constraint firstAttribute="bottom" secondItem="3bT-ps-HI3" secondAttribute="bottom" id="4zG-HG-yx5"/>
+                        <constraint firstItem="3bT-ps-HI3" firstAttribute="top" secondItem="6Gn-5n-Wg2" secondAttribute="top" id="6bt-Vo-Zo3"/>
+                        <constraint firstAttribute="height" constant="140" id="djp-oh-etl"/>
+                        <constraint firstItem="3bT-ps-HI3" firstAttribute="leading" secondItem="6Gn-5n-Wg2" secondAttribute="leading" id="nzy-Br-jQF"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -105,6 +129,9 @@
                 <constraint firstAttribute="trailing" secondItem="SSc-sv-tA6" secondAttribute="trailing" id="GY9-Ym-zyM"/>
                 <constraint firstItem="SSc-sv-tA6" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="YMI-dW-jD0"/>
                 <constraint firstItem="SSc-sv-tA6" firstAttribute="top" secondItem="yMq-Za-GCs" secondAttribute="bottom" constant="14" id="dtF-95-7NY"/>
+                <constraint firstItem="6Gn-5n-Wg2" firstAttribute="top" secondItem="yMq-Za-GCs" secondAttribute="bottom" constant="14" id="fuW-Af-FcT"/>
+                <constraint firstAttribute="trailing" secondItem="6Gn-5n-Wg2" secondAttribute="trailing" id="m4E-Kt-8W1"/>
+                <constraint firstItem="6Gn-5n-Wg2" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="odj-CF-dc7"/>
                 <constraint firstItem="yMq-Za-GCs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="p7x-gF-TPU"/>
                 <constraint firstItem="yMq-Za-GCs" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ytF-9X-FSg"/>
             </constraints>

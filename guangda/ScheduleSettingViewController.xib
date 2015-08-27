@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -23,10 +23,8 @@
                 <outlet property="selectPickerView" destination="rtU-Tb-n1O" id="eod-zP-Kfy"/>
                 <outlet property="selectView" destination="FlP-Z5-Qf6" id="cFj-MQ-43a"/>
                 <outlet property="selectView2" destination="9E2-oi-tRA" id="dgq-C0-DMO"/>
-                <outlet property="stateSwitch" destination="XTW-O2-rve" id="jYU-EM-BiB"/>
                 <outlet property="timeLabel" destination="Al8-Uo-3DL" id="WP9-SF-JeZ"/>
                 <outlet property="timeScrollView" destination="DgY-ki-aca" id="DQw-Ay-n1S"/>
-                <outlet property="timeStateLabel" destination="cUI-Yp-d82" id="8sc-Us-Wlx"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -139,60 +137,8 @@
                         <constraint firstAttribute="bottom" secondItem="DgY-ki-aca" secondAttribute="bottom" id="d2r-i8-YrI"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f8P-45-GnS" userLabel="时间状态设置">
-                    <rect key="frame" x="0.0" y="84" width="600" height="81"/>
-                    <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PyK-e0-QBT" userLabel="underline">
-                            <rect key="frame" x="0.0" y="80" width="600" height="1"/>
-                            <color key="backgroundColor" red="0.82745098039215681" green="0.82745098039215681" blue="0.82745098039215681" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="1" id="kC2-6F-Eho"/>
-                            </constraints>
-                        </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="是否开课" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ot8-bj-Kx7">
-                            <rect key="frame" x="10" y="0.0" width="64" height="38"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="38" id="bbw-Bf-Tub"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XTW-O2-rve">
-                            <rect key="frame" x="541" y="3" width="51" height="31"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="49" id="6AU-bV-7Ja"/>
-                                <constraint firstAttribute="height" constant="31" id="OOP-89-Q6Z"/>
-                            </constraints>
-                            <connections>
-                                <action selector="clickForChangeState:" destination="-1" eventType="valueChanged" id="CX8-Ie-HLH"/>
-                            </connections>
-                        </switch>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开课状态，若关闭，以上时间点屏蔽任何 学生选课！" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cUI-Yp-d82">
-                            <rect key="frame" x="10" y="38" width="509" height="42"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                            <color key="textColor" red="0.82352941176470584" green="0.82352941176470584" blue="0.82352941176470584" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="PyK-e0-QBT" firstAttribute="top" secondItem="cUI-Yp-d82" secondAttribute="bottom" id="2Wv-NO-DDM"/>
-                        <constraint firstAttribute="trailing" secondItem="PyK-e0-QBT" secondAttribute="trailing" id="Eel-oL-DAC"/>
-                        <constraint firstItem="PyK-e0-QBT" firstAttribute="leading" secondItem="f8P-45-GnS" secondAttribute="leading" id="GOj-94-Lmd"/>
-                        <constraint firstItem="XTW-O2-rve" firstAttribute="centerY" secondItem="Ot8-bj-Kx7" secondAttribute="centerY" constant="-0.5" id="L21-SU-T4p"/>
-                        <constraint firstAttribute="height" constant="81" id="StE-e9-9jl"/>
-                        <constraint firstItem="cUI-Yp-d82" firstAttribute="leading" secondItem="f8P-45-GnS" secondAttribute="leading" constant="10" id="dnM-Rp-8t4"/>
-                        <constraint firstItem="Ot8-bj-Kx7" firstAttribute="leading" secondItem="f8P-45-GnS" secondAttribute="leading" constant="10" id="eTO-Kw-Nha"/>
-                        <constraint firstAttribute="trailing" secondItem="cUI-Yp-d82" secondAttribute="trailing" constant="81" id="fzq-lV-Yrg"/>
-                        <constraint firstAttribute="bottom" secondItem="PyK-e0-QBT" secondAttribute="bottom" id="kJ8-k6-3l0"/>
-                        <constraint firstAttribute="trailing" secondItem="XTW-O2-rve" secondAttribute="trailing" constant="10" id="lTA-nL-aom"/>
-                        <constraint firstItem="cUI-Yp-d82" firstAttribute="top" secondItem="Ot8-bj-Kx7" secondAttribute="bottom" id="xkX-gA-XZa"/>
-                        <constraint firstItem="Ot8-bj-Kx7" firstAttribute="top" secondItem="f8P-45-GnS" secondAttribute="top" id="xy1-kB-QmC"/>
-                    </constraints>
-                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ham-i8-FRu" userLabel="时间单价">
-                    <rect key="frame" x="0.0" y="165" width="600" height="81"/>
+                    <rect key="frame" x="0.0" y="84" width="600" height="81"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qm0-C6-aFG" userLabel="underline">
                             <rect key="frame" x="0.0" y="80" width="600" height="1"/>
@@ -260,7 +206,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hxG-32-jki" userLabel="上车地点">
-                    <rect key="frame" x="0.0" y="246" width="600" height="81"/>
+                    <rect key="frame" x="0.0" y="165" width="600" height="81"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iAR-7T-49U" userLabel="underline">
                             <rect key="frame" x="0.0" y="80" width="600" height="1"/>
@@ -330,7 +276,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eW3-rK-qPY" userLabel="教学内容">
-                    <rect key="frame" x="0.0" y="327" width="600" height="81"/>
+                    <rect key="frame" x="0.0" y="246" width="600" height="81"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pr3-XO-7wC" userLabel="underline">
                             <rect key="frame" x="0.0" y="80" width="600" height="1"/>
@@ -402,23 +348,35 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="ZU5-99-RI6" firstAttribute="leading" secondItem="2HH-xz-DXC" secondAttribute="leading" id="4fI-Qk-83V"/>
-                <constraint firstAttribute="trailing" secondItem="f8P-45-GnS" secondAttribute="trailing" id="6Om-Hu-u8n"/>
+                <constraint firstItem="Ham-i8-FRu" firstAttribute="top" secondItem="ZU5-99-RI6" secondAttribute="bottom" id="7PI-ip-t1I"/>
+                <constraint firstItem="Ham-i8-FRu" firstAttribute="top" secondItem="ZU5-99-RI6" secondAttribute="bottom" id="82h-Im-iUX"/>
+                <constraint firstItem="eW3-rK-qPY" firstAttribute="top" secondItem="hxG-32-jki" secondAttribute="bottom" id="EB7-qp-tZZ"/>
                 <constraint firstAttribute="trailing" secondItem="eW3-rK-qPY" secondAttribute="trailing" id="EjT-Uo-PQL"/>
                 <constraint firstAttribute="trailing" secondItem="hxG-32-jki" secondAttribute="trailing" id="MGJ-uJ-CzS"/>
-                <constraint firstItem="f8P-45-GnS" firstAttribute="leading" secondItem="2HH-xz-DXC" secondAttribute="leading" id="N4y-R2-kVw"/>
                 <constraint firstItem="hxG-32-jki" firstAttribute="leading" secondItem="2HH-xz-DXC" secondAttribute="leading" id="PdB-rX-0RL"/>
                 <constraint firstAttribute="trailing" secondItem="Ham-i8-FRu" secondAttribute="trailing" id="PeH-dZ-1r6"/>
+                <constraint firstItem="eW3-rK-qPY" firstAttribute="top" secondItem="hxG-32-jki" secondAttribute="bottom" id="Z8B-Im-alg"/>
                 <constraint firstItem="eW3-rK-qPY" firstAttribute="top" secondItem="hxG-32-jki" secondAttribute="bottom" id="a2P-wK-GMd"/>
                 <constraint firstItem="Ham-i8-FRu" firstAttribute="leading" secondItem="2HH-xz-DXC" secondAttribute="leading" id="bFQ-4g-iH7"/>
-                <constraint firstItem="Ham-i8-FRu" firstAttribute="top" secondItem="f8P-45-GnS" secondAttribute="bottom" id="byy-0Q-509"/>
                 <constraint firstItem="eW3-rK-qPY" firstAttribute="leading" secondItem="2HH-xz-DXC" secondAttribute="leading" id="djQ-fJ-068"/>
                 <constraint firstAttribute="trailing" secondItem="ZU5-99-RI6" secondAttribute="trailing" id="lLe-jy-BBt"/>
                 <constraint firstItem="ZU5-99-RI6" firstAttribute="top" secondItem="2HH-xz-DXC" secondAttribute="top" id="lqc-Ut-av1"/>
                 <constraint firstItem="hxG-32-jki" firstAttribute="top" secondItem="Ham-i8-FRu" secondAttribute="bottom" id="mFR-pq-bdb"/>
-                <constraint firstItem="f8P-45-GnS" firstAttribute="top" secondItem="ZU5-99-RI6" secondAttribute="bottom" id="oIy-8o-dR2"/>
+                <constraint firstItem="Ham-i8-FRu" firstAttribute="top" secondItem="ZU5-99-RI6" secondAttribute="bottom" constant="81" id="qbP-me-cjy"/>
                 <constraint firstAttribute="bottom" secondItem="eW3-rK-qPY" secondAttribute="bottom" id="qr0-y2-CNG"/>
+                <constraint firstItem="hxG-32-jki" firstAttribute="top" secondItem="Ham-i8-FRu" secondAttribute="bottom" id="vad-zC-kNA"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="82h-Im-iUX"/>
+                    <exclude reference="qbP-me-cjy"/>
+                    <exclude reference="mFR-pq-bdb"/>
+                    <exclude reference="Z8B-Im-alg"/>
+                    <exclude reference="a2P-wK-GMd"/>
+                    <exclude reference="qr0-y2-CNG"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="1046" y="191"/>
         </view>
         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Al8-Uo-3DL" userLabel="时间点">

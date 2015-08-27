@@ -15,10 +15,14 @@
 #import "LoginViewController.h"
 #import "SchoolSelectViewController.h"
 #import "AppDelegate.h"
-@interface CoachInfoViewController ()<UITextFieldDelegate, DatePickerViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
+#import "LocationViewController.h"
+#import "XBProvince.h"
+#import "CarModelViewController.h"
+@interface CoachInfoViewController ()<UITextFieldDelegate, DatePickerViewControllerDelegate,UIPickerViewDataSource,UIPickerViewDelegate,LocationViewControllerDelegate> {
     CGFloat _y;
     NSInteger selectRow;
-    
+    NSString *isChangeCity;
+//    NSString *cityid;
 }
 @property (strong, nonatomic) IBOutlet TPKeyboardAvoidingScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIButton *commitBtn;
@@ -65,6 +69,7 @@
 // 准教车型
 @property (strong, nonatomic) IBOutlet UIButton *C1Button;
 @property (strong, nonatomic) IBOutlet UIButton *C2Button;
+@property (strong, nonatomic) IBOutlet UILabel *coachCarLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *carModelView;
 @property (strong, nonatomic) IBOutlet UITextField *carModelField;
@@ -137,6 +142,16 @@
 @property (strong, nonatomic) NSMutableDictionary *msgDic;//参数
 @property (strong, nonatomic) NSString *userState;//2：通过审核（不可修改数据）
 
+// 省市区
+@property (strong, nonatomic) XBProvince *selectProvince;
+@property (strong, nonatomic) XBCity *selectCity;
+@property (strong, nonatomic) XBArea *selectArea;
+@property (strong, nonatomic) NSString *selectProvinceid;
+@property (strong, nonatomic) NSString *selectCityid;
+@property (strong, nonatomic) NSString *selectAreaid;
+@property (strong, nonatomic) IBOutlet UILabel *cityNameLabel;
+
+
 // 返回按钮
 @property (strong, nonatomic) IBOutlet UIButton *backBtn;
 
@@ -156,7 +171,7 @@
 
 - (IBAction)clickForPhoto:(UIButton *)sender;
 //驾校
-@property (strong, nonatomic) IBOutlet UITextField *schoolTextFiled;
+@property (strong, nonatomic) IBOutlet UILabel *schoolTextFiled;
 - (IBAction)clickForSelectSchool:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *selectSchoolButton;
 
@@ -277,7 +292,10 @@
     NSString *driveschool = [userInfo[@"driveschool"]description];
     
     NSString *modelid = [userInfo[@"modelid"]description];//准教车型id
-    
+    NSString *cityid1 = [userInfo[@"cityid"] description]; //城市id
+    NSString *provinceid = [userInfo[@"provinceid"] description];
+    NSString *areaid = [userInfo[@"areaid"] description];
+    NSString *locationname = [userInfo[@"locationname"] description];//城市名
     NSString *idCardImage = [CommonUtil stringForID:userInfo[@"id_cardpicfurl"]]; // 身份证正面照片地址
     NSString *idCardBackImage = [CommonUtil stringForID:userInfo[@"id_cardpicburl"]]; // 身份证反面照片地址
     NSString *coachImage = [CommonUtil stringForID:userInfo[@"coach_cardpicurl"]]; // 教练证正面照片地址
@@ -285,6 +303,10 @@
     NSString *carCheckImage = [CommonUtil stringForID:userInfo[@"car_cardpicfurl"]]; // 车辆年检证照片地址&车辆行驶证正面
     NSString *carCheckBackImage = [CommonUtil stringForID:userInfo[@"car_cardpicburl"]]; // 车辆行驶证反面
     NSString *coachTureIconImage = [CommonUtil stringForID:userInfo[@"realpicurl"]]; // 教练真实头像
+    
+    self.selectProvinceid = provinceid;
+    self.selectCityid = cityid1;
+    self.selectAreaid = areaid;
     
     //身份证
     self.idCardField.text = idNum;
@@ -316,25 +338,27 @@
         self.schoolTextFiled.text = driveschool;
     }
     
+    //所在城市
+    self.cityNameLabel.text = locationname;
+    
     //教学用车型号
     self.teachCarCardField.text = carModel;
     
     //准教车型
     self.myCarModelArray = [NSMutableArray arrayWithArray:userInfo[@"modellist"]];
-    NSArray *array = [modelid componentsSeparatedByString:@","];
-    for (int i=0; i<array.count; i++) {
-        NSString *model = array[i];
-        if ([model intValue] == 17) {
-            self.C1Button.selected = YES;
-        }
-        if ([model intValue] == 18) {
-            self.C2Button.selected = YES;
-        }
+//    NSArray *array = [modelid componentsSeparatedByString:@","];
+    if ([modelid isEqualToString:@"17"]) {
+       self.coachCarLabel.text = @"C1手动挡";
+    }
+    if ([modelid isEqualToString:@"18"]) {
+        self.coachCarLabel.text = @"C2自动挡";
+    }
+    if ([modelid isEqualToString:@"17,18"]) {
+        self.coachCarLabel.text = @"C1手动挡,C2自动挡";
     }
     
     [self loadTestInfo];
-    
-    
+
     /******相关证件*******/
     
     //身份证正面
@@ -599,6 +623,24 @@
 }
 
 #pragma mark - 按钮方法
+//弹出驾校选择框
+- (IBAction)clickForSelectSchool:(id)sender {
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else{
+        if ([self.cityNameLabel.text isEqualToString:@"未设置"]) {
+            [self makeToast:@"请先设置您的所在城市"];
+        }else{
+            SchoolSelectViewController *nextViewController = [[SchoolSelectViewController alloc] initWithNibName:@"SchoolSelectViewController" bundle:nil];
+            [self.navigationController pushViewController:nextViewController animated:YES];
+        }
+    }
+}
+
 - (IBAction)clickForCommit:(id)sender {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"提交后将会进入审核状态，在未通过审核前学员无法预约您的课程" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alertView show];
@@ -636,6 +678,19 @@
             self.C2Button.selected = YES;
         }
     }
+}
+- (IBAction)clickForCarModel:(id)sender {
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else{
+        CarModelViewController *nextViewController = [[CarModelViewController alloc] initWithNibName:@"CarModelViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
+    
 }
 
 // 监听弹话框点击事件
@@ -685,7 +740,7 @@
             //驾校
             NSString *carSchoolName = [self.schoolTextFiled.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             
-            [self uploadCardNum:cardNum cardNumPt:cardNumPt coachNum:coachNum coachNumPt:coachNumPt driveNum:driveNum driveNumPt:driveNumPt carCNum:carCNum carCNumPt:carCNumPt carModel:carModel carLicense:carLicense carArray:self.myCarModelArray carSchoolName:carSchoolName];
+            [self uploadCardNum:cardNum cardNumPt:cardNumPt coachNum:coachNum coachNumPt:coachNumPt driveNum:driveNum driveNumPt:driveNumPt carCNum:carCNum carCNumPt:carCNumPt carModel:carModel carLicense:carLicense carArray:self.myCarModelArray carSchoolName:carSchoolName cityModel:self.selectCity.cityID];
         }
         
     }
@@ -742,12 +797,12 @@
         if(row == (_carSchoolArray.count - 1)){
             self.selectSchoolButton.hidden = YES;
             _schoolTextFiled.text = @"";
-            _schoolTextFiled.placeholder = @"请输入您的驾校名称";
+            _schoolTextFiled.text = @"未设置";
             _carSchoolID = @"";
             [self.schoolTextFiled becomeFirstResponder];
         }else{
             self.selectSchoolButton.hidden = NO;
-            _schoolTextFiled.placeholder = @"";
+            _schoolTextFiled.text = @"";
             NSDictionary *dic = _carSchoolArray[row];
             _schoolTextFiled.text = dic[@"name"];
             _carSchoolID = dic[@"schoolid"];
@@ -892,6 +947,51 @@
         [self.alertView removeFromSuperview];
     }];
 }
+
+#pragma mark - LocationViewControllerDelegate
+- (void)location:(LocationViewController *)viewController selectDic:(NSDictionary *)selectDic{
+    
+    isChangeCity = @"1";
+    
+    self.selectProvince = selectDic[@"province"];
+    self.selectCity = selectDic[@"city"];
+    self.selectArea = selectDic[@"area"];
+    
+    NSString *addrStr = nil;
+    NSString *areaStr = [self.selectArea.areaName stringByReplacingOccurrencesOfString:@" " withString:@""];
+    if (self.selectProvince.isZxs) { // 直辖市
+        addrStr = [NSString stringWithFormat:@"%@ - %@", self.selectProvince.provinceName, areaStr];
+    } else {
+        addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.selectProvince.provinceName, self.selectCity.cityName, areaStr];
+    }
+    
+    self.cityNameLabel.text = addrStr;
+}
+//选择城市
+- (IBAction)clickForSelectCity:(UIButton *)sender{
+    if (self.userState.intValue == 2) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else if (self.userState.intValue == 1){
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        [alert show];
+    }else{
+        LocationViewController *viewController = [[LocationViewController alloc] initWithNibName:@"LocationViewController" bundle:nil];
+        viewController.delegate = self;
+        UIViewController* controller = self.view.window.rootViewController;
+        if ([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0) {
+            viewController.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+        }else{
+            controller.modalPresentationStyle = UIModalPresentationCurrentContext;
+        }
+        
+        [controller presentViewController:viewController animated:YES completion:^{
+            viewController.view.superview.backgroundColor = [UIColor clearColor];
+        }];
+    }
+    
+}
+
 
 #pragma mark - DatePickerViewControllerDelegate
 - (void)datePicker:(DatePickerViewController *)viewController selectedDate:(NSDate *)selectedDate{
@@ -1092,7 +1192,7 @@
 }
 
 #pragma mark - 接口
-- (void)uploadCardNum:(NSString *)cardNum cardNumPt:(NSString *)cardNumPt coachNum:(NSString *)coachNum coachNumPt:(NSString *)coachNumPt driveNum:(NSString *)driveNum driveNumPt:(NSString *)driveNumPt carCNum:(NSString *)carCNum carCNumPt:(NSString *)carCNumPt  carModel:(NSString *)carModel carLicense:(NSString *)carLicense carArray:(NSArray *)carArray carSchoolName:(NSString*)carSchoolName{
+- (void)uploadCardNum:(NSString *)cardNum cardNumPt:(NSString *)cardNumPt coachNum:(NSString *)coachNum coachNumPt:(NSString *)coachNumPt driveNum:(NSString *)driveNum driveNumPt:(NSString *)driveNumPt carCNum:(NSString *)carCNum carCNumPt:(NSString *)carCNumPt  carModel:(NSString *)carModel carLicense:(NSString *)carLicense carArray:(NSArray *)carArray carSchoolName:(NSString*)carSchoolName cityModel:(NSString *)cityid{
     
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
     
@@ -1158,23 +1258,6 @@
             [request setPostValue:carSchoolName forKey:@"driveschool"];// 教学用车型号
         }
     }
-    //
-    //    if(![CommonUtil isEmpty:carLicense])
-    //    {
-    //         [request setPostValue:carLicense forKey:@"carlicense"];         // 教学用车牌照
-    //    }
-    
-    //5.判断相关证件是否为空
-    //    if (!self.idCardDelBtn.hidden) {
-    //        //身份证正面
-    //        [request setData:UIImageJPEGRepresentation(self.idCardImageView.image, 0.75) forKey:@"cardpic1"];//身份证正面照
-    //    }
-    //
-    //    if (!self.idCardBackDelBtn.hidden) {
-    //        //身份证反面
-    //        [request setData:UIImageJPEGRepresentation(self.idCardBackImageView.image, 0.75) forKey:@"cardpic2"];//身份证反面照
-    //    }
-    
     if (!self.coachCardDelBtn.hidden) {
         //教练证正面照
         [request setData:UIImageJPEGRepresentation(self.coachCardImageView.image, 0.75) forKey:@"cardpic3"];//教练证正面照
@@ -1194,11 +1277,6 @@
         //车辆行驶证反面
         [request setData:UIImageJPEGRepresentation(self.carCheckBackImageView.image, 0.75) forKey:@"cardpic6"];//车辆行驶证反面
     }
-    
-    //    if (!self.coachTureIconDelBtn.hidden) {
-    //        //教练真实头像
-    //        [request setData:UIImageJPEGRepresentation(self.coachTureIconImageView.image, 0.75) forKey:@"cardpic7"];//教练真实头像
-    //    }
     
     //准教车型
     NSString *modelIds;
@@ -1233,6 +1311,9 @@
 //        [request setPostValue:modelIds forKey:@"modelid"];             // 准教车型ID
 //    }
     
+    [request setPostValue:self.selectProvinceid forKey:@"provinceid"];
+    [request setPostValue:self.selectCityid forKey:@"cityid"];
+    [request setPostValue:self.selectAreaid forKey:@"areaid"];
     
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
@@ -1249,6 +1330,9 @@
     //    [self.msgDic setObject:carLicense forKey:@"carlicense"];
 //    [self.msgDic setObject:carModel forKey:@"carmodel"];
     //    [self.msgDic setObject:carArray forKey:@"modellist"];
+    [self.msgDic setObject:self.selectProvinceid forKey:@"provinceid"];
+    [self.msgDic setObject:self.selectCityid forKey:@"cityid"];
+    [self.msgDic setObject:self.selectAreaid forKey:@"areaid"];
     [self.msgDic setObject:carSchoolName forKey:@"driveschool"];
     if (self.schoolid.length != 0) {
         [self.msgDic setObject:self.schoolid forKey:@"driveschoolid"];
@@ -1430,21 +1514,5 @@
     }
 }
 
-//弹出驾校选择框
-- (IBAction)clickForSelectSchool:(id)sender {
-    if (self.userState.intValue == 2) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您所提交的资料已审核通过，不能修改。若要修改，请联系客服" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-    }else if (self.userState.intValue == 1){
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您提交的资料正在审核中，不能修改" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
-        [alert show];
-    }else{
-        SchoolSelectViewController *nextViewController = [[SchoolSelectViewController alloc] initWithNibName:@"SchoolSelectViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-//    
-//        self.teachCarTag = 2;
-//        self.keepBtnOutlet.hidden = YES;
-//        [self getCarSchool];
-    }
-}
+
 @end

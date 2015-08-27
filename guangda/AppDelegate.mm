@@ -115,6 +115,7 @@ BMKLocationService *_locService;
 //    [UMSocialWechatHandler setWXAppId:@"wx6e408d648087cffb" appSecret:@"648bdd4b00bcfa025944b56d6176d031" url:@"http://www.xiaobaxueche.com/"];
     //URL: 微信：wx6e408d648087cffb   QQ:QQ41D7ADF7
     
+    
     return YES;
     
 }

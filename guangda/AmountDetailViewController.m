@@ -86,7 +86,7 @@
     
     //缺少一句话
     self.getMoneyView.frame = [UIScreen mainScreen].bounds;
-    
+
 }
 
 // 监听键盘弹出通知
@@ -488,7 +488,7 @@
     }
     
     //判断是否有这么多金额可以取
-    if ([price doubleValue] < [money doubleValue] - [gMoney doubleValue] - [moneyFrozen doubleValue]) {
+    if ([price doubleValue] <= [money doubleValue] - [gMoney doubleValue]) {
         //提现金额足够
         [self getMoney:price];
         self.moneyTitleLabel.text = @"提交成功";

@@ -47,6 +47,8 @@
     self.customTabBar.tag = 100;
     self.customTabBar.frame = CGRectMake(0, self.view.frame.size.height - 49, SCREEN_WIDTH, 49);
     [self.view addSubview:self.customTabBar];
+    // ios7中，本视图有状态栏、下面为scrollView，这句让进入下一个视图后，再回来，不会出现scrollview下移20(offSet:-20)的情况；添加在viewDidLoad中
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated

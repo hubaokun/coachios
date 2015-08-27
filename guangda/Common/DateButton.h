@@ -14,5 +14,6 @@
 @property (strong, nonatomic) NSString *id;
 @property (strong, nonatomic) NSString *price;
 @property (strong, nonatomic) NSString *index;
+@property (strong, nonatomic) NSString *isrest;
 
 @end

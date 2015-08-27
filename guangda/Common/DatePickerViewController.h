@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonOK;
 @property (assign, nonatomic) NSInteger dicTag;
 
+@property (assign, nonatomic) NSString *pushString;
+
 - (IBAction)buttonOKClick:(id)sender;
 - (IBAction)clickForCancel:(id)sender;
 

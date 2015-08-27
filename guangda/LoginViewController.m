@@ -191,7 +191,7 @@
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     [request setPostValue:app_Version forKey:@"version"];
     //手机型号
-    [request setPostValue:@"iPhone" forKey:@"phoneType"];
+    [request setPostValue:@"1" forKey:@"ostype"];
     
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
