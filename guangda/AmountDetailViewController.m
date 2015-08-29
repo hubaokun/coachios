@@ -16,7 +16,7 @@
 #import "APAuthV2Info.h"
 #import "LoginViewController.h"
 
-@interface AmountDetailViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient>{
+@interface AmountDetailViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient,UITextFieldDelegate>{
     CGRect _oldFrame1;
     CGRect _oldFrame2;
 }
@@ -42,12 +42,17 @@
 @property (strong, nonatomic) IBOutlet UIButton *rechargeCommitBtn;
 @property (strong, nonatomic) IBOutlet UITextField *rechargeYuanTextField;
 
+@property (strong, nonatomic) IBOutlet UILabel *headAlertMoneyLabel;
+@property (strong, nonatomic) IBOutlet UILabel *canBeCashLabel;
+@property (strong, nonatomic) IBOutlet UILabel *frozenMoneyLabel;
 
 @property (strong, nonatomic) IBOutlet UIView *getMoneyView;        // 申请金额视图
 @property (strong, nonatomic) IBOutlet UIView *commitView;          // 提交申请
 @property (strong, nonatomic) IBOutlet UIView *successAlertView;    // 提交成功提示
+@property (strong, nonatomic) IBOutlet UIView *rechargeBackView;//充值底部白view
 
 @property (strong, nonatomic) IBOutlet UITextField *moneyYuanField; // 取钱
+
 //取钱弹框
 @property (strong, nonatomic) IBOutlet UILabel *alertMoneyLabel;//余额
 @property (strong, nonatomic) IBOutlet UILabel *moneyDetailLabel;
@@ -55,7 +60,14 @@
 
 - (IBAction)clickForAccountManager:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIView *commitBackView;
+@property (strong, nonatomic) IBOutlet UIButton *commitButton;
+@property (strong, nonatomic) IBOutlet UIImageView *noMoneyImage;
+@property (strong, nonatomic) IBOutlet UILabel *attentionLabel;
+@property (strong, nonatomic) IBOutlet UILabel *attentionLabel2;
 
+@property (strong, nonatomic) IBOutlet UIView *addMoneyBackView;
+@property (strong, nonatomic) IBOutlet UIView *apply_rechargeView;
 @end
 
 @implementation AmountDetailViewController
@@ -71,23 +83,75 @@
     [self.mainTableView setContentOffset:CGPointMake(0, -60) animated:YES];
     [self pullToRefreshTriggered:self.pullToRefresh];
     
-    self.mainTableView.backgroundColor = RGB(243, 243, 243);
+    self.mainTableView.backgroundColor = [UIColor whiteColor];
     
-    _rechargButton.layer.cornerRadius = 5;
-    _rechargButton.layer.masksToBounds = YES;
-    
-    _applyButton.layer.cornerRadius = 5;
-    _applyButton.layer.masksToBounds = YES;
+    self.rechargButton.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.rechargButton.layer.borderWidth = 0.5;
+    self.apply_rechargeView.layer.cornerRadius = CGRectGetHeight(self.apply_rechargeView.frame)/2;
+    self.apply_rechargeView.layer.masksToBounds = YES;
+    self.apply_rechargeView.layer.borderWidth = 0.5;
+    self.apply_rechargeView.layer.borderColor = [UIColor whiteColor].CGColor;
     
     _rechargeCommitBtn.layer.cornerRadius = 3;
     _rechargeCommitBtn.layer.masksToBounds = YES;
+    self.rechargeCommitBtn.layer.borderWidth = 1;
+    self.rechargeCommitBtn.layer.borderColor = RGB(188, 188, 188).CGColor;
+    [self.rechargeCommitBtn setTitleColor:RGB(188, 188, 188) forState:UIControlStateDisabled];
+    [self.rechargeCommitBtn setBackgroundImage:[UIImage imageNamed:@"whiteBack"] forState:UIControlStateDisabled];
+    [self.rechargeYuanTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.rechargeCommitBtn.enabled = NO;
+    self.rechargeBackView.layer.cornerRadius = 3;
+    self.rechargeBackView.layer.masksToBounds = YES;
     
+    self.commitBackView.layer.borderColor = RGB(188, 188, 188).CGColor;
+    self.commitBackView.layer.borderWidth = 1;
+    self.addMoneyBackView.layer.borderColor = RGB(188, 188, 188).CGColor;
+    self.addMoneyBackView.layer.borderWidth = 1;
+    
+    self.commitView.layer.cornerRadius = 3;
+    self.commitView.layer.masksToBounds = YES;
+    self.successAlertView.layer.cornerRadius = 3;
+    self.successAlertView.layer.masksToBounds = YES;
+    
+    self.commitButton.layer.borderWidth = 1;
+    self.commitButton.layer.borderColor = RGB(188, 188, 188).CGColor;
+    self.commitButton.layer.cornerRadius = 3;
+    self.commitButton.layer.masksToBounds = YES;
+    [self.commitButton setTitleColor:RGB(188, 188, 188) forState:UIControlStateDisabled];
+    [self.commitButton setBackgroundImage:[UIImage imageNamed:@"whiteBack"] forState:UIControlStateDisabled];
+    self.commitButton.enabled = NO;
+    self.noMoneyImage.hidden = YES;
+    self.moneyYuanField.delegate = self;
+    [self.moneyYuanField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.attentionLabel2.hidden = YES;
     [self registerForKeyboardNotifications];
     
     //缺少一句话
     self.getMoneyView.frame = [UIScreen mainScreen].bounds;
 
 }
+
+- (void) textFieldDidChange:(UITextField *) TextField{
+    if (TextField == self.moneyYuanField) {
+        if (self.moneyYuanField.text.length > 0) {
+            self.commitButton.enabled = YES;
+            self.commitButton.layer.borderWidth = 0;
+        }else{
+            self.commitButton.enabled = NO;
+            self.commitButton.layer.borderWidth = 1;
+        }
+    }else if (TextField == self.rechargeYuanTextField){
+        if (self.rechargeYuanTextField.text.length > 0) {
+            self.rechargeCommitBtn.enabled = YES;
+            self.rechargeCommitBtn.layer.borderWidth = 0;
+        }else{
+            self.rechargeCommitBtn.enabled = NO;
+            self.rechargeCommitBtn.layer.borderWidth = 1;
+        }
+    }
+    
+}
+
 
 // 监听键盘弹出通知
 - (void) registerForKeyboardNotifications {
@@ -237,22 +301,13 @@
 //显示tableHeaderView
 - (void)showTableHeaderView{
 
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth([UIScreen mainScreen].bounds), 97)];
-    headerView.backgroundColor = [UIColor blackColor];
-    
     //金额
-    UILabel *moneyLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 18, CGRectGetWidth(headerView.frame), 33)];
-    moneyLabel.font = [UIFont systemFontOfSize:21];
-    moneyLabel.textColor = RGB(255, 210, 0);
-    moneyLabel.textAlignment = NSTextAlignmentCenter;
-    moneyLabel.text = [NSString stringWithFormat:@"余额：%@元", self.totalPrice];
-    [headerView addSubview:moneyLabel];
+    NSString *money = [NSString stringWithFormat:@"%@元", self.totalPrice];
+    NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money];
+    [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:30] range:NSMakeRange(0,self.totalPrice.length)];
+    self.headAlertMoneyLabel.attributedText = str1;
     
-    //可提现金额
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, moneyLabel.frame.origin.y + CGRectGetHeight(moneyLabel.frame), CGRectGetWidth(headerView.frame), 27)];
-    label.font = [UIFont systemFontOfSize:13];
-    label.textColor = RGB(206, 206, 206);
-    label.textAlignment = NSTextAlignmentCenter;
+    //可提现金额 已冻结金额
     float totalPricef=[self.totalPrice floatValue];
     float fMoney =[self.fMoney floatValue];
     float gmoney= [self.gmoney floatValue];
@@ -260,10 +315,9 @@
     if(v < 0){
         v = 0;
     }
-    label.text = [NSString stringWithFormat:@"(可提现金额:%.0f元 / 冻结金额:%.0f元)",v ,fMoney];
-    [headerView addSubview:label];
+    self.canBeCashLabel.text = [NSString stringWithFormat:@"%.0f",v];;
+    self.frozenMoneyLabel.text = [NSString stringWithFormat:@"%.0f" ,fMoney];;
     
-    self.mainTableView.tableHeaderView = headerView;
 }
 
 
@@ -378,33 +432,34 @@
     self.commitView.hidden = NO;
     self.successAlertView.hidden = YES;
     [self.view addSubview:self.getMoneyView];
-    
-    //设置价格
-    
-    NSString *money = [userInfo[@"money"] description];//余额
-    NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额
-    NSString *gMoney = [userInfo[@"gmoney"] description];//保证金
-    
-    // 保证金及冻结金额
-    if ([CommonUtil isEmpty:gMoney]){
-        gMoney = @"0";
+    //可提现金额 已冻结金额
+    float totalPricef=[self.totalPrice floatValue];
+    float gmoney= [self.gmoney floatValue];
+    float v= totalPricef-gmoney;
+    if(v < 0){
+        v = 0;
     }
+    NSString *titleString = [NSString stringWithFormat:@"账户余额 %.0f 元",v];
     
-    if ([CommonUtil isEmpty:moneyFrozen]) {
-        moneyFrozen = @"0";
-    }
-    
-    if ([CommonUtil isEmpty:money]) {
-        moneyFrozen = @"0";
-    }
-    
-    double lestMoney = [money doubleValue] - [gMoney doubleValue];
-    if(lestMoney < 0){
-        lestMoney = 0;
-    }
-    money = [NSString stringWithFormat:@"%.0f", lestMoney];
-    self.alertMoneyLabel.text = [NSString stringWithFormat:@"%@元", money];
+    NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:titleString];
+    [str1 addAttribute:NSForegroundColorAttributeName value:RGB(247, 61, 68) range:NSMakeRange(5, [NSString stringWithFormat:@"%.0f",v ].length)];
+    [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:28] range:NSMakeRange(5,[NSString stringWithFormat:@"%.0f",v ].length)];
+    self.alertMoneyLabel.attributedText = str1;
     [self.alertMoneyLabel.superview  bringSubviewToFront:self.alertMoneyLabel];
+    
+    if ([self.totalPrice intValue]<50) {
+        self.attentionLabel.hidden = YES;
+        self.attentionLabel2.hidden = NO;
+        self.commitBackView.hidden = YES;
+        self.commitButton.hidden = YES;
+        self.noMoneyImage.hidden = NO;
+    }else{
+        self.attentionLabel.hidden = NO;
+        self.attentionLabel2.hidden = YES;
+        self.commitBackView.hidden = NO;
+        self.commitButton.hidden = NO;
+        self.noMoneyImage.hidden = YES;
+    }
     
 }
 

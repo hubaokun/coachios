@@ -635,7 +635,15 @@
         if ([self.cityNameLabel.text isEqualToString:@"未设置"]) {
             [self makeToast:@"请先设置您的所在城市"];
         }else{
+            NSString *cityID;
+            if (self.selectCity) {
+                cityID = self.selectCity.cityID;
+            }else{
+                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+                cityID = [userInfo[@"cityid"] description];
+            }
             SchoolSelectViewController *nextViewController = [[SchoolSelectViewController alloc] initWithNibName:@"SchoolSelectViewController" bundle:nil];
+            nextViewController.selectCityID = cityID;
             [self.navigationController pushViewController:nextViewController animated:YES];
         }
     }
@@ -957,6 +965,10 @@
     self.selectCity = selectDic[@"city"];
     self.selectArea = selectDic[@"area"];
     
+    self.selectProvinceid = self.selectProvince.provinceID;
+    self.selectCityid = self.selectCity.cityID;
+    self.selectAreaid = self.selectArea.areaID;
+
     NSString *addrStr = nil;
     NSString *areaStr = [self.selectArea.areaName stringByReplacingOccurrencesOfString:@" " withString:@""];
     if (self.selectProvince.isZxs) { // 直辖市
@@ -964,7 +976,7 @@
     } else {
         addrStr =  [NSString stringWithFormat:@"%@ - %@ - %@", self.selectProvince.provinceName, self.selectCity.cityName, areaStr];
     }
-    
+
     self.cityNameLabel.text = addrStr;
 }
 //选择城市
@@ -1314,7 +1326,7 @@
     [request setPostValue:self.selectProvinceid forKey:@"provinceid"];
     [request setPostValue:self.selectCityid forKey:@"cityid"];
     [request setPostValue:self.selectAreaid forKey:@"areaid"];
-    
+    [request setPostValue:self.cityNameLabel.text forKey:@"locationname"];
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
     
@@ -1334,6 +1346,7 @@
     [self.msgDic setObject:self.selectCityid forKey:@"cityid"];
     [self.msgDic setObject:self.selectAreaid forKey:@"areaid"];
     [self.msgDic setObject:carSchoolName forKey:@"driveschool"];
+    [self.msgDic setObject:self.cityNameLabel.text forKey:@"locationname"];
     if (self.schoolid.length != 0) {
         [self.msgDic setObject:self.schoolid forKey:@"driveschoolid"];
     }
@@ -1478,16 +1491,16 @@
             NSString *state = [coachInfo[@"state"] description];
             if (state.intValue == 1) {        //正在审核
                 self.commitBtn.hidden = YES;
-                self.warmingLabel.text = @"【认证提交】您的教练资格资料提交成功，正在审核中...";
+                self.warmingLabel.text = @"【资格审核已提交】您的教练资料提交成功，正在审核中...";
             }else if (state.intValue == 2){   //审核通过
                 self.commitBtn.hidden = YES;
-                self.warmingLabel.text = @"【认证通过】您已经通过教练资格认证";
+                self.warmingLabel.text = @"【资格审核通过】您已经通过教练资格审核";
             }else if (state.intValue == 3){   //审核未通过
                 self.commitBtn.hidden = NO;
-                self.warmingLabel.text = @"【未通过认证】教练资格认证未通过，请完善以下内容，重新提交认证";
+                self.warmingLabel.text = @"【未通过资格审核】教练资格审核未通过，请完善以下内容，重新提交认证";
             }else{                            //未设置
                 self.commitBtn.hidden = NO;
-                self.warmingLabel.text = @"【未认证初始】教练资格认证后，学员才能预约您学车！";
+                self.warmingLabel.text = @"【未提交资格审核】通过教练资格审核后，学员才能预约您的课程";
             }
         }else{
             NSString *message = responseObject[@"message"];

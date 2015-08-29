@@ -122,21 +122,24 @@ BMKLocationService *_locService;
 
 //获取是否要使用广告
 -(void)startRequestAdvertisement{
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kSystemServlet]];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kAdvertisement]];
     request.delegate = self;
     request.requestMethod = @"POST";
-    [request setPostValue:@"CHECKCONFIG" forKey:@"action"];
+    [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
+    [request setPostValue:@"1" forKey:@"model"];// 1:ios 2:安卓
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素
+    [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
     [request startSynchronous];
     NSError *error = [request error];
     if (!error) {
         NSData *data  = [request responseData];
-        NSDictionary *resDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
-        NSString *code = [resDict[@"code"] description];
+        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+        NSString *code = [result[@"code"] description];
         if ([code isEqualToString:@"1"]) {
-            NSDictionary *config = resDict[@"config"];
-            NSString *advertisement_flag = [config[@"advertisement_flag"] description];
+            NSString *advertisement_flag = [result[@"c_flash_flag"] description];
             if ([advertisement_flag isEqualToString:@"1"]) {
-                NSString *advertisement_url = [config[@"advertisement_url"] description];
+                NSString *advertisement_url = [result[@"c_img_ios_flash"] description];
                 lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
                 lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
                 [self.window addSubview:lunchView];
@@ -146,7 +149,7 @@ BMKLocationService *_locService;
                 [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
             }
         }else{
-            NSString *message = resDict[@"message"];
+            NSString *message = result[@"message"];
             [self.window.rootViewController makeToast:message];
         }
     }

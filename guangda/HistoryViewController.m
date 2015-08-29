@@ -415,21 +415,34 @@
         cell.studentCommentDetailsBtn.tag = indexPath.row;
         [cell.studentCommentDetailsBtn addTarget:self action:@selector(studentCommentDetailsShow:) forControlEvents:UIControlEventTouchUpInside];
         [cell.goCommentClick addTarget:self action:@selector(goCommentStudent) forControlEvents:UIControlEventTouchUpInside];
+        NSString *disagree = [dic[@"disagree"] description]; //学员取消订单，但是教练没有同意
+        if ([disagree boolValue]) {
+            cell.cancelLabel.hidden = NO;
+            cell.myCommentDetailsBtn.hidden = YES;
+            cell.goCommentClick.hidden = YES;
+            cell.studentTitleLabel.hidden = YES;
+        }else{
+            cell.cancelLabel.hidden = YES;
+            cell.myCommentDetailsBtn.hidden = NO;
+            cell.goCommentClick.hidden = NO;
+            cell.studentTitleLabel.hidden = NO;
+        }
     }else{
         //关闭
 //        cell.studentDetailsView.hidden = YES;
         [self hideDetailsCell:cell];
     }
-
-    
+    NSString *disagree = [dic[@"disagree"] description]; //学员取消订单，但是教练没有同意
+    if ([disagree boolValue]) {
+        cell.backgroundColor = RGB(253, 243, 144);
+    }else{
+        cell.backgroundColor = [UIColor whiteColor];
+    }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    
     self.selectIndexPath = indexPath;
     //[tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
  

@@ -10,4 +10,6 @@
 
 @interface SchoolSelectViewController : GreyTopViewController
 
+@property (strong,nonatomic) NSString *selectCityID;
+
 @end

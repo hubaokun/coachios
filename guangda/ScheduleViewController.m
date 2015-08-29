@@ -115,7 +115,7 @@
     
     self.mainTableView.delegate = self;
     self.mainTableView.dataSource = self;
-    self.mainTableView.backgroundColor = RGB(243, 243, 243);
+//    self.mainTableView.backgroundColor = RGB(243, 243, 243);
     [self showTableHeaderView];
     [self compareBeforeDate:self.selectDate nowDate:self.nowDate];
     
@@ -889,6 +889,7 @@
             button.date = time;
             button.isrest = isrest;
             button.index = [NSString stringWithFormat:@"%d", i];
+            button.tag = indexPath.row;
             [button addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
             [contentView addSubview:button];
             
@@ -1349,6 +1350,8 @@
     NSMutableArray *bookArray = [selectDic objectForKey:@"bookArray"];
     
     NSString *time = button.date;
+    [self.mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:button.tag inSection:1] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
     //不是全选，点击日期
     [selectDic setObject:@"1" forKey:@"allSelect"];//0:不是全选 1：全选
     

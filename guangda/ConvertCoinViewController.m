@@ -44,6 +44,7 @@
 @property (strong, nonatomic) IBOutlet UIView *alertView;
 
 
+@property (strong, nonatomic) IBOutlet UIView *ruleBackView;
 
 - (IBAction)clickForClose:(id)sender;
 @end
@@ -86,6 +87,9 @@
     [self.pullToMore setPullToMoreViewVisible:NO];
     self.nodataView.enabled = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
+    
+    self.ruleBackView.layer.cornerRadius = 3;
+    self.ruleBackView.layer.masksToBounds = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated{

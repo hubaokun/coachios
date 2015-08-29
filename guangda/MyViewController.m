@@ -92,6 +92,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *coinRuleView;
 
+@property (strong, nonatomic) IBOutlet UIView *ruleBackView;
 
 - (IBAction)clickForRecommendPrize:(id)sender;
 @end
@@ -130,7 +131,8 @@
     self.coinConvertButton.layer.cornerRadius = 2;
     self.coinConvertButton.layer.masksToBounds = YES;
     
-    
+    self.ruleBackView.layer.cornerRadius = 3;
+    self.ruleBackView.layer.masksToBounds = YES;
 }
 - (void)changeMessageCount {
     [self getMessageCount];

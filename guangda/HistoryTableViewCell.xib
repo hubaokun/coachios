@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -196,12 +196,22 @@
                                             <constraint firstItem="p92-Ke-Ydy" firstAttribute="top" secondItem="2Tr-uw-R39" secondAttribute="top" id="y4O-TE-Ir2"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您未同意学员取消订单申请，请等待客服处理" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cyq-6A-NP2">
+                                        <rect key="frame" x="0.0" y="150" width="320" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="gK2-bP-8lN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="2G8-XJ-K0K" firstAttribute="leading" secondItem="GhP-gD-qcf" secondAttribute="trailing" constant="26" id="35G-Fy-Q6Q"/>
                                     <constraint firstItem="5zf-Jg-QZX" firstAttribute="top" secondItem="PM5-oE-EBe" secondAttribute="top" id="3Bd-X3-h74"/>
                                     <constraint firstItem="2Tr-uw-R39" firstAttribute="top" secondItem="DRd-nc-L7n" secondAttribute="bottom" constant="11" id="3qr-jb-V8S"/>
+                                    <constraint firstAttribute="trailing" secondItem="cyq-6A-NP2" secondAttribute="trailing" id="4iT-qG-Tbh"/>
                                     <constraint firstAttribute="centerX" secondItem="2Tr-uw-R39" secondAttribute="centerX" id="5qr-OT-Nmg"/>
                                     <constraint firstAttribute="centerX" secondItem="2G8-XJ-K0K" secondAttribute="centerX" id="87P-zx-E5D"/>
                                     <constraint firstItem="KCG-ex-Heg" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="G8n-EA-yyf"/>
@@ -215,10 +225,12 @@
                                     <constraint firstAttribute="bottom" secondItem="5zf-Jg-QZX" secondAttribute="bottom" id="WdP-nj-oC8"/>
                                     <constraint firstItem="ju4-6e-rVl" firstAttribute="top" secondItem="PM5-oE-EBe" secondAttribute="top" id="YKX-kd-4Qc"/>
                                     <constraint firstItem="GhP-gD-qcf" firstAttribute="centerY" secondItem="2G8-XJ-K0K" secondAttribute="centerY" constant="-0.5" id="Zvu-aG-umy"/>
+                                    <constraint firstItem="cyq-6A-NP2" firstAttribute="top" secondItem="DRd-nc-L7n" secondAttribute="bottom" constant="18" id="aUN-2p-Dti"/>
                                     <constraint firstItem="2G8-XJ-K0K" firstAttribute="centerY" secondItem="MbZ-yp-q8v" secondAttribute="centerY" constant="0.5" id="cXU-n2-FvJ"/>
                                     <constraint firstAttribute="trailing" secondItem="ju4-6e-rVl" secondAttribute="trailing" id="dc0-6N-h5z"/>
                                     <constraint firstItem="KCG-ex-Heg" firstAttribute="top" secondItem="YWx-6i-Bol" secondAttribute="bottom" id="ioN-1Z-dBs"/>
                                     <constraint firstItem="rcd-Hx-8at" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" constant="65" id="k3n-uM-UbW"/>
+                                    <constraint firstItem="cyq-6A-NP2" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="khg-4m-UBH"/>
                                     <constraint firstItem="DRd-nc-L7n" firstAttribute="top" secondItem="KCG-ex-Heg" secondAttribute="bottom" id="mTQ-cc-fdb"/>
                                     <constraint firstAttribute="bottom" secondItem="ju4-6e-rVl" secondAttribute="bottom" id="oAa-l0-FnI"/>
                                     <constraint firstAttribute="trailing" secondItem="YWx-6i-Bol" secondAttribute="trailing" id="pCb-V1-L3P"/>
@@ -330,6 +342,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="addressLabel" destination="sff-qA-sSt" id="DbB-0D-NC2"/>
+                <outlet property="cancelLabel" destination="cyq-6A-NP2" id="i72-X7-7GP"/>
                 <outlet property="complaintBtn" destination="GhP-gD-qcf" id="eCb-Zh-LtG"/>
                 <outlet property="contactBtn" destination="MbZ-yp-q8v" id="Dja-5d-KiP"/>
                 <outlet property="detailImageView" destination="ju4-6e-rVl" id="wCw-QS-zbc"/>

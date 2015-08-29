@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSMutableArray *arrayList1;
 @property (strong, nonatomic) NSMutableArray *arrayList2;
 
+@property (strong, nonatomic) IBOutlet UIView *ruleBackView;
 @end
 
 @implementation MyTicketDetailViewController
@@ -66,6 +67,9 @@
     NSString *altogetherHours = @"0";
     NSString *altogetherTimeStr = [NSString stringWithFormat:@"已选%@张共%@小时",ticketNum,altogetherHours];
     self.altogetherTime.text = altogetherTimeStr;
+    
+    self.ruleBackView.layer.cornerRadius = 3;
+    self.ruleBackView.layer.masksToBounds = YES;
 }
 
 //ticketArray处理

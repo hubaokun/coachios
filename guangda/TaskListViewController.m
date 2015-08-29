@@ -1096,6 +1096,7 @@
     
     [UIView commitAnimations];
 }
+
 //当键退出时调用
 - (void)keyboardWillHide:(NSNotification *)notification {
     
@@ -1292,7 +1293,9 @@
     [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"id"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"id"];
+    [request setPostValue:@"1" forKey:@"model"];// 1:ios 2:安卓
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素
     [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
     [request startAsynchronous];
 }
@@ -1315,7 +1318,6 @@
                 //首页
                 [self.noSortArray removeAllObjects];
             }
-            
             [self.noSortArray addObjectsFromArray:array];
             
             //整理数据
@@ -1396,14 +1398,14 @@
             self.openIndexPath = nil;
             [DejalBezelActivityView removeViewAnimated:YES];
         }else if (request.tag == 6){
-            NSString *curldisplay = [result[@"curldisplay"] description];
-            if ([curldisplay intValue]!=0) { //0不展示，1展示 2邀请推荐
-                NSString *c_img = [result[@"c_img"] description];
+            NSString *c_flag = [result[@"c_flag"] description];
+            if ([c_flag intValue]!=0) { //0不展示，1展示 2邀请推荐
+                NSString *c_img = [result[@"c_img_ios"] description];
                 [self.advertisementImageButton setBackgroundImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:c_img]]] forState:UIControlStateNormal];
                 NSString *c_url = [result[@"c_url"] description];
                 NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
                 NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                if ([curldisplay intValue]==1) {
+                if ([c_flag intValue]==1) {
                     self.advertisementUrl = getURL;
                 }else{
                     self.advertisementUrl = @"recommend";

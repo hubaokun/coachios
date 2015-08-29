@@ -49,4 +49,6 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *payerType;
 
+@property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
+
 @end

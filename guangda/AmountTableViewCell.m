@@ -47,7 +47,7 @@
         
     }else if ([type intValue] == 2){
         //提现
-        self.titleLabel.text = @"取现";
+        self.titleLabel.text = @"提现";
         self.moneyLabel.text = [NSString stringWithFormat:@"- %@元", amount];
         self.moneyLabel.textColor = RGB(224, 72, 61);
         
@@ -58,14 +58,20 @@
         self.moneyLabel.textColor = RGB(32, 180, 120);
         
     }else if ([type intValue] == 4){
-        //充值
+        //推荐奖
         self.titleLabel.text = @"推荐奖";
         self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
         self.moneyLabel.textColor = RGB(32, 180, 120);
         
     }else if ([type intValue] == 5){
-        //充值
+        //被推荐教练开单奖
         self.titleLabel.text = @"被推荐教练开单奖";
+        self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
+        self.moneyLabel.textColor = RGB(32, 180, 120);
+        
+    }else if ([type intValue] == 6){
+        //提现失败
+        self.titleLabel.text = @"提现失败";
         self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
         self.moneyLabel.textColor = RGB(32, 180, 120);
         

@@ -222,12 +222,12 @@
 #pragma mark - 接口
 // 获取所有驾校信息
 - (void)getCarSchool{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
     request.delegate = self;
     request.requestMethod = @"POST";
     [request setPostValue:@"GetAllSchool" forKey:@"action"];
-    [request setPostValue:[userInfo[@"cityid"] description] forKey:@"cityid"];
+    [request setPostValue:self.selectCityID forKey:@"cityid"];
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];
 }
