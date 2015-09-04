@@ -48,9 +48,12 @@
         self.inputBackView.hidden = NO;
         self.titleLabel.text = @"个人评价";
         if (self.textString.length>0) {
-            NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-            NSString *selfeval = userInfo[@"selfeval"];
-            self.inputTextView.text = selfeval;
+//            NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//            NSString *selfeval = userInfo[@"selfeval"];
+//            self.inputTextView.text = selfeval;
+            self.inputTextView.text = self.textString;
+        }else{
+            self.inputTextView.text = @"";
         }
         //        self.inputTextfield.placeholder = @"请输入真实姓名";
     }
@@ -91,21 +94,24 @@
     [request setPostValue:@"PerfectPersonInfo" forKey:@"action"];
     [request setPostValue:coachId forKey:@"coachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    NSString *text = self.inputTextfield.text;
+    NSString *text;
     NSString *str = @"";//提交的字段
     NSString *userKey = @"";//useInfo中的字段
     if ([self.viewType intValue] == 1){
         //出生年月
+        text= self.inputTextfield.text;
         str = @"birthday";
         userKey = @"birthday";
         [request setPostValue:self.inputTextfield.text forKey:str];
     }else if ([self.viewType intValue] == 2){
         //教龄
+        text= self.inputTextfield.text;
         str = @"years";
         userKey = @"years";
         [request setPostValue:self.inputTextfield.text forKey:str];
     }else if ([self.viewType intValue] == 3){
         //自我评价
+        text= self.inputTextView.text;
         str = @"selfeval";
         userKey = @"selfeval";
         [request setPostValue:self.inputTextView.text forKey:str];

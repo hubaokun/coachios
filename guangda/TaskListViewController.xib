@@ -350,7 +350,7 @@
                                 <constraint firstAttribute="width" constant="290" id="ENG-jw-Iaw"/>
                                 <constraint firstAttribute="height" constant="381" id="umx-2k-MRE"/>
                             </constraints>
-                            <state key="normal" backgroundImage="im_ad">
+                            <state key="normal" backgroundImage="im_id-error">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -358,10 +358,10 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0U-aU-3wB">
-                            <rect key="frame" x="385" y="60" width="60" height="61"/>
+                            <rect key="frame" x="385" y="49" width="60" height="61"/>
                             <constraints>
-                                <constraint firstAttribute="height" constant="61" id="GzD-0m-j7X"/>
-                                <constraint firstAttribute="width" constant="60" id="Tv9-wX-Wfo"/>
+                                <constraint firstAttribute="width" constant="60" id="46x-sL-blm"/>
+                                <constraint firstAttribute="height" constant="61" id="IVm-V3-s9e"/>
                             </constraints>
                             <state key="normal" image="ic_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -373,11 +373,10 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-11" id="Ad8-9w-tc7"/>
                         <constraint firstAttribute="centerY" secondItem="OuB-td-aUS" secondAttribute="centerY" constant="-0.5" id="B9G-LV-wqZ"/>
-                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="r1G-cp-aBG"/>
+                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" id="C7n-n1-QiN"/>
+                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="OOr-rq-cDW"/>
                         <constraint firstAttribute="centerX" secondItem="OuB-td-aUS" secondAttribute="centerX" id="taT-UC-8t3"/>
-                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-11" id="xlY-uM-yM1"/>
                     </constraints>
                 </view>
             </subviews>
@@ -403,6 +402,6 @@
         <image name="ic_close" width="22" height="61"/>
         <image name="icon_check" width="16" height="11"/>
         <image name="icon_fork" width="11" height="11"/>
-        <image name="im_ad" width="290" height="381"/>
+        <image name="im_id-error" width="290" height="370"/>
     </resources>
 </document>

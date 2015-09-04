@@ -1962,7 +1962,7 @@
                                         </mask>
                                     </variation>
                                 </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="结算规则" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPD-TQ-MbS" userLabel="标题">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="结算规则" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPD-TQ-MbS" userLabel="标题">
                                     <rect key="frame" x="20" y="18" width="241" height="32"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="241" id="JdS-7E-QEr"/>
@@ -1984,7 +1984,7 @@
                                         </mask>
                                     </variation>
                                 </label>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6T-aA-T5E" userLabel="cancel">
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k6T-aA-T5E" userLabel="cancel">
                                     <rect key="frame" x="0.0" y="0.0" width="45" height="44"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="Srv-jL-JQk"/>
@@ -2161,19 +2161,19 @@
                         <mask key="constraints">
                             <exclude reference="CqE-qq-wWd"/>
                             <exclude reference="dcK-1Q-pdL"/>
-                            <exclude reference="CW9-qD-XFL"/>
-                            <exclude reference="I0b-xe-jlU"/>
-                            <exclude reference="rFf-ha-JZY"/>
                             <exclude reference="64f-pm-BpH"/>
                             <exclude reference="XIS-Be-XcO"/>
                             <exclude reference="pAC-YW-o6Q"/>
-                            <exclude reference="GEq-tW-hJV"/>
-                            <exclude reference="r3U-o6-vVQ"/>
                             <exclude reference="cvG-y2-ykI"/>
                             <exclude reference="lLU-1Z-HpV"/>
                             <exclude reference="lyd-Mw-rGz"/>
+                            <exclude reference="CW9-qD-XFL"/>
+                            <exclude reference="I0b-xe-jlU"/>
+                            <exclude reference="rFf-ha-JZY"/>
                             <exclude reference="7d8-B3-Aq0"/>
                             <exclude reference="mta-K1-o9W"/>
+                            <exclude reference="GEq-tW-hJV"/>
+                            <exclude reference="r3U-o6-vVQ"/>
                         </mask>
                     </variation>
                     <variation key="heightClass=regular">
@@ -2187,19 +2187,19 @@
                         <mask key="constraints">
                             <include reference="CqE-qq-wWd"/>
                             <include reference="dcK-1Q-pdL"/>
-                            <include reference="CW9-qD-XFL"/>
-                            <include reference="I0b-xe-jlU"/>
-                            <include reference="rFf-ha-JZY"/>
                             <include reference="64f-pm-BpH"/>
                             <include reference="XIS-Be-XcO"/>
                             <include reference="pAC-YW-o6Q"/>
-                            <include reference="GEq-tW-hJV"/>
-                            <include reference="r3U-o6-vVQ"/>
                             <include reference="cvG-y2-ykI"/>
                             <include reference="lLU-1Z-HpV"/>
                             <include reference="lyd-Mw-rGz"/>
+                            <include reference="CW9-qD-XFL"/>
+                            <include reference="I0b-xe-jlU"/>
+                            <include reference="rFf-ha-JZY"/>
                             <include reference="7d8-B3-Aq0"/>
                             <include reference="mta-K1-o9W"/>
+                            <include reference="GEq-tW-hJV"/>
+                            <include reference="r3U-o6-vVQ"/>
                         </mask>
                     </variation>
                 </view>

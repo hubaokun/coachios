@@ -1376,11 +1376,10 @@
             [self performSelector:@selector(deleteCell) withObject:nil afterDelay:0.7f];
         }else if (request.tag == 3){
             //提交评论
-            [self makeToast:@"评价成功"];
+            [self makeToast:@"   评价成功   "];
             [self.commentView removeFromSuperview];
             
             [self clearEvaluate];
-            
             [self getTaskList];
             
         }else if (request.tag == 4){

@@ -225,6 +225,13 @@
         self.trainTimeLabel.text = [NSString stringWithFormat:@"%@年",years];
     }
     
+    NSString *selfeval = [userInfo[@"selfeval"] description];
+    if (selfeval.length == 0) {
+        self.selfEvaluationLabel.text = @"一句话评价自己";
+    }else{
+        self.selfEvaluationLabel.text = [NSString stringWithFormat:@"%@",selfeval];
+    }
+    
     //头像
     NSString *url = userInfo[@"avatarurl"];
     url = [CommonUtil isEmpty:url]?@"":url;
@@ -599,7 +606,11 @@
         nextViewController.textString = [self.trainTimeLabel.text substringWithRange:NSMakeRange(0, self.trainTimeLabel.text.length-1)];
     }else if (button.tag == 3){
         nextViewController.viewType = @"3";
-        nextViewController.textString = self.selfEvaluationLabel.text;
+        if ([self.selfEvaluationLabel.text isEqualToString:@"一句话评价自己"]) {
+            nextViewController.textString = @"";
+        }else{
+            nextViewController.textString = self.selfEvaluationLabel.text;
+        }
     }
     
     [self.navigationController pushViewController:nextViewController animated:YES];

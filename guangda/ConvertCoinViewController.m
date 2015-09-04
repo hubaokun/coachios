@@ -13,13 +13,16 @@
 #import "DSBottomPullToMoreManager.h"
 @interface ConvertCoinViewController ()<UITextFieldDelegate,UITableViewDataSource,UITableViewDelegate,DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient,UIAlertViewDelegate>
 {
-    NSString *coinCount;
+    NSString *buttonTag;
+    NSArray *coinaffiliationlist;
     int pageNum;
     BOOL hasTask;//是否有进行中的任务
     BOOL isRefresh;//是否刷新
     NSMutableArray *coinRecordList;
 }
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel1;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel2;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel3;
 
 @property (strong, nonatomic) IBOutlet UIButton *nodataView;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
@@ -39,13 +42,16 @@
 
 @property (strong, nonatomic) IBOutlet UIView *backView;
 @property (strong, nonatomic) IBOutlet UITextField *coinNumTextfield;
-@property (strong, nonatomic) IBOutlet UIButton *convertBtn;
+@property (strong, nonatomic) IBOutlet UIButton *convertBtn1;
+@property (strong, nonatomic) IBOutlet UIButton *convertBtn2;
+@property (strong, nonatomic) IBOutlet UIButton *convertBtn3;
 
 @property (strong, nonatomic) IBOutlet UIView *alertView;
 
 
 @property (strong, nonatomic) IBOutlet UIView *ruleBackView;
 
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *viewFromConstraint;
 - (IBAction)clickForClose:(id)sender;
 @end
 
@@ -57,24 +63,30 @@
     self.backView.layer.borderColor = RGB(222, 222, 222).CGColor;
     self.backView.layer.borderWidth = 0.5;
     
-    self.convertBtn.layer.cornerRadius = 4;
-    self.convertBtn.layer.masksToBounds = YES;
+    self.convertBtn1.layer.cornerRadius = 2;
+    self.convertBtn1.layer.masksToBounds = YES;
+    self.convertBtn2.layer.cornerRadius = 2;
+    self.convertBtn2.layer.masksToBounds = YES;
+    self.convertBtn3.layer.cornerRadius = 2;
+    self.convertBtn3.layer.masksToBounds = YES;
     
     NSDictionary *dic = [CommonUtil getObjectFromUD:@"userInfo"];
     NSString *realname = [[dic objectForKey:@"realname"] description];
     NSString *coinnum = [[dic objectForKey:@"coinnum"] description];
     
-    NSString *titleLabelStr = [NSString stringWithFormat:@"可兑换%@教练小巴币：%@个",realname,coinnum];
+    NSString *titleLabelStr = [NSString stringWithFormat:@"%@教练小巴币：%@个",realname,coinnum];
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
-    [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,realname.length+2)];
-    [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3+realname.length+6,coinnum.length)];
-    self.titleLabel.attributedText = string;
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(realname.length+6,coinnum.length)];
+    self.titleLabel1.attributedText = string;
     
-    self.coinNumTextfield.delegate = self;
-    [self.coinNumTextfield addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    [self.convertBtn setBackgroundImage:[UIImage imageNamed:@"unEnable.png"] forState:UIControlStateDisabled];
-    [self.convertBtn setEnabled:NO];
+    [self.convertBtn1 setBackgroundImage:[UIImage imageNamed:@"unEnable.png"] forState:UIControlStateDisabled];
+    [self.convertBtn1 setEnabled:NO];
+    
+    [self.convertBtn2 setBackgroundImage:[UIImage imageNamed:@"unEnable.png"] forState:UIControlStateDisabled];
+    [self.convertBtn2 setEnabled:NO];
+    [self.convertBtn3 setBackgroundImage:[UIImage imageNamed:@"unEnable.png"] forState:UIControlStateDisabled];
+    [self.convertBtn3 setEnabled:NO];
     
     self.mainTableView.delegate = self;
     self.mainTableView.dataSource = self;
@@ -134,6 +146,7 @@
     NSDictionary *dic = coinRecordList[indexPath.row];
     //receivertype :0平台 1驾校 2教练 3学员
     NSString *receivertype = [dic[@"receivertype"] description];
+    NSString *ownername = [dic[@"ownername"] description];
     NSString *payertype = [dic[@"payertype"] description];
     NSString *coinnum = [dic[@"coinnum"] description];
     NSString *addtime = [dic[@"addtime"] description];
@@ -168,23 +181,22 @@
         }
         coinNumStr = [NSString stringWithFormat:@"+%@",coinnum];
         coinWay = @"订单支付";
-//        cell.coinNum.textColor = [UIColor redColor];
         cell.cheakBtn.hidden = YES;
     }
     if ([payertype intValue] == 2) {
-        if ([payertype intValue] == 0) {
-            coinFrom = @"支付方：小巴平台";
-        }else if ([payertype intValue] == 1){
-            coinFrom = @"支付方：驾校";
-        }else if ([payertype intValue] == 2){
-            NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
-            coinFrom = [NSString stringWithFormat:@"支付方：%@教练",[dic1[@"realname"] description]];
-        }else if ([payertype intValue] == 3){
-            coinFrom = @"支付方：学员";
-        }
+//        if ([payertype intValue] == 0) {
+//            coinFrom = [NSString stringWithFormat:@"发放方：%@",ownername];
+//        }else if ([payertype intValue] == 1){
+//            coinFrom = @"发放方：驾校";
+//        }else if ([payertype intValue] == 2){
+//            NSDictionary *dic1 = [CommonUtil getObjectFromUD:@"userInfo"];
+//            coinFrom = [NSString stringWithFormat:@"支付方：%@教练",[dic1[@"realname"] description]];
+//        }else if ([payertype intValue] == 3){
+//            coinFrom = @"发放方：学员";
+//        }
+        coinFrom = [NSString stringWithFormat:@"发放方：%@",ownername];
         coinNumStr = [NSString stringWithFormat:@"-%@",coinnum];
         coinWay = @"小巴币兑换";
-//        cell.coinNum.textColor = [UIColor greenColor];
         cell.cheakBtn.hidden = NO;
         [cell.cheakBtn addTarget:self action:@selector(clickForCheak:) forControlEvents:UIControlEventTouchUpInside];
         cell.cheakBtn.tag = indexPath.row;
@@ -214,7 +226,7 @@
     coinrecordid = string1;
     self.convertID.text = [NSString stringWithFormat:@"兑换订单号：%@",coinrecordid];
     self.convertPeople.text = [NSString stringWithFormat:@"兑换人：%@",[userInfo[@"realname"] description]];
-    self.ownerLabel.text = @"发行人：";
+    self.ownerLabel.text = [NSString stringWithFormat:@"发放方：%@",[dic[@"ownername"] description]];
     self.convertCount.text = [NSString stringWithFormat:@"兑换数量：%@个",[dic[@"coinnum"] description]];
     self.moneyCount.text = [NSString stringWithFormat:@"折算金额：%@元",[dic[@"coinnum"] description]];
     self.orderTime.text = [NSString stringWithFormat:@"申请时间：%@",[dic[@"addtime"] description]];
@@ -265,14 +277,14 @@
     [self.view endEditing:YES];
 }
 
-- (void) textFieldDidChange:(UITextField *) TextField{
-    if (self.coinNumTextfield.text.length >0) {
-        [self.convertBtn setEnabled:YES];
-    }
-    else {
-        [self.convertBtn setEnabled:NO];
-    }
-}
+//- (void) textFieldDidChange:(UITextField *) TextField{
+//    if (self.coinNumTextfield.text.length >0) {
+//        [self.convertBtn1 setEnabled:YES];
+//    }
+//    else {
+//        [self.convertBtn1 setEnabled:NO];
+//    }
+//}
 
 - (IBAction)clickForCloseAlertView:(id)sender {
     [self.cheakView removeFromSuperview];
@@ -290,6 +302,8 @@
 - (IBAction)clickForConvertCoin:(id)sender {
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"确定兑换所有小巴币吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
     [alert show];
+    UIButton *button = (UIButton *)sender;
+    buttonTag = [NSString stringWithFormat:@"%ld",(long)button.tag];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -311,7 +325,16 @@
     request.requestMethod = @"POST";
     [request setPostValue:@"APPLYCOIN" forKey:@"action"];
     [request setPostValue:coachId forKey:@"coachid"];     // 教练ID
+    NSString *coinCount;
+    for (int i=0; i<coinaffiliationlist.count; i++) {
+        NSDictionary *dic = coinaffiliationlist[i];
+        NSString *type = [dic[@"type"] description];
+        if ([type intValue] == [buttonTag intValue]) {
+            coinCount = [dic[@"coin"] description];
+        }
+    }
     [request setPostValue:coinCount forKey:@"coinnum"];
+    [request setPostValue:buttonTag forKey:@"type"];
     [request startAsynchronous];
 }
 
@@ -333,15 +356,13 @@
 //更新余额
 - (void)updateMoney{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kSystemServlet]];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
     request.tag = 0;
     request.delegate = self;
     request.requestMethod = @"POST";
-    [request setPostValue:@"refreshUserMoney" forKey:@"action"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"userid"];
+    [request setPostValue:@"GETCOACHCOINAFFILIATION" forKey:@"action"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:@"1" forKey:@"usertype"];//用户类型 1.教练  2 学员
     [request startAsynchronous];
 }
 
@@ -376,23 +397,82 @@
         NSString *message = [result objectForKey:@"message"];
         // 取得数据成功
         if ([code intValue] == 1) {
-            NSDictionary *dic = [CommonUtil getObjectFromUD:@"userInfo"];
-            NSString *realname = [[dic objectForKey:@"realname"] description];
-            if (realname.length == 0) {
-                realname = [[dic objectForKey:@"phone"] description];
+            coinaffiliationlist = result[@"coinaffiliationlist"];
+            //type	  0 平台  ，1 驾校 ， 2 教练
+            if (coinaffiliationlist.count == 0) {
+                self.viewFromConstraint.constant = 0;
+            }else if (coinaffiliationlist.count ==1){
+                self.viewFromConstraint.constant = 50;
+                NSDictionary *dic1 = [self massageDic:coinaffiliationlist[0]];
+                NSMutableAttributedString *string1 = (NSMutableAttributedString *)dic1[@"string"];
+                NSString *coinnum1 = [dic1[@"coin"] description];
+                self.titleLabel1.attributedText = string1;
+                if ([coinnum1 intValue] == 0) {
+                    self.convertBtn1.enabled = NO;
+                }else{
+                    self.convertBtn1.enabled = YES;
+                }
+                self.convertBtn1.tag = [dic1[@"type"] intValue];
+            }else if (coinaffiliationlist.count ==2){
+                self.viewFromConstraint.constant = 100;
+                NSDictionary *dic1 = [self massageDic:coinaffiliationlist[0]];
+                NSMutableAttributedString *string1 = (NSMutableAttributedString *)dic1[@"string"];
+                NSString *coinnum1 = [dic1[@"coin"] description];
+                self.titleLabel1.attributedText = string1;
+                if ([coinnum1 intValue] == 0) {
+                    self.convertBtn1.enabled = NO;
+                }else{
+                    self.convertBtn1.enabled = YES;
+                }
+                self.convertBtn1.tag = [dic1[@"type"] intValue];
+                
+                NSDictionary *dic2 = [self massageDic:coinaffiliationlist[1]];
+                NSMutableAttributedString *string2 = (NSMutableAttributedString *)dic2[@"string"];
+                NSString *coinnum2 = [dic2[@"coin"] description];
+                self.titleLabel2.attributedText = string2;
+                if ([coinnum2 intValue] == 0) {
+                    self.convertBtn2.enabled = NO;
+                }else{
+                    self.convertBtn2.enabled = YES;
+                }
+                self.convertBtn2.tag = [dic2[@"type"] intValue];
+                
+            }else if (coinaffiliationlist.count ==3){
+                self.viewFromConstraint.constant = 150;
+                NSDictionary *dic1 = [self massageDic:coinaffiliationlist[0]];
+                NSMutableAttributedString *string1 = (NSMutableAttributedString *)dic1[@"string"];
+                NSString *coinnum1 = [dic1[@"coin"] description];
+                self.titleLabel1.attributedText = string1;
+                if ([coinnum1 intValue] == 0) {
+                    self.convertBtn1.enabled = NO;
+                }else{
+                    self.convertBtn1.enabled = YES;
+                }
+                self.convertBtn1.tag = [dic1[@"type"] intValue];
+                
+                NSDictionary *dic2 = [self massageDic:coinaffiliationlist[1]];
+                NSMutableAttributedString *string2 = (NSMutableAttributedString *)dic2[@"string"];
+                NSString *coinnum2 = [dic2[@"coin"] description];
+                self.titleLabel2.attributedText = string2;
+                if ([coinnum2 intValue] == 0) {
+                    self.convertBtn2.enabled = NO;
+                }else{
+                    self.convertBtn2.enabled = YES;
+                }
+                self.convertBtn2.tag = [dic2[@"type"] intValue];
+                
+                NSDictionary *dic3 = [self massageDic:coinaffiliationlist[2]];
+                NSMutableAttributedString *string3 = (NSMutableAttributedString *)dic3[@"string"];
+                NSString *coinnum3 = [dic3[@"coin"] description];
+                self.titleLabel3.attributedText = string3;
+                if ([coinnum3 intValue] == 0) {
+                    self.convertBtn3.enabled = NO;
+                }else{
+                    self.convertBtn3.enabled = YES;
+                }
+                self.convertBtn3.tag = [dic3[@"type"] intValue];
             }
-            NSString *coinnum = [result[@"coinnum"] description];//小巴币个数
-            NSString *titleLabelStr = [NSString stringWithFormat:@"可兑换%@教练小巴币：%@个",realname,coinnum];
-            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
-            [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,realname.length+2)];
-            [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3+realname.length+6,coinnum.length)];
-            self.titleLabel.attributedText = string;
-            coinCount = coinnum;
-            if ([coinCount intValue] == 0) {
-                self.convertBtn.enabled = NO;
-            }else{
-                self.convertBtn.enabled = YES;
-            }
+            
         } else {
             if ([CommonUtil isEmpty:message]) {
                 message = ERR_NETWORK;
@@ -430,6 +510,36 @@
             [self getDataFinish];
         }
     }
+}
+
+- (NSDictionary *)massageDic:(NSDictionary *)dic
+{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *realname = [[userInfo objectForKey:@"realname"] description];
+    if (realname.length == 0) {
+        realname = [[userInfo objectForKey:@"phone"] description];
+    }
+    NSString *type = [dic[@"type"] description];
+    NSString *titleLabelStr;
+    NSMutableAttributedString *string;
+    NSString *coinnum = [dic[@"coin"] description];//小巴币个数
+    if ([type intValue] == 0) {
+        titleLabelStr = [NSString stringWithFormat:@"平台小巴币：%@个",coinnum];
+        string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(6,coinnum.length)];
+    }else if ([type intValue] == 1){
+        titleLabelStr = [NSString stringWithFormat:@"所属驾校小巴币：%@个",coinnum];
+        string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(8,coinnum.length)];
+    }else if ([type intValue] == 2){
+        titleLabelStr = [NSString stringWithFormat:@"%@教练小巴币：%@个",realname,coinnum];
+        string = [[NSMutableAttributedString alloc] initWithString:titleLabelStr];
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(realname.length+6,coinnum.length)];
+    }
+    
+    NSDictionary *messageDic = [NSDictionary dictionaryWithObjectsAndKeys:string,@"string",coinnum,@"coin",type,@"type", nil];
+    
+    return messageDic;
 }
 
 // 服务器请求失败

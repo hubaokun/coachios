@@ -24,6 +24,7 @@
     BOOL needRefresh;
     int maxdays;
     BOOL needSetDefault;
+    BOOL firstIN;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
@@ -51,6 +52,7 @@
 @property (strong, nonatomic) NSDate *selectDate;//选中的日期
 @property (strong, nonatomic) NSDate *endDate;//结束时间
 @property (strong, nonatomic) NSMutableArray *selectTimeArray;//选中的时间 8:00,9:00
+@property (strong, nonatomic) NSMutableArray *allTimeArray;//早上
 @property (strong, nonatomic) NSMutableArray *morningAllTimeArray;//早上
 @property (strong, nonatomic) NSMutableArray *afternoonAllTimeArray;//下午
 @property (strong, nonatomic) NSMutableArray *eveningAllTimeArray;//晚上
@@ -80,12 +82,12 @@
 
 - (IBAction)clickForDefaultAlert:(id)sender;
 
-
 @property (strong, nonatomic) IBOutlet UIView *openOrCloseClassView;
 @property (strong, nonatomic) IBOutlet UIButton *writeScheduleButton;
 @property (strong, nonatomic) IBOutlet UIButton *sureIssueButton;
 @property (strong, nonatomic) IBOutlet UIButton *stopClassButton;
 
+@property (strong, nonatomic) IBOutlet DateButton *allSelectButton;
 @end
 
 @implementation ScheduleViewController
@@ -110,7 +112,7 @@
     self.morningAllTimeArray = [NSMutableArray arrayWithObjects:@"5:00", @"6:00", @"7:00", @"8:00", @"9:00", @"10:00", @"11:00", nil];
     self.afternoonAllTimeArray = [NSMutableArray arrayWithObjects:@"12:00", @"13:00", @"14:00", @"15:00", @"16:00", @"17:00", @"18:00",nil];
     self.eveningAllTimeArray = [NSMutableArray arrayWithObjects:@"19:00", @"20:00", @"21:00", @"22:00", @"23:00", nil];
-    
+    self.allTimeArray = [NSMutableArray arrayWithObjects:@"5:00", @"6:00", @"7:00", @"8:00", @"9:00", @"10:00", @"11:00",@"12:00", @"13:00", @"14:00", @"15:00", @"16:00", @"17:00", @"18:00",@"19:00", @"20:00", @"21:00", @"22:00", @"23:00", nil];
     [self initViews];
     
     self.mainTableView.delegate = self;
@@ -143,7 +145,7 @@
     self.defaultAlertView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     
     needRefresh = YES;
-    
+    firstIN = YES;
 }
 
 - (IBAction)clickTest:(id)sender {
@@ -205,6 +207,12 @@
             [self.refreshManager tableViewReloadStart:[NSDate date] Animated:YES];
             [self getScheduleList];
         }
+    }
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([app.needOpenSchedule intValue] == 1) {
+        [DejalBezelActivityView activityViewForView:self.view];
+        [self clickForStart:nil];
+        app.needOpenSchedule = @"0";
     }
     needRefresh = YES;
 }
@@ -727,6 +735,16 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH - 120*2)/6, 10, 180, 11)];
         imageView.image = [UIImage imageNamed:@"notice_image"];
         [cell.contentView addSubview:imageView];
+        NSDictionary *selectDic = dic[@"selectState"];
+        NSString *allSelect = [selectDic objectForKey:@"allSelect"];//0:不是全选 1：全选
+        //按钮状态//0:不是全选 1：全选
+        if ([allSelect integerValue] == 0) {
+            //是全选
+            self.allSelectButton.selected = NO;
+        }else{
+            self.allSelectButton.selected = YES;
+        }
+        
         y = 20;
     }else{
         y = 0;
@@ -836,7 +854,7 @@
             teachTypeLabel.textColor = RGB(68, 68, 68);
             teachTypeLabel.textAlignment = NSTextAlignmentCenter;
             teachTypeLabel.font = [UIFont systemFontOfSize:13];
-            NSString *subject = @"暂无";
+            NSString *subject = @"未设置";
             [contentView addSubview:teachTypeLabel];
             
             //获取价格 和科目
@@ -850,7 +868,7 @@
                 NSString *hour = arrDic[@"hour"];
                 if ([timeStr intValue] == [hour intValue]) {
                     price = [arrDic[@"price"] description];
-                    subjectid = [arrDic[@"subjectid"] description];
+                    subject = [arrDic[@"subject"] description];
                     isrest = [arrDic[@"isrest"] description];
                     bookedername = [arrDic[@"bookedername"] description];
                     if ([CommonUtil isEmpty:subjectid]) {
@@ -864,13 +882,13 @@
                     break;
                 }
             }
-            if ([subjectid intValue]==1) {
-                subject = @"科目二";
-            }else if ([subjectid intValue]==2){
-                subject = @"科目三";
-            }else if ([subjectid intValue]==3){
-                subject = @"模拟适训";
-            }
+//            if ([subjectid intValue]==1) {
+//                subject = @"科目二";
+//            }else if ([subjectid intValue]==2){
+//                subject = @"科目三";
+//            }else if ([subjectid intValue]==3){
+//                subject = @"考场演练";
+//            }
             teachTypeLabel.text = [NSString stringWithFormat:@"%@",subject];
             
             //价格label显示
@@ -977,9 +995,9 @@
     return cell;
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
 }
 
 #pragma mark - scrollView代理
@@ -1197,7 +1215,38 @@
             [dic setObject:descTime forKey:timeKey];
         }
     }
-    
+    NSString *isrestTag = @"NO";
+    for (int i=0; i<list.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:list[i]];
+        NSString *isrest = [dic[@"isrest"] description];
+        if ([isrest intValue]) {
+            
+        }else{
+            isrestTag = @"YES";
+        }
+    }
+    NSString *key = @"selectState";
+    NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
+    NSArray *bookArray = [selectDic objectForKey:@"bookArray"];//已经预约时间点集合
+    NSArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间点集合
+    if ([isrestTag isEqualToString:@"NO"]) {
+        if (self.DefaultSchedule.count > 0) {
+                for (int j=0; j<self.DefaultSchedule.count; j++) {
+                    NSDictionary *defaultDic = self.DefaultSchedule[j];
+                        NSString *defaultIsrest = [defaultDic[@"isrest"] description];
+                        if (![defaultIsrest intValue]) {
+                            NSDate *date = [CommonUtil getDateForString:[defaultDic[@"hour"] description] format:@"HH"];
+                            NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
+                            [array addObject:str];
+                        }
+                }
+            [array removeObjectsInArray:bookArray];
+            [array removeObjectsInArray:expireArray];
+        }
+    }
+    [selectDic setObject:array forKey:@"selectArray"];
+    [dic setObject:selectDic forKey:@"selectState"];
     [self.calenderDic setObject:dic forKey:chooseTime];
     
 }
@@ -1242,6 +1291,8 @@
 
 //切换月份
 - (IBAction)clickForChangeDate:(id)sender {
+    [self getDefaultSchedule];
+    
     isCloseDate = NO;
     self.openBtn.selected = NO;
     UIButton *button = (UIButton *)sender;
@@ -1270,7 +1321,7 @@
     [self.mainTableView reloadData];
     [self showTableFooterView];
     [self showTableHeaderView];
-    
+    [self testOpenOrCloseView];
 }
 
 //打开或者关闭日历
@@ -1337,132 +1388,269 @@
 
 //选择时间（）
 - (void)clickForChoose:(DateButton *)button{
-
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
     if (dic == nil) {
         dic = [NSMutableDictionary dictionary];
     }
-    
     NSString *key1 = @"selectState";
     NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key1]];
-    
     NSMutableArray *bookArray = [selectDic objectForKey:@"bookArray"];
-    
+    NSMutableArray *unrestArray = [selectDic objectForKey:@"unrestArray"];
+    NSMutableArray *restArray = [selectDic objectForKey:@"restArray"];
     NSString *time = button.date;
-    [self.mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:button.tag inSection:1] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
-    
-    //不是全选，点击日期
-    [selectDic setObject:@"1" forKey:@"allSelect"];//0:不是全选 1：全选
-    
-    //移除已经预约的
-    if ([bookArray containsObject:time]) {
-        [self makeToast:@"该时间点已被预约不可选择"];
-        return;
-    }
-    
-    //移除当前时间之前的日期
-    if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
-        //小于当天
-        [self makeToast:@"该时间点不可选择"];
-        return;
-        
-    }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
-        //等于当天
-        NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
-        if ([hourStr intValue] <= [self.nowHour intValue]) {
-            [self makeToast:@"该时间点不可选择"];
-            return;
-        }
-    }
-    
-    NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
-    if ([array  containsObject:time]) {
-        //包含，就移除
-        [array removeObject:time];
-    }else{
-        //不包含，就添加
-        if (array.count > 1) {
-            if ([button.isrest intValue] == 1) {
-                NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
-                
-                if ([unrestArray containsObject:array[0]]) {
-                    [self makeToast:@"未开课和已开课不能同时选择"];
-                    return;
-                }else{
-                    [array addObject:time];
-                }
-            }else if([button.isrest intValue] == 0){
-                NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
-                if ([restArray containsObject:array[0]]) {
-                    [self makeToast:@"未开课和已开课不能同时选择"];
-                    return;
-                }else{
-                    [array addObject:time];
-                }
+    if ([@"-1" isEqualToString:time]) {
+        //全选
+        NSString *allSelect = selectDic[@"allSelect"];
+        if ([allSelect intValue] == 1) {
+            //全选，变成全不选
+            [selectDic setObject:@"0" forKey:@"allSelect"];//1:全选 0：不是全选
+            [selectDic setObject:[NSArray array] forKey:@"selectArray"];
+        }else{
+            //不是全选，变成全选
+            [selectDic setObject:@"1" forKey:@"allSelect"];//1:全选 0：不是全选
+            
+            NSMutableArray *array = nil;
+            array = [NSMutableArray arrayWithArray:self.allTimeArray];
+            if (array == nil) {
+                array = [NSMutableArray array];
             }
             
-        }else if(array.count ==1){
-            if ([button.isrest intValue] == 1) {
-                NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
+            //移除已经预约的
+            [array removeObjectsInArray:bookArray];
+            //移除已经预约的
+            [array removeObjectsInArray:unrestArray];
+            
+            //移除当前时间之前的日期
+            if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
+                //小于当天
+                [array removeAllObjects];
+                [self makeToast:@"没有可以选择的时间点"];
+                return;
                 
-                if ([unrestArray containsObject:array[0]]) {
-                    [array removeAllObjects];
-                    [array addObject:time];
-                }else{
-                    [array addObject:time];
+            }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
+                //等于当天
+                NSArray *hourArray = [NSArray arrayWithArray:array];
+                for (NSString *hour in hourArray) {
+                    NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:hour format:@"H:00"] format:@"H"];
+                    
+                    if ([hourStr intValue] <= [self.nowHour intValue]) {
+                        [array removeObject:hour];
+                    }
+                    
                 }
-            }else if([button.isrest intValue] == 0){
-                NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
-                if ([restArray containsObject:array[0]]) {
-                    [array removeAllObjects];
-                    [array addObject:time];
-                }else{
-                    [array addObject:time];
-                }
+                
             }
-        }else{
-            [array addObject:time];
+            
+            if (array.count == 0) {
+                //没有可以选择的日期
+                [self makeToast:@"没有可以选择的时间点"];
+                return;
+            }
+            [selectDic setObject:array forKey:@"selectArray"];
         }
-        
-        
-    }
-    if (array.count > 0) {
-        self.openOrCloseClassView.hidden = NO;
-    }
-    if ([button.isrest intValue] == 0) {
-        self.writeScheduleButton.hidden = YES;
-        self.sureIssueButton.hidden = YES;
-        self.stopClassButton.hidden = NO;
-    }else if([button.isrest intValue] == 1){
         self.writeScheduleButton.hidden = NO;
         self.sureIssueButton.hidden = NO;
         self.stopClassButton.hidden = YES;
-    }
-    
-    NSArray *sortArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSString *str1 = (NSString *)obj1;
-        NSString *str2 = (NSString *)obj2;
-        str1 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str1 format:@"H:00"] format:@"H"];
-        str2 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str2 format:@"H:00"] format:@"H"];
         
-        if ([str1 intValue] > [str2 intValue]) {
-            //小于
-            return NSOrderedDescending;
-        }else if ([str1 intValue] == [str2 intValue]){
-            return NSOrderedSame;
+    }else if ([@"-2" isEqualToString:time]) {
+        //全选
+        NSString *allSelect = selectDic[@"allSelect"];
+        if ([allSelect intValue] == 1) {
+            //全选，变成全不选
+            [selectDic setObject:@"0" forKey:@"allSelect"];//1:全选 0：不是全选
+            [selectDic setObject:[NSArray array] forKey:@"selectArray"];
         }else{
-            return NSOrderedAscending;
+            //不是全选，变成全选
+            [selectDic setObject:@"1" forKey:@"allSelect"];//1:全选 0：不是全选
+            
+            NSMutableArray *array = nil;
+            array = [NSMutableArray arrayWithArray:self.allTimeArray];
+            if (array == nil) {
+                array = [NSMutableArray array];
+            }
+            
+            //移除已经预约的
+            [array removeObjectsInArray:bookArray];
+            //移除已经预约的
+            [array removeObjectsInArray:restArray];
+            
+            //移除当前时间之前的日期
+            if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
+                //小于当天
+                [array removeAllObjects];
+                [self makeToast:@"没有可以选择的时间点"];
+                return;
+                
+            }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
+                //等于当天
+                NSArray *hourArray = [NSArray arrayWithArray:array];
+                for (NSString *hour in hourArray) {
+                    NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:hour format:@"H:00"] format:@"H"];
+                    
+                    if ([hourStr intValue] <= [self.nowHour intValue]) {
+                        [array removeObject:hour];
+                    }
+                    
+                }
+                
+            }
+            
+            if (array.count == 0) {
+                //没有可以选择的日期
+                [self makeToast:@"没有可以选择的时间点"];
+                return;
+            }
+            [selectDic setObject:array forKey:@"selectArray"];
         }
-    }];
-    [selectDic setObject:sortArray forKey:@"selectArray"];
-    if (sortArray.count == 0) {
-        self.openOrCloseClassView.hidden = YES;
         self.writeScheduleButton.hidden = YES;
         self.sureIssueButton.hidden = YES;
-        self.stopClassButton.hidden = YES;
+        self.stopClassButton.hidden = NO;
+        
+    }else{
+        [self.mainTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:button.tag inSection:1] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+
+        [selectDic setObject:@"0" forKey:@"allSelect"];//0:不是全选 1：全选
+        
+        //移除已经预约的
+        if ([bookArray containsObject:time]) {
+            [self makeToast:@"该时间点已被预约不可选择"];
+            return;
+        }
+        
+        //移除当前时间之前的日期
+        if ([self.selectDate compare:self.nowDate] == NSOrderedAscending) {
+            //小于当天
+            [self makeToast:@"该时间点不可选择"];
+            return;
+            
+        }else if ([self.selectDate compare:self.nowDate] == NSOrderedSame) {
+            //等于当天
+            NSString *hourStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
+            if ([hourStr intValue] <= [self.nowHour intValue]) {
+                [self makeToast:@"该时间点不可选择"];
+                return;
+            }
+        }
+        
+        NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
+        if ([array  containsObject:time]) {
+            //包含，就移除
+            [array removeObject:time];
+        }else{
+            //不包含，就添加
+            if (array.count > 1) {
+                if ([button.isrest intValue] == 1) {
+                    NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
+                    
+                    if ([unrestArray containsObject:array[0]]) {
+                        [self makeToast:@"未开课和已开课不能同时选择"];
+                        return;
+                    }else{
+                        [array addObject:time];
+                    }
+                }else if([button.isrest intValue] == 0){
+                    NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
+                    if ([restArray containsObject:array[0]]) {
+                        [self makeToast:@"未开课和已开课不能同时选择"];
+                        return;
+                    }else{
+                        [array addObject:time];
+                    }
+                }
+                
+            }else if(array.count ==1){
+                if ([button.isrest intValue] == 1) {
+                    NSMutableArray *unrestArray = [NSMutableArray arrayWithArray:selectDic[@"unrestArray"]];
+                    
+                    if ([unrestArray containsObject:array[0]]) {
+                        [array removeAllObjects];
+                        [array addObject:time];
+                    }else{
+                        [array addObject:time];
+                    }
+                }else if([button.isrest intValue] == 0){
+                    NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
+                    if ([restArray containsObject:array[0]]) {
+                        [array removeAllObjects];
+                        [array addObject:time];
+                    }else{
+                        [array addObject:time];
+                    }
+                }
+            }else{
+                [array addObject:time];
+            }
+            
+            
+        }
+        if (array.count > 0) {
+            self.openOrCloseClassView.hidden = NO;
+        }
+        if ([button.isrest intValue] == 0) {
+            self.writeScheduleButton.hidden = YES;
+            self.sureIssueButton.hidden = YES;
+            self.stopClassButton.hidden = NO;
+        }else if([button.isrest intValue] == 1){
+            self.writeScheduleButton.hidden = NO;
+            self.sureIssueButton.hidden = NO;
+            self.stopClassButton.hidden = YES;
+        }
+        
+        NSArray *sortArray = [array sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            NSString *str1 = (NSString *)obj1;
+            NSString *str2 = (NSString *)obj2;
+            str1 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str1 format:@"H:00"] format:@"H"];
+            str2 = [CommonUtil getStringForDate:[CommonUtil getDateForString:str2 format:@"H:00"] format:@"H"];
+            
+            if ([str1 intValue] > [str2 intValue]) {
+                //小于
+                return NSOrderedDescending;
+            }else if ([str1 intValue] == [str2 intValue]){
+                return NSOrderedSame;
+            }else{
+                return NSOrderedAscending;
+            }
+        }];
+        [selectDic setObject:sortArray forKey:@"selectArray"];
+        if (sortArray.count == 0) {
+            self.openOrCloseClassView.hidden = YES;
+            self.writeScheduleButton.hidden = YES;
+            self.sureIssueButton.hidden = YES;
+            self.stopClassButton.hidden = YES;
+        }
     }
+    if (button.isrest) {  //判断是不是由全选按钮过来
+        if ([button.isrest intValue] == 0) {
+            //全选按钮
+            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:@" 全选（已开课）"];
+            [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(3, 5)];
+            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(68, 68, 68) range:NSMakeRange(0,8)];
+            [self.allSelectButton setAttributedTitle:str1 forState:UIControlStateNormal];
+            self.allSelectButton.date = @"-2";
+        }else if([button.isrest intValue] == 1){
+            //全选按钮
+            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:@" 全选（未开课）"];
+            [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(3, 5)];
+            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(68, 68, 68) range:NSMakeRange(0,8)];
+            [self.allSelectButton setAttributedTitle:str1 forState:UIControlStateNormal];
+            self.allSelectButton.date = @"-1";
+        }
+        [self.allSelectButton setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
+        [self.allSelectButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [self.allSelectButton addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
+        [self.allSelectButton setImage:[UIImage imageNamed:@"btn_checkbox_unchecked"] forState:UIControlStateNormal];
+        [self.allSelectButton setImage:[UIImage imageNamed:@"btn_checkbox_checked"] forState:UIControlStateSelected];
+    }
+    
     [dic setObject:selectDic forKey:key1];
+    NSArray *selectArray = selectDic[@"selectArray"];
+    if (selectArray.count > 0) {
+        self.openOrCloseClassView.hidden = NO;
+    }else{
+        self.openOrCloseClassView.hidden = YES;
+    }
+    
     [self.calenderDic setObject:dic forKey:chooseTime];
     
     [self.mainTableView reloadData];
@@ -1900,6 +2088,7 @@
             [self showTableHeaderView];
             [self.mainTableView reloadData];
             [self showTableFooterView];
+            [self testOpenOrCloseView];
             [DejalBezelActivityView removeViewAnimated:YES];
         }else if(request.tag == 5){//设置为默认日期
             //更新数据
@@ -1962,11 +2151,13 @@
                 NSInteger weekCount = [CommonUtil getWeekCountOfDate:firstDate];
                 [self.mainTableView setContentOffset:CGPointMake(0, (weekCount - 2.3)*weekHeight) animated:YES];
             }
-            
+            if (firstIN) {
+                [self getDefaultSchedule];
+                firstIN = NO;
+                [self testOpenOrCloseView];
+            }
             [DejalBezelActivityView removeViewAnimated:YES];
         }
-        
-        
     } else if([code intValue] == 95) {
         [self makeToast:message];
         [CommonUtil logout];
@@ -2186,11 +2377,11 @@
         [selectDic setObject:expireArray forKey:@"expireArray"];
         [selectDic setObject:unrestArray forKey:@"unrestArray"];
         //判断是否全选
-        NSString *allSelect = @"1";
+        NSString *allSelect = @"0";
         
         if (selectArray.count == 19){
             
-            allSelect = @"0";
+            allSelect = @"1";
         }
         [selectDic setObject:allSelect forKey:@"allSelect"];
         
@@ -2385,11 +2576,11 @@
     [selectDic setObject:restArray forKey:@"restArray"];
     
     //判断是否全选
-    NSString *allSelect = @"1";
+    NSString *allSelect = @"0";
     
     if (selectArray.count == 19){
         //全选
-        allSelect = @"0";
+        allSelect = @"1";
     }
     [selectDic setObject:allSelect forKey:@"allSelect"];
     

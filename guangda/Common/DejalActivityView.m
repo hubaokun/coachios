@@ -668,6 +668,7 @@ static DejalActivityView *dejalActivityView = nil;
     return [self activityViewWithLabel:NSLocalizedString(@"请稍候...", @"Default DejalActivtyView label text")];
 }
 
+
 /*
  activityViewWithLabel:
  

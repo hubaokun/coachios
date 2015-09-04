@@ -75,6 +75,12 @@
         self.moneyLabel.text = [NSString stringWithFormat:@"+ %@元", amount];
         self.moneyLabel.textColor = RGB(32, 180, 120);
         
+    }else if ([type intValue] == 7){
+        //提现
+        self.titleLabel.text = @"提现";
+        self.moneyLabel.text = [NSString stringWithFormat:@"- %@元", amount];
+        self.moneyLabel.textColor = RGB(224, 72, 61);
+        
     }
 }
 

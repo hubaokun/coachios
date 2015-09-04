@@ -8,7 +8,7 @@
 
 #import "ScheduleSettingViewController.h"
 #import "LoginViewController.h"
-
+#import "AppDelegate.h"
 @interface ScheduleSettingViewController ()<UITextFieldDelegate,UIAlertViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 {
     NSArray *array100;
@@ -633,7 +633,7 @@
         [msgArray addObject:dic];
     }
     
-    [DejalBezelActivityView activityViewForView:self.view];
+    [DejalBezelActivityView activityViewForView:self.view withLabel:@"正在保存..."];
     
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:self.timeDic];
     [mutableDic setObject:price forKey:@"price"];
@@ -653,7 +653,6 @@
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:mutableDic];
                 [dic setObject:[timeDic[@"hour"] description] forKey:@"hour"];
                 [testArray replaceObjectAtIndex:i withObject:dic];
-                
             }
         }
     }
@@ -703,11 +702,11 @@
         }else if (request.tag == 1){
             self.subjectArray = [NSMutableArray arrayWithArray:result[@"subjectlist"]];
         }else if (request.tag == 2){
-            [DejalBezelActivityView removeViewAnimated:YES];
             //提交修改信息
             [self makeToast:@"修改成功"];
             [self.navigationController popViewControllerAnimated:YES];
-//            NSMutableArray *array = [NSMutableArray arrayWithArray:result[@"datelist"]];
+            AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            app.needOpenSchedule = @"1";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:self.allDayArray];
         }
     }else if([code intValue] == 95){

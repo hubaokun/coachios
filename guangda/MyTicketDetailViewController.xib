@@ -315,9 +315,9 @@
                             <rect key="frame" x="24" y="66" width="242" height="160"/>
                             <string key="text">教练发行的小巴券不能兑换现金，仅生成兑换记录。
 
-驾校发行的小巴券，兑换后直接到该驾校去领现金。
+驾校发行的小巴券，兑换后直接到该驾校咨询。
 
-小巴平台发行的小巴券，兑换后1-2个工作日发放到您的账户余额。</string>
+小巴平台发行的小巴券，兑换后3个工作日发放到您的账户余额。</string>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>

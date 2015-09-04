@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -251,9 +251,16 @@
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eo2-fv-F7Z">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
-                        <color key="backgroundColor" red="0.82745098039215681" green="0.82745098039215681" blue="0.82745098039215681" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="1" id="MhY-HT-D96"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RhG-D7-hGB">
+                        <rect key="frame" x="0.0" y="80" width="320" height="1"/>
+                        <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="ojf-JQ-XFK"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -271,14 +278,17 @@
                     <constraint firstItem="ybv-bF-4uJ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="YXg-AE-5iz"/>
                     <constraint firstItem="eo2-fv-F7Z" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="bu8-ek-Ngb"/>
                     <constraint firstItem="eYi-Lf-Dr5" firstAttribute="top" secondItem="ybv-bF-4uJ" secondAttribute="bottom" id="dCQ-s1-963"/>
+                    <constraint firstItem="RhG-D7-hGB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="dFV-XN-clu"/>
                     <constraint firstItem="ckH-S7-nAu" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="hyt-4a-3q0"/>
                     <constraint firstAttribute="trailing" secondItem="aSh-qn-YCm" secondAttribute="trailing" constant="8" id="ia0-Pw-f5s"/>
                     <constraint firstItem="aSh-qn-YCm" firstAttribute="top" secondItem="eo2-fv-F7Z" secondAttribute="bottom" constant="32" id="pA1-1M-RKc"/>
                     <constraint firstItem="aSh-qn-YCm" firstAttribute="top" secondItem="eo2-fv-F7Z" secondAttribute="bottom" constant="31" id="q9C-R6-0zp"/>
                     <constraint firstItem="eo2-fv-F7Z" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="qHh-mj-6qZ"/>
                     <constraint firstAttribute="trailing" secondItem="eo2-fv-F7Z" secondAttribute="trailing" id="rnP-ut-ZM6"/>
+                    <constraint firstAttribute="trailing" secondItem="RhG-D7-hGB" secondAttribute="trailing" id="uGP-2d-Vva"/>
                     <constraint firstAttribute="trailing" secondItem="JmQ-JO-Eu8" secondAttribute="trailing" constant="90" id="ud6-nQ-fol"/>
                     <constraint firstItem="eYi-Lf-Dr5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="wUT-og-NTC"/>
+                    <constraint firstItem="RhG-D7-hGB" firstAttribute="top" secondItem="ybv-bF-4uJ" secondAttribute="bottom" id="wlL-wI-m8g"/>
                     <constraint firstItem="hR7-70-Hl6" firstAttribute="leading" secondItem="ckH-S7-nAu" secondAttribute="trailing" constant="12" id="yDd-Y8-z70"/>
                     <constraint firstAttribute="trailing" secondItem="ybv-bF-4uJ" secondAttribute="trailing" id="yWr-W4-bhp"/>
                 </constraints>

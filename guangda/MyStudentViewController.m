@@ -12,7 +12,11 @@
 #import "MyStudentTableViewCell.h"
 #import "LoginViewController.h"
 
-@interface MyStudentViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient>
+@interface MyStudentViewController ()<UITableViewDataSource, UITableViewDelegate,DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient>
+{
+    int pageNum;
+    BOOL isRefresh;//是否刷新
+}
 @property (strong, nonatomic) IBOutlet UITableView *studentTableView;
 
 @property (strong, nonatomic) DSPullToRefreshManager *pullToRefresh;    // 下拉刷新
@@ -26,30 +30,40 @@
 
 @end
 
-@implementation MyStudentViewController{
-    int pageNum;
-}
+@implementation MyStudentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.studentTableView.delegate = self;
+    self.studentTableView.dataSource = self;
     pageNum = 0;
     _openStudentID = @"0";
     self.studentList = [NSMutableArray array];
-    
     //刷新加载
     self.pullToRefresh = [[DSPullToRefreshManager alloc] initWithPullToRefreshViewHeight:60.0 tableView:self.studentTableView withClient:self];
-    
     //隐藏加载更多
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.studentTableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
     
-    [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
-    [self.studentTableView setContentOffset:CGPointMake(0, -60) animated:YES];
-    [self pullToRefreshTriggered:self.pullToRefresh];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    isRefresh = YES;
+    if ([[CommonUtil currentUtil] isLogin:NO]){
+        [self refreshData];
+    }
     
 }
 
+- (void)refreshData{
+    if(isRefresh){
+        [self.pullToRefresh tableViewReloadStart:[NSDate date] Animated:YES];
+        [self.studentTableView setContentOffset:CGPointMake(0, -60) animated:YES];
+        [self pullToRefreshTriggered:self.pullToRefresh];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -278,7 +292,6 @@
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kMyServlet]];
-    
     request.delegate = self;
     request.tag = 0;
     [request setPostValue:@"GetMyAllStudent" forKey:@"action"];
@@ -314,7 +327,6 @@
             //还有更多数据
             [_pullToMore setPullToMoreViewVisible:YES];
             [_pullToMore relocatePullToMoreView];
-            
             pageNum++;
         }else{
             [_pullToMore setPullToMoreViewVisible:NO];

@@ -203,6 +203,18 @@
     [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
+    //设置弹框圆角
+    self.alertDetailView.layer.cornerRadius = 5;
+    self.alertDetailView.layer.masksToBounds = YES;
+    
+    //监听
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initCarModelData) name:@"updateModelList" object:nil];
+    
+    [self.C1Button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
+    [self.C1Button setImage:[UIImage imageNamed:@"coupon_selected"] forState:UIControlStateSelected];
+    [self.C2Button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
+    [self.C2Button setImage:[UIImage imageNamed:@"coupon_selected"] forState:UIControlStateSelected];
+    
     // 判断哪个界面推出此界面 修改相应的样式
     if ([_superViewNum intValue] == 0) {
         // 登录注册界面过来的
@@ -223,18 +235,6 @@
         [self.backBtn addTarget:self action:@selector(backClick:) forControlEvents:UIControlEventTouchUpInside];
         [self updateUserMsg];//给信息赋值
     }
-    
-    //设置弹框圆角
-    self.alertDetailView.layer.cornerRadius = 5;
-    self.alertDetailView.layer.masksToBounds = YES;
-    
-    //监听
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(initCarModelData) name:@"updateModelList" object:nil];
-    
-    [self.C1Button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
-    [self.C1Button setImage:[UIImage imageNamed:@"coupon_selected"] forState:UIControlStateSelected];
-    [self.C2Button setImage:[UIImage imageNamed:@"coupon_unselected"] forState:UIControlStateNormal];
-    [self.C2Button setImage:[UIImage imageNamed:@"coupon_selected"] forState:UIControlStateSelected];
 }
 
 // 跳过
@@ -264,6 +264,24 @@
         self.schoolTextFiled.text = app.schoolName;
         self.schoolid = app.driveschoolid;
     }
+    if (app.carModel) {
+        //教学用车型号
+        self.teachCarCardField.text = app.carModel;
+    }
+    
+    if (app.modelid.length >0) {
+        //准教车型
+        if ([app.modelid isEqualToString:@"17"]) {
+            self.coachCarLabel.text = @"C1手动挡";
+        }
+        if ([app.modelid isEqualToString:@"18"]) {
+            self.coachCarLabel.text = @"C2自动挡";
+        }
+        if ([app.modelid isEqualToString:@"17,18"]) {
+            self.coachCarLabel.text = @"C1手动挡,C2自动挡";
+        }
+    }
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated

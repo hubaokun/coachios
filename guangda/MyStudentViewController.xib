@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyStudentViewController">
@@ -71,7 +71,7 @@
                     </constraints>
                 </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="WVW-rn-EKK">
-                    <rect key="frame" x="0.0" y="63" width="600" height="537"/>
+                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="Zwc-WQ-7YX"/>
@@ -81,15 +81,15 @@
             </subviews>
             <color key="backgroundColor" red="0.95294117647058818" green="0.95294117647058818" blue="0.95294117647058818" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="WVW-rn-EKK" firstAttribute="top" secondItem="wHT-VD-Gfx" secondAttribute="bottom" constant="-1" id="816-99-fTj"/>
-                <constraint firstAttribute="trailing" secondItem="WVW-rn-EKK" secondAttribute="trailing" id="FJg-aO-PTM"/>
+                <constraint firstItem="WVW-rn-EKK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="C1X-d7-BBM"/>
+                <constraint firstAttribute="trailing" secondItem="WVW-rn-EKK" secondAttribute="trailing" id="LDo-dm-OZf"/>
                 <constraint firstItem="h8a-5p-XbW" firstAttribute="top" secondItem="wHT-VD-Gfx" secondAttribute="bottom" constant="106" id="X6U-R1-Obi"/>
                 <constraint firstItem="wHT-VD-Gfx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="d04-8a-0hk"/>
-                <constraint firstAttribute="bottom" secondItem="WVW-rn-EKK" secondAttribute="bottom" id="hIx-2r-Ccs"/>
+                <constraint firstAttribute="bottom" secondItem="WVW-rn-EKK" secondAttribute="bottom" id="eDS-a5-Enx"/>
                 <constraint firstAttribute="centerX" secondItem="h8a-5p-XbW" secondAttribute="centerX" id="t1j-6Y-Lxn"/>
                 <constraint firstItem="wHT-VD-Gfx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="tUC-cV-KJ8"/>
-                <constraint firstItem="WVW-rn-EKK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="tkt-H6-wzK"/>
                 <constraint firstAttribute="trailing" secondItem="wHT-VD-Gfx" secondAttribute="trailing" id="tte-VO-p2z"/>
+                <constraint firstItem="WVW-rn-EKK" firstAttribute="top" secondItem="wHT-VD-Gfx" secondAttribute="bottom" id="wzc-2V-Tq8"/>
             </constraints>
             <point key="canvasLocation" x="6" y="41"/>
         </view>

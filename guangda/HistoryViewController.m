@@ -423,9 +423,6 @@
             cell.studentTitleLabel.hidden = YES;
         }else{
             cell.cancelLabel.hidden = YES;
-            cell.myCommentDetailsBtn.hidden = NO;
-            cell.goCommentClick.hidden = NO;
-            cell.studentTitleLabel.hidden = NO;
         }
     }else{
         //关闭
@@ -864,7 +861,7 @@
             [self getTaskList];//刷新数据
             
             //提交评论
-            [self makeToast:@"评价成功"];
+            [self makeToast:@" 评价成功 "];
             [self.goCommentView removeFromSuperview];
             
             [self clearEvaluate];

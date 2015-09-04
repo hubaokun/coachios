@@ -8,6 +8,7 @@
 
 #import "CarModelViewController.h"
 #import "LoginViewController.h"
+#import "AppDelegate.h"
 @interface CarModelViewController ()
 @property (strong, nonatomic) NSMutableDictionary *msgDic;//参数
 @property (strong, nonatomic) IBOutlet UIButton *C1Button;
@@ -104,12 +105,15 @@
     
     // 取得数据成功
     if ([code intValue] == 1) {
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
         [self makeToast:@"提交成功"];
         NSMutableDictionary * ds = [NSMutableDictionary dictionaryWithDictionary:[CommonUtil getObjectFromUD:@"userInfo"]];
         for (NSString *key in self.msgDic.allKeys) {
             [ds setObject:[self.msgDic objectForKey:key] forKey:key];
         }
         [CommonUtil saveObjectToUD:ds key:@"userInfo"];
+        app.carModel = [ds[@"teachcarmodel"] description]; // 教学用车型号
+        app.modelid = [ds[@"modelid"]description];//准教车型id
         [self.navigationController popViewControllerAnimated:YES];
     }else if([code intValue] == 95){
         [self makeToast:message];
