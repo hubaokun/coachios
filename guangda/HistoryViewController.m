@@ -202,25 +202,25 @@
     if ([state intValue] == 1) {
         //打开
         
-        //计算学员评价内容的高度
-        NSDictionary *dic = [self.taskList objectAtIndex:indexPath.row];
-        NSDictionary *studentScore = dic[@"studentscore"];
-        if (studentScore == nil || studentScore.count == 0){
-            //没有学员评价
-            return 335 - 43;
-        }
-        
-        //有学员评价
-        NSString *content = [CommonUtil isEmpty:studentScore[@"content"]]?@"暂无":studentScore[@"content"];
-        CGFloat height = 25;
-        
-        //最多显示两行
-        CGSize size = [CommonUtil sizeWithString:content fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) sizeheight:MAXFLOAT];
-        if (ceil(size.height) > 25) {
-            height = 40;
-        }
-        
-        return 335 - 25 + height;
+//        //计算学员评价内容的高度
+//        NSDictionary *dic = [self.taskList objectAtIndex:indexPath.row];
+//        NSDictionary *studentScore = dic[@"studentscore"];
+//        if (studentScore == nil || studentScore.count == 0){
+//            //没有学员评价
+            return 274;
+//        }
+//        
+//        //有学员评价
+//        NSString *content = [CommonUtil isEmpty:studentScore[@"content"]]?@"暂无":studentScore[@"content"];
+//        CGFloat height = 25;
+//        
+//        //最多显示两行
+//        CGSize size = [CommonUtil sizeWithString:content fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) sizeheight:MAXFLOAT];
+//        if (ceil(size.height) > 25) {
+//            height = 40;
+//        }
+//        
+//        return 335 - 25 + height;
     }else{
         //关闭
         return 70;
@@ -377,38 +377,38 @@
             
         }
         
-        //判断学员是否评价过
-        NSDictionary *studentScoreDic = dic[@"studentscore"];
-        if (studentScoreDic == nil || studentScoreDic.count == 0) {
-            //没有评价过
-
-            cell.studentCommentDetailsBtn.hidden = YES;
-            
-            cell.studentTitleLabel.text = @"该学员尚未评价";
-            cell.studentContentLabel.text = @"";
-            cell.studentScoreHeightConstraint.constant = 268 - 41;
-        }else{
-            //已经评价过
-            cell.studentCommentDetailsBtn.hidden = NO;
-            
-            //设置星级
-            NSString *starNum = [studentScoreDic[@"score"] description];
-            [cell.studentStarRatingView changeStarForegroundViewWithPoint:CGPointMake([starNum doubleValue]/5*CGRectGetWidth(cell.myStarView.frame), 0)];
-            
-            cell.studentTitleLabel.text = @"学员对我的评价";
-            //设置评价内容
-            NSString *content = [CommonUtil isEmpty:studentScoreDic[@"content"]]?@"暂无":studentScoreDic[@"content"];
-            cell.studentContentLabel.text = content;
-            
-            CGFloat height = 25;
-            
-            //最多显示两行
-            CGSize size = [CommonUtil sizeWithString:content fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) sizeheight:MAXFLOAT];
-            if (ceil(size.height) > 25) {
-                height = 40;
-            }
-            cell.studentScoreHeightConstraint.constant = 268 - 25 + height;
-        }
+//        //判断学员是否评价过
+//        NSDictionary *studentScoreDic = dic[@"studentscore"];
+//        if (studentScoreDic == nil || studentScoreDic.count == 0) {
+//            //没有评价过
+//
+//            cell.studentCommentDetailsBtn.hidden = YES;
+//            
+//            cell.studentTitleLabel.text = @"该学员尚未评价";
+//            cell.studentContentLabel.text = @"";
+//            cell.studentScoreHeightConstraint.constant = 268 - 41;
+//        }else{
+//            //已经评价过
+//            cell.studentCommentDetailsBtn.hidden = NO;
+//            
+//            //设置星级
+//            NSString *starNum = [studentScoreDic[@"score"] description];
+//            [cell.studentStarRatingView changeStarForegroundViewWithPoint:CGPointMake([starNum doubleValue]/5*CGRectGetWidth(cell.myStarView.frame), 0)];
+//            
+//            cell.studentTitleLabel.text = @"学员对我的评价";
+//            //设置评价内容
+//            NSString *content = [CommonUtil isEmpty:studentScoreDic[@"content"]]?@"暂无":studentScoreDic[@"content"];
+//            cell.studentContentLabel.text = content;
+//            
+//            CGFloat height = 25;
+//            
+//            //最多显示两行
+//            CGSize size = [CommonUtil sizeWithString:content fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) sizeheight:MAXFLOAT];
+//            if (ceil(size.height) > 25) {
+//                height = 40;
+//            }
+//            cell.studentScoreHeightConstraint.constant = 268 - 25 + height;
+//        }
         cell.myCommentDetailsBtn.tag = indexPath.row;
         [cell.myCommentDetailsBtn addTarget:self action:@selector(myCommentDetailShow:) forControlEvents:UIControlEventTouchUpInside];
         

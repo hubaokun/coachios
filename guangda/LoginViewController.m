@@ -38,7 +38,6 @@
     self.loginBtnOutlet.layer.cornerRadius = 3;
     self.userName.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.passWord.clearButtonMode = UITextFieldViewModeWhileEditing;
-    
     self.vcodeButton.layer.cornerRadius = 3;
     [self.vcodeButton setTitle:@"  获取\n验证码" forState:UIControlStateNormal];
     
@@ -71,6 +70,23 @@
     if(![CommonUtil isEmpty:self.errMessage]){
         [self makeToast:self.errMessage];
     }
+}
+
+-(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.userName) {
+        if (range.location==11)
+        {
+            return  NO;
+        }
+        else
+        {
+            return YES;
+        }
+    }
+    
+    return YES;
+    
 }
 
 - (void)didReceiveMemoryWarning {

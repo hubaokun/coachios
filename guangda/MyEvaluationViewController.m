@@ -247,9 +247,8 @@
         //cell.evaluationContent = @"教的很专业教的很专业教的很专业教的很专业教的很专业教的很专业教的很专业教的很专业教的很专业教的很专业";
         
         cell.studentInfoBtn.tag = indexPath.row;
-        [cell.studentInfoBtn addTarget:self action:@selector(clickForStudentMyInfo:) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.studentInfoBtn addTarget:self action:@selector(clickForStudentMyInfo:) forControlEvents:UIControlEventTouchUpInside];
         [cell loadData:nil];
-        
         if (indexPath.row == (myDataArr.count -1)) {
             [_pullToMore tableViewReloadFinished];
         }
@@ -351,9 +350,8 @@
         
         //cell.complainContent = @"#服务态度差#教练教的一般般，脾气却很大，2小时有1.5小时在煲电话粥，都没怎么教，收费还很高...";
         cell.studentInfoBtn.tag = indexPath.row;
-        [cell.studentInfoBtn addTarget:self action:@selector(clickForStudentMyInfo:) forControlEvents:UIControlEventTouchUpInside];
+//        [cell.studentInfoBtn addTarget:self action:@selector(clickForStudentMyInfo:) forControlEvents:UIControlEventTouchUpInside];
         [cell loadData:nil];
-        
         if (indexPath.row == (myDataArr.count - 1)) {
             [_pullToMore tableViewReloadFinished];
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -15,11 +15,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="portrait2_complain" translatesAutoresizingMaskIntoConstraints="NO" id="4u6-2M-ew0">
-                        <rect key="frame" x="11" y="17" width="35" height="38"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_portrait_default" translatesAutoresizingMaskIntoConstraints="NO" id="4u6-2M-ew0">
+                        <rect key="frame" x="11" y="17" width="35" height="35"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="35" id="GeO-a5-c0o"/>
-                            <constraint firstAttribute="height" constant="38" id="Tbq-nX-Kiq"/>
+                            <constraint firstAttribute="height" constant="35" id="Tbq-nX-Kiq"/>
                         </constraints>
                     </imageView>
                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_dealed" translatesAutoresizingMaskIntoConstraints="NO" id="sDf-Ga-FBT">
@@ -89,6 +89,15 @@
                             <constraint firstAttribute="height" constant="1" id="8PS-ri-mRC"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-01-14 9:00~11:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3M7-G9-rNB">
+                        <rect key="frame" x="121" y="93" width="176" height="13"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="13" id="4ZX-hD-Cfb"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y4c-Fz-9co" userLabel="studentinfo">
                         <rect key="frame" x="11" y="17" width="35" height="35"/>
                         <constraints>
@@ -99,15 +108,6 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-01-14 9:00~11:00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3M7-G9-rNB">
-                        <rect key="frame" x="121" y="93" width="176" height="13"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="13" id="4ZX-hD-Cfb"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="YuB-kf-fUx" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="9" id="1De-h5-gXr"/>
@@ -157,6 +157,6 @@
     </objects>
     <resources>
         <image name="icon_dealed" width="50" height="17"/>
-        <image name="portrait2_complain" width="34" height="37"/>
+        <image name="icon_portrait_default" width="82" height="82"/>
     </resources>
 </document>

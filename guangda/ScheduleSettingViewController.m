@@ -17,6 +17,8 @@
     UILabel *myView1;
     UILabel *myView2;
     UILabel *myView3;
+    NSString *minPrice;
+    NSString *maxPrice;
 }
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
@@ -74,7 +76,7 @@
     array10 = @[@"5",@"6",@"7",@"8",@"9"];
     array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     
-    self.priceTextField.enabled = NO;
+//    self.priceTextField.enabled = NO;
     
     // 点击背景退出键盘
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(backupgroupTap:)];
@@ -134,6 +136,9 @@
     //教学内容
     NSString *subject = [CommonUtil isEmpty:self.timeDic[@"subject"]]?@"":self.timeDic[@"subject"];
     self.contentTextField.text = subject;
+    
+    minPrice = @"50";
+    maxPrice = @"500";
     
     self.addressId = self.timeDic[@"addressid"];
     self.subjectId = self.timeDic[@"subjectid"];
@@ -300,10 +305,14 @@
 // 结束编辑，铅笔变灰
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     if ([textField isEqual:self.priceTextField]) {
-        self.pricePencilBtn.selected = NO;
-        self.view.frame = self.viewRect;
+        if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue]) {
+            self.pricePencilBtn.selected = NO;
+            self.view.frame = self.viewRect;
+        }else{
+            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",minPrice,maxPrice]];
+            [self.priceTextField becomeFirstResponder];
+        }
     }
-    
 }
 
 #pragma mark - 监听
@@ -427,28 +436,16 @@
 
 //价格
 - (IBAction)clickForPrice:(id)sender {
-        [self.selectArray removeAllObjects];
-//    if ([self.priceTextField.text intValue] <=500 && [self.priceTextField.text intValue] >=50) {
-//        if (self.priceTextField.text.length == 2) {
-//            NSString *str1 = [self.priceTextField.text substringWithRange:NSMakeRange(0, 1)];
-//            NSString *str2 = [self.priceTextField.text substringWithRange:NSMakeRange(1, 1)];
-//            [self.pricePickerView selectRow:0 inComponent:0 animated:YES];
-//            [self.pricePickerView selectRow:[str1 intValue]-5 inComponent:1 animated:YES];
-//            [self.pricePickerView selectRow:[str2 intValue] inComponent:2 animated:YES];
-//        }
-//        if (self.priceTextField.text.length == 3) {
-//            NSString *str1 = [self.priceTextField.text substringWithRange:NSMakeRange(0, 1)];
-//            NSString *str2 = [self.priceTextField.text substringWithRange:NSMakeRange(1, 1)];
-//            NSString *str3 = [self.priceTextField.text substringWithRange:NSMakeRange(2, 1)];
-//            [self.pricePickerView selectRow:[str1 intValue] inComponent:0 animated:YES];
-//            [self.pricePickerView selectRow:[str2 intValue] inComponent:1 animated:YES];
-//            [self.pricePickerView selectRow:[str3 intValue] inComponent:2 animated:YES];
-//        }
+//        [self.selectArray removeAllObjects];
+//        self.selectView2.frame = self.view.frame;
+//        [self.view addSubview:self.selectView2];
+//        self.selectPickerTag = @"1";
+//        [self.pricePickerView reloadAllComponents];
+//    if (self.priceTextField.isFirstResponder) {
+//        [self.priceTextField resignFirstResponder];
+//    }else{
+        [self.priceTextField becomeFirstResponder];
 //    }
-        self.selectView2.frame = self.view.frame;
-        [self.view addSubview:self.selectView2];
-        self.selectPickerTag = @"1";
-        [self.pricePickerView reloadAllComponents];
 }
 
 //选择地址
@@ -556,6 +553,7 @@
     if (self.comfirmBtn.selected) {
         
             NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue]) {
             if ([CommonUtil isEmpty:price]) {
                 [self makeToast:@"请输入时间单价"];
                 [self.priceTextField becomeFirstResponder];
@@ -571,10 +569,13 @@
                 [self makeToast:@"请选择教学内容"];
                 return;
             }
-        
-        [self.priceTextField resignFirstResponder];
-        
-        [self comfirmMsg];
+            
+            [self.priceTextField resignFirstResponder];
+            
+            [self comfirmMsg];
+        }else{
+            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",minPrice,maxPrice]];
+        }
     }
 }
 

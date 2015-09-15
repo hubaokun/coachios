@@ -27,5 +27,6 @@
 #import "ASIFormDataRequest.h"
 #import "JSON.h"
 #import "UIImageView+WebCache.h"
+#import "UIView+Frame.h"
 
 #endif

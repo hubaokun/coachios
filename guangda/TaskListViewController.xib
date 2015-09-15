@@ -331,6 +331,9 @@
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="closeAdvertisementView:" destination="-1" eventType="touchUpInside" id="gTy-jt-Ioh"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -344,24 +347,11 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dhv-h6-Gfi">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OuB-td-aUS">
-                            <rect key="frame" x="155" y="110" width="290" height="381"/>
-                            <constraints>
-                                <constraint firstAttribute="width" constant="290" id="ENG-jw-Iaw"/>
-                                <constraint firstAttribute="height" constant="381" id="umx-2k-MRE"/>
-                            </constraints>
-                            <state key="normal" backgroundImage="im_id-error">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="openAdvertisement:" destination="-1" eventType="touchUpInside" id="6lX-zc-YWC"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0U-aU-3wB">
-                            <rect key="frame" x="385" y="49" width="60" height="61"/>
+                            <rect key="frame" x="385" y="20" width="60" height="61"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="60" id="46x-sL-blm"/>
-                                <constraint firstAttribute="height" constant="61" id="IVm-V3-s9e"/>
+                                <constraint firstAttribute="height" constant="61" id="QIm-K2-pws"/>
+                                <constraint firstAttribute="width" constant="60" id="arj-km-qw3"/>
                             </constraints>
                             <state key="normal" image="ic_close">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -370,13 +360,26 @@
                                 <action selector="closeAdvertisementView:" destination="-1" eventType="touchUpInside" id="LbI-uV-R33"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OuB-td-aUS">
+                            <rect key="frame" x="155" y="81" width="290" height="381"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="381" id="HtA-gb-C3i"/>
+                                <constraint firstAttribute="width" constant="290" id="z4Z-eO-hxZ"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="im_id-error">
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="openAdvertisement:" destination="-1" eventType="touchUpInside" id="6lX-zc-YWC"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="centerY" secondItem="OuB-td-aUS" secondAttribute="centerY" constant="-0.5" id="B9G-LV-wqZ"/>
-                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" id="C7n-n1-QiN"/>
-                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="OOr-rq-cDW"/>
-                        <constraint firstAttribute="centerX" secondItem="OuB-td-aUS" secondAttribute="centerX" id="taT-UC-8t3"/>
+                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="9Jl-VJ-K3U"/>
+                        <constraint firstAttribute="centerX" secondItem="OuB-td-aUS" secondAttribute="centerX" id="DDV-TB-trc"/>
+                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="dhv-h6-Gfi" secondAttribute="top" constant="81" id="WTE-BV-Ucr"/>
+                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" id="xdV-MN-UrL"/>
                     </constraints>
                 </view>
             </subviews>

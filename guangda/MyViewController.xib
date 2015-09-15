@@ -1091,7 +1091,7 @@
                                         <action selector="clickForCoinRuleView:" destination="-1" eventType="touchUpInside" id="yk2-1P-kU9"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="兑换小巴券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbn-Jw-5Xy">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的小巴券" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbn-Jw-5Xy">
                                     <rect key="frame" x="0.0" y="15" width="528" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="131" id="Aqa-Yp-hrO"/>
@@ -1272,7 +1272,7 @@
                                         <action selector="clickForCoinRuleView:" destination="-1" eventType="touchUpInside" id="xBT-jg-nwo"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="兑换小巴币" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8y-Jo-dYs">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的小巴币" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X8y-Jo-dYs">
                                     <rect key="frame" x="0.0" y="15" width="528" height="22"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="22" id="jSt-Qe-1Lu"/>

@@ -146,6 +146,14 @@
     
     needRefresh = YES;
     firstIN = YES;
+    
+    [self.allSelectButton setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
+    [self.allSelectButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [self.allSelectButton setImage:[UIImage imageNamed:@"btn_checkbox_unchecked"] forState:UIControlStateNormal];
+    [self.allSelectButton setImage:[UIImage imageNamed:@"btn_checkbox_checked"] forState:UIControlStateSelected];
+    [self.allSelectButton addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
+    self.allSelectButton.date = @"-1";
+    
 }
 
 - (IBAction)clickTest:(id)sender {
@@ -215,6 +223,7 @@
         app.needOpenSchedule = @"0";
     }
     needRefresh = YES;
+    
 }
 
 
@@ -1636,11 +1645,6 @@
             [self.allSelectButton setAttributedTitle:str1 forState:UIControlStateNormal];
             self.allSelectButton.date = @"-1";
         }
-        [self.allSelectButton setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
-        [self.allSelectButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-        [self.allSelectButton addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
-        [self.allSelectButton setImage:[UIImage imageNamed:@"btn_checkbox_unchecked"] forState:UIControlStateNormal];
-        [self.allSelectButton setImage:[UIImage imageNamed:@"btn_checkbox_checked"] forState:UIControlStateSelected];
     }
     
     [dic setObject:selectDic forKey:key1];
@@ -2156,6 +2160,7 @@
                 firstIN = NO;
                 [self testOpenOrCloseView];
             }
+            [self testOpenOrCloseView];
             [DejalBezelActivityView removeViewAnimated:YES];
         }
     } else if([code intValue] == 95) {

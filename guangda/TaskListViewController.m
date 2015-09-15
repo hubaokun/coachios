@@ -535,9 +535,11 @@
 //打开光该
 - (IBAction)openAdvertisement:(id)sender {
     if ([self.advertisementUrl isEqualToString:@"recommend"]) {
+        [self.advertisementView removeFromSuperview];
         RecommendPrizeViewController *nextViewController = [[RecommendPrizeViewController alloc] initWithNibName:@"RecommendPrizeViewController" bundle:nil];
         [self.navigationController pushViewController:nextViewController animated:YES];
     }else{
+        [self.advertisementView removeFromSuperview];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
     }
     
