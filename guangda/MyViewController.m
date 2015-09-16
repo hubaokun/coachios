@@ -29,6 +29,7 @@
 #import "APAuthV2Info.h"
 #import "RecommendPrizeViewController.h"
 #import "ConvertCoinViewController.h"
+#import "SendCouponViewController.h"
 #import "UILabel+StringFrame.h"
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
@@ -144,7 +145,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 80);
+    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 190);
     
 }
 
@@ -770,6 +771,17 @@
     SetAddrViewController *targetViewController = [[SetAddrViewController alloc] initWithNibName:@"SetAddrViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
+//发放小巴券
+- (IBAction)clickForSendCoupon:(id)sender {
+    SendCouponViewController *targetViewController = [[SendCouponViewController alloc] initWithNibName:@"SendCouponViewController" bundle:nil];
+    [self.navigationController pushViewController:targetViewController animated:YES];
+}
+
+//在线客服
+- (IBAction)clickForOnlineServe:(id)sender {
+    [self makeToast:@"暂未开放"];
+}
+
 
 // 教学内容设置
 - (IBAction)clickToSetTeachView:(id)sender{
