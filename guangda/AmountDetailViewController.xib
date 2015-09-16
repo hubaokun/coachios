@@ -609,7 +609,7 @@
     </objects>
     <resources>
         <image name="account_back" width="13" height="11"/>
-        <image name="ic_tips" width="9" height="9"/>
+        <image name="ic_tips" width="12" height="12"/>
         <image name="im_byebye" width="67" height="95"/>
         <image name="shadow_grey" width="320" height="568"/>
         <image name="toast_close" width="15" height="15"/>

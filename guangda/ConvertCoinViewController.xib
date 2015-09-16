@@ -47,7 +47,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="OfI-0w-XjB"/>
+                                <action selector="backClick:" destination="-1" eventType="touchUpInside" id="Lcn-s2-JSG"/>
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line_navibottom" translatesAutoresizingMaskIntoConstraints="NO" id="eN9-6t-lBd">
@@ -274,7 +274,7 @@
                                 <constraint firstAttribute="height" constant="21" id="oey-t4-sQb"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>

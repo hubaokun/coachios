@@ -8,7 +8,8 @@
 
 #import "SendCouponViewController.h"
 #import "SendCouponRecordViewController.h"
-@interface SendCouponViewController ()
+#import "SendCouponTableViewCell.h"
+@interface SendCouponViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property (strong, nonatomic) IBOutlet UIView *phoneView;
 @property (strong, nonatomic) IBOutlet UIView *couponNumView;
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *phoneNumberTextField;
 @property (strong, nonatomic) IBOutlet UITextField *couponNumberTextField;
 
+@property (strong, nonatomic) IBOutlet UITableView *userListTableView;
 @end
 
 @implementation SendCouponViewController
@@ -34,11 +36,78 @@
     self.couponNumView.layer.borderColor = RGB(210, 210, 210).CGColor;
     self.couponNumView.layer.borderWidth = 0.8;
     
+    self.userListTableView.delegate = self;
+    self.userListTableView.dataSource = self;
+    self.userListTableView.layer.borderColor = RGB(210, 210, 210).CGColor;
+    self.userListTableView.layer.borderWidth = 0.8;
+    self.userListTableView.hidden = YES;
+    
+    [self.phoneNumberTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    self.phoneNumberTextField.delegate = self;
     self.signLabel.hidden = YES;
 }
-- (IBAction)clickForSendCoupon:(id)sender {
-    
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField == self.phoneNumberTextField) {
+        self.userListTableView.hidden = NO;
+    }
 }
+//在UITextField 编辑完成调用方法
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == self.phoneNumberTextField) {
+        self.userListTableView.hidden = YES;
+    }
+}
+- (void) textFieldDidChange:(UITextField *) TextField{
+    if (TextField == self.phoneNumberTextField) {
+        self.userListTableView.hidden = NO;
+    }
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.phoneNumberTextField resignFirstResponder];
+    [self.couponNumberTextField resignFirstResponder];
+}
+
+#pragma mark - UITableViewDelegate
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 8;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 30;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *cellident = @"SendCouponTableViewCell";
+    SendCouponTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellident];
+    if (!cell) {
+        [tableView registerNib:[UINib nibWithNibName:@"SendCouponTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
+        cell = [tableView dequeueReusableCellWithIdentifier:cellident];
+    }
+    cell.textLabel.text = @"12333333333  李敏镐";
+    
+//    NSString *count = @"32";
+//    NSString *Count1 = [NSString stringWithFormat:@"%@张",count];
+//    NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:Count1];
+//    [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, count.length)];
+//    [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(count.length, 1)];
+//    cell.couponCount.attributedText = str1;
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (IBAction)clickForSendCoupon:(id)sender {
+    [self.userListTableView reloadData];
+}
+
 //查看发放记录
 - (IBAction)clickForSendRecord:(id)sender {
     SendCouponRecordViewController *nextController = [[SendCouponRecordViewController alloc] initWithNibName:@"SendCouponRecordViewController" bundle:nil];

@@ -29,7 +29,8 @@
 #import "APAuthV2Info.h"
 #import "RecommendPrizeViewController.h"
 #import "ConvertCoinViewController.h"
-#import "SendCouponViewController.h"
+#import "CouponNavigateViewController.h"
+#import "PurseNavigationViewController.h"
 #import "UILabel+StringFrame.h"
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
@@ -145,7 +146,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 190);
+    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 100);
     
 }
 
@@ -216,76 +217,39 @@
         if ([CommonUtil isEmpty:money]) {
             money = @"0";
         }
-        NSString *money1 = [NSString stringWithFormat:@"%@元", money];
-//        [self.moneyBtn setTitle:money forState:UIControlStateNormal];
-        
-//        NSInteger moneyf = 0;
-//        NSInteger fmoneyf = 0;
-//        NSInteger gmoneyf = 0;
+//        NSString *money1 = [NSString stringWithFormat:@"%@元", money];
 //        
-//        // 保证金及冻结金额
-//        if (![CommonUtil isEmpty:gMoney]){
-//            gmoneyf = [gMoney integerValue];
-//        }
-//        if (![CommonUtil isEmpty:moneyFrozen]) {
-//            fmoneyf = [moneyFrozen integerValue];
-//        }
-//        
-//        if (![CommonUtil isEmpty:userInfo[@"money"]]) {
-//            moneyf = [userInfo[@"money"] integerValue];
-//        }
-//        
-//        NSInteger temp = moneyf - gmoneyf;
-//        if(temp < 0){
-//            temp = 0;
-//        }
-//        
-//        
-//        gMoney = [NSString stringWithFormat:@"%ld",(long)temp];
-//        moneyFrozen = [NSString stringWithFormat:@"%ld",(long)fmoneyf];
-//        
-//        NSString *moneyStr = [NSString stringWithFormat:@"(%@元可提现 / %@元冻结金额)", gMoney, moneyFrozen];
-//        
-//        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:moneyStr];
-//        [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(1,gMoney.length)];
-//        [str addAttribute:NSForegroundColorAttributeName value:RGB(228, 228, 228) range:NSMakeRange(6 + gMoney.length,1)];
-//        [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(moneyStr.length - 6 - moneyFrozen.length,moneyFrozen.length)];
-        
-        NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money1];
-        [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money.length)];
-        [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
-        self.cashLabel.attributedText = str1;
+//        NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money1];
+//        [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money.length)];
+//        [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
+        self.cashLabel.text = [NSString stringWithFormat:@"%@",money];
         
         //小巴券时间
         int couponhour = [userInfo[@"couponhour"] intValue];
         
-        NSString *xiaobaTicketTime = [NSString stringWithFormat:@"%d张", couponhour];
-        
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
-        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,[NSString stringWithFormat:@"%d",couponhour].length)];
-        [string addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange([NSString stringWithFormat:@"%d",couponhour].length, 1)];
-        self.xiaobaTicketLabel.attributedText = string;
+//        NSString *xiaobaTicketTime = [NSString stringWithFormat:@"%d张", couponhour];
+//        
+//        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
+//        [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,[NSString stringWithFormat:@"%d",couponhour].length)];
+//        [string addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange([NSString stringWithFormat:@"%d",couponhour].length, 1)];
+        self.xiaobaTicketLabel.text = [NSString stringWithFormat:@"%d",couponhour];
         
         //小巴币个数
         NSString *coinnum = [userInfo[@"coinnum"] description];
-        NSString *coinnumStr;
-        if (coinnum) {
-            coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
-        }else{
-            coinnum = @"0";
-            coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
-        }
-        
-        NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
-        [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
-        [string2 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(coinnum.length, 1)];
-        self.xiaobaCoinLabel.attributedText = string2;
-        
-        //
-        float score = [userInfo[@"score"] floatValue];
-//        if(!self.starView){
-//            
+//        NSString *coinnumStr;
+//        if (coinnum) {
+//            coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
+//        }else{
+//            coinnum = @"0";
+//            coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
 //        }
+//        
+//        NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
+//        [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
+//        [string2 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(coinnum.length, 1)];
+        self.xiaobaCoinLabel.text = coinnum;
+        
+        float score = [userInfo[@"score"] floatValue];
         UILabel *label1 = [UILabel new];
         label1.text = self.nameLabel.text;
         label1.font =  [UIFont systemFontOfSize:20];
@@ -773,7 +737,7 @@
 }
 //发放小巴券
 - (IBAction)clickForSendCoupon:(id)sender {
-    SendCouponViewController *targetViewController = [[SendCouponViewController alloc] initWithNibName:@"SendCouponViewController" bundle:nil];
+    CouponNavigateViewController *targetViewController = [[CouponNavigateViewController alloc] initWithNibName:@"CouponNavigateViewController" bundle:nil];
     [self.navigationController pushViewController:targetViewController animated:YES];
 }
 
@@ -815,7 +779,7 @@
 
 //充值
 - (IBAction)clickForChongzhi:(id)sender {
-    AmountDetailViewController *nextViewController = [[AmountDetailViewController alloc] initWithNibName:@"AmountDetailViewController" bundle:nil];
+    PurseNavigationViewController *nextViewController = [[PurseNavigationViewController alloc] initWithNibName:@"PurseNavigationViewController" bundle:nil];
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
@@ -1088,20 +1052,20 @@
                 couponhour = @"0";
             }
             
-            NSString *xiaobaTicketTime = [NSString stringWithFormat:@"%@张", couponhour];
-            
-            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
-            [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,couponhour.length)];
-            [string addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(couponhour.length, 1)];
-            self.xiaobaTicketLabel.attributedText = string;
+//            NSString *xiaobaTicketTime = [NSString stringWithFormat:@"%@张", couponhour];
+//            
+//            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:xiaobaTicketTime];
+//            [string addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,couponhour.length)];
+//            [string addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(couponhour.length, 1)];
+            self.xiaobaTicketLabel.text = [NSString stringWithFormat:@"%@",couponhour];
             
             NSString *coinnum = [result[@"coinnum"] description];//小巴币个数
             
-            NSString *coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
-            NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
-            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
-            [string2 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(coinnum.length, 1)];
-            self.xiaobaCoinLabel.attributedText = string2;
+//            NSString *coinnumStr = [NSString stringWithFormat:@"%@个",coinnum];
+//            NSMutableAttributedString *string2 = [[NSMutableAttributedString alloc] initWithString:coinnumStr];
+//            [string2 addAttribute:NSForegroundColorAttributeName value:RGB(32, 180, 120) range:NSMakeRange(0,coinnum.length)];
+//            [string2 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(coinnum.length, 1)];
+            self.xiaobaCoinLabel.text = coinnum;
             
 //            NSInteger temp = [result[@"money"] integerValue] - [gmoney integerValue];
 //            if(temp < 0){
@@ -1117,12 +1081,12 @@
 //            [str addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(moneyStr.length - 6 - fmoney.length,fmoney.length)];
 //            self.cashLabel.attributedText = str;
 
-            NSString *money1 = [NSString stringWithFormat:@"%@元",money];
-            
-            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money1];
-            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money.length)];
-            [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
-            self.cashLabel.attributedText = str1;
+//            NSString *money1 = [NSString stringWithFormat:@"%@元",money];
+//            
+//            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:money1];
+//            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(246, 102, 93) range:NSMakeRange(0, money.length)];
+//            [str1 addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(money.length, 1)];
+            self.cashLabel.text = money;
             
         }else if (request.tag == 5){
             NSString *partner = [result[@"partner"] description];//合作者身份ID

@@ -13,6 +13,7 @@
                 <outlet property="phoneView" destination="jkk-Dv-rbW" id="Jef-pF-FUA"/>
                 <outlet property="sendButton" destination="IkA-tg-Hdd" id="tWL-ye-ggI"/>
                 <outlet property="signLabel" destination="LCM-hy-O3b" id="bcV-FV-dg0"/>
+                <outlet property="userListTableView" destination="QTf-nD-Wux" id="YYu-b5-0Ix"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -172,7 +173,7 @@
                         <constraint firstAttribute="height" constant="21" id="2k5-GX-7rJ"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IkA-tg-Hdd">
@@ -202,6 +203,13 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QTf-nD-Wux">
+                    <rect key="frame" x="94" y="119" width="494" height="221"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="221" id="Gql-sf-8Pq"/>
+                    </constraints>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -216,12 +224,15 @@
                 <constraint firstItem="TrV-G2-KHY" firstAttribute="top" secondItem="NYi-H9-VSG" secondAttribute="bottom" constant="4" id="ThK-Rl-W4W"/>
                 <constraint firstItem="NYi-H9-VSG" firstAttribute="top" secondItem="LCM-hy-O3b" secondAttribute="bottom" id="VKF-21-6Nu"/>
                 <constraint firstItem="LCM-hy-O3b" firstAttribute="top" secondItem="jkk-Dv-rbW" secondAttribute="bottom" id="YGr-TJ-rkG"/>
+                <constraint firstAttribute="trailing" secondItem="QTf-nD-Wux" secondAttribute="trailing" constant="12" id="Yds-6X-Ziv"/>
+                <constraint firstItem="QTf-nD-Wux" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="94" id="aB3-py-e9i"/>
                 <constraint firstAttribute="trailing" secondItem="LCM-hy-O3b" secondAttribute="trailing" constant="12" id="cDA-vK-k2z"/>
                 <constraint firstAttribute="trailing" secondItem="IkA-tg-Hdd" secondAttribute="trailing" constant="12" id="g1k-LV-dir"/>
                 <constraint firstAttribute="trailing" secondItem="W5I-Pb-jgB" secondAttribute="trailing" id="klo-aF-COY"/>
                 <constraint firstItem="IkA-tg-Hdd" firstAttribute="top" secondItem="TrV-G2-KHY" secondAttribute="bottom" constant="20" id="tSw-MM-GeV"/>
                 <constraint firstAttribute="trailing" secondItem="NYi-H9-VSG" secondAttribute="trailing" constant="12" id="v35-D4-4bR"/>
                 <constraint firstItem="TrV-G2-KHY" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="12" id="xVX-1Z-ZMn"/>
+                <constraint firstItem="QTf-nD-Wux" firstAttribute="top" secondItem="W5I-Pb-jgB" secondAttribute="bottom" constant="55" id="yxD-L5-zRQ"/>
             </constraints>
         </view>
     </objects>
