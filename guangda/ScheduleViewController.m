@@ -15,6 +15,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import "ScheduleDetailViewController.h"
+#import "CoachInfoViewController.h"
 @interface ScheduleViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, CustomTabBarDelegate>{
     BOOL isCloseDate;
     CGRect dateFrame;
@@ -1101,6 +1102,41 @@
     
 }
 
+- (void)compareStartDate:(NSDate *)date1 endDate:(NSDate *)nowDate{
+    //判断下一个月是否可以点击
+    NSDate *endDate = [CommonUtil addDate2:date1 year:0 month:1 day:0];
+    endDate = [CommonUtil getFirstDayOfDate:endDate];
+    NSDate *endDate1 = [CommonUtil addDate2:nowDate year:0 month:1 day:0];
+    endDate1 = [CommonUtil getFirstDayOfDate:endDate1];
+    if ([endDate compare:endDate1] == NSOrderedAscending) {
+        //小于，可以点击
+        self.rightBtn.selected = NO;
+        self.rightBtn.userInteractionEnabled = YES;
+    }else{
+        self.rightBtn.selected = YES;
+        self.rightBtn.userInteractionEnabled = NO;
+    }
+    
+    //判断上一个月是否可以点击
+    date1 = [CommonUtil getFirstDayOfDate:date1];
+    nowDate = [CommonUtil getFirstDayOfDate:nowDate];
+    
+    if ([date1 compare:nowDate] == NSOrderedDescending) {
+        //大于当前月
+        self.leftBtn.selected = NO;
+        self.leftBtn.userInteractionEnabled = YES;
+        //选中日期默认1号
+        self.selectDate = date1;
+    }else{
+        //当前月
+        self.leftBtn.selected = YES;
+        self.leftBtn.userInteractionEnabled = NO;
+        //选中日期默认今天
+        self.selectDate = self.nowDate;
+    }
+    
+}
+
 //更新选中的时间区间描述
 - (void)updateSelectTimeDesc{
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
@@ -1287,12 +1323,24 @@
             self.writeScheduleButton.hidden = YES;
             self.sureIssueButton.hidden = YES;
             self.stopClassButton.hidden = NO;
+            //全选按钮
+            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:@" 全选（已开课）"];
+            [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(3, 5)];
+            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(68, 68, 68) range:NSMakeRange(0,8)];
+            [self.allSelectButton setAttributedTitle:str1 forState:UIControlStateNormal];
+            self.allSelectButton.date = @"-2";
         }
         NSMutableArray *restArray = [NSMutableArray arrayWithArray:selectDic[@"restArray"]];
         if ([restArray containsObject:array[0]]) {
             self.writeScheduleButton.hidden = NO;
             self.sureIssueButton.hidden = NO;
             self.stopClassButton.hidden = YES;
+            //全选按钮
+            NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:@" 全选（未开课）"];
+            [str1 addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(3, 5)];
+            [str1 addAttribute:NSForegroundColorAttributeName value:RGB(68, 68, 68) range:NSMakeRange(0,8)];
+            [self.allSelectButton setAttributedTitle:str1 forState:UIControlStateNormal];
+            self.allSelectButton.date = @"-1";
         }
         self.openOrCloseClassView.hidden = NO;
     }
@@ -1397,6 +1445,7 @@
 
 //选择时间（）
 - (void)clickForChoose:(DateButton *)button{
+    [self testOpenOrCloseView];
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
     if (dic == nil) {
@@ -1656,7 +1705,7 @@
     }
     
     [self.calenderDic setObject:dic forKey:chooseTime];
-    
+    [self testOpenOrCloseView];
     [self.mainTableView reloadData];
 }
 
@@ -1715,6 +1764,14 @@
 
 #pragma mark 批量设置
 - (IBAction)clickForUpdateTime:(id)sender{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *cityid = [userInfo[@"cityid"] description];
+    if (cityid.length == 0 || cityid) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"请先设置您所在的城市" delegate:self cancelButtonTitle:@"前去设置" otherButtonTitles: nil];
+        alert.tag = 1;
+        [alert show];
+        return;
+    }
     
     NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
     NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
@@ -2133,7 +2190,7 @@
                 self.endDate = [CommonUtil addDate2:self.nowDate year:0 month:0 day:maxdays];
                 
                 isUpdateDate = NO;
-                [self compareBeforeDate:self.selectDate nowDate:self.nowDate];
+                [self compareStartDate:self.selectDate endDate:self.endDate];
             }
             
             [self handelCalender];//整理数据
@@ -2216,9 +2273,16 @@
 
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    //跳转至地址列表画面
-    SetAddrViewController *nextViewController = [[SetAddrViewController alloc] initWithNibName:@"SetAddrViewController" bundle:nil];
-    [self.navigationController pushViewController:nextViewController animated:YES];
+    if (alertView.tag == 1) {
+        CoachInfoViewController *nextViewController = [[CoachInfoViewController alloc] initWithNibName:@"CoachInfoViewController" bundle:nil];
+        nextViewController.superViewNum = @"1";
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }else{
+        //跳转至地址列表画面
+        SetAddrViewController *nextViewController = [[SetAddrViewController alloc] initWithNibName:@"SetAddrViewController" bundle:nil];
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
+    
 }
 
 #pragma mark - private

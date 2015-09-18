@@ -34,6 +34,7 @@
 #define kOrderServlet       [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"sorder"]
 #define kAdvertisement         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"adver"]    //广告专用
 #define kRecommend         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"recomm"]   //推荐专用
+#define kLocation         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"location"]   //推荐专用
 
 #define APP_VERSION    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 

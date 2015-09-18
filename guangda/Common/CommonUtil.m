@@ -332,6 +332,10 @@ static CommonUtil *defaultUtil = nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     //设定时间格式,这里可以设置成自己需要的格式
     [dateFormatter setDateFormat:format];
+    if ([format isEqualToString:@"yyyy-MM-dd 00:00:00"] && string.length == 10) {
+        NSMutableString *string1 = [NSMutableString stringWithFormat:@"%@ 00:00:00",string];
+        string = string1;
+    }
     
     return [dateFormatter dateFromString:string];
 }

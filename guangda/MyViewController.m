@@ -96,6 +96,7 @@
 
 @property (strong, nonatomic) IBOutlet UIView *ruleBackView;
 
+@property (strong, nonatomic) IBOutlet UIView *dataBackView;
 - (IBAction)clickForRecommendPrize:(id)sender;
 @end
 
@@ -146,7 +147,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     self.mainScrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    self.mainScrollView.contentSize = CGSizeMake(0, [UIScreen mainScreen].bounds.size.height + 100);
+    self.mainScrollView.contentSize = CGSizeMake(0, self.dataBackView.height + self.dataBackView.y - 60);
     
 }
 

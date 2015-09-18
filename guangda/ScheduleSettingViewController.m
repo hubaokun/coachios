@@ -54,6 +54,7 @@
 @property (strong, nonatomic) NSString *selectPickerTag;//选中的标记
 
 @property (nonatomic) CGRect viewRect;
+@property (weak, nonatomic) IBOutlet UILabel *timePriceLabel;
 
 - (IBAction)clickForback:(id)sender;
 
@@ -84,6 +85,7 @@
     [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     
+    [self getAutoPosition];
     [self getAddressData];
     [self getContentData];
     [self initView];
@@ -105,8 +107,8 @@
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)initView{
@@ -387,6 +389,7 @@
 #pragma mark - private
 - (void)backupgroupTap:(id)sender{
     [self.priceTextField resignFirstResponder];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark - action
@@ -590,6 +593,18 @@
     [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
     [request startAsynchronous];
 }
+//获取价格区间
+- (void)getAutoPosition{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kLocation]];
+    request.tag = 3;
+    request.delegate = self;
+    [request setPostValue:@"getAutoPosition" forKey:@"action"];
+    [request setPostValue:[userInfo[@"coachid"] description] forKey:@"coachid"];
+    [request setPostValue:[userInfo[@"cityid"] description] forKey:@"cityid"];
+    [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
+    [request startAsynchronous];
+}
 
 //获取教学内容
 - (void)getContentData{
@@ -709,6 +724,10 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             app.needOpenSchedule = @"1";
             [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:self.allDayArray];
+        }else if (request.tag == 3){
+            minPrice = [result[@"minprice"] description];
+            maxPrice = [result[@"maxprice"] description];
+            self.timePriceLabel.text = [NSString stringWithFormat:@"时间单价 (元/小时) 价格区间为%@~%@元",minPrice,maxPrice];
         }
     }else if([code intValue] == 95){
         [self makeToast:message];
@@ -744,8 +763,10 @@
 
 - (IBAction)clickForback:(id)sender {
     if (self.comfirmBtn.selected == YES) {   //添加一个退出的提示，防止教练在不经意的情况下退出了。
+        [self.priceTextField resignFirstResponder];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请点击保存让您的修改生效" delegate:self cancelButtonTitle:@"保存" otherButtonTitles:@"放弃", nil];
         [alert show];
+        
     }else{
         NSMutableArray *array = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];

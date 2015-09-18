@@ -73,6 +73,7 @@
 @property (strong, nonatomic) NSString *advertisementUrl;//地址
 - (IBAction)closeAdvertisementView:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UIImageView *advImageView;
 
 @end
 
@@ -1402,7 +1403,13 @@
             NSString *c_flag = [result[@"c_flag"] description];
             if ([c_flag intValue]!=0) { //0不展示，1展示 2邀请推荐
                 NSString *c_img = [result[@"c_img_ios"] description];
-                [self.advertisementImageButton setBackgroundImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:c_img]]] forState:UIControlStateNormal];
+                // 显示广告图片
+                sd_setImageWithURL: placeholderImage:
+                [self.advImageView sd_setImageWithURL:[NSURL URLWithString:c_img] placeholderImage:[UIImage imageNamed:@"im_id-error"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                    if (error) {
+                        [self.advertisementView removeFromSuperview];
+                    }
+                }];
                 NSString *c_url = [result[@"c_url"] description];
                 NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
                 NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

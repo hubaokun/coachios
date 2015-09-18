@@ -9,5 +9,5 @@
 #import "GreyTopViewController.h"
 
 @interface SendCouponRecordViewController : GreyTopViewController
-
+@property (strong, nonatomic) NSString *studentId;
 @end

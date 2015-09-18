@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScheduleSettingViewController">
@@ -24,6 +24,7 @@
                 <outlet property="selectView" destination="FlP-Z5-Qf6" id="cFj-MQ-43a"/>
                 <outlet property="selectView2" destination="9E2-oi-tRA" id="dgq-C0-DMO"/>
                 <outlet property="timeLabel" destination="Al8-Uo-3DL" id="WP9-SF-JeZ"/>
+                <outlet property="timePriceLabel" destination="oco-RO-9tE" id="Bfl-ny-Nvy"/>
                 <outlet property="timeScrollView" destination="DgY-ki-aca" id="DQw-Ay-n1S"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -36,12 +37,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sMh-gj-Dpe">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="64"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课时设置" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVe-Yx-vjM">
-                            <rect key="frame" x="90" y="20" width="420" height="44"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HSN-TS-lsm">
                             <rect key="frame" x="0.0" y="20" width="90" height="44"/>
                             <constraints>
@@ -73,19 +68,27 @@
                                 <action selector="clickForConfirm:" destination="-1" eventType="touchUpInside" id="h9i-G6-yEc"/>
                             </connections>
                         </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="课时设置" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVe-Yx-vjM">
+                            <rect key="frame" x="240" y="20" width="120" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="6Zr-AP-RPO"/>
+                                <constraint firstAttribute="width" constant="120" id="YG5-fm-1Fq"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="HSN-TS-lsm" firstAttribute="leading" secondItem="sMh-gj-Dpe" secondAttribute="leading" id="66C-47-wf8"/>
                         <constraint firstAttribute="bottom" secondItem="b5g-Lx-mIg" secondAttribute="bottom" id="8aw-mp-Doz"/>
-                        <constraint firstAttribute="bottom" secondItem="vVe-Yx-vjM" secondAttribute="bottom" id="BpY-vb-F9Q"/>
-                        <constraint firstItem="b5g-Lx-mIg" firstAttribute="leading" secondItem="vVe-Yx-vjM" secondAttribute="trailing" id="FdE-T6-qCe"/>
                         <constraint firstAttribute="height" constant="64" id="Kfa-rX-YKJ"/>
-                        <constraint firstItem="vVe-Yx-vjM" firstAttribute="leading" secondItem="HSN-TS-lsm" secondAttribute="trailing" id="PS7-Gr-epm"/>
                         <constraint firstItem="HSN-TS-lsm" firstAttribute="top" secondItem="sMh-gj-Dpe" secondAttribute="top" constant="20" id="UZv-to-pw5"/>
                         <constraint firstAttribute="bottom" secondItem="HSN-TS-lsm" secondAttribute="bottom" id="V1O-S7-oNa"/>
+                        <constraint firstItem="vVe-Yx-vjM" firstAttribute="centerX" secondItem="sMh-gj-Dpe" secondAttribute="centerX" id="eUQ-LV-Fsy"/>
+                        <constraint firstItem="vVe-Yx-vjM" firstAttribute="top" secondItem="sMh-gj-Dpe" secondAttribute="top" constant="20" id="evZ-JL-lEJ"/>
                         <constraint firstAttribute="trailing" secondItem="b5g-Lx-mIg" secondAttribute="trailing" id="fIv-Fa-gtn"/>
-                        <constraint firstItem="vVe-Yx-vjM" firstAttribute="top" secondItem="sMh-gj-Dpe" secondAttribute="top" constant="20" id="txM-hH-lHY"/>
                         <constraint firstItem="b5g-Lx-mIg" firstAttribute="top" secondItem="sMh-gj-Dpe" secondAttribute="top" constant="20" id="yUb-Pb-ajR"/>
                     </constraints>
                 </view>
@@ -148,9 +151,9 @@
                             </constraints>
                         </view>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间单价 (元/小时)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oco-RO-9tE">
-                            <rect key="frame" x="10" y="0.0" width="212" height="38"/>
+                            <rect key="frame" x="10" y="0.0" width="300" height="38"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="212" id="Sqd-U6-c3h"/>
+                                <constraint firstAttribute="width" constant="300" id="Sqd-U6-c3h"/>
                                 <constraint firstAttribute="height" constant="38" id="Wbb-N3-MHB"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -376,7 +379,7 @@
             <fontDescription key="fontDescription" type="system" pointSize="18"/>
             <color key="textColor" red="0.12549019607843137" green="0.70588235294117652" blue="0.47058823529411764" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="highlightedColor"/>
-            <point key="canvasLocation" x="428" y="12.5"/>
+            <point key="canvasLocation" x="348" y="-140.5"/>
         </label>
         <view contentMode="scaleToFill" id="FlP-Z5-Qf6" userLabel="selectView">
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
@@ -392,7 +395,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="248"/>
                         </imageView>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rtU-Tb-n1O" userLabel="car">
-                            <rect key="frame" x="0.0" y="63" width="320" height="162"/>
+                            <rect key="frame" x="0.0" y="80" width="320" height="128"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="128" id="MRE-2b-IBA"/>
                             </constraints>
@@ -474,7 +477,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="320" height="248"/>
                         </imageView>
                         <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kYC-IM-I3c" userLabel="car">
-                            <rect key="frame" x="0.0" y="63" width="320" height="162"/>
+                            <rect key="frame" x="0.0" y="80" width="320" height="128"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="128" id="mGw-09-Iby"/>
                             </constraints>

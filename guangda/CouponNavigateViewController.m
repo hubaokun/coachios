@@ -11,6 +11,11 @@
 #import "SendCouponViewController.h"
 @interface CouponNavigateViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *couponLabel;
+@property (weak, nonatomic) IBOutlet UIView *sendCouponBackView;
+
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+
+@property (weak, nonatomic) IBOutlet UILabel *noAbilityLabel;
 
 @end
 
@@ -18,7 +23,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *couponlimit = [userInfo[@"couponlimit"] description];
+    if ([couponlimit boolValue]) {
+        self.sendButton.enabled = YES;
+        self.noAbilityLabel.hidden = YES;
+    }else{
+        self.sendButton.enabled= NO;
+        self.noAbilityLabel.hidden = NO;
+    }
     [self updateMoney];
     // Do any additional setup after loading the view from its nib.
 }
