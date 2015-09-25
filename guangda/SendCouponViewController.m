@@ -25,9 +25,6 @@
 @property (strong, nonatomic) IBOutlet UITextField *phoneNumberTextField;
 @property (strong, nonatomic) IBOutlet UITextField *couponNumberTextField;
 
-
-
-@property (strong, nonatomic) IBOutlet UIView *testView;
 @property (strong, nonatomic) IBOutlet UITableView *userListTableView;
 @end
 
@@ -58,19 +55,21 @@
      studentArray = [NSMutableArray array];
      allArray = [NSMutableArray array];
      [self getCoachStudent];
-     
-     self.image.image = [YLGIFImage imageNamed:@"未标题-4.gif"];
-     
-     self.testView.hidden = YES;
+
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
      if (textField == self.phoneNumberTextField) {
-          self.userListTableView.hidden = NO;
+          if (studentArray.count == 0) {
+               self.userListTableView.hidden = YES;
+          }else{
+               self.userListTableView.hidden = NO;
+          }
           
      }
 }
+
 //在UITextField 编辑完成调用方法
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -104,6 +103,12 @@
           }
           if (TextField.text.length == 0) {
                studentArray = [NSMutableArray arrayWithArray:allArray];
+               self.signLabel.hidden = YES;
+          }
+          if (studentArray.count == 0) {
+               self.userListTableView.hidden = YES;
+          }else{
+               self.userListTableView.hidden = NO;
           }
           [self.userListTableView reloadData];
      }
@@ -149,6 +154,7 @@
      NSString *cellStr = [NSString stringWithFormat:@"%@  %@",[dic[@"phone"] description],[dic[@"realname"] description]];
      self.phoneNumberTextField.text = cellStr;
      self.userListTableView.hidden = YES;
+     [self.phoneNumberTextField resignFirstResponder];
      [self getStudentCoupon];
 }
 
@@ -196,7 +202,7 @@
      [DejalBezelActivityView activityViewForView:self.view];
 }
 
-//获取教练有关联的学员
+//发放小巴券
 - (void)grantCoupon{
      NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
      ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
@@ -226,7 +232,7 @@
                [self.userListTableView reloadData];
                [DejalBezelActivityView removeViewAnimated:YES];
           }else if (request.tag == 1){
-               NSString *studentStr = [NSString stringWithFormat:@"该学员已用小巴券%@张，剩余%@张",[result[@"total"] description],[result[@"rest"] description]];
+               NSString *studentStr = [NSString stringWithFormat:@"%@学员已用小巴券%@张，剩余%@张",[self.phoneNumberTextField.text substringFromIndex:11],[result[@"total"] description],[result[@"rest"] description]];
                self.signLabel.text = studentStr;
                self.signLabel.hidden = NO;
                [DejalBezelActivityView removeViewAnimated:YES];

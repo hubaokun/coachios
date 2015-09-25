@@ -14,6 +14,11 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "MobClick.h"
+//环信
+#import "EaseMob.h"
+#import "LocalDefine.h"
+#import "AppDelegate+EaseMob.h"
+
 @interface AppDelegate ()<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate>
 @property (strong, nonatomic) UIView *lunchView;
 @end
@@ -47,6 +52,14 @@ BMKLocationService *_locService;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+   
+    // 初始化环信SDK，详细内容在AppDelegate+EaseMob.m 文件中
+    //下面这句话不注释就变成环信了= =
+    //[self loginStateChange:nil];
+    [self easemobApplication:application didFinishLaunchingWithOptions:launchOptions];
+    //设置是否自动登录
+    [[EaseMob sharedInstance].chatManager setIsAutoLoginEnabled:NO];
+    
     // Override point for customization after application launch.
     // 注册APNS
     [self registerRemoteNotification];
@@ -100,7 +113,7 @@ BMKLocationService *_locService;
     [self startRequestAdvertisement];
     //友盟社会化分享与统计
     [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
-    [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"pgy"];
+    [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"appstore"];
 #pragma mark - 企业账号的友盟设置，记得设置URL
     //设置qqAPPId
     [UMSocialQQHandler setQQWithAppId:@"1104782996" appKey:@"zEktitzpVluS4r86" url:@"http://www.xiaobaxueche.com/"];
@@ -113,7 +126,7 @@ BMKLocationService *_locService;
 //    [UMSocialQQHandler setQQWithAppId:@"1104653815" appKey:@"oUgKlUs1Ya79zwca" url:@"http://www.xiaobaxueche.com/"];
 //    //设置微信AppId、appSecret，分享url
 //    [UMSocialWechatHandler setWXAppId:@"wx6e408d648087cffb" appSecret:@"648bdd4b00bcfa025944b56d6176d031" url:@"http://www.xiaobaxueche.com/"];
-    //URL: 微信：wx6e408d648087cffb   QQ:QQ41D7ADF7
+//    URL: 微信：wx6e408d648087cffb   QQ:QQ41D7ADF7
     
     
     return YES;

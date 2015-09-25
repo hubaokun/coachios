@@ -369,10 +369,10 @@
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K0U-aU-3wB">
-                            <rect key="frame" x="385" y="109" width="60" height="61"/>
+                            <rect key="frame" x="385" y="89" width="80" height="80"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="60" id="KE2-S1-Q8V"/>
-                                <constraint firstAttribute="height" constant="61" id="m0I-Vb-lrb"/>
+                                <constraint firstAttribute="height" constant="80" id="a38-UK-im1"/>
+                                <constraint firstAttribute="width" constant="80" id="yYr-qh-hID"/>
                             </constraints>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -384,10 +384,9 @@
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="2B5-pS-KKM"/>
+                        <constraint firstItem="K0U-aU-3wB" firstAttribute="leading" secondItem="OuB-td-aUS" secondAttribute="trailing" constant="-60" id="4eu-S6-Cb8"/>
+                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-60" id="UAo-F7-YRB"/>
                         <constraint firstItem="7Pw-Hy-XVa" firstAttribute="centerX" secondItem="dhv-h6-Gfi" secondAttribute="centerX" id="W0w-gR-Ll7"/>
-                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-61" id="bTv-mY-xdi"/>
-                        <constraint firstItem="OuB-td-aUS" firstAttribute="top" secondItem="K0U-aU-3wB" secondAttribute="bottom" constant="-61" id="ewz-HW-XLB"/>
                         <constraint firstItem="OuB-td-aUS" firstAttribute="centerX" secondItem="dhv-h6-Gfi" secondAttribute="centerX" id="hez-GZ-LeP"/>
                         <constraint firstItem="OuB-td-aUS" firstAttribute="centerY" secondItem="dhv-h6-Gfi" secondAttribute="centerY" id="j1o-Ua-Tcz"/>
                         <constraint firstItem="7Pw-Hy-XVa" firstAttribute="centerY" secondItem="dhv-h6-Gfi" secondAttribute="centerY" id="nB4-Mo-6CJ"/>

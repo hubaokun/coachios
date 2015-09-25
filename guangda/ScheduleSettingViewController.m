@@ -90,8 +90,6 @@
     [self getContentData];
     [self initView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,8 +105,6 @@
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)initView{
@@ -284,23 +280,24 @@
 #pragma mark - 页面特性
 // 开始编辑，铅笔变蓝
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
+//    [textField performSelector:@selector(selectAll:) withObject:textField afterDelay:0.f];
     if ([textField isEqual:self.priceTextField]) {
         self.pricePencilBtn.selected = YES;
         self.comfirmBtn.selected = YES;
-        CGRect frame1 = self.priceTextField.frame;
-        UIView *view1 = self.priceTextField.superview;
-        CGRect frame2 = view1.frame;
-        UIView *view2 = view1.superview;
-        CGRect frame3 = view2.frame;
-        CGFloat offset = (frame1.origin.y + frame2.origin.y + frame3.origin.y) + 32 - (self.view.frame.size.height - 216.0) + 64;
-        //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
-        if (offset>0){
-            NSTimeInterval animationDuration = 0.30;
-            [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
-            [UIView setAnimationDuration:animationDuration];
-            [self.view setFrame:CGRectMake(0, -offset, self.viewRect.size.width, self.viewRect.size.height)];
-            [UIView commitAnimations];
-        }
+//        CGRect frame1 = self.priceTextField.frame;
+//        UIView *view1 = self.priceTextField.superview;
+//        CGRect frame2 = view1.frame;
+//        UIView *view2 = view1.superview;
+//        CGRect frame3 = view2.frame;
+//        CGFloat offset = (frame1.origin.y + frame2.origin.y + frame3.origin.y) + 32 - (self.view.frame.size.height - 216.0) + 64;
+//        //将视图的Y坐标向上移动offset个单位，以使下面腾出地方用于软键盘的显示
+//        if (offset>0){
+//            NSTimeInterval animationDuration = 0.30;
+//            [UIView beginAnimations:@"ResizeForKeyboard" context:nil];
+//            [UIView setAnimationDuration:animationDuration];
+//            [self.view setFrame:CGRectMake(0, -offset, self.viewRect.size.width, self.viewRect.size.height)];
+//            [UIView commitAnimations];
+//        }
     }
 }
 
@@ -309,87 +306,16 @@
     if ([textField isEqual:self.priceTextField]) {
         if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue]) {
             self.pricePencilBtn.selected = NO;
-            self.view.frame = self.viewRect;
+//            self.view.frame = self.viewRect;
         }else{
             [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",minPrice,maxPrice]];
-            [self.priceTextField becomeFirstResponder];
+//            [[UIMenuController sharedMenuController] setMenuVisible: YES animated: YES];
         }
     }
 }
-
-#pragma mark - 监听
-- (void)keyboardWillShow:(NSNotification *)notification {
-    //    scrollFrame = self.view.frame;
-    
-    /*
-     Reduce the size of the text view so that it's not obscured by the keyboard.
-     Animate the resize so that it's in sync with the appearance of the keyboard.
-     */
-    NSDictionary *userInfo = [notification userInfo];
-    
-    // Get the origin of the keyboard when it's displayed.
-    NSValue* aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    // Get the top of the keyboard as the y coordinate of its origin in self's view's coordinate system. The bottom of the text view's frame should align with the top of the keyboard's final position.
-    CGRect keyboardRect = [aValue CGRectValue];
-    keyboardRect = [self.view convertRect:keyboardRect fromView:nil];
-    
-    CGFloat keyboardTop = keyboardRect.origin.y;
-    CGRect newTextViewFrame = self.view.frame;
-    
-    if (self.priceTextField == nil) {
-        return;
-    }
-    
-    //获取这个textField在self.view中的位置， fromView为textField的父view
-    CGRect textFrame = self.priceTextField.superview.frame;
-    CGFloat textFieldY = textFrame.origin.y + CGRectGetHeight(textFrame);
-    
-    if(textFieldY < keyboardTop){
-        //键盘没有挡住输入框
-        return;
-    }
-    
-    //键盘遮挡了输入框
-    newTextViewFrame.origin.y = keyboardTop - textFieldY;
-    
-    
-    // Get the duration of the animation.
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    animationDuration += 0.1f;
-    // Animate the resize of the text view's frame in sync with the keyboard's appearance.
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    
-    self.detailView.frame = newTextViewFrame;
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view cache:NO];
-    
-    [UIView commitAnimations];
-}
-
-- (void)keyboardWillHide:(NSNotification *)notification {
-    
-    NSDictionary* userInfo = [notification userInfo];
-    
-    /*
-     Restore the size of the text view (fill self's view).
-     Animate the resize so that it's in sync with the disappearance of the keyboard.
-     */
-    NSValue *animationDurationValue = [userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSTimeInterval animationDuration;
-    [animationDurationValue getValue:&animationDuration];
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:animationDuration];
-    self.detailView.frame = CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.detailView.frame));
-    [UIView commitAnimations];
-}
-
 #pragma mark - private
 - (void)backupgroupTap:(id)sender{
     [self.priceTextField resignFirstResponder];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark - action
@@ -448,7 +374,7 @@
 //        [self.priceTextField resignFirstResponder];
 //    }else{
         [self.priceTextField becomeFirstResponder];
-//    }
+    //    }
 }
 
 //选择地址
@@ -577,7 +503,7 @@
             
             [self comfirmMsg];
         }else{
-            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",minPrice,maxPrice]];
+            [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
         }
     }
 }
@@ -727,7 +653,7 @@
         }else if (request.tag == 3){
             minPrice = [result[@"minprice"] description];
             maxPrice = [result[@"maxprice"] description];
-            self.timePriceLabel.text = [NSString stringWithFormat:@"时间单价 (元/小时) 价格区间为%@~%@元",minPrice,maxPrice];
+            self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
         }
     }else if([code intValue] == 95){
         [self makeToast:message];
@@ -798,6 +724,7 @@
         
         [self comfirmMsg];
     }else if(buttonIndex == 1){
+        [self.priceTextField resignFirstResponder];
         NSMutableArray *array = [NSMutableArray array];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
         [self.navigationController popViewControllerAnimated:YES];

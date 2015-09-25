@@ -1405,7 +1405,7 @@
                 NSString *c_img = [result[@"c_img_ios"] description];
                 // 显示广告图片
                 sd_setImageWithURL: placeholderImage:
-                [self.advImageView sd_setImageWithURL:[NSURL URLWithString:c_img] placeholderImage:[UIImage imageNamed:@"im_id-error"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                [self.advImageView sd_setImageWithURL:[NSURL URLWithString:c_img] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     if (error) {
                         [self.advertisementView removeFromSuperview];
                     }

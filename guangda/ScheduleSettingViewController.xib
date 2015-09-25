@@ -150,17 +150,22 @@
                                 <constraint firstAttribute="height" constant="1" id="hu7-2S-B5B"/>
                             </constraints>
                         </view>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间单价 (元/小时)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oco-RO-9tE">
-                            <rect key="frame" x="10" y="0.0" width="300" height="38"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="时间单价 (元/小时)" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oco-RO-9tE">
+                            <rect key="frame" x="10" y="0.0" width="580" height="38"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="300" id="Sqd-U6-c3h"/>
+                                <constraint firstAttribute="width" constant="580" id="Sqd-U6-c3h"/>
                                 <constraint firstAttribute="height" constant="38" id="Wbb-N3-MHB"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="Sqd-U6-c3h"/>
+                                </mask>
+                            </variation>
                         </label>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入时间单价（元/小时）" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PaD-mM-vnA">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入时间单价（元/小时）" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PaD-mM-vnA">
                             <rect key="frame" x="10" y="38" width="555" height="30"/>
                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                             <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
@@ -189,6 +194,7 @@
                         <constraint firstAttribute="trailing" secondItem="LHK-Gg-9MN" secondAttribute="trailing" id="D56-Qt-m5h"/>
                         <constraint firstItem="PaD-mM-vnA" firstAttribute="centerY" secondItem="LHK-Gg-9MN" secondAttribute="centerY" id="JBs-8S-hUm"/>
                         <constraint firstAttribute="bottom" secondItem="qm0-C6-aFG" secondAttribute="bottom" id="JGx-7t-Y7F"/>
+                        <constraint firstAttribute="trailing" secondItem="oco-RO-9tE" secondAttribute="trailing" constant="10" id="JSS-Ms-3OC"/>
                         <constraint firstAttribute="trailing" secondItem="qm0-C6-aFG" secondAttribute="trailing" id="Mkw-pt-vWE"/>
                         <constraint firstItem="PaD-mM-vnA" firstAttribute="top" secondItem="oco-RO-9tE" secondAttribute="bottom" id="VxG-hw-4PE"/>
                         <constraint firstItem="oco-RO-9tE" firstAttribute="leading" secondItem="Ham-i8-FRu" secondAttribute="leading" constant="10" id="faL-Is-wpN"/>

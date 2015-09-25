@@ -855,12 +855,16 @@
             NSString *state = [coachInfo[@"state"] description];
             if (state.intValue == 1) {        //正在审核
                 self.coachInfoState.text = @"【资格审核已提交】";
+                self.coachInfoState.textColor = RGB(180, 180, 180);
             }else if (state.intValue == 2){   //审核通过
                 self.coachInfoState.text = @"【资格审核通过】";
+                self.coachInfoState.textColor = RGB(255, 76, 28);
             }else if (state.intValue == 3){   //审核未通过
                 self.coachInfoState.text = @"【未通过资格审核】";
+                self.coachInfoState.textColor = RGB(180, 180, 180);
             }else{                            //未设置
                 self.coachInfoState.text = @"【未提交资格审核】";
+                self.coachInfoState.textColor = RGB(180, 180, 180);
             }
         }else{
             NSString *message = responseObject[@"message"];

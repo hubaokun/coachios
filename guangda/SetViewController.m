@@ -89,7 +89,7 @@
 
 // 退出登录
 - (IBAction)clickLogOff:(id)sender {
-    
+    [[EMIMHelper defaultHelper] logOut];
     [CommonUtil logout];
     
     [self sendNotification];

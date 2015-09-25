@@ -29,4 +29,6 @@
 #import "UIImageView+WebCache.h"
 #import "UIView+Frame.h"
 
+#import "LocalDefine.h"
+
 #endif

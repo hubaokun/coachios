@@ -1766,7 +1766,7 @@
 - (IBAction)clickForUpdateTime:(id)sender{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     NSString *cityid = [userInfo[@"cityid"] description];
-    if (cityid.length == 0 || cityid) {
+    if (cityid.length == 0 || !cityid) {
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"请先设置您所在的城市" delegate:self cancelButtonTitle:@"前去设置" otherButtonTitles: nil];
         alert.tag = 1;
         [alert show];
@@ -2065,13 +2065,20 @@
 //获取默认课程设置
 - (void)getDefaultSchedule{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
+    NSString *cityid = [userInfo[@"cityid"] description];
+    if (cityid.length == 0 || !cityid) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"" message:@"请先设置您所在的城市" delegate:self cancelButtonTitle:@"前去设置" otherButtonTitles: nil];
+        alert.tag = 1;
+        [alert show];
+        return;
+    }
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kScheduleServlet]];
     request.tag = 4;
     request.delegate = self;
     request.requestMethod = @"POST";
     [request setPostValue:@"GETDEFAULTSCHEDULE" forKey:@"action"];
     [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    [request setPostValue:userInfo[@"cityid"] forKey:@"cityid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];

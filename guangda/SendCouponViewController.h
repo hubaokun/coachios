@@ -7,9 +7,6 @@
 //
 
 #import "GreyTopViewController.h"
-#import "YLImageView.h"
 @interface SendCouponViewController : GreyTopViewController
-
-@property (strong, nonatomic) IBOutlet YLImageView *image;
 
 @end

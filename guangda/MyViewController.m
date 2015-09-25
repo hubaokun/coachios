@@ -32,6 +32,11 @@
 #import "CouponNavigateViewController.h"
 #import "PurseNavigationViewController.h"
 #import "UILabel+StringFrame.h"
+
+//环信客服
+#import "EMIMHelper.h"
+#import "ChatViewController.h"
+
 @interface MyViewController () <UITextFieldDelegate, UIScrollViewDelegate> {
     CGRect _oldFrame1;
     CGRect _oldFrame2;
@@ -744,7 +749,22 @@
 
 //在线客服
 - (IBAction)clickForOnlineServe:(id)sender {
-    [self makeToast:@"暂未开放"];
+    [self chatAction:nil];
+}
+
+- (void)chatAction:(NSNotification *)notification
+{
+    [[EMIMHelper defaultHelper] loginEasemobSDK];
+    NSString *cname = [[EMIMHelper defaultHelper] cname];
+    ChatViewController *chatController = [[ChatViewController alloc] initWithChatter:cname isGroup:NO];
+    chatController.title = @"在线客服";
+    if (notification.object) {
+        chatController.commodityInfo = (NSDictionary *)notification.object;
+    }
+    [self.navigationController pushViewController:chatController animated:YES];
+    self.navigationController.navigationBarHidden = NO;
+    
+    //    [self makeToast:@"暂未开放"];
 }
 
 

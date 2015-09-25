@@ -204,10 +204,10 @@
                     </state>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QTf-nD-Wux">
-                    <rect key="frame" x="94" y="119" width="494" height="221"/>
+                    <rect key="frame" x="94" y="119" width="494" height="115"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="221" id="Gql-sf-8Pq"/>
+                        <constraint firstAttribute="height" constant="115" id="Gql-sf-8Pq"/>
                     </constraints>
                 </tableView>
             </subviews>

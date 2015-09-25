@@ -387,12 +387,13 @@
                                        selector:@selector(backLogin)
                                        userInfo:nil
                                         repeats:NO];
+        [DejalBezelActivityView removeViewAnimated:YES];
     }else{
         
         if ([CommonUtil isEmpty:message]) {
             message = ERR_NETWORK;
         }
-        
+        [DejalBezelActivityView removeViewAnimated:YES];
         [self makeToast:message];
     }
     [self getDataFinish];
