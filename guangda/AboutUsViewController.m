@@ -11,6 +11,7 @@
 @interface AboutUsViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *version;
 
+@property (weak, nonatomic) IBOutlet UILabel *testLabel;
 @end
 
 @implementation AboutUsViewController
@@ -23,6 +24,11 @@
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     NSString *VersionText = [NSString stringWithFormat:@"版本%@",app_Version];
     self.version.text = VersionText;
+    self.testLabel.hidden = YES;
+    if (![REQUEST_HOST isEqualToString:@"http://www.xiaobakaiche.com/dadmin/"]) {
+        self.testLabel.hidden = NO;
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -51,4 +51,7 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
 
+@property (strong, nonatomic) IBOutlet UIButton *accompanyDriveBtn;
+
+@property (strong, nonatomic) IBOutlet UILabel *rentLabel;
 @end

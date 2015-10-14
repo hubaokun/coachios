@@ -19,6 +19,8 @@
     UILabel *myView3;
     NSString *minPrice;
     NSString *maxPrice;
+    NSString *rentminPrice;
+    NSString *rentmaxPrice;
 }
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
@@ -31,6 +33,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *pricePencilBtn;
 @property (strong, nonatomic) IBOutlet UILabel *addressTitleLabel;
 @property (strong, nonatomic) IBOutlet UITextField *addressTextField;//上车地址
+
+@property (strong, nonatomic) IBOutlet UITextField *carRent;//车辆租金
+@property (strong, nonatomic) IBOutlet UIView *rentBackView;
+
 @property (strong, nonatomic) IBOutlet UIButton *addressPencilBtn;
 @property (strong, nonatomic) IBOutlet UILabel *contentTitleLabel;
 @property (strong, nonatomic) IBOutlet UITextField *contentTextField;//教学内容
@@ -55,6 +61,7 @@
 
 @property (nonatomic) CGRect viewRect;
 @property (weak, nonatomic) IBOutlet UILabel *timePriceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rentTitleLabel;
 
 - (IBAction)clickForback:(id)sender;
 
@@ -70,6 +77,7 @@
     self.addressArray = [NSMutableArray array];
     self.subjectArray = [NSMutableArray array];
     
+    self.rentBackView.hidden = YES;
     //将价格输入框变成选择框
     self.pricePickerView.delegate = self;
     self.pricePickerView.dataSource = self;
@@ -84,12 +92,36 @@
     tapGestureRecognizer.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer: tapGestureRecognizer];   // 只需要点击非文字输入区域就会响应
     [tapGestureRecognizer setCancelsTouchesInView:NO];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     [self getAutoPosition];
     [self getAddressData];
     [self getContentData];
     [self initView];
     
+}
+
+#pragma mark - 监听
+//当键盘出现或改变时调用
+- (void)keyboardWillShow:(NSNotification *)aNotification
+{
+    //获取键盘的高度
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    int height = keyboardRect.size.height;
+    int _height = [UIScreen mainScreen].bounds.size.height;
+    
+    int chazhi = (_height - self.detailView.bounds.size.height) / 2;
+    
+    self.mainScrollView.contentOffset = CGPointMake(0, height - chazhi+20-10);
+    
+}
+
+//当键退出时调用
+- (void)keyboardWillHide:(NSNotification *)aNotification
+{
+    self.mainScrollView.contentOffset = CGPointMake(0, 0);
 }
 
 - (void)didReceiveMemoryWarning {
@@ -104,7 +136,6 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    
 }
 
 - (void)initView{
@@ -135,12 +166,23 @@
     NSString *subject = [CommonUtil isEmpty:self.timeDic[@"subject"]]?@"":self.timeDic[@"subject"];
     self.contentTextField.text = subject;
     
+    //价格
+    NSString *rentPrice = [self.timeDic[@"cuseraddtionalprice"] description];
+    self.carRent.text = rentPrice;
+    
     minPrice = @"50";
-    maxPrice = @"500";
+    maxPrice = @"150";
     
     self.addressId = self.timeDic[@"addressid"];
     self.subjectId = self.timeDic[@"subjectid"];
 
+    if ([self.subjectId intValue] == 4) {
+        self.rentBackView.hidden = NO;
+        self.isRentConstraint.constant = 81;
+    }else{
+        self.rentBackView.hidden = YES;
+        self.isRentConstraint.constant = 0;
+    }
         //打开状态
         self.timeStateLabel.text = @"开课状态，若关闭，以上时间点屏蔽任何 学员选课！";
         
@@ -281,7 +323,7 @@
 // 开始编辑，铅笔变蓝
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
 //    [textField performSelector:@selector(selectAll:) withObject:textField afterDelay:0.f];
-    if ([textField isEqual:self.priceTextField]) {
+    if ([textField isEqual:self.priceTextField] || [textField isEqual:self.carRent]) {
         self.pricePencilBtn.selected = YES;
         self.comfirmBtn.selected = YES;
 //        CGRect frame1 = self.priceTextField.frame;
@@ -312,10 +354,22 @@
 //            [[UIMenuController sharedMenuController] setMenuVisible: YES animated: YES];
         }
     }
+    
+    if ([textField isEqual:self.carRent]) {
+        if ([self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+            self.pricePencilBtn.selected = NO;
+            //            self.view.frame = self.viewRect;
+        }else{
+            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",rentminPrice,rentmaxPrice]];
+            //            [[UIMenuController sharedMenuController] setMenuVisible: YES animated: YES];
+        }
+    }
+    
 }
 #pragma mark - private
 - (void)backupgroupTap:(id)sender{
     [self.priceTextField resignFirstResponder];
+    [self.carRent resignFirstResponder];
 }
 
 #pragma mark - action
@@ -374,6 +428,7 @@
 //        [self.priceTextField resignFirstResponder];
 //    }else{
         [self.priceTextField becomeFirstResponder];
+    [self.carRent becomeFirstResponder];
     //    }
 }
 
@@ -469,8 +524,14 @@
             //教学内容
             self.subjectId = dic[@"id"];
             self.contentTextField.text = dic[@"name"];
+            if ([self.subjectId intValue]==4) {
+                self.rentBackView.hidden = NO;
+                self.isRentConstraint.constant = 81;
+            }else{
+                self.rentBackView.hidden = YES;
+                self.isRentConstraint.constant = 0;
+            }
         }
-        
         [self.selectView removeFromSuperview];
         self.comfirmBtn.selected = YES;
         self.selectPickerTag = @"0";
@@ -480,9 +541,9 @@
 
 - (IBAction)clickForConfirm:(id)sender {
     if (self.comfirmBtn.selected) {
-        
+        NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue]) {
+        if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue] && [self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
             if ([CommonUtil isEmpty:price]) {
                 [self makeToast:@"请输入时间单价"];
                 [self.priceTextField becomeFirstResponder];
@@ -499,11 +560,20 @@
                 return;
             }
             
-            [self.priceTextField resignFirstResponder];
+            if ([CommonUtil isEmpty:rentPrice]) {
+                [self makeToast:@"请输入教练车租金单价"];
+                return;
+            }
             
+            [self.priceTextField resignFirstResponder];
+            [self.carRent resignFirstResponder];
             [self comfirmMsg];
         }else{
-            [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
+            if ([self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+                [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
+            }else{
+                [self makeToast:[NSString stringWithFormat:@"教练车租用金单价须在%@元～%@元之间",rentminPrice,rentmaxPrice]];
+            }
         }
     }
 }
@@ -547,6 +617,7 @@
 //提交修改信息
 - (void)comfirmMsg{
     NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *state = [self.timeDic[@"state"] description];
     NSString *subject = [self.contentTextField.text description];
     NSString *addressdetail = [self.addressTextField.text description];
@@ -557,7 +628,6 @@
     if ([CommonUtil isEmpty:cancelstate]) {
         cancelstate = @"";
     }
-    
     NSArray *timeArray = [self.time componentsSeparatedByString:@"、"];
     
     NSMutableArray *msgArray = [NSMutableArray array];
@@ -569,6 +639,13 @@
         [dic setObject:[state description] forKey:@"state"];
         [dic setObject:[cancelstate description] forKey:@"cancelstate"];
         [dic setObject:[price description] forKey:@"price"];
+        if (!self.carRent.hidden) {
+            [dic setObject:rentPrice forKey:@"cuseraddtionalprice"];
+            [dic setObject:rentPrice forKeyedSubscript:@"addtionalprice"];
+        }else{
+            [dic setObject:@"0" forKey:@"cuseraddtionalprice"];
+            [dic setObject:@"0" forKeyedSubscript:@"addtionalprice"];
+        }
         [dic setObject:@"1" forKey:@"isrest"];
         [dic setObject:[self.addressId description] forKey:@"addressid"];
         [dic setObject:[self.subjectId description] forKey:@"subjectid"];
@@ -590,7 +667,13 @@
         NSDictionary *timeDic = testArray[i];
         NSDate *date = [CommonUtil getDateForString:[timeDic[@"hour"] description] format:@"HH"];
         NSString *str = [CommonUtil getStringForDate:date format:@"H:00"];
+        
         for (int j=0; j<timeArray.count; j++) {
+            NSMutableDictionary *dic2 = [NSMutableDictionary dictionaryWithDictionary:mutableDic];
+            if (!self.carRent.hidden) {
+                [dic2 setObject:rentPrice forKey:@"cuseraddtionalprice"];
+                [dic2 setObject:rentPrice forKeyedSubscript:@"addtionalprice"];
+            }
             if ([timeArray[j] isEqualToString:str]) {
                 NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:mutableDic];
                 [dic setObject:[timeDic[@"hour"] description] forKey:@"hour"];
@@ -649,11 +732,25 @@
             [self.navigationController popViewControllerAnimated:YES];
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             app.needOpenSchedule = @"1";
+            NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if (!self.carRent.hidden) {
+                NSMutableArray *mutableArray1 = [NSMutableArray arrayWithArray:self.allDayArray];
+                for (int i=0; i<self.allDayArray.count; i++) {
+                    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.allDayArray[i]];
+                    [dic setValue:rentPrice forKey:@"addtionalprice"];
+                    [dic setValue:rentPrice forKey:@"cuseraddtionalprice"];
+                    [mutableArray1 replaceObjectAtIndex:i withObject:dic];
+                }
+                self.allDayArray  = mutableArray1;
+            }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:self.allDayArray];
         }else if (request.tag == 3){
             minPrice = [result[@"minprice"] description];
             maxPrice = [result[@"maxprice"] description];
             self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+            rentminPrice = [result[@"attachcarminprice"] description];
+            rentmaxPrice = [result[@"attachcarmaxprice"] description];
+            self.rentTitleLabel.text = [NSString stringWithFormat:@"教练车租用金（单位：元/小时，价格区间：%@元～%@元）",rentminPrice,rentmaxPrice];
         }
     }else if([code intValue] == 95){
         [self makeToast:message];
@@ -690,6 +787,7 @@
 - (IBAction)clickForback:(id)sender {
     if (self.comfirmBtn.selected == YES) {   //添加一个退出的提示，防止教练在不经意的情况下退出了。
         [self.priceTextField resignFirstResponder];
+        [self.carRent resignFirstResponder];
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"请点击保存让您的修改生效" delegate:self cancelButtonTitle:@"保存" otherButtonTitles:@"放弃", nil];
         [alert show];
         
@@ -719,13 +817,30 @@
                 [self makeToast:@"请选择教学内容"];
                 return;
             }
+        if ([CommonUtil isEmpty:self.carRent.text]) {
+            [self makeToast:@"请输入教练车租用金"];
+        }
         
         [self.priceTextField resignFirstResponder];
         
         [self comfirmMsg];
     }else if(buttonIndex == 1){
         [self.priceTextField resignFirstResponder];
+        [self.carRent resignFirstResponder];
         NSMutableArray *array = [NSMutableArray array];
+        
+        NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (!self.carRent.hidden) {
+            NSMutableArray *mutableArray1 = [NSMutableArray arrayWithArray:self.allDayArray];
+            for (int i=0; i<self.allDayArray.count; i++) {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:self.allDayArray[i]];
+                [dic setValue:rentPrice forKey:@"addtionalprice"];
+                [dic setValue:rentPrice forKey:@"cuseraddtionalprice"];
+                [mutableArray1 replaceObjectAtIndex:i withObject:dic];
+            }
+            self.allDayArray  = mutableArray1;
+        }
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:array];
         [self.navigationController popViewControllerAnimated:YES];
         

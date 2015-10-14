@@ -317,6 +317,23 @@
         cell.payerType.hidden = YES;
     }
     
+    //是否是陪驾订单
+    NSString *subjectname = [dic[@"subjectname"] description];
+    if (subjectname.length == 0 || !subjectname) {
+        cell.accompanyDriveBtn.hidden = YES;
+        cell.rentLabel.hidden = YES;
+    }else{
+        cell.accompanyDriveBtn.hidden = NO;
+        cell.rentLabel.hidden = NO;
+        //陪驾是否需要教练带车
+        NSString *attachcar = [dic[@"attachcar"] description];
+        if ([attachcar boolValue]) {
+            cell.rentLabel.text = @"教练带车";
+        }else{
+            cell.rentLabel.text = @"学员带车";
+        }
+    }
+    
     //任务时间
     NSString *time = [NSString stringWithFormat:@"%@ %@~%@  %@元", date, startTime, endTime,total];
     NSMutableAttributedString *timeStr = [[NSMutableAttributedString alloc] initWithString:time];

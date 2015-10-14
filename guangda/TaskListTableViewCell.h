@@ -14,15 +14,15 @@
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;//时间
 @property (strong, nonatomic) IBOutlet UIView *studentDetailsView;
 @property (strong, nonatomic) IBOutlet UILabel *priceLabel;//单价
-@property (strong, nonatomic) IBOutlet UIImageView *jiantouImageView;
+@property (strong, nonatomic) IBOutlet UIButton *jiantouImageView;
 @property (strong, nonatomic) IBOutlet UILabel *addressLabel;//地址
 @property (strong, nonatomic) IBOutlet UIImageView *detailImageView;//背景图片
 @property (strong, nonatomic) IBOutlet UIImageView *logoImageView;
 
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconHeight;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconWidth;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconTop;
-@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconRight;
+//@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconHeight;
+//@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconWidth;
+//@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconTop;
+//@property (strong, nonatomic) IBOutlet NSLayoutConstraint *iconRight;
 @property (strong, nonatomic) IBOutlet DSButton *getCarClick;
 @property (strong, nonatomic) IBOutlet UIView *finishView;
 
@@ -39,5 +39,11 @@
 @property (strong, nonatomic) IBOutlet DSButton *noCancelBtn;
 @property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
 
-@property (strong, nonatomic) IBOutlet UIImageView *payerType;
+@property (strong, nonatomic) IBOutlet UILabel *payerType;
+@property (strong, nonatomic) NSString *payerTypeStr;
+
+@property (strong, nonatomic) IBOutlet UIButton *accompanyDriveBtn;
+@property (strong, nonatomic) IBOutlet UIButton *rentCarButton;
+
+@property (strong, nonatomic) IBOutlet UIView *blackLine;
 @end

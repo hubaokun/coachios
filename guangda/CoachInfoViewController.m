@@ -1520,6 +1520,9 @@
                 self.commitBtn.hidden = NO;
                 self.warmingLabel.text = @"【未提交资格审核】通过教练资格审核后，学员才能预约您的课程";
             }
+            NSMutableDictionary * ds = [NSMutableDictionary dictionaryWithDictionary:[CommonUtil getObjectFromUD:@"userInfo"]];
+            [ds setObject:state forKey:@"state"];
+            [CommonUtil saveObjectToUD:ds key:@"userInfo"];
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];

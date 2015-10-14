@@ -181,15 +181,16 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 34;
+    return 29;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 34)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 29)];
     view.backgroundColor = RGB(243, 243, 243);
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, [UIScreen mainScreen].bounds.size.width, 34)];
-    label.textColor = [UIColor blackColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, [UIScreen mainScreen].bounds.size.width, 29)];
+    label.font = [UIFont systemFontOfSize:12];
+    label.textColor = RGB(170, 170, 170);
     
     NSDictionary *dic = [self.taskList objectAtIndex:section];
     NSString *date = dic[@"date"];
@@ -223,8 +224,11 @@
     }
 
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 1)];
-    line.backgroundColor = RGB(211, 211, 211);
+    line.backgroundColor = RGB(210, 210, 210);
     [view addSubview:line];
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(0, 29, [UIScreen mainScreen].bounds.size.width, 1)];
+    line2.backgroundColor = RGB(210, 210, 210);
+    [view addSubview:line2];
     [view addSubview:label];
     
     return view;
@@ -247,10 +251,10 @@
     
     if ([_openOrderId isEqualToString:[dic[@"orderid"] description]]) {
         //打开
-        return 303;
+        return 300;
     }else{
         //关闭
-        return 80;
+        return 76;
     }
 
 }
@@ -263,10 +267,17 @@
         [tableView registerNib:[UINib nibWithNibName:@"TaskListTableViewCell" bundle:nil] forCellReuseIdentifier:cellident];
         cell = [tableView dequeueReusableCellWithIdentifier:cellident];
     }
-    
     //获取数据
     NSDictionary *dic = [self.taskList objectAtIndex:indexPath.section];
     NSArray *array = dic[@"list"];
+    //隐藏最后一条黑线
+    if (indexPath.section == [self.taskList indexOfObject:dic]) {
+        if (indexPath.row == dic.count-1) {
+            cell.blackLine.hidden = YES;
+        }else{
+            cell.blackLine.hidden = NO;
+        }
+    }
     dic = [array objectAtIndex:indexPath.row];
     NSString *agreecancel = [dic[@"agreecancel"] description]; //判断订单是否需要取消
     cell.sureCancelBtn.indexPath = indexPath;
@@ -319,7 +330,7 @@
     
     if ([state intValue] != 0) {
         //红色日期 （开始时间1小时内到结束时间为止）
-        cell.timeLabel.textColor = RGB(224, 72, 62);
+        cell.timeLabel.textColor = RGB(246, 102, 93);
     }else{
         cell.timeLabel.textColor = RGB(28, 28, 28);
     }
@@ -327,15 +338,33 @@
     NSString *paytype = [dic[@"paytype"] description];
     if ([paytype intValue] == 1) {
         cell.payerType.hidden = NO;
-        cell.payerType.image = [UIImage imageNamed:@"moneyPay-90"];
+        cell.payerType.text = @"￥";
+        cell.payerType.hidden = NO;
     }else if ([paytype intValue] == 2) {
         cell.payerType.hidden = NO;
-        cell.payerType.image = [UIImage imageNamed:@"couponPay-90"];
+        cell.payerType.text =  @"券";
+        cell.payerType.hidden = NO;
     }else if ([paytype intValue] == 3) {
         cell.payerType.hidden = NO;
-        cell.payerType.image = [UIImage imageNamed:@"coinPay-90"];
+        cell.payerType.text = @"币";
+        cell.payerType.hidden = NO;
     }else{
         cell.payerType.hidden = YES;
+    }
+    
+    //是否是陪驾订单
+    NSString *subjectname = [dic[@"subjectname"] description];
+    if (subjectname.length == 0 || !subjectname) {
+        cell.accompanyDriveBtn.hidden = YES;
+    }else{
+        cell.accompanyDriveBtn.hidden = NO;
+        //陪驾是否需要教练带车
+        NSString *attachcar = [dic[@"attachcar"] description];
+        if ([attachcar boolValue]) {
+            [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_教练带车"] forState:UIControlStateNormal];
+        }else{
+            [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_学员带车"] forState:UIControlStateNormal];
+        }
     }
     
     //头像
@@ -362,10 +391,10 @@
     }
     
     //任务时间
-    NSString *time = [NSString stringWithFormat:@"%@ ~ %@", startTime, endTime];
+    NSString *time = [NSString stringWithFormat:@"%@ - %@", startTime, endTime];
     NSMutableAttributedString *timeStr = [[NSMutableAttributedString alloc] initWithString:time];
-    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:25] range:NSMakeRange(0, startTime.length - 3)];
-    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:25] range:NSMakeRange(time.length - endTime.length, endTime.length - 3)];
+    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:28] range:NSMakeRange(0, startTime.length - 3)];
+    [timeStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:28] range:NSMakeRange(time.length - endTime.length, endTime.length - 3)];
     [timeStr addAttribute:NSForegroundColorAttributeName value:RGB(210, 210, 210) range:NSMakeRange(startTime.length + 1, 1)];
     cell.timeLabel.attributedText = timeStr;
     
@@ -373,8 +402,7 @@
     cell.finishView.hidden = YES;
     
     //订单总价
-    cell.priceLabel.textColor = RGB(32, 180, 120);
-    cell.priceLabel.text = [NSString stringWithFormat:@"%@元",total];
+    cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",total];
     
     //地址
     cell.addressLabel.text = address;
@@ -428,7 +456,8 @@
     }else {
         if ([_openOrderId isEqualToString:[dic[@"orderid"] description]]) {
             //打开
-            cell.finishView.hidden = YES;
+            cell.finishView.hidden = YES; //打开情况下隐藏黑线
+            cell.blackLine.hidden = YES;
             [self showDetailsCell:cell];
         }else{
             //关闭
@@ -921,22 +950,14 @@
 - (void)hideDetailsCell:(TaskListTableViewCell *)cell
 {
     cell.studentDetailsView.hidden = YES;
-    cell.jiantouImageView.image = [UIImage imageNamed:@"icon_button_right"];
-    cell.iconTop.constant = 32;
-    cell.iconRight.constant = 11;
-    cell.iconWidth.constant = 9;
-    cell.iconHeight.constant = 15;
+    [cell.jiantouImageView setImage:[UIImage imageNamed:@"icon_button_right"] forState:UIControlStateNormal];
 }
 
 #pragma mark details展开
 - (void)showDetailsCell:(TaskListTableViewCell *)cell
 {
     cell.studentDetailsView.hidden = NO;
-    cell.jiantouImageView.image = [UIImage imageNamed:@"icon_button_down"];
-    cell.iconTop.constant = 35;
-    cell.iconRight.constant = 8;
-    cell.iconWidth.constant = 14;
-    cell.iconHeight.constant = 9;
+    [cell.jiantouImageView setImage:[UIImage imageNamed:@"icon_button_down"] forState:UIControlStateNormal];
 }
 
 #pragma mark 完成任务删除cell

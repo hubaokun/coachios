@@ -317,7 +317,14 @@
             //不显示第二行的section
             height = 0;
         }else{
-            height += 16;
+            NSDictionary * coachInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+            NSString *state = [coachInfo[@"state"] description];
+            if (![state isEqualToString:@"2"]) {
+                height += 16+32;
+            }else{
+                height += 16;
+            }
+            
         }
         
     }else{
@@ -416,14 +423,29 @@
         }
         
     }
-    
+    //日历view高度
+    self.dateView.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.monthDayView.frame.origin.y + CGRectGetHeight(self.monthDayView.frame) + 16);
     if (isReload2Section && section == 1){
         self.openBtn.frame = CGRectMake(0, dayY, SCREEN_WIDTH, 16);
         [self.dateView addSubview:self.openBtn];
+        NSDictionary * coachInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+        NSString *state = [coachInfo[@"state"] description];
+        if (![state isEqualToString:@"2"]) {
+            UIView *signView = [[UIView alloc]initWithFrame:CGRectMake(0, dayY+16, SCREEN_WIDTH, 32)];
+            signView.backgroundColor = RGB(249, 239, 210);
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 11, 6, 9)];
+            imageView.image = [UIImage imageNamed:@"ic_arrowForSchedule"];
+            [signView addSubview:imageView];
+            UIButton *remindButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, signView.width, signView.height)];
+            [remindButton addTarget:self action:@selector(clickCoachInfo) forControlEvents:UIControlEventTouchUpInside];
+            remindButton.titleLabel.font = [UIFont systemFontOfSize:12];
+            [remindButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+            [remindButton setTitle:@"     还未通过教练认证，学员无法找到您，马上认证" forState:UIControlStateNormal];
+            [remindButton setTitleColor:RGB(252, 89, 0) forState:UIControlStateNormal];
+            [signView addSubview:remindButton];
+            [self.dateView addSubview:signView];
+        }
     }
-    
-    //日历view高度
-    self.dateView.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.monthDayView.frame.origin.y + CGRectGetHeight(self.monthDayView.frame) + 16);
     self.dateView.backgroundColor = [UIColor blackColor];
     return self.dateView;
 }
@@ -437,16 +459,40 @@
             //不显示第一行的section
             return 0;
         }
-        return 16;
+        NSDictionary * coachInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+        NSString *state = [coachInfo[@"state"] description];
+        if (![state isEqualToString:@"2"]) {
+            return 16+32;
+        }else{
+            return 16;
+        }
+        
     }
     return 0;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 16)];
-    view.backgroundColor = [UIColor blackColor];
+//    view.backgroundColor = [UIColor blackColor];
     self.openBtn.frame = CGRectMake(0, 0, SCREEN_WIDTH, 16);
     [view addSubview:self.openBtn];
+    NSDictionary * coachInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *state = [coachInfo[@"state"] description];
+    if (![state isEqualToString:@"2"]) {
+        UIView *signView = [[UIView alloc]initWithFrame:CGRectMake(0, 16, SCREEN_WIDTH, 32)];
+        signView.backgroundColor = RGB(249, 239, 210);
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 11, 6, 9)];
+        imageView.image = [UIImage imageNamed:@"ic_arrowForSchedule"];
+        [signView addSubview:imageView];
+        UIButton *remindButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, signView.width, signView.height)];
+        [remindButton addTarget:self action:@selector(clickCoachInfo) forControlEvents:UIControlEventTouchUpInside];
+        remindButton.titleLabel.font = [UIFont systemFontOfSize:12];
+        [remindButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [remindButton setTitle:@"     还未通过教练认证，学员无法找到您，马上认证" forState:UIControlStateNormal];
+        [remindButton setTitleColor:RGB(252, 89, 0) forState:UIControlStateNormal];
+        [signView addSubview:remindButton];
+        [view addSubview:signView];
+    }
     return view;
 }
 
@@ -880,6 +926,7 @@
                     price = [arrDic[@"price"] description];
                     subject = [arrDic[@"subject"] description];
                     isrest = [arrDic[@"isrest"] description];
+                    subjectid = [arrDic[@"subjectid"] description];
                     bookedername = [arrDic[@"bookedername"] description];
                     if ([CommonUtil isEmpty:subjectid]) {
                         subjectid = @"0";
@@ -940,6 +987,11 @@
                     teachTypeLabel.textColor = RGB(22, 127, 83);
                     alreadyOrder.hidden = YES;
                     timeDetailView.layer.borderWidth = 0;
+                    if ([subjectid intValue] == 4) {
+                        timeDetailView.backgroundColor = RGB(60, 190, 250);
+                        priceLabel.textColor = RGB(26, 116, 157);
+                        teachTypeLabel.textColor = RGB(26, 116, 157);
+                    }
                 }
             }
             
@@ -958,6 +1010,23 @@
                 }
             }
             
+            //设置已过期的时间
+            NSMutableArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间
+            for (NSString *expire in expireArray) {
+                if ([time isEqualToString:expire]) {
+                    button.selected = NO;
+                    
+                    //未选中状态
+                    priceLabel.text = @"已过期";
+                    timeDetailView.backgroundColor = [UIColor clearColor];
+                    timeLabel.textColor = RGB(185, 185, 185);
+                    priceLabel.textColor = RGB(185, 185, 185);
+                    teachTypeLabel.textColor = RGB(185, 185, 185);
+                    alreadyOrder.hidden = YES;
+                    timeDetailView.layer.borderWidth = 1;
+                }
+            }
+            
             //设置已约的时间
             NSMutableArray *bookArray = [selectDic objectForKey:@"bookArray"];//已约时间
             for (NSString *restTime in bookArray) {
@@ -973,23 +1042,6 @@
                     teachTypeLabel.textColor = RGB(158, 85, 6);
                     alreadyOrder.hidden = NO;
                     timeDetailView.layer.borderWidth = 0;
-                }
-            }
-            
-            //设置已过期的时间
-            NSMutableArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间
-            for (NSString *expire in expireArray) {
-                if ([time isEqualToString:expire]) {
-                    button.selected = NO;
-                    
-                    //未选中状态
-                    priceLabel.text = @"已过期";
-                    timeDetailView.backgroundColor = [UIColor clearColor];
-                    timeLabel.textColor = RGB(185, 185, 185);
-                    priceLabel.textColor = RGB(185, 185, 185);
-                    teachTypeLabel.textColor = RGB(185, 185, 185);
-                    alreadyOrder.hidden = YES;
-                    timeDetailView.layer.borderWidth = 1;
                 }
             }
         }
@@ -1158,6 +1210,7 @@
                         [dic setValue:[defaultDic[@"subject"] description] forKey:@"subject"];
                         [dic setValue:[defaultDic[@"addressid"] description] forKey:@"addressid"];
                         [dic setValue:[defaultDic[@"addressdetail"] description] forKey:@"addressdetail"];
+                        [dic setValue:[defaultDic[@"cuseraddtionalprice"] description] forKey:@"cuseraddtionalprice"];
                         [list replaceObjectAtIndex:i withObject:dic];
                     }
                 }
@@ -1273,6 +1326,7 @@
     NSString *key = @"selectState";
     NSMutableDictionary *selectDic = [NSMutableDictionary dictionaryWithDictionary:[dic objectForKey:key]];
     NSMutableArray *array = [NSMutableArray arrayWithArray:[selectDic objectForKey:@"selectArray"]];//选择的日期
+    [array removeAllObjects];
     NSArray *bookArray = [selectDic objectForKey:@"bookArray"];//已经预约时间点集合
     NSArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间点集合
     if ([isrestTag isEqualToString:@"NO"]) {
@@ -1303,6 +1357,13 @@
     self.selectDate = [CommonUtil getDateForString:date format:@"yyyy-MM-dd"];
     [self testOpenOrCloseView];
     [self getDefaultSchedule];
+}
+
+- (void)clickCoachInfo
+{
+    CoachInfoViewController *nextViewController = [[CoachInfoViewController alloc]initWithNibName:@"CoachInfoViewController" bundle:nil];
+    nextViewController.superViewNum = @"1";
+    [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
 - (void)testOpenOrCloseView
@@ -1979,6 +2040,7 @@
                 }else{
                    [timeDic setObject:@"0" forKey:@"isrest"];
                 }
+                
                 [array replaceObjectAtIndex:i withObject:timeDic];
                 [changeArray addObject:timeDic];
             }
@@ -2021,6 +2083,13 @@
     }else{
         array = changeArray;
     }
+    NSMutableArray *mutableArray1 = [NSMutableArray arrayWithArray:array];
+    for (int i=0; i<array.count; i++) {
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:array[i]];
+        [dic setValue:dic[@"cuseraddtionalprice"] forKey:@"addtionalprice"];
+        [mutableArray1 replaceObjectAtIndex:i withObject:dic];
+    }
+    array  = mutableArray1;
     NSData *data = [self toJSONData:array];
     NSString *jsonString = [[NSString alloc] initWithData:data
                                                  encoding:NSUTF8StringEncoding];

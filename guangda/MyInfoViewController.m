@@ -866,6 +866,10 @@
                 self.coachInfoState.text = @"【未提交资格审核】";
                 self.coachInfoState.textColor = RGB(180, 180, 180);
             }
+            NSMutableDictionary * ds = [NSMutableDictionary dictionaryWithDictionary:[CommonUtil getObjectFromUD:@"userInfo"]];
+            [ds setObject:state forKey:@"state"];
+            [CommonUtil saveObjectToUD:ds key:@"userInfo"];
+            
         }else{
             NSString *message = responseObject[@"message"];
             [self makeToast:message];

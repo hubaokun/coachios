@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AboutUsViewController">
             <connections>
+                <outlet property="testLabel" destination="qh7-lB-Y1G" id="4jG-bz-OP2"/>
                 <outlet property="version" destination="gHd-Wv-Pnv" id="lm5-az-pzw"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -83,11 +84,23 @@
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="测试服" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qh7-lB-Y1G">
+                            <rect key="frame" x="250" y="224" width="100" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="100" id="P7b-85-CNd"/>
+                                <constraint firstAttribute="height" constant="21" id="xOB-MU-723"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="xge-vB-Q4A" firstAttribute="top" secondItem="DEt-zN-UCL" secondAttribute="bottom" constant="8" id="Amb-Zu-0tS"/>
                         <constraint firstAttribute="centerX" secondItem="gHd-Wv-Pnv" secondAttribute="centerX" id="RoI-na-Zq7"/>
+                        <constraint firstItem="qh7-lB-Y1G" firstAttribute="centerX" secondItem="87q-v5-SdO" secondAttribute="centerX" id="b3y-iY-9uB"/>
+                        <constraint firstItem="qh7-lB-Y1G" firstAttribute="top" secondItem="gHd-Wv-Pnv" secondAttribute="bottom" constant="8" id="dXa-Zs-a4D"/>
                         <constraint firstItem="DEt-zN-UCL" firstAttribute="top" secondItem="87q-v5-SdO" secondAttribute="top" constant="54" id="iKj-ez-KM2"/>
                         <constraint firstAttribute="centerX" secondItem="xge-vB-Q4A" secondAttribute="centerX" id="p7E-2b-IXO"/>
                         <constraint firstAttribute="height" constant="259" id="pSj-g7-u2X"/>

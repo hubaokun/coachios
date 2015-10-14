@@ -18,6 +18,11 @@
     self.noCancelBtn.layer.cornerRadius = 3;
     self.noCancelBtn.layer.masksToBounds = YES;
     
+    self.payerType.layer.cornerRadius = 2;
+    self.payerType.layer.masksToBounds = YES;
+    self.payerType.layer.borderColor = RGB(210, 210, 210).CGColor;
+    self.payerType.layer.borderWidth = 0.5;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
