@@ -41,6 +41,7 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *payerType;
 @property (strong, nonatomic) NSString *payerTypeStr;
+@property (strong, nonatomic) IBOutlet UILabel *payerType2;
 
 @property (strong, nonatomic) IBOutlet UIButton *accompanyDriveBtn;
 @property (strong, nonatomic) IBOutlet UIButton *rentCarButton;

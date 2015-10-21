@@ -27,7 +27,7 @@
 @property (strong, nonatomic) IBOutlet UIScrollView *mainScrollView;
 @property (strong, nonatomic) IBOutlet UIScrollView *timeScrollView;//时间点scrollView
 @property (strong, nonatomic) IBOutlet UISwitch *stateSwitch;//状态开关
-@property (strong, nonatomic) IBOutlet UILabel *timeStateLabel;//时间状态描述文字
+@property (strong, nonatomic) IBOutlet UILabel *timeStateLabel;
 @property (strong, nonatomic) IBOutlet UILabel *priceTitleLabel;
 @property (strong, nonatomic) IBOutlet UITextField *priceTextField;//价格
 @property (strong, nonatomic) IBOutlet UIButton *pricePencilBtn;
@@ -60,10 +60,12 @@
 @property (strong, nonatomic) NSString *selectPickerTag;//选中的标记
 
 @property (nonatomic) CGRect viewRect;
-@property (weak, nonatomic) IBOutlet UILabel *timePriceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timePriceLabel;//时间状态描述文字
 @property (strong, nonatomic) IBOutlet UILabel *rentTitleLabel;
 
 - (IBAction)clickForback:(id)sender;
+
+@property (strong, nonatomic) IBOutlet UIButton *experienceClass;
 
 @end
 
@@ -99,6 +101,13 @@
     [self getContentData];
     [self initView];
     
+    
+    [self.experienceClass setTitleColor:RGB(28, 28, 28) forState:UIControlStateNormal];
+    [self.experienceClass setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [self.experienceClass setImage:[UIImage imageNamed:@"btn_checkbox_unchecked"] forState:UIControlStateNormal];
+    [self.experienceClass setImage:[UIImage imageNamed:@"btn_checkbox_checked"] forState:UIControlStateSelected];
+    [self.experienceClass addTarget:self action:@selector(clickForChoose:) forControlEvents:UIControlEventTouchUpInside];
+    self.experienceClass.hidden = YES;
 }
 
 #pragma mark - 监听
@@ -182,6 +191,13 @@
     }else{
         self.rentBackView.hidden = YES;
         self.isRentConstraint.constant = 0;
+    }
+    
+    NSString *isfreecourse = [self.timeDic[@"isfreecourse"] description];
+    if ([isfreecourse boolValue]) {
+        self.experienceClass.selected = YES;
+    }else{
+        self.experienceClass.selected = NO;
     }
         //打开状态
         self.timeStateLabel.text = @"开课状态，若关闭，以上时间点屏蔽任何 学员选课！";
@@ -373,6 +389,27 @@
 }
 
 #pragma mark - action
+
+- (void)clickForChoose:(id)sender
+{
+    self.comfirmBtn.selected = YES;
+    if (self.experienceClass.selected) {
+        self.experienceClass.selected = NO;
+        //价格
+        NSString *price = [self.timeDic[@"price"] description];
+        price = [CommonUtil isEmpty:price]?@"":price;
+        price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
+        self.priceTextField.text = price;
+        self.priceTextField.enabled = YES;
+        self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+    }else{
+        self.experienceClass.selected = YES;
+        self.priceTextField.text = @"0";
+        self.timePriceLabel.text = @"课时单价（体验课价格为0元)";
+        self.priceTextField.enabled = NO;
+    }
+}
+
 - (IBAction)clickForChangeState:(id)sender {
     UISwitch *swi = (UISwitch *)sender;
     if (swi.isOn) {
@@ -428,7 +465,6 @@
 //        [self.priceTextField resignFirstResponder];
 //    }else{
         [self.priceTextField becomeFirstResponder];
-    [self.carRent becomeFirstResponder];
     //    }
 }
 
@@ -531,6 +567,22 @@
                 self.rentBackView.hidden = YES;
                 self.isRentConstraint.constant = 0;
             }
+            if ([self.subjectId intValue] == 1||[self.subjectId intValue] == 2) {
+                self.experienceClass.hidden = NO;
+            }else{
+                self.experienceClass.hidden = YES;
+                self.experienceClass.selected = NO;
+                if ([self.priceTextField.text intValue]==0) {
+                    //价格
+                    NSString *price = [self.timeDic[@"price"] description];
+                    price = [CommonUtil isEmpty:price]?@"":price;
+                    price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
+                    self.priceTextField.text = @"";
+                    self.priceTextField.enabled = YES;
+                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                    [self.priceTextField becomeFirstResponder];
+                }
+            }
         }
         [self.selectView removeFromSuperview];
         self.comfirmBtn.selected = YES;
@@ -541,39 +593,69 @@
 
 - (IBAction)clickForConfirm:(id)sender {
     if (self.comfirmBtn.selected) {
-        NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue] && [self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
-            if ([CommonUtil isEmpty:price]) {
-                [self makeToast:@"请输入时间单价"];
-                [self.priceTextField becomeFirstResponder];
-                return;
-            }
-            
-            if ([CommonUtil isEmpty:self.addressTextField.text]) {
-                [self makeToast:@"请选择学车地址"];
-                return;
-            }
-            
-            if ([CommonUtil isEmpty:self.contentTextField.text]) {
-                [self makeToast:@"请选择教学内容"];
-                return;
-            }
-            
-            if ([CommonUtil isEmpty:rentPrice]) {
-                [self makeToast:@"请输入教练车租金单价"];
-                return;
-            }
-            
-            [self.priceTextField resignFirstResponder];
-            [self.carRent resignFirstResponder];
-            [self comfirmMsg];
+        [self checkOpenClass];
+    }
+}
+
+- (void)checkOpenClass
+{
+    NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue] && [self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+        if ([CommonUtil isEmpty:price]) {
+            [self makeToast:@"请输入时间单价"];
+            [self.priceTextField becomeFirstResponder];
+            return;
+        }
+        
+        if ([CommonUtil isEmpty:self.addressTextField.text]) {
+            [self makeToast:@"请选择学车地址"];
+            return;
+        }
+        
+        if ([CommonUtil isEmpty:self.contentTextField.text]) {
+            [self makeToast:@"请选择教学内容"];
+            return;
+        }
+        
+        if ([CommonUtil isEmpty:rentPrice]) {
+            [self makeToast:@"请输入教练车租金单价"];
+            return;
+        }
+        
+        [self.priceTextField resignFirstResponder];
+        [self.carRent resignFirstResponder];
+        [self comfirmMsg];
+    }else if(self.experienceClass.selected){
+        if ([CommonUtil isEmpty:price]) {
+            [self makeToast:@"请输入时间单价"];
+            [self.priceTextField becomeFirstResponder];
+            return;
+        }
+        
+        if ([CommonUtil isEmpty:self.addressTextField.text]) {
+            [self makeToast:@"请选择学车地址"];
+            return;
+        }
+        
+        if ([CommonUtil isEmpty:self.contentTextField.text]) {
+            [self makeToast:@"请选择教学内容"];
+            return;
+        }
+        
+        if ([CommonUtil isEmpty:rentPrice]) {
+            [self makeToast:@"请输入教练车租金单价"];
+            return;
+        }
+        
+        [self.priceTextField resignFirstResponder];
+        [self.carRent resignFirstResponder];
+        [self comfirmMsg];
+    }else{
+        if ([self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+            [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
         }else{
-            if ([self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
-                [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
-            }else{
-                [self makeToast:[NSString stringWithFormat:@"教练车租用金单价须在%@元～%@元之间",rentminPrice,rentmaxPrice]];
-            }
+            [self makeToast:[NSString stringWithFormat:@"教练车租用金单价须在%@元～%@元之间",rentminPrice,rentmaxPrice]];
         }
     }
 }
@@ -656,6 +738,13 @@
     
     NSMutableDictionary *mutableDic = [NSMutableDictionary dictionaryWithDictionary:self.timeDic];
     [mutableDic setObject:price forKey:@"price"];
+    if (self.experienceClass.selected) {
+        NSString *isfreecourse = @"1";
+        [mutableDic setObject:isfreecourse forKey:@"isfreecourse"];
+    }else{
+        NSString *isfreecourse = @"0";
+        [mutableDic setObject:isfreecourse forKey:@"isfreecourse"];
+    }
     [mutableDic setObject:[self.subjectId description] forKey:@"subjectid"];
     [mutableDic setObject:subject forKey:@"subject"];
     [mutableDic setObject:[self.addressId description] forKey:@"addressid"];
@@ -724,6 +813,35 @@
     if ([code intValue] == 1) {
         if (request.tag == 0) {
             self.addressArray = [NSMutableArray arrayWithArray:result[@"addresslist"]];
+            //地址
+            NSString *address = [CommonUtil isEmpty:self.timeDic[@"addressdetail"]]?@"":self.timeDic[@"addressdetail"];
+            NSString *addressid = [self.timeDic[@"addressid"] description];
+            NSString *iscurrentAddName = @"";
+            NSString *iscurrentAddId = @"";
+            BOOL isNot = NO;
+            for (int i=0; i<self.addressArray.count; i++) {
+                NSDictionary *addressDic = self.addressArray[i];
+                NSString *addId = [addressDic[@"addressid"] description];
+                NSString *iscurrent = [addressDic[@"iscurrent"] description];
+                if ([addId isEqualToString:addressid]) {
+                    isNot = YES;
+                }
+                if ([iscurrent boolValue]) {
+                    iscurrentAddName = [addressDic[@"detail"] description];
+                    iscurrentAddId = [addressDic[@"addressid"] description];
+                }
+            }
+            if (isNot) //是否不匹配，若不匹配就用默认地址
+            {
+                self.addressTextField.text = address;       //上个页面传进来的
+                self.addressId = self.timeDic[@"addressid"];
+            }else{
+                self.addressTextField.text = iscurrentAddName;
+                self.addressId = iscurrentAddId;
+            }
+            
+            
+            
         }else if (request.tag == 1){
             self.subjectArray = [NSMutableArray arrayWithArray:result[@"subjectlist"]];
         }else if (request.tag == 2){
@@ -751,6 +869,19 @@
             rentminPrice = [result[@"attachcarminprice"] description];
             rentmaxPrice = [result[@"attachcarmaxprice"] description];
             self.rentTitleLabel.text = [NSString stringWithFormat:@"教练车租用金（单位：元/小时，价格区间：%@元～%@元）",rentminPrice,rentmaxPrice];
+            
+            if ([self.subjectId intValue] == 2 ||[self.subjectId intValue] == 1) {
+                self.experienceClass.hidden = NO;
+                if (self.experienceClass.selected) {
+                    self.priceTextField.text = @"0";
+                    self.timePriceLabel.text = @"课时单价（体验课价格为0元)";
+                    self.priceTextField.enabled = NO;
+                }
+            }else{
+                self.experienceClass.hidden = YES;
+            }
+            
+            
         }
     }else if([code intValue] == 95){
         [self makeToast:message];
@@ -801,29 +932,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0) {
-            NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if ([CommonUtil isEmpty:price]) {
-                [self makeToast:@"请输入时间单价"];
-                [self.priceTextField becomeFirstResponder];
-                return;
-            }
-            
-            if ([CommonUtil isEmpty:self.addressTextField.text]) {
-                [self makeToast:@"请选择学车地址"];
-                return;
-            }
-            
-            if ([CommonUtil isEmpty:self.contentTextField.text]) {
-                [self makeToast:@"请选择教学内容"];
-                return;
-            }
-        if ([CommonUtil isEmpty:self.carRent.text]) {
-            [self makeToast:@"请输入教练车租用金"];
-        }
-        
-        [self.priceTextField resignFirstResponder];
-        
-        [self comfirmMsg];
+        [self checkOpenClass];
     }else if(buttonIndex == 1){
         [self.priceTextField resignFirstResponder];
         [self.carRent resignFirstResponder];

@@ -25,6 +25,7 @@
 @property (strong, nonatomic) NSString *crewardamount;//认证奖励
 @property (strong, nonatomic) NSString *orewardamount;//开单奖励
 @property (strong, nonatomic) NSString *needOpenSchedule;//需要开课
+@property (strong, nonatomic) NSString *fromSerAddrive;//从设置地址来
 
 @property (strong, nonatomic) NSString *superViewNum;
 @property (strong, nonatomic) MainViewController *mainController;

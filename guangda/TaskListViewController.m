@@ -272,7 +272,7 @@
     NSArray *array = dic[@"list"];
     //隐藏最后一条黑线
     if (indexPath.section == [self.taskList indexOfObject:dic]) {
-        if (indexPath.row == dic.count-1) {
+        if (indexPath.row == array.count-1) {
             cell.blackLine.hidden = YES;
         }else{
             cell.blackLine.hidden = NO;
@@ -338,18 +338,28 @@
     NSString *paytype = [dic[@"paytype"] description];
     if ([paytype intValue] == 1) {
         cell.payerType.hidden = NO;
-        cell.payerType.text = @"￥";
+        cell.payerType.text = @"¥";
         cell.payerType.hidden = NO;
+        cell.payerType2.hidden = YES;
     }else if ([paytype intValue] == 2) {
         cell.payerType.hidden = NO;
         cell.payerType.text =  @"券";
         cell.payerType.hidden = NO;
+        cell.payerType2.hidden = YES;
     }else if ([paytype intValue] == 3) {
         cell.payerType.hidden = NO;
         cell.payerType.text = @"币";
         cell.payerType.hidden = NO;
+        cell.payerType2.hidden = YES;
+    }else if ([paytype intValue] == 4) {
+        cell.payerType.hidden = NO;
+        cell.payerType.text = @"币";
+        cell.payerType.hidden = NO;
+        cell.payerType.text = @"￥";
+        cell.payerType2.hidden = NO;
     }else{
         cell.payerType.hidden = YES;
+        cell.payerType2.hidden = YES;
     }
     
     //是否是陪驾订单
@@ -365,6 +375,11 @@
         }else{
             [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_学员带车"] forState:UIControlStateNormal];
         }
+    }
+    NSString *coursetype = [dic[@"coursetype"] description];
+    if ([coursetype intValue] == 5) {
+        cell.accompanyDriveBtn.hidden = NO;
+        [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_not_attach_car"] forState:UIControlStateNormal];
     }
     
     //头像

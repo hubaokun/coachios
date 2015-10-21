@@ -223,6 +223,12 @@
         [self clickForStart:nil];
         app.needOpenSchedule = @"0";
     }
+    if ([app.fromSerAddrive intValue] == 1) {
+        [DejalBezelActivityView activityViewForView:self.view];
+        [self getScheduleList];
+        app.fromSerAddrive = @"0";
+    }
+    
     needRefresh = YES;
     
 }
@@ -879,6 +885,13 @@
             timeDetailView.layer.borderColor = RGB(243, 243, 243).CGColor;
             [contentView addSubview:timeDetailView];
             
+            //体验课
+            UIImageView *experienceClassView = [[UIImageView alloc]initWithFrame:CGRectMake(34, 0, 32, 12)];
+            experienceClassView.backgroundColor = [UIColor clearColor];
+            experienceClassView.image = [UIImage imageNamed:@"体验课"];
+            experienceClassView.hidden = YES;
+            [contentView addSubview:experienceClassView];
+            
             //日期显示
             UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, 66, 26)];
             timeLabel.font = [UIFont systemFontOfSize:17];
@@ -894,7 +907,7 @@
             selectLabel.hidden = YES;
             [contentView addSubview:selectLabel];
             
-            UIImageView *alreadyOrder = [[UIImageView alloc] initWithFrame:CGRectMake(0.5, 0.5, 20, 20)];
+            UIImageView *alreadyOrder = [[UIImageView alloc] initWithFrame:CGRectMake(-0.5, 0, 20, 20)];
             alreadyOrder.backgroundColor = [UIColor clearColor];
             alreadyOrder.image = [UIImage imageNamed:@"约"];
             alreadyOrder.hidden = YES;
@@ -918,6 +931,7 @@
             NSString *subjectid = @"0";
             NSString *isrest = @"2";
             NSString *bookedername = @"";
+            NSString *isfreecourse;
             NSArray *array = dic[@"list"];
             NSString *timeStr = [CommonUtil getStringForDate:[CommonUtil getDateForString:time format:@"H:00"] format:@"H"];
             for (NSDictionary *arrDic in array) {
@@ -928,6 +942,7 @@
                     isrest = [arrDic[@"isrest"] description];
                     subjectid = [arrDic[@"subjectid"] description];
                     bookedername = [arrDic[@"bookedername"] description];
+                    isfreecourse = [arrDic[@"isfreecourse"] description];
                     if ([CommonUtil isEmpty:subjectid]) {
                         subjectid = @"0";
                     }
@@ -977,6 +992,14 @@
                     selectLabel.hidden = NO;
                 }
             }
+            
+            if ([isfreecourse boolValue]) {
+                experienceClassView.hidden = NO;
+                experienceClassView.image = [UIImage imageNamed:@"体验课"];
+            }else{
+                experienceClassView.hidden = YES;
+            }
+            
             //设置已开课的时间
             NSMutableArray *unrestArray = [selectDic objectForKey:@"unrestArray"];//已开课时间
             for (NSString *unrestTime in unrestArray) {
@@ -991,6 +1014,9 @@
                         timeDetailView.backgroundColor = RGB(60, 190, 250);
                         priceLabel.textColor = RGB(26, 116, 157);
                         teachTypeLabel.textColor = RGB(26, 116, 157);
+                    }
+                    if ([isfreecourse boolValue]) {
+                        experienceClassView.image = [UIImage imageNamed:@"体验课_开课"];
                     }
                 }
             }
@@ -1007,8 +1033,12 @@
                     teachTypeLabel.textColor = RGB(68, 68, 68);
                     alreadyOrder.hidden = YES;
                     timeDetailView.layer.borderWidth = 0;
+                    if ([isfreecourse boolValue]) {
+                        experienceClassView.image = [UIImage imageNamed:@"体验课_停课"];
+                    }
                 }
             }
+            
             
             //设置已过期的时间
             NSMutableArray *expireArray = [selectDic objectForKey:@"expireArray"];//已过期时间
@@ -1024,6 +1054,7 @@
                     teachTypeLabel.textColor = RGB(185, 185, 185);
                     alreadyOrder.hidden = YES;
                     timeDetailView.layer.borderWidth = 1;
+                    experienceClassView.hidden = YES;
                 }
             }
             
@@ -1042,6 +1073,10 @@
                     teachTypeLabel.textColor = RGB(158, 85, 6);
                     alreadyOrder.hidden = NO;
                     timeDetailView.layer.borderWidth = 0;
+                    if ([isfreecourse boolValue]) {
+                        experienceClassView.hidden = NO;
+                        experienceClassView.image = [UIImage imageNamed:@"体验课"];
+                    }
                 }
             }
         }
@@ -1200,7 +1235,8 @@
     for (int i=0; i<list.count; i++) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:list[i]];
         NSString *isrest = [dic[@"isrest"] description];
-        if ([isrest intValue]) {
+        NSString *isfreecourse = [dic[@"isfreecourse"] description];
+        if ([isrest intValue] && ![isfreecourse boolValue]) {
             if (self.DefaultSchedule.count > 0) {
                 for (int j=0; j<self.DefaultSchedule.count; j++) {
                     NSDictionary *defaultDic = self.DefaultSchedule[j];
@@ -2037,8 +2073,10 @@
             if ([selectString isEqualToString:str]) {
                 if ([state intValue] == 2) {
                    [timeDic setObject:@"1" forKey:@"isrest"];
+                    [timeDic setObject:@"0" forKey:@"isnew"];
                 }else{
                    [timeDic setObject:@"0" forKey:@"isrest"];
+                     [timeDic setObject:@"1" forKey:@"isnew"];
                 }
                 
                 [array replaceObjectAtIndex:i withObject:timeDic];
@@ -2086,6 +2124,10 @@
     NSMutableArray *mutableArray1 = [NSMutableArray arrayWithArray:array];
     for (int i=0; i<array.count; i++) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:array[i]];
+        NSString *isnew = [dic[@"isnew"] description];
+        if (!isnew || [isnew intValue]!=1) {
+            [dic setValue:@"0" forKey:@"isnew"];
+        }
         [dic setValue:dic[@"cuseraddtionalprice"] forKey:@"addtionalprice"];
         [mutableArray1 replaceObjectAtIndex:i withObject:dic];
     }
@@ -2356,6 +2398,7 @@
     }else{
         //跳转至地址列表画面
         SetAddrViewController *nextViewController = [[SetAddrViewController alloc] initWithNibName:@"SetAddrViewController" bundle:nil];
+        nextViewController.fromSchedule = @"1";
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
     

@@ -10,4 +10,7 @@
 
 @interface SetAddrViewController : GreyTopViewController
 
+@property (nonatomic,strong) NSString *fromSchedule;
+
+
 @end

@@ -58,22 +58,22 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    //判断教练是否能被邀请
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    NSString *addtimeStr = [userInfo[@"addtime"] description];
-    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
-    [formatter setTimeZone:timeZone];
-    NSDate *addtime = [formatter dateFromString:addtimeStr];
-    NSTimeInterval time = [addtime timeIntervalSince1970];
-    NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
-    long long int date = time -nowTime + 6*60*60;
-    if([app.isInvited isEqualToString:@"1"] && date > 0){
-        RecommendCodeViewController *viewController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
-        [app.mainController.navigationController pushViewController:viewController animated:YES];
-    }
+//    //判断教练是否能被邀请
+//    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//    NSString *addtimeStr = [userInfo[@"addtime"] description];
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+//    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    NSTimeZone* timeZone = [NSTimeZone timeZoneWithName:@"Asia/Shanghai"];
+//    [formatter setTimeZone:timeZone];
+//    NSDate *addtime = [formatter dateFromString:addtimeStr];
+//    NSTimeInterval time = [addtime timeIntervalSince1970];
+//    NSTimeInterval nowTime = [[NSDate date] timeIntervalSince1970];
+//    long long int date = time -nowTime + 6*60*60;
+//    if([app.isInvited isEqualToString:@"1"] && date > 0){
+//        RecommendCodeViewController *viewController = [[RecommendCodeViewController alloc] initWithNibName:@"RecommendCodeViewController" bundle:nil];
+//        [app.mainController.navigationController pushViewController:viewController animated:YES];
+//    }
 }
 
 #pragma mark - CustomTabBarDelegate

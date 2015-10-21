@@ -23,6 +23,11 @@
     self.payerType.layer.borderColor = RGB(210, 210, 210).CGColor;
     self.payerType.layer.borderWidth = 0.5;
     
+    self.payerType2.layer.cornerRadius = 2;
+    self.payerType2.layer.masksToBounds = YES;
+    self.payerType2.layer.borderColor = RGB(210, 210, 210).CGColor;
+    self.payerType2.layer.borderWidth = 0.5;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

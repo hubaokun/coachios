@@ -42,6 +42,14 @@
     [self getAddressData];//获取练车地点信息
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+    if ([self.fromSchedule intValue] == 1) {
+        self.fromSchedule = @"0";
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
+    }
+}
+
 #pragma mark - UITabelView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.addrArray.count;
@@ -156,6 +164,11 @@
 -(void) tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSDictionary *dic = self.addrArray[indexPath.row];
+    NSString *iscurrent = [dic[@"iscurrent"] description];
+    if ([iscurrent boolValue]) {
+        [self makeToast:@"默认地址不能删除"];
+        return;
+    }
     NSString *addressid = [dic[@"addressid"] description];
     self.delIndexPath = indexPath;
     
@@ -325,12 +338,15 @@
             if (self.addrArray.count == 0) {
                 //跳转到添加页面
                 self.nodataImageBtn.hidden = NO;
+//                [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshSchedule" object:nil];
             }else{
                 self.nodataImageBtn.hidden = YES;
                 
             }   
         }
-        
+        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+        app.fromSerAddrive = @"1";
+
     } else if([code intValue] == 95){
         [self makeToast:message];
         [CommonUtil logout];
