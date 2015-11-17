@@ -694,38 +694,22 @@
     NSString *studentState = [studentInfo[@"coachstate"] description];//0.未认证 1.认证.
 
     self.selectIndexPath = button.indexPath;
-    if ([studentState intValue] == 1) {
+    if (studentState) {//[studentState intValue] == 1
         //已认证,直接确认上车
         //可以上车
 //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"确认上车？" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
 //        alertView.tag = 2;
 //        [alertView show];
-        if (self.selectIndexPath.section >= self.taskList.count) {
-            return;//数组越界判断
-        }
-        //判断该学员是否填写过资料
-        NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
-        NSArray *array = dic[@"list"];
-        
-        if (self.selectIndexPath.row >= array.count) {
-            return;//数组越界判断
-        }
-        
-        dic = [array objectAtIndex:self.selectIndexPath.row];
-        
-//        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-        [self startLocation];//开始定位
-        
-        [DejalBezelActivityView activityViewForView:self.view];
-        upcarOrderId = [dic[@"orderid"] description];
-        self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(ComfirmTask:) userInfo:nil repeats:NO];
-        
-    }else{
-        //未认证过的话,弹出提示
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"学员还未认证资料,是否去认证?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"先去认证", @"直接上车", nil];
-        alertView.tag = 0;
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"" message:@"确认学员已上车练习" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        alertView.tag = 6;
         [alertView show];
     }
+//    else{
+//        //未认证过的话,弹出提示
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"学员还未认证资料,是否去认证?" message:nil delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"先去认证", @"直接上车", nil];
+//        alertView.tag = 0;
+//        [alertView show];
+//    }
 }
 
 #pragma mark 点击确认下车弹框确认
@@ -849,6 +833,26 @@
             
             [self getOffCarTask:[dic[@"orderid"] description]];
             
+        }
+    }else if (alertView.tag == 6){
+        if (buttonIndex == 1) {
+            if (self.selectIndexPath.section >= self.taskList.count) {
+                return;//数组越界判断
+            }
+            //判断该学员是否填写过资料
+            NSDictionary *dic = [self.taskList objectAtIndex:self.selectIndexPath.section];
+            NSArray *array = dic[@"list"];
+            
+            if (self.selectIndexPath.row >= array.count) {
+                return;//数组越界判断
+            }
+            dic = [array objectAtIndex:self.selectIndexPath.row];
+            //        AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+            [self startLocation];//开始定位
+            
+            [DejalBezelActivityView activityViewForView:self.view];
+            upcarOrderId = [dic[@"orderid"] description];
+            self.confirmTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(ComfirmTask:) userInfo:nil repeats:NO];
         }
     }
 
@@ -1447,10 +1451,10 @@
                     }
                 }];
                 NSString *c_url = [result[@"c_url"] description];
-                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-                NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//                NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 if ([c_flag intValue]==1) {
-                    self.advertisementUrl = getURL;
+                    self.advertisementUrl = c_url;
                 }else{
                     self.advertisementUrl = @"recommend";
                 }

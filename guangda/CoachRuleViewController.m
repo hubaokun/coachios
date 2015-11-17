@@ -8,8 +8,11 @@
 
 #import "CoachRuleViewController.h"
 
-@interface CoachRuleViewController ()<UITextViewDelegate>
+@interface CoachRuleViewController ()<UITextViewDelegate,UIWebViewDelegate>
 @property (strong, nonatomic) IBOutlet UITextView *textView;
+
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
 
 @end
 
@@ -20,7 +23,33 @@
     // Do any additional setup after loading the view from its nib.
     self.textView.delegate = self;
     self.textView.editable = NO;
+    
+    self.textView.hidden = YES;
+    
+    self.webView.delegate = self;
+    NSURLRequest *request;
+    if ([self.fromVC intValue]==1) {
+        request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/servicestandard.html"]];
+    }else if([self.fromVC intValue]==2){
+        request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/popularcoaches.html"]];
+    }
+    [self.webView loadRequest:request];
 }
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    self.titleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    if ([self.fromVC intValue]==1) {
+        self.titleLabel.text = @"服务标准及约定";
+    }else if([self.fromVC intValue]==2){
+        self.titleLabel.text = @"小巴明星教练服务协议";
+    }
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -50,4 +79,7 @@
 }
 */
 
+//- (IBAction)backWebView:(id)sender {
+//    [self.webView goBack];
+//}
 @end

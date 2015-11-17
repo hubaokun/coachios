@@ -23,6 +23,7 @@
 //#define REQUEST_HOST   @"http://192.168.1.88:8080/guangda/"             //吴佳瑞
 //#define REQUEST_HOST   @"http://192.168.1.188:8080/xb"             //卢磊
 //#define REQUEST_HOST   @"http://localhost:8080/xb"             //自己
+//#define REQUEST_HOST   @"http://192.168.1.2/dadmin"             //张哥
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
 #define kMyServlet          [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cmy"]
@@ -35,7 +36,7 @@
 #define kOrderServlet       [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"sorder"]
 #define kAdvertisement         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"adver"]    //广告专用
 #define kRecommend         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"recomm"]   //推荐专用
-#define kLocation         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"location"]   //推荐专用
+#define kLocation         [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"location"]   //定位
 
 #define APP_VERSION    [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 

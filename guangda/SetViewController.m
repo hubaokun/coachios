@@ -20,6 +20,7 @@
 - (IBAction)clickAboutUs:(id)sender;
 - (IBAction)clickLogOff:(id)sender;
 - (IBAction)clickForRule:(id)sender;
+- (IBAction)clickService:(id)sender;
 
 
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
@@ -98,6 +99,13 @@
 
 - (IBAction)clickForRule:(id)sender {
     CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
+    viewController.fromVC = @"1";
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)clickService:(id)sender {
+    CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
+    viewController.fromVC = @"2";
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

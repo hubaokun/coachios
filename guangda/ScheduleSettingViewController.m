@@ -19,8 +19,23 @@
     UILabel *myView3;
     NSString *minPrice;
     NSString *maxPrice;
-    NSString *rentminPrice;
-    NSString *rentmaxPrice;
+    
+    NSString *signstate;   //签约状态 ： 0 未签约，1 已签约 ，2 签约过期
+    NSString *signexpired; //签约到期日期
+    NSString *subject2min; //科目二范围最小值。
+    NSString *subject2max; //科目二范围最大值。
+    NSString *subject3min; //科目三范围最小值。
+    NSString *subject3max; //科目三范围最大值。
+    NSString *trainingmax; //考场训练最大值。
+    NSString *trainingmin; //考场训练最小值。
+    NSString *accompanymin; //陪驾范围最小值。
+    NSString *accompanymax; //陪驾范围最大值。
+    NSString *hirecarmax; //租车范围最大值。
+    NSString *hirecarmin; //租车范围最小值。
+    NSString *tastesubject2min; //体验课科目二范围最小值
+    NSString *tastesubject2max; //体验课科目二范围最大值
+    NSString *tastesubject3min; //体验课科目三范围最小值
+    NSString *tastesubject3max; //体验课科目三范围最大值
 }
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
@@ -96,7 +111,7 @@
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    [self getAutoPosition];
+    [self getCoachPriceRange];
     [self getAddressData];
     [self getContentData];
     [self initView];
@@ -178,9 +193,6 @@
     //价格
     NSString *rentPrice = [self.timeDic[@"cuseraddtionalprice"] description];
     self.carRent.text = rentPrice;
-    
-    minPrice = @"50";
-    maxPrice = @"150";
     
     self.addressId = self.timeDic[@"addressid"];
     self.subjectId = self.timeDic[@"subjectid"];
@@ -372,11 +384,11 @@
     }
     
     if ([textField isEqual:self.carRent]) {
-        if ([self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+        if ([self.carRent.text intValue] <= [hirecarmax intValue] && [self.carRent.text intValue] >=[hirecarmin intValue]) {
             self.pricePencilBtn.selected = NO;
             //            self.view.frame = self.viewRect;
         }else{
-            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",rentminPrice,rentmaxPrice]];
+            [self makeToast:[NSString stringWithFormat:@"请输入%@~%@之间的单价",hirecarmin,hirecarmax]];
             //            [[UIMenuController sharedMenuController] setMenuVisible: YES animated: YES];
         }
     }
@@ -401,12 +413,45 @@
         price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
         self.priceTextField.text = price;
         self.priceTextField.enabled = YES;
-        self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+        if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
+            maxPrice = subject2max;
+            minPrice = subject2min;
+        }else if ([self.subjectId intValue]==2){
+            maxPrice = subject3max;
+            minPrice = subject3min;
+        }else if ([self.subjectId intValue]==3){
+            maxPrice = trainingmax;
+            minPrice = trainingmin;
+        }else if ([self.subjectId intValue]==4){
+            maxPrice = accompanymax;
+            minPrice = accompanymin;
+        }
+        if (maxPrice == minPrice) {
+            self.timePriceLabel.text = @"课时单价";
+            self.priceTextField.enabled = NO;
+        }else{
+            self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+            self.priceTextField.enabled = YES;
+        }
     }else{
         self.experienceClass.selected = YES;
-        self.priceTextField.text = @"0";
-        self.timePriceLabel.text = @"课时单价（体验课价格为0元)";
-        self.priceTextField.enabled = NO;
+        self.priceTextField.enabled = YES;
+        if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
+            maxPrice = tastesubject2max;
+            minPrice = tastesubject2min;
+        }else if ([self.subjectId intValue]==2){
+            maxPrice = tastesubject3max;
+            minPrice = tastesubject3min;
+        }
+        if (maxPrice == minPrice) {
+            self.timePriceLabel.text = @"课时单价";
+            self.priceTextField.text = minPrice;
+            self.priceTextField.enabled = NO;
+        }else{
+            self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+            self.priceTextField.text = minPrice;
+            self.priceTextField.enabled = YES;
+        }
     }
 }
 
@@ -569,9 +614,38 @@
             }
             if ([self.subjectId intValue] == 1||[self.subjectId intValue] == 2) {
                 self.experienceClass.hidden = NO;
+                if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
+                    maxPrice = subject2max;
+                    minPrice = subject2min;
+                }else if ([self.subjectId intValue]==2){
+                    maxPrice = subject3max;
+                    minPrice = subject3min;
+                }
+                if (maxPrice == minPrice) {
+                    self.timePriceLabel.text = @"课时单价";
+                    self.priceTextField.enabled = NO;
+                }else{
+                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                    self.priceTextField.enabled = YES;
+                }
             }else{
                 self.experienceClass.hidden = YES;
                 self.experienceClass.selected = NO;
+                if ([self.subjectId intValue]==3){
+                    maxPrice = trainingmax;
+                    minPrice = trainingmin;
+                }else if ([self.subjectId intValue]==4){
+                    maxPrice = accompanymax;
+                    minPrice = accompanymin;
+                }
+                if (maxPrice == minPrice) {
+                    self.timePriceLabel.text = @"课时单价";
+                    self.priceTextField.text = minPrice;
+                    self.priceTextField.enabled = NO;
+                }else{
+                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                    self.priceTextField.enabled = YES;
+                }
                 if ([self.priceTextField.text intValue]==0) {
                     //价格
                     NSString *price = [self.timeDic[@"price"] description];
@@ -579,15 +653,42 @@
                     price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
                     self.priceTextField.text = @"";
                     self.priceTextField.enabled = YES;
-                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                    if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
+                        maxPrice = subject2max;
+                        minPrice = subject2min;
+                    }else if ([self.subjectId intValue]==2){
+                        maxPrice = subject3max;
+                        minPrice = subject3min;
+                    }
+                    if (maxPrice == minPrice) {
+                        self.timePriceLabel.text = @"课时单价";
+                        self.priceTextField.text = minPrice;
+                        self.priceTextField.enabled = NO;
+                    }else{
+                        self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                        self.priceTextField.text = price;
+                        self.priceTextField.enabled = YES;
+                    }
+                    self.priceTextField.enabled = NO;
                     [self.priceTextField becomeFirstResponder];
                 }
             }
+            
         }
         [self.selectView removeFromSuperview];
         self.comfirmBtn.selected = YES;
         self.selectPickerTag = @"0";
         [self.selectView2 removeFromSuperview];
+        if ([self.priceTextField.text intValue] > [maxPrice intValue]) {
+            self.priceTextField.text = maxPrice;
+        }else if ([self.priceTextField.text intValue] < [minPrice intValue]){
+            self.priceTextField.text = minPrice;
+        }
+        if ([self.carRent.text intValue] > [hirecarmax intValue]) {
+            self.carRent.text = hirecarmax;
+        }else if ([self.carRent.text intValue] < [hirecarmin intValue]){
+            self.carRent.text = hirecarmin;
+        }
     }
 }
 
@@ -601,7 +702,7 @@
 {
     NSString *rentPrice = [self.carRent.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSString *price = [self.priceTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue] && [self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+    if ([self.priceTextField.text intValue] <= [maxPrice intValue] && [self.priceTextField.text intValue] >=[minPrice intValue] && [self.carRent.text intValue] <= [hirecarmax intValue] && [self.carRent.text intValue] >=[hirecarmin intValue]) {
         if ([CommonUtil isEmpty:price]) {
             [self makeToast:@"请输入时间单价"];
             [self.priceTextField becomeFirstResponder];
@@ -652,10 +753,18 @@
         [self.carRent resignFirstResponder];
         [self comfirmMsg];
     }else{
-        if ([self.carRent.text intValue] <= [rentmaxPrice intValue] && [self.carRent.text intValue] >=[rentminPrice intValue]) {
+        if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
             [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
-        }else{
-            [self makeToast:[NSString stringWithFormat:@"教练车租用金单价须在%@元～%@元之间",rentminPrice,rentmaxPrice]];
+        }else if ([self.subjectId intValue]==2){
+            [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
+        }else if ([self.subjectId intValue]==3){
+            [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
+        }else if ([self.subjectId intValue]==4){
+            if ([self.carRent.text intValue] <= [hirecarmax intValue] && [self.carRent.text intValue] >=[hirecarmin intValue]) {
+                [self makeToast:[NSString stringWithFormat:@"课时单价须在%@元～%@元之间",minPrice,maxPrice]];
+            }else{
+                [self makeToast:[NSString stringWithFormat:@"教练车租用金单价须在%@元～%@元之间",hirecarmin,hirecarmax]];
+            }
         }
     }
 }
@@ -671,18 +780,6 @@
     [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
     [request startAsynchronous];
 }
-//获取价格区间
-- (void)getAutoPosition{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kLocation]];
-    request.tag = 3;
-    request.delegate = self;
-    [request setPostValue:@"getAutoPosition" forKey:@"action"];
-    [request setPostValue:[userInfo[@"coachid"] description] forKey:@"coachid"];
-    [request setPostValue:[userInfo[@"cityid"] description] forKey:@"cityid"];
-    [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
-    [request startAsynchronous];
-}
 
 //获取教学内容
 - (void)getContentData{
@@ -695,6 +792,32 @@
     [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
     [request startAsynchronous];
 }
+
+//获取教练的价格区间
+- (void)getCoachPriceRange{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
+    request.tag = 3;
+    request.delegate = self;
+    [request setPostValue:@"getCoachPriceRange" forKey:@"action"];
+    [request setPostValue:[userInfo[@"coachid"] description] forKey:@"coachid"];
+    [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
+    [request startAsynchronous];
+}
+
+
+////获取价格区间
+//- (void)getAutoPosition{
+//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kLocation]];
+//    request.tag = 3;
+//    request.delegate = self;
+//    [request setPostValue:@"getAutoPosition" forKey:@"action"];
+//    [request setPostValue:[userInfo[@"coachid"] description] forKey:@"coachid"];
+//    [request setPostValue:[userInfo[@"cityid"] description] forKey:@"cityid"];
+//    [request setPostValue:[userInfo[@"token"] description] forKey:@"token"];
+//    [request startAsynchronous];
+//}
 
 //提交修改信息
 - (void)comfirmMsg{
@@ -863,25 +986,92 @@
             }
             [[NSNotificationCenter defaultCenter] postNotificationName:@"changeDaySchedule" object:self.allDayArray];
         }else if (request.tag == 3){
-            minPrice = [result[@"minprice"] description];
-            maxPrice = [result[@"maxprice"] description];
-            self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
-            rentminPrice = [result[@"attachcarminprice"] description];
-            rentmaxPrice = [result[@"attachcarmaxprice"] description];
-            self.rentTitleLabel.text = [NSString stringWithFormat:@"教练车租用金（单位：元/小时，价格区间：%@元～%@元）",rentminPrice,rentmaxPrice];
+            NSDictionary *UserInfo = result[@"UserInfo"];
+            signstate = [UserInfo[@"signstate"] description];   //签约状态 ： 0 未签约，1 已签约 ，2 签约过期
+            signexpired = [UserInfo[@"signexpired"] description]; ; //签约到期日期
+            subject2min = [UserInfo[@"subject2min"] description]; ; //科目二范围最小值。
+            subject2max = [UserInfo[@"subject2max"] description]; ; //科目二范围最大值。
+            subject3min = [UserInfo[@"subject3min"] description]; ; //科目三范围最小值。
+            subject3max = [UserInfo[@"subject3max"] description]; ; //科目三范围最大值。
+            trainingmax = [UserInfo[@"trainingmax"] description]; ; //考场训练最大值。
+            trainingmin = [UserInfo[@"trainingmin"] description]; ; //考场训练最小值。
+            accompanymin = [UserInfo[@"accompanymin"] description]; ; //陪驾范围最小值。
+            accompanymax = [UserInfo[@"accompanymax"] description]; ; //陪驾范围最大值。
+            hirecarmax = [UserInfo[@"hirecarmax"] description]; ; //租车范围最大值。
+            hirecarmin = [UserInfo[@"hirecarmin"] description]; ; //租车范围最小值。
+            tastesubject2min = [UserInfo[@"tastesubject2min"] description]; ; //体验课科目二范围最小值
+            tastesubject2max = [UserInfo[@"tastesubject2max"] description]; ; //体验课科目二范围最大值
+            tastesubject3min = [UserInfo[@"tastesubject3min"] description]; ; //体验课科目三范围最小值
+            tastesubject3max = [UserInfo[@"tastesubject3max"] description]; ; //体验课科目三范围最大值
+            if (self.experienceClass.selected) {
+                if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
+                    maxPrice = tastesubject2max;
+                    minPrice = tastesubject2min;
+                }else if ([self.subjectId intValue]==2){
+                    maxPrice = tastesubject3max;
+                    minPrice = tastesubject3min;
+                }
+                if (maxPrice == minPrice) {
+                    self.timePriceLabel.text = @"课时单价";
+                    self.priceTextField.text = minPrice;
+                    self.priceTextField.enabled = NO;
+                }else{
+                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                    self.priceTextField.text = minPrice;
+                    self.priceTextField.enabled = YES;
+                }
+            }else{
+                //价格
+                NSString *price = [self.timeDic[@"price"] description];
+                price = [CommonUtil isEmpty:price]?@"":price;
+                price = price;//[NSString stringWithFormat:@"%d", [price floatValue]];
+                self.priceTextField.text = price;
+                if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
+                    maxPrice = subject2max;
+                    minPrice = subject2min;
+                }else if ([self.subjectId intValue]==2){
+                    maxPrice = subject3max;
+                    minPrice = subject3min;
+                }else if ([self.subjectId intValue]==3){
+                    maxPrice = trainingmax;
+                    minPrice = trainingmin;
+                }else if ([self.subjectId intValue]==4){
+                    maxPrice = accompanymax;
+                    minPrice = accompanymin;
+                }
+                if (maxPrice == minPrice) {
+                    self.timePriceLabel.text = @"课时单价";
+                    self.priceTextField.enabled = NO;
+                }else{
+                    self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
+                    self.priceTextField.enabled = YES;
+                }
+            }
+            if (hirecarmin == hirecarmax) {
+                self.rentTitleLabel.text = @"教练车租用金";
+                self.carRent.text = hirecarmin;
+                self.carRent.enabled = NO;
+            }else{
+                self.rentTitleLabel.text = [NSString stringWithFormat:@"教练车租用金（单位：元/小时，价格区间：%@元～%@元）",hirecarmin,hirecarmax];
+                self.carRent.enabled = YES;
+            }
             
             if ([self.subjectId intValue] == 2 ||[self.subjectId intValue] == 1) {
                 self.experienceClass.hidden = NO;
-                if (self.experienceClass.selected) {
-                    self.priceTextField.text = @"0";
-                    self.timePriceLabel.text = @"课时单价（体验课价格为0元)";
-                    self.priceTextField.enabled = NO;
-                }
             }else{
                 self.experienceClass.hidden = YES;
             }
             
-            
+            if ([self.priceTextField.text intValue] > [maxPrice intValue]) {
+                self.priceTextField.text = maxPrice;
+            }else if ([self.priceTextField.text intValue] < [minPrice intValue]){
+                self.priceTextField.text = minPrice;
+            }
+            if ([self.carRent.text intValue] > [hirecarmax intValue]) {
+                self.carRent.text = hirecarmax;
+            }else if ([self.carRent.text intValue] < [hirecarmin intValue]){
+                self.carRent.text = hirecarmin;
+            }
         }
     }else if([code intValue] == 95){
         [self makeToast:message];

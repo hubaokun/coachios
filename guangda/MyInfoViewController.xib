@@ -17,10 +17,13 @@
                 <outlet property="pickerView" destination="kS2-Ve-xFC" id="6jS-v7-ozN"/>
                 <outlet property="portraitImage" destination="kJ1-Ij-Zp9" id="erw-Vi-R4v"/>
                 <outlet property="realNameLabel" destination="bNL-Yu-qjw" id="Amw-4c-ysx"/>
+                <outlet property="remindBackView" destination="MwE-ZI-468" id="YCd-8d-eA2"/>
+                <outlet property="remindLabel" destination="yXJ-vD-YZ1" id="6xJ-sQ-Eth"/>
                 <outlet property="selectView" destination="fld-jj-yyn" id="nW7-q2-EPt"/>
                 <outlet property="selfEvaluationButton" destination="3rD-5b-A2R" id="rTG-Cx-Jkw"/>
                 <outlet property="selfEvaluationLabel" destination="yzM-j9-5NK" id="w7s-yj-4oA"/>
                 <outlet property="sexLabel" destination="Z5D-8w-3P6" id="XAF-nI-mpZ"/>
+                <outlet property="topConstraint" destination="Hv6-Ag-945" id="b5p-9j-et0"/>
                 <outlet property="trainTimeButton" destination="qWm-k9-g3d" id="yjx-BN-L9C"/>
                 <outlet property="trainTimeLabel" destination="UTV-aQ-ZwX" id="h3Q-64-1Uf"/>
                 <outlet property="view" destination="hYy-2a-whD" id="tTR-9A-pqg"/>
@@ -82,7 +85,7 @@
                     </constraints>
                 </view>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Imv-0s-2cN" customClass="TPKeyboardAvoidingScrollView">
-                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <rect key="frame" x="0.0" y="96" width="600" height="504"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7T9-zT-1JG">
                             <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
@@ -676,18 +679,44 @@
                         <constraint firstAttribute="bottom" secondItem="7T9-zT-1JG" secondAttribute="bottom" id="m0t-OH-5gT"/>
                     </constraints>
                 </scrollView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MwE-ZI-468">
+                    <rect key="frame" x="0.0" y="64" width="600" height="32"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="明星教练服务于2014-06-10到期" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yXJ-vD-YZ1">
+                            <rect key="frame" x="8" y="5" width="584" height="21"/>
+                            <animations/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="bqY-CQ-RDw"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                            <color key="textColor" red="0.9882352941176471" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <animations/>
+                    <color key="backgroundColor" red="0.97647058823529409" green="0.93725490196078431" blue="0.82352941176470584" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="yXJ-vD-YZ1" firstAttribute="leading" secondItem="MwE-ZI-468" secondAttribute="leading" constant="8" id="W46-2D-OZJ"/>
+                        <constraint firstAttribute="height" constant="32" id="gcU-pF-nOa"/>
+                        <constraint firstAttribute="trailing" secondItem="yXJ-vD-YZ1" secondAttribute="trailing" constant="8" id="tiE-Mt-hOy"/>
+                        <constraint firstItem="yXJ-vD-YZ1" firstAttribute="top" secondItem="MwE-ZI-468" secondAttribute="top" constant="5" id="xTC-M1-jeJ"/>
+                    </constraints>
+                </view>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="MwE-ZI-468" secondAttribute="trailing" id="2Li-1c-h2l"/>
                 <constraint firstItem="Ray-zQ-RAj" firstAttribute="top" secondItem="hYy-2a-whD" secondAttribute="top" id="4g6-c2-j9J"/>
+                <constraint firstItem="MwE-ZI-468" firstAttribute="top" secondItem="Ray-zQ-RAj" secondAttribute="bottom" id="8Ed-6B-sEI"/>
                 <constraint firstItem="Ray-zQ-RAj" firstAttribute="leading" secondItem="hYy-2a-whD" secondAttribute="leading" id="AmU-uW-ffg"/>
-                <constraint firstItem="Imv-0s-2cN" firstAttribute="top" secondItem="Ray-zQ-RAj" secondAttribute="bottom" id="Hv6-Ag-945"/>
+                <constraint firstItem="Imv-0s-2cN" firstAttribute="top" secondItem="Ray-zQ-RAj" secondAttribute="bottom" constant="32" id="Hv6-Ag-945"/>
                 <constraint firstItem="7T9-zT-1JG" firstAttribute="width" secondItem="Ray-zQ-RAj" secondAttribute="width" id="IWF-41-itu"/>
                 <constraint firstAttribute="trailing" secondItem="Imv-0s-2cN" secondAttribute="trailing" id="K1M-Ef-Ltc"/>
                 <constraint firstItem="Imv-0s-2cN" firstAttribute="leading" secondItem="hYy-2a-whD" secondAttribute="leading" id="P2M-s3-tH5"/>
                 <constraint firstAttribute="bottom" secondItem="Imv-0s-2cN" secondAttribute="bottom" id="bbS-eB-K8t"/>
                 <constraint firstAttribute="trailing" secondItem="Ray-zQ-RAj" secondAttribute="trailing" id="h0V-Lx-9bE"/>
+                <constraint firstItem="MwE-ZI-468" firstAttribute="leading" secondItem="hYy-2a-whD" secondAttribute="leading" id="hA4-kM-zgH"/>
                 <constraint firstItem="Ray-zQ-RAj" firstAttribute="width" secondItem="Imv-0s-2cN" secondAttribute="width" id="iID-0v-jLk"/>
             </constraints>
             <point key="canvasLocation" x="-242" y="358"/>

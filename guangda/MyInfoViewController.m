@@ -84,6 +84,10 @@
 //修改头像
 - (IBAction)clickForChangeAvatar:(id)sender;
 
+@property (strong, nonatomic) IBOutlet UILabel *remindLabel;
+@property (strong, nonatomic) IBOutlet UIView *remindBackView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *topConstraint;
+
 //@property (strong, nonatomic) IBOutlet UILabel *defaultPriceLabel;
 //@property (strong, nonatomic) IBOutlet UILabel *defaultSubjectLabel;
 @property (strong, nonatomic) IBOutlet UILabel *defaultAddressLabel;
@@ -184,6 +188,17 @@
 //    }else{
 //        self.defaultSubjectLabel.text = @"未设置";
 //    }
+    NSString *signstate = [userInfo[@"signstate"] description];
+    if ([signstate intValue]==1) {
+        self.remindBackView.hidden = NO;
+        NSString *signexpired = [userInfo[@"signexpired"] description];
+        NSString *str = [signexpired substringToIndex:10];
+        self.remindLabel.text = [NSString stringWithFormat:@"明星教练服务于%@到期",str];
+        self.topConstraint.constant = 32;
+    }else{
+        self.remindBackView.hidden = YES;
+        self.topConstraint.constant = 0 ;
+    }
     
     if(![CommonUtil isEmpty:defauleAddress]){
         self.defaultAddressLabel.text = defauleAddress;

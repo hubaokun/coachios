@@ -32,7 +32,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *leftBtn;
 @property (strong, nonatomic) IBOutlet UIButton *rightBtn;
 @property (strong, nonatomic) IBOutlet UITableView *mainTableView;
-@property (strong, nonatomic) UIView *dateView;//日历view
+@property (strong, nonatomic) UIView *dateView;//日历vieww
 @property (strong, nonatomic) UIView *monthDayView;//月份view
 @property (strong, nonatomic) IBOutlet UIView *weekView;//日期栏
 @property (strong, nonatomic) UIButton *openBtn;
@@ -886,7 +886,7 @@
             [contentView addSubview:timeDetailView];
             
             //体验课
-            UIImageView *experienceClassView = [[UIImageView alloc]initWithFrame:CGRectMake(34, 0, 32, 12)];
+            UIImageView *experienceClassView = [[UIImageView alloc]initWithFrame:CGRectMake(44, 48, 22, 22)];
             experienceClassView.backgroundColor = [UIColor clearColor];
             experienceClassView.image = [UIImage imageNamed:@"体验课"];
             experienceClassView.hidden = YES;
@@ -1016,7 +1016,7 @@
                         teachTypeLabel.textColor = RGB(26, 116, 157);
                     }
                     if ([isfreecourse boolValue]) {
-                        experienceClassView.image = [UIImage imageNamed:@"体验课_开课"];
+                        experienceClassView.image = [UIImage imageNamed:@"体验课"];
                     }
                 }
             }

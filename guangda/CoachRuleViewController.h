@@ -10,4 +10,6 @@
 
 @interface CoachRuleViewController : GreyTopViewController
 
+@property (strong, nonatomic) IBOutlet NSString *fromVC;
+
 @end

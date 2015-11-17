@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,6 +16,7 @@
                     <subviews>
                         <imageView userInteractionEnabled="NO" tag="101" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_icon_0_h" translatesAutoresizingMaskIntoConstraints="NO" id="Hob-jG-AA5">
                             <rect key="frame" x="85" y="7" width="30" height="30"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="1OU-iz-5ZZ"/>
                                 <constraint firstAttribute="height" constant="30" id="qri-hC-8Us"/>
@@ -23,6 +24,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="任务单" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YF6-LC-au5">
                             <rect key="frame" x="79" y="29" width="42" height="15"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="WWl-AH-CVf"/>
                                 <constraint firstAttribute="height" constant="15" id="f1c-Tp-Fwa"/>
@@ -32,12 +34,14 @@
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AHv-px-FlO">
                             <rect key="frame" x="199" y="0.0" width="1" height="46"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.16862745098039217" green="0.16862745098039217" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="1" id="kG2-aZ-g7B"/>
                             </constraints>
                         </view>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="AHv-px-FlO" secondAttribute="bottom" id="34Q-oY-gXU"/>
@@ -57,6 +61,7 @@
                     <subviews>
                         <imageView userInteractionEnabled="NO" tag="101" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_icon_1" translatesAutoresizingMaskIntoConstraints="NO" id="D6g-ee-8pA">
                             <rect key="frame" x="85" y="7" width="30" height="30"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="30" id="C3R-Qq-u7u"/>
                                 <constraint firstAttribute="height" constant="30" id="Wla-at-iiM"/>
@@ -64,6 +69,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="日程安排" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rgy-Tg-Y8A">
                             <rect key="frame" x="79" y="29" width="42" height="15"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="NWl-5l-eDp"/>
                                 <constraint firstAttribute="height" constant="15" id="fGW-ts-uJc"/>
@@ -74,12 +80,14 @@
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LzY-I0-cE4">
                             <rect key="frame" x="199" y="0.0" width="1" height="46"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.16862745100000001" green="0.16862745100000001" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="1" id="hdV-PO-rYb"/>
                             </constraints>
                         </view>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="centerX" secondItem="Rgy-Tg-Y8A" secondAttribute="centerX" id="1zg-k3-ULv"/>
@@ -99,6 +107,7 @@
                     <subviews>
                         <imageView userInteractionEnabled="NO" tag="101" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tabbar_icon_2" translatesAutoresizingMaskIntoConstraints="NO" id="EdL-Sm-0at">
                             <rect key="frame" x="85" y="7" width="30" height="30"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="30" id="ZBS-tb-Wke"/>
                                 <constraint firstAttribute="width" constant="30" id="eZZ-4c-RvR"/>
@@ -106,6 +115,7 @@
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" tag="102" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="我的" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mQI-gL-AeA">
                             <rect key="frame" x="79" y="29" width="42" height="15"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="42" id="0E8-c7-TkK"/>
                                 <constraint firstAttribute="height" constant="15" id="uHS-gR-QjL"/>
@@ -115,6 +125,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstItem="EdL-Sm-0at" firstAttribute="top" secondItem="IhR-2b-sL1" secondAttribute="top" constant="7" id="REY-6G-7ce"/>
@@ -127,6 +138,7 @@
                     </connections>
                 </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="uEo-Qc-mtq" secondAttribute="bottom" id="66e-aO-3qo"/>

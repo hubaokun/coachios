@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CoachRuleViewController">
             <connections>
-                <outlet property="textView" destination="rjZ-cg-2Qx" id="uz1-v5-N5h"/>
+                <outlet property="titleLabel" destination="X5j-bQ-yEz" id="6xs-lo-DLT"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="webView" destination="LGs-sg-Vt4" id="VPU-b7-FZk"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="620"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfr-ZN-Yt0">
@@ -21,6 +22,7 @@
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="服务标准及约定" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X5j-bQ-yEz">
                             <rect key="frame" x="200" y="20" width="200" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="44" id="9g4-Xx-pSA"/>
                                 <constraint firstAttribute="width" constant="200" id="Iwz-2a-i7g"/>
@@ -31,6 +33,7 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c3t-jr-MIR" userLabel="back">
                             <rect key="frame" x="0.0" y="20" width="55" height="44"/>
+                            <animations/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="55" id="MoH-8w-pOC"/>
                                 <constraint firstAttribute="height" constant="44" id="oGd-Xr-fbk"/>
@@ -45,9 +48,11 @@
                         </button>
                         <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M7k-nz-Ssg">
                             <rect key="frame" x="0.0" y="63" width="600" height="1"/>
+                            <animations/>
                             <color key="backgroundColor" red="0.82745098039999998" green="0.82745098039999998" blue="0.82745098039999998" alpha="1" colorSpace="calibratedRGB"/>
                         </view>
                     </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="bottom" secondItem="X5j-bQ-yEz" secondAttribute="bottom" id="5nW-9l-OEc"/>
@@ -58,57 +63,35 @@
                         <constraint firstAttribute="centerX" secondItem="X5j-bQ-yEz" secondAttribute="centerX" id="wMt-fh-iT7"/>
                     </constraints>
                 </view>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rjZ-cg-2Qx">
-                    <rect key="frame" x="0.0" y="64" width="600" height="526"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cop-vf-8Zr">
+                    <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                    <subviews>
+                        <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LGs-sg-Vt4">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </webView>
+                    </subviews>
+                    <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="526" id="zBJ-OM-CD2"/>
+                        <constraint firstAttribute="bottom" secondItem="LGs-sg-Vt4" secondAttribute="bottom" id="85T-3M-Iel"/>
+                        <constraint firstItem="LGs-sg-Vt4" firstAttribute="leading" secondItem="Cop-vf-8Zr" secondAttribute="leading" id="JUZ-bd-ElF"/>
+                        <constraint firstItem="LGs-sg-Vt4" firstAttribute="top" secondItem="Cop-vf-8Zr" secondAttribute="top" id="MIy-qB-WTt"/>
+                        <constraint firstAttribute="trailing" secondItem="LGs-sg-Vt4" secondAttribute="trailing" id="lR8-Yu-Umq"/>
                     </constraints>
-                    <mutableString key="text">会员注册协议
-在您完成小巴学车教练端用户注册之前，建议您仔细阅读本协议再进行注册。本协议在您接受注册时生效，将成为您和小巴学车之间具有法律意义的文件，您和小巴学车将同时受到本协议条款的约束。
-第一条	定义
-第二条	会员享受的服务
-1、	拥有学员信息管理系统，长期有效的保存在小巴学车数据库；
-2、	随时查询学员历史记录；
-3、	享受最新信息及优惠政策；
-4、	“小巴学车”根据互联网和移动互联网平台规划随时增添的其它服务。
-第三条	会员注册
-用户根据“小巴学车教练端”会员注册的要求，填写真实的会员信息，并表示接受本协议后方可申请成为会员。
-申请成为“小巴学车教练端”会员的具体流程如下：
-1、	点击注册“小巴学车教练端”；
-2、	填写注册信息，上传资料；
-3、	点击“同意服务协议并注册”；
-4、	会员的ID及手机验证码的保管
-会员的ID由会员自行保管。禁止会员将自己的ID及手机验证码交付第三人使用，若第三人凭正确的用户ID及手机验证码进行网络活动，将被视为该会员自身行为，该行为引起的一切法律后果由会员承担。
-第四条	会员的义务
-会员不得从事以下行为，若发生下列行为，则会员应承担相应的法律责任。小巴学车有权限制或取消其会员权限：
-1、	申请或者变更会员信息时提供虚假信息；
-2、	盗用他人信息；
-3、	利用任何方式方法危害“小巴学车”网站系统安全；
-4、	利用小巴学车损害第三方的合法权益；
-5、	受贿于学员，向学员收取礼物、烟酒等礼品，向学员收取任何不合理的费用；
-6、	马虎大意，对学员大声喊叫，使用侮辱性的语言；
-7、	迟到、教学时间不足
-第五条	小巴学车的义务
-小巴学车保证遵从其在小巴学车网站上公布的所有服务承诺，努力创建高效便捷的驾培服务平台。
-在会员完整履行开课教学等程序后，在各方协议的框架下，联络驾校、学员和教练，为会员提供信息服务。
-小巴学车为保证会员安全地使用其提供的网络服务，将建立保护会员信息的安全系统并定期进行维护。非经国家有关机关的指令，小巴学车绝不向任何人泄露会员的任何信息。
-第六条	通知的发送
-小巴学车通过会员注册时指定的手机号码以及APP应用软件中通知栏向会员发送通知。小巴学车向多数会员发送通知时，可以再网站公告栏上公布该通知，该种通知模式与向会员发送个别通知具有同样的法律效力。 
-
-</mutableString>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
+                </view>
             </subviews>
+            <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="rjZ-cg-2Qx" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="8gO-pz-bjx"/>
+                <constraint firstAttribute="trailing" secondItem="Cop-vf-8Zr" secondAttribute="trailing" id="CX7-DO-D5p"/>
+                <constraint firstItem="Cop-vf-8Zr" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="DzA-r3-i5W"/>
                 <constraint firstItem="hfr-ZN-Yt0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GtW-UZ-Vy7"/>
-                <constraint firstItem="rjZ-cg-2Qx" firstAttribute="top" secondItem="hfr-ZN-Yt0" secondAttribute="bottom" id="bhW-aB-DJv"/>
+                <constraint firstAttribute="bottom" secondItem="Cop-vf-8Zr" secondAttribute="bottom" id="XOl-vf-zBh"/>
+                <constraint firstItem="Cop-vf-8Zr" firstAttribute="top" secondItem="hfr-ZN-Yt0" secondAttribute="bottom" id="ZG7-RD-uy3"/>
                 <constraint firstAttribute="trailing" secondItem="hfr-ZN-Yt0" secondAttribute="trailing" id="cSG-rv-tdh"/>
                 <constraint firstItem="hfr-ZN-Yt0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="rY3-cG-JKL"/>
-                <constraint firstAttribute="trailing" secondItem="rjZ-cg-2Qx" secondAttribute="trailing" id="zmS-nC-VNm"/>
             </constraints>
         </view>
     </objects>

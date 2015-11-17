@@ -163,7 +163,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    [self getCoachDetail];
     [self getMessageCount];
     [self settingView];
     [self updateMoney];
@@ -187,6 +187,12 @@
     NSString *logoUrl = userInfo[@"avatarurl"];//头像
     NSString *name = userInfo[@"realname"];
     NSString *phone = userInfo[@"phone"];//手机号
+    NSString *signstate = [userInfo[@"signstate"] description];
+    if ([signstate intValue]==1) {
+        self.starImageView.hidden = NO;
+    }else{
+        self.starImageView.hidden = YES;
+    }
     //培训时长
     NSString *totalTime = [userInfo[@"totaltime"] description];
     totalTime = [CommonUtil isEmpty:totalTime]?@"0":totalTime;
@@ -217,8 +223,7 @@
         }
         
         self.phoneLabel.text = phone;
-        self.trainTimeLabel.text = [NSString stringWithFormat:@"已累计培训%@学时",totalTime];
-        
+        [self.trainTimeButton setTitle:[NSString stringWithFormat:@"   已累计培训%@学时",totalTime] forState:UIControlStateNormal];
         //余额
         if ([CommonUtil isEmpty:money]) {
             money = @"0";
@@ -261,9 +266,9 @@
         label1.font =  [UIFont systemFontOfSize:20];
         label1.numberOfLines = 0;        // 设置无限换行
         CGSize size1 = [label1 boundingRectWithSize:CGSizeMake(0, self.nameLabel.frame.size.height)];
-        self.starViewConstraint.constant = -100+size1.width+10;
-        if (self.starViewConstraint.constant > 10) {
-            self.starViewConstraint.constant = 10;
+        self.starViewConstraint.constant = size1.width+20;
+        if (self.starViewConstraint.constant > 160) {
+            self.starViewConstraint.constant = 160;
         }
         CGRect rect = self.priceAndAddrBar.bounds;
         rect.origin.y = 3;
@@ -838,6 +843,50 @@
 }
 
 #pragma mark - 接口
+- (void)getCoachDetail
+{
+    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    // 取出教练ID
+    NSDictionary * ds = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *coachId  = [ds objectForKey:@"coachid"];
+    [paramDic setObject:coachId forKey:@"coachid"];
+    
+    NSString *uri = @"/sbook?action=GetCoachDetail";
+    NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:paramDic RequestMethod:Request_POST];
+    
+    [DejalBezelActivityView activityViewForView:self.view];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 30;     // 网络超时时长设置
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:[RequestHelper getFullUrl:uri] parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [DejalBezelActivityView removeViewAnimated:YES];
+        
+        if ([responseObject[@"code"] integerValue] == 1)
+        {
+            NSDictionary *coachInfo = responseObject[@"coachinfo"];
+            // 取出对应的userInfo数据
+            NSMutableDictionary *user = [[NSMutableDictionary alloc] init];
+            user = [coachInfo mutableCopy];
+            NSString *signstate = [coachInfo[@"signstate"] description];
+            if ([signstate intValue]==1) {
+                self.starImageView.hidden = NO;
+            }else{
+                self.starImageView.hidden = YES;
+            }
+        }else{
+            NSString *message = responseObject[@"message"];
+            [self makeToast:message];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [DejalBezelActivityView removeViewAnimated:YES];
+        [self makeToast:ERR_NETWORK];
+    }];
+}
+
+
 - (void)changePrice:(NSString *)price{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     
