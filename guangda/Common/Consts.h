@@ -47,7 +47,7 @@
 #define kAppID_QQ               @"1103761561"
 
 
-#define ERR_NETWORK             @"当前网络不稳定，请重试！"
+#define ERR_NETWORK             @"当前网络不稳定，请重试!"
 #define NO_NETWORK              @"没有连接网络"
 
 #define PGY_APPKEY              @"204452f5151ce20970e06fda732d7693"
