@@ -11,6 +11,7 @@
 @interface AboutUsViewController ()
 @property (strong, nonatomic) IBOutlet UILabel *version;
 
+@property (strong, nonatomic) IBOutlet UIImageView *icon;
 @property (weak, nonatomic) IBOutlet UILabel *testLabel;
 @end
 
@@ -25,10 +26,11 @@
     NSString *VersionText = [NSString stringWithFormat:@"版本%@",app_Version];
     self.version.text = VersionText;
     self.testLabel.hidden = YES;
-    if (![REQUEST_HOST isEqualToString:@"http://www.xiaobakaiche.com/dadmin/"]) {
-        self.testLabel.hidden = NO;
-    }
-    
+//    if (![REQUEST_HOST isEqualToString:@"http://www.xiaobakaiche.com/dadmin/"]) {
+//        self.testLabel.hidden = NO;
+//    }
+    self.icon.layer.masksToBounds = YES;
+    self.icon.layer.cornerRadius = 15;
 }
 
 - (void)didReceiveMemoryWarning {

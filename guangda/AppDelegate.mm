@@ -19,6 +19,7 @@
 #import "LocalDefine.h"
 #import "AppDelegate+EaseMob.h"
 
+#import "RecommendPrizeViewController.h"
 @interface AppDelegate ()<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate>
 @property (strong, nonatomic) UIView *lunchView;
 @end
@@ -113,7 +114,7 @@ BMKLocationService *_locService;
     [self startRequestAdvertisement];
     //友盟社会化分享与统计
     [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
-    [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"appstore"];
+    [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"pgy"];
 #pragma mark - 企业账号的友盟设置，记得设置URL
     //设置qqAPPId
     [UMSocialQQHandler setQQWithAppId:@"1104782996" appKey:@"zEktitzpVluS4r86" url:@"http://www.xiaobaxueche.com/"];
@@ -130,7 +131,6 @@ BMKLocationService *_locService;
     
     
     return YES;
-    
 }
 
 //获取是否要使用广告
@@ -167,6 +167,68 @@ BMKLocationService *_locService;
         }
     }
 }
+
+//- (void)gotoAdvertisementUrl
+//{
+//    //0=无跳转，1=打开URL，2=内部action
+//    if ([self.advertisementopentype intValue]==0) {
+//        NSLog(@"不跳转");
+//    }else if([self.advertisementopentype intValue]==1){
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+//    }else if([self.advertisementopentype intValue]==2){
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+//    }
+//}
+
+- (void) goForView:(NSString *)aView{
+    self.mainController = [[MainViewController alloc] init];
+    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
+    self.window.rootViewController = navi;
+    [navi setNavigationBarHidden:YES];
+    // 1=学员端学车地图首页，2= 学员端陪驾地图首页 ，3=学员端小巴商城，4=学员端题库页，5=教练端邀请朋友加入页 ，6=教练端教练开课页
+    if ([self.openaction intValue]==5) {
+        RecommendPrizeViewController *viewController = [[RecommendPrizeViewController alloc] initWithNibName:@"RecommendPrizeViewController" bundle:nil];
+        [navi pushViewController:viewController animated:YES];
+    }else if ([self.openaction intValue]==6){
+        
+    }
+}
+
+
+////获取是否要使用广告
+//-(void)startRequestAdvertisement{
+//    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kAdvertisement]];
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
+//    [request setPostValue:@"1" forKey:@"model"];// 1:ios 2:安卓
+//    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素
+//    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素
+//    [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
+//    [request startSynchronous];
+//    NSError *error = [request error];
+//    if (!error) {
+//        NSData *data  = [request responseData];
+//        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+//        NSString *code = [result[@"code"] description];
+//        if ([code isEqualToString:@"1"]) {
+//            NSString *advertisement_flag = [result[@"c_flash_flag"] description];
+//            if ([advertisement_flag isEqualToString:@"1"]) {
+//                NSString *advertisement_url = [result[@"c_img_ios_flash"] description];
+//                lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
+//                lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
+//                [self.window addSubview:lunchView];
+//                UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
+//                [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
+//                [self.window bringSubviewToFront:lunchView];
+//                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+//            }
+//        }else{
+//            NSString *message = result[@"message"];
+//            [self.window.rootViewController makeToast:message];
+//        }
+//    }
+//}
 
 //在此接收设备号
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken{
@@ -272,7 +334,7 @@ BMKLocationService *_locService;
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     [request setPostValue:app_Version forKey:@"version"];
     //手机型号
-    [request setPostValue:@"iPhone" forKey:@"phoneType"];
+    [request setPostValue:@"1" forKey:@"ostype"];  //1：iOS 0：安卓
     
 //    [request setDidFinishSelector:@selector(requestLoginFinished:)];
 //    [request setDidFailSelector:@selector(requestLoginFailed:)];
@@ -363,8 +425,6 @@ BMKLocationService *_locService;
     [request startAsynchronous];
 }
 
-
-
 //获取准教车型
 - (void)getModelList{
    
@@ -384,9 +444,7 @@ BMKLocationService *_locService;
     request.delegate = self;
     request.requestMethod = @"POST";
     [request setPostValue:@"GetComplaintReason" forKey:@"action"];
-    
     [request setPostValue:@"1" forKey:@"type"];        // 获取方 1.教练  2.学员
-    
     [request startAsynchronous];
     //[DejalBezelActivityView activityViewForView:self.view];
 }
@@ -528,8 +586,6 @@ BMKLocationService *_locService;
         [params setObject:provience forKey:@"province"];
         [params setObject:city forKey:@"city"];
         [params setObject:area forKey:@"area"];
-        
-        
         NSString *uri = @"/system?action=UpdateUserLocation";
         NSDictionary *parameters = [RequestHelper getParamsWithURI:uri Parameters:params RequestMethod:Request_POST];
         

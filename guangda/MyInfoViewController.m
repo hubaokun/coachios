@@ -188,7 +188,7 @@
 //    }else{
 //        self.defaultSubjectLabel.text = @"未设置";
 //    }
-    NSString *signstate = [userInfo[@"signstate"] description];
+    NSString *signstate = [userInfo[@"signstate"] description];//是否为明星教练的标识
     if ([signstate intValue]==1) {
         self.remindBackView.hidden = NO;
         NSString *signexpired = [userInfo[@"signexpired"] description];

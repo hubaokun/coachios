@@ -27,6 +27,11 @@
 @property (strong, nonatomic) NSString *needOpenSchedule;//需要开课
 @property (strong, nonatomic) NSString *fromSerAddrive;//从设置地址来
 
+@property (strong, nonatomic) NSString *advertisementUrl;//广告地址
+@property (strong, nonatomic) NSString *advertisementopentype;//广告类型  0=无跳转，1=打开URL，2=内部action
+@property (strong, nonatomic) NSString *openaction;//跳转ACTION数值
+// 1=学员端学车地图首页，2= 学员端陪驾地图首页 ，3=学员端小巴商城，4=学员端题库页，5=教练端邀请朋友加入页 ，6=教练端教练开课页
+
 @property (strong, nonatomic) NSString *superViewNum;
 @property (strong, nonatomic) MainViewController *mainController;
 

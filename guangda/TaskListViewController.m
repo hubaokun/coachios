@@ -25,6 +25,9 @@
     BOOL isRefresh;//是否刷新
     BMKLocationService *_locService;
     NSString *upcarOrderId;
+    
+    NSString *advertisementopentype;
+//    NSString *advertisementUrl;
 }
 //用户定位
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;
@@ -577,7 +580,7 @@
     [self.advertisementView removeFromSuperview];
 }
 
-//打开光该
+//打开广告
 - (IBAction)openAdvertisement:(id)sender {
     if ([self.advertisementUrl isEqualToString:@"recommend"]) {
         [self.advertisementView removeFromSuperview];
@@ -1341,7 +1344,30 @@
     [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素
     [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
     [request startAsynchronous];
+    
 }
+
+- (void)GETADVERTISEMENTBYPARAM{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kAdvertisement]];
+    
+    request.delegate = self;
+    request.tag = 6;
+    [request setPostValue:@"GETADVERTISEMENTBYPARAM" forKey:@"action"];
+    [request setPostValue:@"0" forKey:@"devicetype"];// 0:ios 1:安卓
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素 必须
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素 必须
+    [request setPostValue:@"4" forKey:@"position"];  //广告位置 0=学员端闪屏，1=学员端学车地图弹层广告，2=学员端教练详情，3=教练端闪屏，4=教练端首页弹层广告    必须
+//    [request setPostValue:@"1" forKey:@"cityid"];  //城市id
+//    [request setPostValue:@"1" forKey:@"driverschoolid"];  //驾校id
+//    //    [request setPostValue:@"1" forKey:@"adtype"];  //广告类型
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];  //教练id
+    [request startAsynchronous];
+    
+    
+}
+
 
 #pragma mark 回调
 - (void)requestFinished:(ASIHTTPRequest *)request {
@@ -1444,15 +1470,15 @@
             if ([c_flag intValue]!=0) { //0不展示，1展示 2邀请推荐
                 NSString *c_img = [result[@"c_img_ios"] description];
                 // 显示广告图片
-                sd_setImageWithURL: placeholderImage:
+            sd_setImageWithURL: placeholderImage:
                 [self.advImageView sd_setImageWithURL:[NSURL URLWithString:c_img] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     if (error) {
                         [self.advertisementView removeFromSuperview];
                     }
                 }];
                 NSString *c_url = [result[@"c_url"] description];
-//                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-//                NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+                //                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+                //                NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
                 if ([c_flag intValue]==1) {
                     self.advertisementUrl = c_url;
                 }else{
@@ -1504,7 +1530,6 @@
     [self getDataFinish];
     
 }
-
 // 服务器请求失败
 - (void)requestFailed:(ASIHTTPRequest *)request {
     if (request.tag != 0) {

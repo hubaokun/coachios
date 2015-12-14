@@ -16,6 +16,8 @@
 @property (strong, nonatomic) NSString *date;//修改的日期<2015-03-01>
 @property (strong, nonatomic) NSArray *allDayArray;
 
+@property (strong, nonatomic) IBOutlet UIButton *pricePencil;
+@property (strong, nonatomic) IBOutlet UIButton *rentPricePencil;
 
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *isRentConstraint;
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -114,15 +114,6 @@
                                             <constraint firstAttribute="width" constant="1" id="mWA-lX-Vwi"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="学员姓名  李雨瞳" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YWx-6i-Bol">
-                                        <rect key="frame" x="0.0" y="72" width="320" height="20"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="20" id="S61-wW-aU1"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="联系电话  18652339986" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KCG-ex-Heg">
                                         <rect key="frame" x="0.0" y="92" width="320" height="20"/>
                                         <constraints>
@@ -198,7 +189,7 @@
                                             <constraint firstItem="p92-Ke-Ydy" firstAttribute="top" secondItem="2Tr-uw-R39" secondAttribute="top" id="y4O-TE-Ir2"/>
                                         </constraints>
                                     </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您未同意学员取消订单申请，请等待客服处理" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cyq-6A-NP2">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您未同意学员取消订单申请，请联系客服处理" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cyq-6A-NP2">
                                         <rect key="frame" x="0.0" y="150" width="320" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="gK2-bP-8lN"/>
@@ -207,14 +198,26 @@
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yb7-s3-Xa8">
+                                        <rect key="frame" x="0.0" y="72" width="320" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="Hsx-Dn-DLI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="学员姓名">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="5Te-MW-xXD" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="0MS-VR-GAL"/>
+                                    <constraint firstItem="Yb7-s3-Xa8" firstAttribute="top" secondItem="MbZ-yp-q8v" secondAttribute="bottom" constant="17" id="0WH-Iy-QzO"/>
                                     <constraint firstItem="2G8-XJ-K0K" firstAttribute="leading" secondItem="GhP-gD-qcf" secondAttribute="trailing" constant="26" id="35G-Fy-Q6Q"/>
                                     <constraint firstItem="5zf-Jg-QZX" firstAttribute="top" secondItem="PM5-oE-EBe" secondAttribute="top" id="3Bd-X3-h74"/>
                                     <constraint firstItem="2Tr-uw-R39" firstAttribute="top" secondItem="DRd-nc-L7n" secondAttribute="bottom" constant="11" id="3qr-jb-V8S"/>
                                     <constraint firstAttribute="trailing" secondItem="cyq-6A-NP2" secondAttribute="trailing" id="4iT-qG-Tbh"/>
+                                    <constraint firstItem="KCG-ex-Heg" firstAttribute="top" secondItem="Yb7-s3-Xa8" secondAttribute="bottom" id="4k3-hx-IRt"/>
                                     <constraint firstAttribute="centerX" secondItem="2Tr-uw-R39" secondAttribute="centerX" id="5qr-OT-Nmg"/>
                                     <constraint firstAttribute="centerX" secondItem="2G8-XJ-K0K" secondAttribute="centerX" id="87P-zx-E5D"/>
                                     <constraint firstItem="KCG-ex-Heg" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="G8n-EA-yyf"/>
@@ -223,21 +226,19 @@
                                     <constraint firstAttribute="trailing" secondItem="DRd-nc-L7n" secondAttribute="trailing" id="NvJ-O7-ecf"/>
                                     <constraint firstAttribute="bottom" secondItem="2Tr-uw-R39" secondAttribute="bottom" constant="21" id="ONI-sf-8ka"/>
                                     <constraint firstItem="5zf-Jg-QZX" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="S2J-Lq-ZC4"/>
-                                    <constraint firstItem="YWx-6i-Bol" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="Sex-Sw-rwZ"/>
-                                    <constraint firstItem="YWx-6i-Bol" firstAttribute="top" secondItem="MbZ-yp-q8v" secondAttribute="bottom" constant="17" id="TDF-be-Y4h"/>
                                     <constraint firstAttribute="bottom" secondItem="5zf-Jg-QZX" secondAttribute="bottom" id="WdP-nj-oC8"/>
                                     <constraint firstItem="ju4-6e-rVl" firstAttribute="top" secondItem="PM5-oE-EBe" secondAttribute="top" id="YKX-kd-4Qc"/>
                                     <constraint firstItem="GhP-gD-qcf" firstAttribute="centerY" secondItem="2G8-XJ-K0K" secondAttribute="centerY" constant="-0.5" id="Zvu-aG-umy"/>
+                                    <constraint firstItem="Yb7-s3-Xa8" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="a14-Cz-3Zf"/>
                                     <constraint firstItem="cyq-6A-NP2" firstAttribute="top" secondItem="DRd-nc-L7n" secondAttribute="bottom" constant="18" id="aUN-2p-Dti"/>
                                     <constraint firstItem="2G8-XJ-K0K" firstAttribute="centerY" secondItem="MbZ-yp-q8v" secondAttribute="centerY" constant="0.5" id="cXU-n2-FvJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Yb7-s3-Xa8" secondAttribute="trailing" id="cyL-KG-3gM"/>
                                     <constraint firstAttribute="trailing" secondItem="ju4-6e-rVl" secondAttribute="trailing" id="dc0-6N-h5z"/>
                                     <constraint firstAttribute="trailing" secondItem="5Te-MW-xXD" secondAttribute="trailing" id="fMC-Wb-Gbr"/>
-                                    <constraint firstItem="KCG-ex-Heg" firstAttribute="top" secondItem="YWx-6i-Bol" secondAttribute="bottom" id="ioN-1Z-dBs"/>
                                     <constraint firstItem="rcd-Hx-8at" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" constant="65" id="k3n-uM-UbW"/>
                                     <constraint firstItem="cyq-6A-NP2" firstAttribute="leading" secondItem="PM5-oE-EBe" secondAttribute="leading" id="khg-4m-UBH"/>
                                     <constraint firstItem="DRd-nc-L7n" firstAttribute="top" secondItem="KCG-ex-Heg" secondAttribute="bottom" id="mTQ-cc-fdb"/>
                                     <constraint firstAttribute="bottom" secondItem="ju4-6e-rVl" secondAttribute="bottom" id="oAa-l0-FnI"/>
-                                    <constraint firstAttribute="trailing" secondItem="YWx-6i-Bol" secondAttribute="trailing" id="pCb-V1-L3P"/>
                                     <constraint firstAttribute="trailing" secondItem="5zf-Jg-QZX" secondAttribute="trailing" id="qyS-dC-0NG"/>
                                     <constraint firstItem="2G8-XJ-K0K" firstAttribute="top" secondItem="PM5-oE-EBe" secondAttribute="top" constant="31" id="rdq-z6-L31"/>
                                     <constraint firstAttribute="trailing" secondItem="rcd-Hx-8at" secondAttribute="trailing" constant="65" id="tjl-yt-Fh4"/>
@@ -317,7 +318,7 @@
                 <outlet property="logoImageView" destination="3eX-Jk-99x" id="3Vu-3p-SYD"/>
                 <outlet property="myCommentDetailsBtn" destination="2Tr-uw-R39" id="kKc-zJ-Moe"/>
                 <outlet property="myStarView" destination="JHr-dg-JSG" id="yuz-4S-kVu"/>
-                <outlet property="nameLabel" destination="YWx-6i-Bol" id="DnO-Am-2ou"/>
+                <outlet property="nameButton" destination="Yb7-s3-Xa8" id="iaB-Ry-6IV"/>
                 <outlet property="phoneLabel" destination="KCG-ex-Heg" id="DSB-Ob-sGu"/>
                 <outlet property="rentLabel" destination="5Te-MW-xXD" id="0Cc-1d-PHZ"/>
                 <outlet property="studentDetailsView" destination="U4a-I3-p1d" id="lrs-XX-wzJ"/>

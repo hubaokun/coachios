@@ -49,11 +49,15 @@
     [self.view addSubview:self.customTabBar];
     // ios7中，本视图有状态栏、下面为scrollView，这句让进入下一个视图后，再回来，不会出现scrollview下移20(offSet:-20)的情况；添加在viewDidLoad中
     self.automaticallyAdjustsScrollViewInsets = NO;
+//    UIControl *item = [[UIControl alloc]init];
+//    item.tag = 1;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+//    self.selectedIndex = 1;
 }
 
 - (void)viewDidAppear:(BOOL)animated

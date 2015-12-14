@@ -148,7 +148,7 @@
 @property (strong, nonatomic) XBArea *selectArea;
 @property (strong, nonatomic) NSString *selectProvinceid;
 @property (strong, nonatomic) NSString *selectCityid;
-@property (strong, nonatomic) NSString *selectAreaid;
+@property (strong, nonatomic) NSString *selectAreaid; //地区id
 @property (strong, nonatomic) IBOutlet UILabel *cityNameLabel;
 
 

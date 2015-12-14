@@ -368,7 +368,20 @@
         
         //姓名
         NSString *name = [CommonUtil isEmpty:studentInfo[@"realname"]]?@"暂无":studentInfo[@"realname"];
-        cell.nameLabel.text = [NSString stringWithFormat:@"学员姓名 %@", name];
+//        cell.nameLabel.text = [NSString stringWithFormat:@"学员姓名 %@", name];
+        [cell.nameButton setTitle:[NSString stringWithFormat:@"学员姓名 %@", name] forState:UIControlStateNormal];
+        [cell.nameButton setBackgroundColor:[UIColor clearColor]];
+        //判断学员是否评价过
+        NSDictionary *studentScoreDic = dic[@"studentscore"];
+        if (studentScoreDic == nil || studentScoreDic.count == 0) {
+            //没有评价过
+            [cell.nameButton setImage:[UIImage imageNamed:@"学员未评"] forState:UIControlStateNormal];
+        }else{
+            //已经评价过
+            [cell.nameButton setImage:[UIImage imageNamed:@"学员已评"] forState:UIControlStateNormal];
+        }
+        [cell.nameButton setTitleEdgeInsets:UIEdgeInsetsMake(0, -54, 0, 54)];
+        [cell.nameButton setImageEdgeInsets:UIEdgeInsetsMake(0, cell.nameButton.titleLabel.bounds.size.width, 0, -cell.nameButton.titleLabel.bounds.size.width)];
         
         //联系电话
         cell.phoneLabel.text = [NSString stringWithFormat:@"联系电话 %@", phone];
@@ -394,38 +407,7 @@
             
         }
         
-//        //判断学员是否评价过
-//        NSDictionary *studentScoreDic = dic[@"studentscore"];
-//        if (studentScoreDic == nil || studentScoreDic.count == 0) {
-//            //没有评价过
-//
-//            cell.studentCommentDetailsBtn.hidden = YES;
-//            
-//            cell.studentTitleLabel.text = @"该学员尚未评价";
-//            cell.studentContentLabel.text = @"";
-//            cell.studentScoreHeightConstraint.constant = 268 - 41;
-//        }else{
-//            //已经评价过
-//            cell.studentCommentDetailsBtn.hidden = NO;
-//            
-//            //设置星级
-//            NSString *starNum = [studentScoreDic[@"score"] description];
-//            [cell.studentStarRatingView changeStarForegroundViewWithPoint:CGPointMake([starNum doubleValue]/5*CGRectGetWidth(cell.myStarView.frame), 0)];
-//            
-//            cell.studentTitleLabel.text = @"学员对我的评价";
-//            //设置评价内容
-//            NSString *content = [CommonUtil isEmpty:studentScoreDic[@"content"]]?@"暂无":studentScoreDic[@"content"];
-//            cell.studentContentLabel.text = content;
-//            
-//            CGFloat height = 25;
-//            
-//            //最多显示两行
-//            CGSize size = [CommonUtil sizeWithString:content fontSize:12 sizewidth:CGRectGetWidth([UIScreen mainScreen].bounds) sizeheight:MAXFLOAT];
-//            if (ceil(size.height) > 25) {
-//                height = 40;
-//            }
-//            cell.studentScoreHeightConstraint.constant = 268 - 25 + height;
-//        }
+        
         cell.myCommentDetailsBtn.tag = indexPath.row;
         [cell.myCommentDetailsBtn addTarget:self action:@selector(myCommentDetailShow:) forControlEvents:UIControlEventTouchUpInside];
         

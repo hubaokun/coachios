@@ -32,7 +32,9 @@
 @property (strong, nonatomic) IBOutlet DSButton *contactBtn;    // 联系
 
 @property (strong, nonatomic) IBOutlet UILabel *timeLabel;//时间
-@property (strong, nonatomic) IBOutlet UILabel *nameLabel;
+
+@property (strong, nonatomic) IBOutlet UIButton *nameButton;
+
 @property (strong, nonatomic) IBOutlet UILabel *phoneLabel;
 @property (strong, nonatomic) IBOutlet UILabel *studentNumLabel;
 

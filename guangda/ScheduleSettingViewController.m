@@ -404,6 +404,7 @@
 
 - (void)clickForChoose:(id)sender
 {
+    self.pricePencilBtn.hidden = NO;
     self.comfirmBtn.selected = YES;
     if (self.experienceClass.selected) {
         self.experienceClass.selected = NO;
@@ -427,11 +428,15 @@
             minPrice = accompanymin;
         }
         if (maxPrice == minPrice) {
-            self.timePriceLabel.text = @"课时单价";
+            self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
             self.priceTextField.enabled = NO;
+            self.priceTextField.text = minPrice;
+            self.pricePencilBtn.hidden = YES;
         }else{
             self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
             self.priceTextField.enabled = YES;
+            self.pricePencilBtn.hidden = NO;
+            
         }
     }else{
         self.experienceClass.selected = YES;
@@ -444,13 +449,15 @@
             minPrice = tastesubject3min;
         }
         if (maxPrice == minPrice) {
-            self.timePriceLabel.text = @"课时单价";
+            self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
             self.priceTextField.text = minPrice;
             self.priceTextField.enabled = NO;
+            self.pricePencilBtn.hidden = YES;
         }else{
             self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
             self.priceTextField.text = minPrice;
             self.priceTextField.enabled = YES;
+            self.pricePencilBtn.hidden = NO;
         }
     }
 }
@@ -602,6 +609,7 @@
             self.addressId = dic[@"id"];
             self.addressTextField.text = dic[@"name"];
         }else if (self.selectPickerView.tag == 1){
+            self.pricePencilBtn.hidden = NO;
             //教学内容
             self.subjectId = dic[@"id"];
             self.contentTextField.text = dic[@"name"];
@@ -614,6 +622,7 @@
             }
             if ([self.subjectId intValue] == 1||[self.subjectId intValue] == 2) {
                 self.experienceClass.hidden = NO;
+                self.experienceClass.selected = NO;
                 if ([self.subjectId intValue]==1) {//1:科目二 2：科目三 3：考场训练 4：陪驾
                     maxPrice = subject2max;
                     minPrice = subject2min;
@@ -622,11 +631,14 @@
                     minPrice = subject3min;
                 }
                 if (maxPrice == minPrice) {
-                    self.timePriceLabel.text = @"课时单价";
+                    self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
                     self.priceTextField.enabled = NO;
+                    self.priceTextField.text = minPrice;
+                    self.pricePencilBtn.hidden = YES;
                 }else{
                     self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
                     self.priceTextField.enabled = YES;
+                    self.pricePencilBtn.hidden = NO;
                 }
             }else{
                 self.experienceClass.hidden = YES;
@@ -639,12 +651,14 @@
                     minPrice = accompanymin;
                 }
                 if (maxPrice == minPrice) {
-                    self.timePriceLabel.text = @"课时单价";
+                    self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
                     self.priceTextField.text = minPrice;
                     self.priceTextField.enabled = NO;
+                    self.pricePencilBtn.hidden = YES;
                 }else{
                     self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
                     self.priceTextField.enabled = YES;
+                    self.pricePencilBtn.hidden = NO;
                 }
                 if ([self.priceTextField.text intValue]==0) {
                     //价格
@@ -661,13 +675,15 @@
                         minPrice = subject3min;
                     }
                     if (maxPrice == minPrice) {
-                        self.timePriceLabel.text = @"课时单价";
+                        self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
                         self.priceTextField.text = minPrice;
+                        self.pricePencilBtn.hidden = YES;
                         self.priceTextField.enabled = NO;
                     }else{
                         self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
                         self.priceTextField.text = price;
                         self.priceTextField.enabled = YES;
+                        self.pricePencilBtn.hidden = NO;
                     }
                     self.priceTextField.enabled = NO;
                     [self.priceTextField becomeFirstResponder];
@@ -1012,13 +1028,15 @@
                     minPrice = tastesubject3min;
                 }
                 if (maxPrice == minPrice) {
-                    self.timePriceLabel.text = @"课时单价";
+                    self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
                     self.priceTextField.text = minPrice;
                     self.priceTextField.enabled = NO;
+                    self.pricePencilBtn.hidden = YES;
                 }else{
                     self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
                     self.priceTextField.text = minPrice;
                     self.priceTextField.enabled = YES;
+                    self.pricePencilBtn.hidden = NO;
                 }
             }else{
                 //价格
@@ -1040,20 +1058,25 @@
                     minPrice = accompanymin;
                 }
                 if (maxPrice == minPrice) {
-                    self.timePriceLabel.text = @"课时单价";
+                    self.timePriceLabel.text = @"课时单价（单位：元/小时，价格无法修改）";
                     self.priceTextField.enabled = NO;
+                    self.priceTextField.text = minPrice;
+                    self.pricePencilBtn.hidden = YES;
                 }else{
                     self.timePriceLabel.text = [NSString stringWithFormat:@"课时单价（单位：元/小时，价格区间：%@元～%@元）",minPrice,maxPrice];
                     self.priceTextField.enabled = YES;
+                    self.pricePencilBtn.hidden = NO;
                 }
             }
             if (hirecarmin == hirecarmax) {
-                self.rentTitleLabel.text = @"教练车租用金";
+                self.rentTitleLabel.text = @"教练车租用金（单位：元/小时，价格无法修改）";
                 self.carRent.text = hirecarmin;
                 self.carRent.enabled = NO;
+                self.rentPricePencil.hidden = YES;
             }else{
                 self.rentTitleLabel.text = [NSString stringWithFormat:@"教练车租用金（单位：元/小时，价格区间：%@元～%@元）",hirecarmin,hirecarmax];
                 self.carRent.enabled = YES;
+                self.rentPricePencil.hidden = NO;
             }
             
             if ([self.subjectId intValue] == 2 ||[self.subjectId intValue] == 1) {

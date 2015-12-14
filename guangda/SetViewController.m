@@ -22,7 +22,6 @@
 - (IBAction)clickForRule:(id)sender;
 - (IBAction)clickService:(id)sender;
 
-
 @property (strong, nonatomic) IBOutlet UIButton *logoutButton;
 
 @end
@@ -79,7 +78,7 @@
 // 进入关于我们界面
 - (IBAction)clickAboutUs:(id)sender {
     AboutUsViewController *targetViewController = [[AboutUsViewController alloc] initWithNibName:@"AboutUsViewController" bundle:nil];
-    [self.navigationController pushViewController:targetViewController animated:YES];
+    [self.navigationController pushViewController:targetViewController animated:NO];
 }
 
 // 响应方法
@@ -106,6 +105,12 @@
 - (IBAction)clickService:(id)sender {
     CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
     viewController.fromVC = @"2";
+    [self.navigationController pushViewController:viewController animated:YES];
+}
+
+- (IBAction)clickForCompanyDrive:(id)sender {
+    CoachRuleViewController *viewController = [[CoachRuleViewController alloc] initWithNibName:@"CoachRuleViewController" bundle:nil];
+    viewController.fromVC = @"3";
     [self.navigationController pushViewController:viewController animated:YES];
 }
 

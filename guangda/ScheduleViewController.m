@@ -16,6 +16,10 @@
 #import "LoginViewController.h"
 #import "ScheduleDetailViewController.h"
 #import "CoachInfoViewController.h"
+
+#define TIME_BLOCKWEITH SCREEN_WIDTH/320*66 // 时间块的宽度
+#define TIME_BLOCKHIGTH SCREEN_WIDTH/320*70 // 时间块的高度
+
 @interface ScheduleViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, CustomTabBarDelegate>{
     BOOL isCloseDate;
     CGRect dateFrame;
@@ -26,6 +30,8 @@
     int maxdays;
     BOOL needSetDefault;
     BOOL firstIN;
+    
+    BOOL showAlert;
 }
 
 @property (strong, nonatomic) IBOutlet UILabel *dateLabel;
@@ -202,7 +208,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    showAlert = YES;
     if (self.selectDate != nil) {
         NSString *chooseTime = [CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"];
         NSMutableDictionary *dic = [self.calenderDic objectForKey:chooseTime];
@@ -653,13 +659,13 @@
     if (indexPath.row == 0) {
         //+ 11 + 18  代表开课不开课标记的高度
         //上午
-        return (66 + 7) * 2 + 33;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
+        return (TIME_BLOCKHIGTH + 3) * 2 + 36;//4行时间 第一个21底部注解与时间距离,22:注解的高度 18：注解跟下划线的距离
     }else if (indexPath.row == 1){
         //下午
-        return (66 + 7) * 2 + 13;//4行时间
+        return (TIME_BLOCKHIGTH + 3) * 2 + 16;//4行时间
     }else {
         //晚上
-        return (66 + 7) * 1 + 13;//3行时间
+        return (TIME_BLOCKHIGTH + 3) * 1 + 16;//3行时间
     }
     //    }
 }
@@ -846,7 +852,7 @@
         if (i == count-1) {
         }else{
             if (i > 0 && i/4 >= 1) {
-                buttonY = (18 + 66);
+                buttonY = (TIME_BLOCKHIGTH+TIME_BLOCKWEITH/7*1.6);
             }else{
                 buttonY = 6;
             }
@@ -856,15 +862,15 @@
             }
             
             if (i > 0 && (i + 1) %4 == 0) {
-                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (66+10)*3;
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (TIME_BLOCKWEITH+10)*3;
             }
             
             if (i > 0 && (i + 2) %4 == 0) {
-                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (66+10)*2;
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (TIME_BLOCKWEITH+10)*2;
             }
             
             if (i > 0 && (i + 3) %4 == 0) {
-                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (66+10)*1;
+                marginX = ceil((SCREEN_WIDTH - 120*2)/6)  + (TIME_BLOCKWEITH+10)*1;
             }
             
             //时间按
@@ -873,27 +879,27 @@
             
             /////////////////  时间view  /////////////////
             //时间view
-            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, 66, 70)];
+            UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(marginX, buttonY, TIME_BLOCKWEITH, TIME_BLOCKHIGTH)];
             contentView.backgroundColor = [UIColor clearColor];
             
             [selectView addSubview:contentView];
             
             //时间
-            UIView *timeDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 66, CGRectGetHeight(contentView.frame))];
+            UIView *timeDetailView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, TIME_BLOCKWEITH, CGRectGetHeight(contentView.frame))];
             timeDetailView.backgroundColor = RGB(174, 174, 174);
             timeDetailView.layer.cornerRadius = 4;
             timeDetailView.layer.borderColor = RGB(243, 243, 243).CGColor;
             [contentView addSubview:timeDetailView];
             
             //体验课
-            UIImageView *experienceClassView = [[UIImageView alloc]initWithFrame:CGRectMake(44, 48, 22, 22)];
+            UIImageView *experienceClassView = [[UIImageView alloc]initWithFrame:CGRectMake(TIME_BLOCKWEITH-22, TIME_BLOCKHIGTH-22, 22, 22)];
             experienceClassView.backgroundColor = [UIColor clearColor];
             experienceClassView.image = [UIImage imageNamed:@"体验课"];
             experienceClassView.hidden = YES;
             [contentView addSubview:experienceClassView];
             
-            //日期显示
-            UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 4, 66, 26)];
+            //时间显示
+            UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, (TIME_BLOCKHIGTH-62)/2, TIME_BLOCKWEITH, 26)];
             timeLabel.font = [UIFont systemFontOfSize:17];
             timeLabel.textAlignment = NSTextAlignmentCenter;
             //timeLabel.textColor = RGB(28, 28, 28);
@@ -913,18 +919,18 @@
             alreadyOrder.hidden = YES;
             [contentView addSubview:alreadyOrder];
             
-            //价格显示
-            UIView *priceView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(timeLabel.frame)+18, CGRectGetWidth(timeDetailView.frame), 16)];
-            [contentView addSubview:priceView];
-            
             //科目内容
-            UILabel *teachTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,  CGRectGetHeight(timeLabel.frame),CGRectGetWidth(timeDetailView.frame), 26)];
+            UILabel *teachTypeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,  timeLabel.height+timeLabel.y-6,CGRectGetWidth(timeDetailView.frame), 26)];
             //priceLabel.textColor = RGB(247, 148, 29);
             teachTypeLabel.textColor = RGB(68, 68, 68);
             teachTypeLabel.textAlignment = NSTextAlignmentCenter;
             teachTypeLabel.font = [UIFont systemFontOfSize:13];
             NSString *subject = @"未设置";
             [contentView addSubview:teachTypeLabel];
+            
+            //价格显示
+            UIView *priceView = [[UIView alloc] initWithFrame:CGRectMake(0, TIME_BLOCKHIGTH-20-(TIME_BLOCKHIGTH-62)/2, CGRectGetWidth(timeDetailView.frame), 16)];
+            [contentView addSubview:priceView];
             
             //获取价格 和科目
             NSString *price = @"0";
@@ -969,7 +975,7 @@
             priceLabel.textColor = RGB(68, 68, 68);
             priceLabel.textAlignment = NSTextAlignmentCenter;
             priceLabel.font = [UIFont systemFontOfSize:13];
-            priceLabel.text = [NSString stringWithFormat:@"%@", price];
+            priceLabel.text = [NSString stringWithFormat:@"￥%@", price];
             [priceView addSubview:priceLabel];
             
             //点击按钮
@@ -2349,9 +2355,11 @@
     }else if([code intValue] == 5){
         //没有默认地址
         [DejalBezelActivityView removeViewAnimated:YES];
-        
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请您先去设置默认学车地址,您必须有一个默认的学车地址,学员才能预定您的课程" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [alertView show];
+        if (showAlert) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"请您先去设置默认学车地址,您必须有一个默认的学车地址,学员才能预定您的课程" message:nil delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alertView show];
+            showAlert = NO;
+        }
         
     }else if([code intValue] == 6){
         //没有默认地址
