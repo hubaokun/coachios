@@ -8,7 +8,7 @@
 
 #import "CoachInfoViewController.h"
 #import "MyInfoCell.h"
-#import "BigPhotoViewController.h"
+//#import "BigPhotoViewController.h"
 #import "TPKeyboardAvoidingScrollView.h"
 #import "CZPhotoPickerController.h"
 #import "DatePickerViewController.h"
@@ -1180,46 +1180,47 @@
 
 #pragma mark - 接口
 // 获取教学用车型号
-- (void)getTeachCarMode{
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
-    request.tag = 0;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"GetAllTeachCarModel" forKey:@"action"];
-    [request startAsynchronous];
-}
+//- (void)getTeachCarMode{
+//    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
+//    request.tag = 0;
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"GetAllTeachCarModel" forKey:@"action"];
+//    [request startAsynchronous];
+//}
 
 
-// 获取所有驾校信息
-- (void)getCarSchool{
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
-    request.tag = 5;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"GetAllSchool" forKey:@"action"];
-    [request startAsynchronous];
-    [DejalBezelActivityView activityViewForView:self.view];
-}
+//// 获取所有驾校信息
+//- (void)getCarSchool{
+//    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
+//    request.tag = 5;
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"GetAllSchool" forKey:@"action"];
+//    [request startAsynchronous];
+//    [DejalBezelActivityView activityViewForView:self.view];
+//}
 
 #pragma mark - 接口
-- (void)getCarMode{
-//    NSArray *ds = [CommonUtil getObjectFromUD:@"modellist"];
-//    if (ds.count > 0) {
-//        [self.carModelArray removeAllObjects];
-//        [self.carModelArray addObjectsFromArray:ds];
-//        [self.carModelPicker reloadAllComponents];
-//        self.selectView.frame = [UIScreen mainScreen].bounds;
-//        [self.view addSubview:self.selectView];
-//        return;
-//    }
-    
-    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kUserServlet]];
-    request.tag = 2;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"GetCarModel" forKey:@"action"];
-    [request startAsynchronous];
-}
+////获取教学用车型号
+//- (void)getCarMode{
+////    NSArray *ds = [CommonUtil getObjectFromUD:@"modellist"];
+////    if (ds.count > 0) {
+////        [self.carModelArray removeAllObjects];
+////        [self.carModelArray addObjectsFromArray:ds];
+////        [self.carModelPicker reloadAllComponents];
+////        self.selectView.frame = [UIScreen mainScreen].bounds;
+////        [self.view addSubview:self.selectView];
+////        return;
+////    }
+//    
+//    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kUserServlet]];
+//    request.tag = 2;
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"GetCarModel" forKey:@"action"];
+//    [request startAsynchronous];
+//}
 
 #pragma mark - 接口
 - (void)uploadCardNum:(NSString *)cardNum cardNumPt:(NSString *)cardNumPt coachNum:(NSString *)coachNum coachNumPt:(NSString *)coachNumPt driveNum:(NSString *)driveNum driveNumPt:(NSString *)driveNumPt carCNum:(NSString *)carCNum carCNumPt:(NSString *)carCNumPt  carModel:(NSString *)carModel carLicense:(NSString *)carLicense carArray:(NSArray *)carArray carSchoolName:(NSString*)carSchoolName cityModel:(NSString *)cityid{

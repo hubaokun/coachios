@@ -887,21 +887,21 @@
 }
 
 
-- (void)changePrice:(NSString *)price{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kMyServlet]];
-    request.tag = 0;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"SetPrice" forKey:@"action"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
-     [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:price forKey:@"price"];
-    [request startAsynchronous];
-    [DejalBezelActivityView activityViewForView:self.view];
-
-}
+//- (void)changePrice:(NSString *)price{
+//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//    
+//    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kMyServlet]];
+//    request.tag = 0;
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"SetPrice" forKey:@"action"];
+//    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+//     [request setPostValue:userInfo[@"token"] forKey:@"token"];
+//    [request setPostValue:price forKey:@"price"];
+//    [request startAsynchronous];
+//    [DejalBezelActivityView activityViewForView:self.view];
+//
+//}
 
 //上传头像
 - (void)uploadLogo:(UIImage *)image{

@@ -328,7 +328,7 @@
         request.requestMethod = @"POST";
         [request setPostValue:@"ApplyCoupon" forKey:@"action"];
         [request setPostValue:coachId forKey:@"coachid"];     // 教练ID
-        [request setPostValue:recordids forKey:@"recordids"];     // 教练ID
+        [request setPostValue:recordids forKey:@"recordids"];  //小巴券记录的id
         [request startAsynchronous];
     }
     

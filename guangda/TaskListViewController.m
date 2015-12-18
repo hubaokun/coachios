@@ -379,7 +379,7 @@
             [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_学员带车"] forState:UIControlStateNormal];
         }
     }
-    NSString *coursetype = [dic[@"coursetype"] description];
+    NSString *coursetype = [dic[@"coursetype"] description]; //是否为免费体验课
     if ([coursetype intValue] == 5) {
         cell.accompanyDriveBtn.hidden = NO;
         [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_not_attach_car"] forState:UIControlStateNormal];

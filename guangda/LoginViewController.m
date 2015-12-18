@@ -8,8 +8,6 @@
 
 #import "LoginViewController.h"
 #import "AppDelegate.h"
-#import "RegisterViewController.h"
-#import "PhoneTestViewController.h"
 #import "CoachInfoViewController.h"
 
 @interface LoginViewController ()<UITextFieldDelegate>
@@ -101,12 +99,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
-// 忘记密码
-- (IBAction)forgetPwdClick:(id)sender {
-    PhoneTestViewController *viewController = [[PhoneTestViewController alloc] initWithNibName:@"PhoneTestViewController" bundle:nil];
-    viewController.type = 2;
-    [self.navigationController pushViewController:viewController animated:YES];
-}
+//// 忘记密码
+//- (IBAction)forgetPwdClick:(id)sender {
+//    PhoneTestViewController *viewController = [[PhoneTestViewController alloc] initWithNibName:@"PhoneTestViewController" bundle:nil];
+//    viewController.type = 2;
+//    [self.navigationController pushViewController:viewController animated:YES];
+//}
 
 // 登录
 - (IBAction)loginClick:(id)sender {
@@ -138,12 +136,12 @@
 }
 
 // 注册
-- (IBAction)registerClick:(id)sender {
-    
-    PhoneTestViewController *viewController = [[PhoneTestViewController alloc] initWithNibName:@"PhoneTestViewController" bundle:nil];
-    viewController.type = 1;
-    [self.navigationController pushViewController:viewController animated:YES];
-}
+//- (IBAction)registerClick:(id)sender {
+//    
+//    PhoneTestViewController *viewController = [[PhoneTestViewController alloc] initWithNibName:@"PhoneTestViewController" bundle:nil];
+//    viewController.type = 1;
+//    [self.navigationController pushViewController:viewController animated:YES];
+//}
 
 - (IBAction)hideKeyboardClick:(id)sender {
     [self.userName resignFirstResponder];

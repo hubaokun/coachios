@@ -150,7 +150,7 @@ BMKLocationService *_locService;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         NSString *code = [result[@"code"] description];
         if ([code isEqualToString:@"1"]) {
-            NSString *advertisement_flag = [result[@"c_flash_flag"] description];
+            NSString *advertisement_flag = [result[@"c_flash_flag"] description];   //c_flash_flag：是否需要启动闪屏
             if ([advertisement_flag isEqualToString:@"1"]) {
                 NSString *advertisement_url = [result[@"c_img_ios_flash"] description];
                 lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
@@ -463,7 +463,7 @@ BMKLocationService *_locService;
         [CommonUtil saveObjectToUD:modelList key:@"modellist"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateModelList" object:nil];
         }else if(request.tag == 2){
-           
+           NSLog(@"获取投诉原因");
         }else{
              NSLog(@"上传设备号 OK");
         }
@@ -569,7 +569,7 @@ BMKLocationService *_locService;
     }
 }
 
-- (void) updateUserAddress{
+- (void) updateUserAddress{  //更新当前位置
     if(![CommonUtil isEmpty:self.deviceToken] && self.locationResult){
         NSString *provience = self.locationResult.addressDetail.province;
         NSString *city = self.locationResult.addressDetail.city;

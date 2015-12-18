@@ -314,7 +314,7 @@
 }
 
 #pragma mark - 接口
-- (void)getAPPLYCOIN
+- (void)getAPPLYCOIN  //兑换小巴币
 {
     // 从本取数据
     NSDictionary *dic = [CommonUtil getObjectFromUD:@"userInfo"];
@@ -334,11 +334,11 @@
         }
     }
     [request setPostValue:coinCount forKey:@"coinnum"];
-    [request setPostValue:buttonTag forKey:@"type"];
+    [request setPostValue:buttonTag forKey:@"type"];  //小巴币的类型
     [request startAsynchronous];
 }
 
-- (void)getCoinRecord
+- (void)getCoinRecord  //小巴币获取记录
 {
     // 从本取数据
     NSDictionary *dic = [CommonUtil getObjectFromUD:@"userInfo"];

@@ -2162,22 +2162,22 @@
     }
 }
 
-//修改订单式是否可以取消	 修改的状态 0.可以取消 1.不可以取消
-- (void)updateOrderState:(NSString *)state{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kScheduleServlet]];
-    request.tag = 3;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"ChangeOrderCancel" forKey:@"action"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
-    [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:[CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"] forKey:@"day"];
-    [request setPostValue:state forKey:@"type"];
-    [request startAsynchronous];
-    [DejalBezelActivityView activityViewForView:self.view];
-}
+////修改订单式是否可以取消	 修改的状态 0.可以取消 1.不可以取消
+//- (void)updateOrderState:(NSString *)state{
+//    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+//    
+//    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kScheduleServlet]];
+//    request.tag = 3;
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"ChangeOrderCancel" forKey:@"action"];
+//    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+//    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+//    [request setPostValue:[CommonUtil getStringForDate:self.selectDate format:@"yyyy-MM-dd"] forKey:@"day"];
+//    [request setPostValue:state forKey:@"type"];
+//    [request startAsynchronous];
+//    [DejalBezelActivityView activityViewForView:self.view];
+//}
 
 //获取默认课程设置
 - (void)getDefaultSchedule{

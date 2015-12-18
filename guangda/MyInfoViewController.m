@@ -16,7 +16,6 @@
 #import "MyInfoCell.h"
 #import "SetTeachViewController.h"
 #import "SetAddrViewController.h"
-#import "SetPriceViewController.h"
 #import "CZPhotoPickerController.h"
 #import "LoginViewController.h"
 #import "DatePickerViewController.h"

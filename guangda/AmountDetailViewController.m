@@ -337,6 +337,38 @@
     [request startAsynchronous];
 }
 
+//充值
+- (void)getMoney:(NSString *)money{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kMyServlet]];
+    request.tag = 2;
+    request.delegate = self;
+    request.requestMethod = @"POST";
+    [request setPostValue:@"ApplyCash" forKey:@"action"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request setPostValue:money forKey:@"count"];
+    [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
+}
+
+//提现
+- (void)rechargeMoney:(NSString *)money{
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    
+    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
+    request.tag = 5;
+    request.delegate = self;
+    request.requestMethod = @"POST";
+    [request setPostValue:@"Recharge" forKey:@"action"];
+    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
+    [request setPostValue:userInfo[@"token"] forKey:@"token"];
+    [request setPostValue:money forKey:@"amount"];//充值金额
+    [request startAsynchronous];
+    [DejalBezelActivityView activityViewForView:self.view];
+}
+
 - (void)requestFinished:(ASIHTTPRequest *)request {
     //接口
     NSDictionary *result = [[request responseString] JSONValue];
@@ -559,37 +591,7 @@
 }
 
 
-//提现
-- (void)getMoney:(NSString *)money{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kMyServlet]];
-    request.tag = 2;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"ApplyCash" forKey:@"action"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
-    [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:money forKey:@"count"];
-    [request startAsynchronous];
-    [DejalBezelActivityView activityViewForView:self.view];
-}
 
-//充值
-- (void)rechargeMoney:(NSString *)money{
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    
-    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kUserServlet]];
-    request.tag = 5;
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    [request setPostValue:@"Recharge" forKey:@"action"];
-    [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
-    [request setPostValue:userInfo[@"token"] forKey:@"token"];
-    [request setPostValue:money forKey:@"amount"];//充值金额
-    [request startAsynchronous];
-    [DejalBezelActivityView activityViewForView:self.view];
-}
 
 
 - (void)alipayForPartner:(NSString *)partner seller:(NSString *)seller privateKey:(NSString *)privateKey

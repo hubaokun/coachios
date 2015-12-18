@@ -315,7 +315,7 @@
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kMyServlet]];
     request.delegate = self;
     request.requestMethod = @"POST";
-    [request setPostValue:@"DelNotice" forKey:@"action"];
+    [request setPostValue:@"ReadNotice" forKey:@"action"];
     request.tag = 2;
     // 取出教练ID
     NSDictionary * ds = [CommonUtil getObjectFromUD:@"userInfo"];
