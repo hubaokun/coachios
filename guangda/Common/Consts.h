@@ -19,12 +19,12 @@
 
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
 //#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"          //测试服务器
-//#define REQUEST_HOST   @"http://192.168.1.133:8080/"          //坤哥服务器
+#define REQUEST_HOST   @"http://localhost:8080/"          //坤哥服务器
 //#define REQUEST_HOST   @"http://192.168.1.88:8080/guangda/"             //吴佳瑞
 //#define REQUEST_HOST   @"http://192.168.1.188:8080/xb"             //卢磊
 //#define REQUEST_HOST   @"http://localhost:8080/xb"             //自己
 //#define REQUEST_HOST   @"http://192.168.1.162/dadmin"             //张哥
-#define REQUEST_HOST   @"http://xiaobaxueche.com:8080/dadmin2.0.0/"             //更新版本时使用的
+//#define REQUEST_HOST   @"http://xiaobaxueche.com:8080/dadmin2.0.0/"             //更新版本时使用的
 //#define REQUEST_HOST   @"http://192.168.1.20:8080/driverweb2/"   //小狮子
 
 #define kUserServlet        [NSString stringWithFormat:@"%@/%@",REQUEST_HOST,@"cuser"]
