@@ -64,6 +64,18 @@ BMKLocationService *_locService;
     // Override point for customization after application launch.
     // 注册APNS
     [self registerRemoteNotification];
+    if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)])
+    {
+        //IOS8
+        //创建UIUserNotificationSettings，并设置消息的显示类类型
+        UIUserNotificationSettings *notiSettings = [UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeAlert | UIRemoteNotificationTypeSound) categories:nil];
+        
+        [application registerUserNotificationSettings:notiSettings];
+        
+    } else{ // ios7
+        [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge                                       |UIRemoteNotificationTypeSound                                      |UIRemoteNotificationTypeAlert)];
+    }
+    
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     
     // 要使用百度地图，请先启动BaiduMapManager
@@ -111,7 +123,7 @@ BMKLocationService *_locService;
     [[PgyManager sharedPgyManager] checkUpdate];//检查版本更新
     
     //广告位
-    [self startRequestAdvertisement];
+    [self GETADVERTISEMENTBYPARAM];
     //友盟社会化分享与统计
     [UMSocialData setAppKey:@"55aa05f667e58ec7dc005698"];
     [MobClick startWithAppkey:@"55aa05f667e58ec7dc005698" reportPolicy:BATCH   channelId:@"pgy"];
@@ -134,15 +146,23 @@ BMKLocationService *_locService;
 }
 
 //获取是否要使用广告
--(void)startRequestAdvertisement{
+-(void)GETADVERTISEMENTBYPARAM{
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kAdvertisement]];
     request.delegate = self;
     request.requestMethod = @"POST";
-    [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
-    [request setPostValue:@"1" forKey:@"model"];// 1:ios 2:安卓
-    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素
-    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素
-    [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
+    [request setPostValue:@"GETADVERTISEMENTBYPARAM" forKey:@"action"];
+    [request setPostValue:@"0" forKey:@"devicetype"];// 0:ios 1:安卓
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素 必须
+    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素 必须
+    //    NSString *str = [NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2];
+    //    NSString *str1 = [NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2];
+    //    NSLog(@"h:%@w:%@",str,str1);
+    
+    [request setPostValue:@"3" forKey:@"position"];  //广告位置 0=学员端闪屏，1=学员端学车地图弹层广告，2=学员端教练详情，3=教练端闪屏，4=教练端首页弹层广告    必须
+    //    [request setPostValue:@"1" forKey:@"cityid"];  //城市id
+    //    [request setPostValue:self.driveschoolid forKey:@"driverschoolid"];  //驾校id
+    //    [request setPostValue:@"1" forKey:@"adtype"];  //广告类型
+    //    [request setPostValue:@"1" forKey:@"coachid"];  //教练id
     [request startSynchronous];
     NSError *error = [request error];
     if (!error) {
@@ -150,16 +170,23 @@ BMKLocationService *_locService;
         NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
         NSString *code = [result[@"code"] description];
         if ([code isEqualToString:@"1"]) {
-            NSString *advertisement_flag = [result[@"c_flash_flag"] description];   //c_flash_flag：是否需要启动闪屏
-            if ([advertisement_flag isEqualToString:@"1"]) {
-                NSString *advertisement_url = [result[@"c_img_ios_flash"] description];
+            NSArray *AdvertiesementList = result[@"AdvertiesementList"];
+            if (AdvertiesementList.count == 1) {
+                NSDictionary *AdvertiesementListDic = AdvertiesementList[0];
+                NSString *imgurl = [AdvertiesementListDic[@"imgurl"] description];
                 lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
                 lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
                 [self.window addSubview:lunchView];
                 UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
-                [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
+                [imageV sd_setImageWithURL:[NSURL URLWithString:imgurl] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
                 [self.window bringSubviewToFront:lunchView];
+                
+                self.advertisementUrl = [AdvertiesementListDic[@"openurl"] description];
+                self.advertisementopentype = [AdvertiesementListDic[@"opentype"] description];
+                UIButton *button = [[UIButton alloc]initWithFrame:imageV.frame];
+                [button addTarget:self action:@selector(gotoAdvertisementUrl) forControlEvents:UIControlEventTouchUpInside];
                 [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+                [lunchView addSubview:button];
             }
         }else{
             NSString *message = result[@"message"];
@@ -168,17 +195,53 @@ BMKLocationService *_locService;
     }
 }
 
-//- (void)gotoAdvertisementUrl
-//{
-//    //0=无跳转，1=打开URL，2=内部action
-//    if ([self.advertisementopentype intValue]==0) {
-//        NSLog(@"不跳转");
-//    }else if([self.advertisementopentype intValue]==1){
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
-//    }else if([self.advertisementopentype intValue]==2){
-//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+- (void)gotoAdvertisementUrl
+{
+    //0=无跳转，1=打开URL，2=内部action
+    if ([self.advertisementopentype intValue]==0) {
+        NSLog(@"不跳转");
+    }else if([self.advertisementopentype intValue]==1){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+    }else if([self.advertisementopentype intValue]==2){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+    }
+}
+
+////获取是否要使用广告
+//-(void)startRequestAdvertisement{
+//    ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kAdvertisement]];
+//    request.delegate = self;
+//    request.requestMethod = @"POST";
+//    [request setPostValue:@"GETADVERTISEMENT" forKey:@"action"];
+//    [request setPostValue:@"1" forKey:@"model"];// 1:ios 2:安卓
+//    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素
+//    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素
+//    [request setPostValue:@"1" forKey:@"type"];  //教练端1 学员端2
+//    [request startSynchronous];
+//    NSError *error = [request error];
+//    if (!error) {
+//        NSData *data  = [request responseData];
+//        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:nil];
+//        NSString *code = [result[@"code"] description];
+//        if ([code isEqualToString:@"1"]) {
+//            NSString *advertisement_flag = [result[@"c_flash_flag"] description];   //c_flash_flag：是否需要启动闪屏
+//            if ([advertisement_flag isEqualToString:@"1"]) {
+//                NSString *advertisement_url = [result[@"c_img_ios_flash"] description];
+//                lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
+//                lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
+//                [self.window addSubview:lunchView];
+//                UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height)];
+//                [imageV sd_setImageWithURL:[NSURL URLWithString:advertisement_url] placeholderImage:[UIImage imageNamed:@"default1.jpg"]]; [lunchView addSubview:imageV];
+//                [self.window bringSubviewToFront:lunchView];
+//                [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(removeLun) userInfo:nil repeats:NO];
+//            }
+//        }else{
+//            NSString *message = result[@"message"];
+//            [self.window.rootViewController makeToast:message];
+//        }
 //    }
 //}
+
 
 - (void) goForView:(NSString *)aView{
     self.mainController = [[MainViewController alloc] init];
@@ -240,7 +303,7 @@ BMKLocationService *_locService;
     //上传设备信息
     //[self toUploadDeviceInfo];
     //[[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveTopMessage" object:nil];
-    
+    NSLog(@"________________________%@",token);
 }
 
 

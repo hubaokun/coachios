@@ -127,6 +127,7 @@
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://www.xiaobaxueche.com/images/share.png"]]];
     [UMSocialData defaultData].extConfig.sinaData.shareImage = image;
     
+    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation

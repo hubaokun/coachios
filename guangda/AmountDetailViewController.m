@@ -531,28 +531,43 @@
 
 // 提交取钱
 - (IBAction)clickForApplyCommit:(id)sender {
+    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
+    NSString *aliaccount = userInfo[@"alipay_account"];
+    if([CommonUtil isEmpty:aliaccount]){
+        [self makeToast:@"您还未设置支付宝账户,请先去账户管理页面设置您的支付宝账户"];
+        return;
+    }
+    
+    //可提现金额 已冻结金额
+    float totalPricef=[self.totalPrice floatValue];
+    float gmoney= [self.gmoney floatValue];
+    float v= totalPricef-gmoney;
+    if(v < 0){
+        v = 0;
+    }
+    self.moneyYuanField.text = [NSString stringWithFormat:@"%f",v];
+    
     //    self.commitView.hidden = YES;
     //    self.successAlertView.hidden = NO;
     
     NSString *yuan = [self.moneyYuanField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     
-    if ([CommonUtil isEmpty:yuan]) {
-        [self makeToast:@"请输入您要提现的金额"];
-        [self.moneyYuanField becomeFirstResponder];
-        return;
-    }
-    
-    if ([yuan intValue] == 0) {
-        [self makeToast:@"请输入您要提现的金额"];
-        [self.moneyYuanField becomeFirstResponder];
-        return;
-    }
-    [self.moneyYuanField resignFirstResponder];
+//    if ([CommonUtil isEmpty:yuan]) {
+//        [self makeToast:@"请输入您要提现的金额"];
+//        [self.moneyYuanField becomeFirstResponder];
+//        return;
+//    }
+//    
+//    if ([yuan intValue] == 0) {
+//        [self makeToast:@"请输入您要提现的金额"];
+//        [self.moneyYuanField becomeFirstResponder];
+//        return;
+//    }
+//    [self.moneyYuanField resignFirstResponder];
     
     NSString *price = [NSString stringWithFormat:@"%d", [yuan intValue]];
     
     //设置价格
-    NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     NSString *money = [userInfo[@"money"] description];//余额
     NSString *moneyFrozen = [userInfo[@"money_frozen"] description];//冻结金额
     NSString *gMoney = [userInfo[@"gmoney"] description];//保证金
@@ -571,7 +586,7 @@
     
     if ([price doubleValue] <50) {
         //提现金额不得小于50
-        [self makeToast:@"请输入大于50元的数额进行提现"];
+        [self makeToast:@"可提现金额大于50元才可以提现哦"];
         return;
     }
     
@@ -588,6 +603,11 @@
         [self.moneyYuanField becomeFirstResponder];
         return;
     }
+    
+    self.commitView.hidden = YES;
+    //    self.successAlertView.hidden = YES;
+    [self.view addSubview:self.getMoneyView];
+    
 }
 
 

@@ -27,7 +27,7 @@
     NSString *upcarOrderId;
     
     NSString *advertisementopentype;
-//    NSString *advertisementUrl;
+    NSString *advertisementUrl;
 }
 //用户定位
 @property (nonatomic) CLLocationCoordinate2D userCoordinate;
@@ -73,7 +73,7 @@
 //广告位
 @property (strong, nonatomic) IBOutlet UIView *advertisementView;
 @property (strong, nonatomic) IBOutlet UIButton *advertisementImageButton;
-@property (strong, nonatomic) NSString *advertisementUrl;//地址
+//@property (strong, nonatomic) NSString *advertisementUrl;//地址
 - (IBAction)closeAdvertisementView:(id)sender;
 
 @property (strong, nonatomic) IBOutlet UIImageView *advImageView;
@@ -379,7 +379,7 @@
             [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_学员带车"] forState:UIControlStateNormal];
         }
     }
-    NSString *coursetype = [dic[@"coursetype"] description]; //是否为免费体验课
+    NSString *coursetype = [dic[@"coursetype"] description];
     if ([coursetype intValue] == 5) {
         cell.accompanyDriveBtn.hidden = NO;
         [cell.accompanyDriveBtn setImage:[UIImage imageNamed:@"ic_not_attach_car"] forState:UIControlStateNormal];
@@ -582,13 +582,13 @@
 
 //打开广告
 - (IBAction)openAdvertisement:(id)sender {
-    if ([self.advertisementUrl isEqualToString:@"recommend"]) {
-        [self.advertisementView removeFromSuperview];
-        RecommendPrizeViewController *nextViewController = [[RecommendPrizeViewController alloc] initWithNibName:@"RecommendPrizeViewController" bundle:nil];
-        [self.navigationController pushViewController:nextViewController animated:YES];
-    }else{
-        [self.advertisementView removeFromSuperview];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+    //0=无跳转，1=打开URL，2=内部action
+    if ([advertisementopentype intValue]==0) {
+        NSLog(@"不跳转");
+    }else if([advertisementopentype intValue]==1){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:advertisementUrl]];
+    }else if([advertisementopentype intValue]==2){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:advertisementUrl]];
     }
     
 }
@@ -1466,26 +1466,24 @@
             self.openIndexPath = nil;
             [DejalBezelActivityView removeViewAnimated:YES];
         }else if (request.tag == 6){
-            NSString *c_flag = [result[@"c_flag"] description];
-            if ([c_flag intValue]!=0) { //0不展示，1展示 2邀请推荐
-                NSString *c_img = [result[@"c_img_ios"] description];
+            NSString *code = [result[@"code"] description];
+            if ([code isEqualToString:@"1"]) {
+                NSArray *AdvertiesementList = result[@"AdvertiesementList"];
+                if (AdvertiesementList.count == 1) {
+                    NSDictionary *AdvertiesementListDic = AdvertiesementList[0];
+                    NSString *imgurl = [AdvertiesementListDic[@"imgurl"] description];
                 // 显示广告图片
-            sd_setImageWithURL: placeholderImage:
-                [self.advImageView sd_setImageWithURL:[NSURL URLWithString:c_img] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                sd_setImageWithURL: placeholderImage:
+                [self.advImageView sd_setImageWithURL:[NSURL URLWithString:imgurl] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     if (error) {
                         [self.advertisementView removeFromSuperview];
                     }
                 }];
-                NSString *c_url = [result[@"c_url"] description];
-                //                NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-                //                NSString *getURL = [[NSString stringWithFormat:@"%@code=%@&user=%@",c_url,[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]],userInfo[@"realname"]] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-                if ([c_flag intValue]==1) {
-                    self.advertisementUrl = c_url;
-                }else{
-                    self.advertisementUrl = @"recommend";
-                }
+                advertisementUrl = [AdvertiesementListDic[@"openurl"] description];
+                advertisementopentype = [AdvertiesementListDic[@"opentype"] description];
                 self.advertisementView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
                 [self.tabBarController.view addSubview:self.advertisementView];
+                }
             }
         }
     } else if([code intValue] == 95){

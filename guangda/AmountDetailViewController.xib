@@ -25,7 +25,6 @@
                 <outlet property="moneyTitleLabel" destination="N4B-7c-83h" id="VYD-G9-Kkv"/>
                 <outlet property="moneyYuanField" destination="CYq-0m-Jnb" id="qE2-K2-2Be"/>
                 <outlet property="noMoneyImage" destination="okA-8e-mbz" id="pVN-84-Cf7"/>
-                <outlet property="rechargButton" destination="xXq-Du-vwm" id="wLt-Ij-2ab"/>
                 <outlet property="rechargeBackView" destination="0z5-3B-SCI" id="zrv-nx-UIS"/>
                 <outlet property="rechargeCommitBtn" destination="DDC-KY-dRt" id="5zU-9e-UYC"/>
                 <outlet property="rechargeView" destination="iLm-aT-snJ" id="fF6-ME-2Qu"/>
@@ -88,27 +87,15 @@
                             <rect key="frame" x="205" y="168" width="190" height="34"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="urF-d2-jHs">
-                                    <rect key="frame" x="95" y="0.0" width="95" height="34"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="190" height="34"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title="提现">
+                                    <state key="normal" title="全部提现">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="clickForApply:" destination="-1" eventType="touchUpInside" id="t29-kH-2xc"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xXq-Du-vwm">
-                                    <rect key="frame" x="0.0" y="0.0" width="95" height="34"/>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <state key="normal" title="充值">
-                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="clickForRecharge:" destination="-1" eventType="touchUpInside" id="uCJ-dz-Hal"/>
+                                        <action selector="clickForApplyCommit:" destination="-1" eventType="touchUpInside" id="5No-ME-cq6"/>
                                     </connections>
                                 </button>
                             </subviews>

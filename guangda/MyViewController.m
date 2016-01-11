@@ -32,7 +32,7 @@
 #import "CouponNavigateViewController.h"
 #import "PurseNavigationViewController.h"
 #import "UILabel+StringFrame.h"
-
+#import "XiaobaServeViewController.h"
 //环信客服
 #import "EMIMHelper.h"
 #import "ChatViewController.h"
@@ -754,7 +754,8 @@
 
 //在线客服
 - (IBAction)clickForOnlineServe:(id)sender {
-    [self chatAction:nil];
+    XiaobaServeViewController *targetViewController = [[XiaobaServeViewController alloc] initWithNibName:@"XiaobaServeViewController" bundle:nil];
+    [self.navigationController pushViewController:targetViewController animated:YES];
 }
 
 - (void)chatAction:(NSNotification *)notification

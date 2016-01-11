@@ -18,8 +18,8 @@
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 //#define REQUEST_HOST   @"http://www.xiaobakaiche.com/dadmin/"        // 正式服务器
-//#define REQUEST_HOST   @"http://120.25.236.228/dadmin/"          //测试服务器
-#define REQUEST_HOST   @"http://localhost:8080/"          //坤哥服务器
+#define REQUEST_HOST   @"http://120.25.236.228/dadmin2.0.0/"          //测试服务器
+//#define REQUEST_HOST   @"http://localhost:8080/"          //坤哥服务器
 //#define REQUEST_HOST   @"http://192.168.1.88:8080/guangda/"             //吴佳瑞
 //#define REQUEST_HOST   @"http://192.168.1.188:8080/xb"             //卢磊
 //#define REQUEST_HOST   @"http://localhost:8080/xb"             //自己
@@ -53,7 +53,7 @@
 #define ERR_NETWORK             @"当前网络不稳定，请重试!"
 #define NO_NETWORK              @"没有连接网络"
 
-#define PGY_APPKEY              @"f353cb3b650dc32604ddc957ee914ddc"
+#define PGY_APPKEY              @"204452f5151ce20970e06fda732d7693"
 //正式蒲公英的app id             f353cb3b650dc32604ddc957ee914ddc
 //饶宏的蒲公英app id             204452f5151ce20970e06fda732d7693
 //递推的蒲公英app id             8aa0bc0a1de506230cdef5ed1ffdbbad
