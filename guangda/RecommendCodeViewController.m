@@ -13,7 +13,7 @@
 #import "AppDelegate.h"
 @interface RecommendCodeViewController ()
 
-@property (strong, nonatomic) IBOutlet UITextField *inviteCode;
+@property (strong, nonatomic) IBOutlet UITextField *inviteCode;//邀请码
 @property (strong, nonatomic) IBOutlet UIView *inviteCodeView;
 @property (strong, nonatomic) IBOutlet UIButton *sureButton;
 
@@ -33,7 +33,7 @@
     self.inviteCodeView.layer.borderColor = RGB(222, 222, 222).CGColor;
     
 }
-
+//获取邀请列表
 - (void) getRecommendRecordList{
     
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];

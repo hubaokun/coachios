@@ -8,6 +8,6 @@
 
 #import "GreyTopViewController.h"
 
-@interface UserInfoViewController : GreyTopViewController
+@interface UserInfoViewController : GreyTopViewController //账户信息
 
 @end

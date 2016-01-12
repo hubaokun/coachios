@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface SearchAddrViewController : GreyTopViewController
+@interface SearchAddrViewController : GreyTopViewController  //定位上车地址
 
 //input
 @property (strong, nonatomic) NSString *latitude;//维度

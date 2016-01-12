@@ -17,7 +17,7 @@
     int pageNum;
     NSMutableArray *recordList;
 }
-@property (strong, nonatomic) IBOutlet UILabel *peopleStateLabel;
+@property (strong, nonatomic) IBOutlet UILabel *peopleStateLabel;       //状态字段
 
 @property (strong, nonatomic) IBOutlet UIView *selectBarView;
 @property (strong, nonatomic) IBOutlet UIButton *coachListButton;
@@ -93,7 +93,7 @@
 
 }
 
-
+//邀请的教练列表
 - (IBAction)clickForCoachList:(id)sender {
     self.listType = 1;
     pageNum = 0;
@@ -108,7 +108,7 @@
     [recordList removeAllObjects];
     [self getRecommendRecordList];
 }
-
+//邀请的学员列表
 - (IBAction)clickForStudentList:(id)sender {
     self.listType = 2;
     pageNum = 0;
@@ -201,7 +201,7 @@
         self.mainTableView.hidden = NO;
     }
 }
-
+//获取邀请记录
 - (void) getRecommendRecordList{
     
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];

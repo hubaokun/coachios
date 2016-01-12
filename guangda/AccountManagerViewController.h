@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 daoshun. All rights reserved.
 //
 
-#import "GreyTopViewController.h"
+#import "GreyTopViewController.h" //账号管理
 
 @interface AccountManagerViewController : GreyTopViewController
 

@@ -41,7 +41,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
-    [self.CodeButton setTitle:[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]] forState:UIControlStateNormal];
+    [self.CodeButton setTitle:[NSString stringWithFormat:@"c%@",[[userInfo[@"invitecode"] description] lowercaseString]] forState:UIControlStateNormal];//邀请码
 
     //圆角
     self.recommendFriendButton.layer.cornerRadius = 4;
@@ -94,12 +94,12 @@
 
 
 
-
+//跳转到分享记录
 - (IBAction)clickForRecord:(id)sender {
     RecommendRecordViewController *nextViewController = [[RecommendRecordViewController alloc] initWithNibName:@"RecommendRecordViewController" bundle:nil];
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
-
+//跳转到分享给好友
 - (IBAction)clickForRecommendFriend:(id)sender {
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     
@@ -129,7 +129,7 @@
     
     
 }
-
+//定位
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation {
     checkinLocation = newLocation;
@@ -184,7 +184,7 @@
          [self.locationManager startUpdatingLocation];*/
     }
 }
-
+//剪贴板功能
 - (IBAction)copyCode:(id)sender {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     NSString *stringToCopy = self.CodeButton.titleLabel.text;

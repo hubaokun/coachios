@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface MyEvaluationViewController : GreyTopViewController
+@interface MyEvaluationViewController : GreyTopViewController  //我的评价
 @property (assign, nonatomic) int evaluationType; // 0:我的评价 1:评价我的 2: 投诉我的
 @property (assign, nonatomic) int hasData; // 0:无数据 1:有数据
 @end

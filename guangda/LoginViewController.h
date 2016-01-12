@@ -9,7 +9,7 @@
 #import "GreyTopViewController.h"
 #import "JKCountDownButton.h"
 
-@interface LoginViewController : GreyTopViewController
+@interface LoginViewController : GreyTopViewController   //登陆类
 
 @property (strong, nonatomic) IBOutlet JKCountDownButton *vcodeButton;
 

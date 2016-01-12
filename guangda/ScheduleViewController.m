@@ -14,7 +14,6 @@
 #import "CustomTabBar.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-#import "ScheduleDetailViewController.h"
 #import "CoachInfoViewController.h"
 
 #define TIME_BLOCKWEITH SCREEN_WIDTH/320*66 // 时间块的宽度
@@ -70,8 +69,6 @@
 
 - (IBAction)clickForSetDefaultCheck:(id)sender;
 
-- (IBAction)clickTest:(id)sender;
-
 /*
  calenderDic 格式
  date: 日期
@@ -87,7 +84,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *defaultSetButton;
 @property (strong, nonatomic) IBOutlet UIButton *defaultCancelButton;
 
-- (IBAction)clickForDefaultAlert:(id)sender;
+- (IBAction)clickForDefaultAlert:(id)sender;   //设为默认开课   弃用
 
 @property (strong, nonatomic) IBOutlet UIView *openOrCloseClassView;
 @property (strong, nonatomic) IBOutlet UIButton *writeScheduleButton;
@@ -163,11 +160,7 @@
     
 }
 
-- (IBAction)clickTest:(id)sender {
-    ScheduleDetailViewController *nextController = [[ScheduleDetailViewController alloc] initWithNibName:@"ScheduleDetailViewController" bundle:nil];
-    [self.navigationController pushViewController:nextController animated:YES];
-}
-
+//获取当日课程表
 - (void)changeDaySchedule:(id)dictionary{
     needRefresh = NO;
     NSMutableArray *array = nil;

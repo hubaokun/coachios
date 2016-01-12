@@ -109,8 +109,9 @@
     //隐藏加载更多
     self.pullToMore = [[DSBottomPullToMoreManager alloc] initWithPullToMoreViewHeight:60.0 tableView:self.tableView withClient:self];
     [self.pullToMore setPullToMoreViewVisible:NO];
-    
+    //星级设置
     [self addStartEvaluate];
+    //广告接口
     [self getAdvertisement];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     
@@ -1247,8 +1248,8 @@
     [request setPostValue:userInfo[@"coachid"] forKey:@"coachid"];
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     [request setPostValue:upcarOrderId forKey:@"orderid"];
-    [request setPostValue:[NSString stringWithFormat:@"%f", lat] forKey:@"lat"];
-    [request setPostValue:[NSString stringWithFormat:@"%f", log] forKey:@"lon"];
+    [request setPostValue:[NSString stringWithFormat:@"%f", lat] forKey:@"lat"]; //经度
+    [request setPostValue:[NSString stringWithFormat:@"%f", log] forKey:@"lon"]; //纬度
     [request setPostValue:address forKey:@"detail"];
     [request startAsynchronous];
     
@@ -1289,10 +1290,10 @@
     [request setPostValue:userInfo[@"token"] forKey:@"token"];
     [request setPostValue:@"1" forKey:@"type"];//1.教练评价学员  2.学员评价教练
     [request setPostValue:orderId forKey:@"orderid"];
-    [request setPostValue:self.scoreDic[@"score1"] forKey:@"score1"];
-    [request setPostValue:self.scoreDic[@"score2"] forKey:@"score2"];
-    [request setPostValue:self.scoreDic[@"score3"] forKey:@"score3"];
-    [request setPostValue:comment forKey:@"content"];
+    [request setPostValue:self.scoreDic[@"score1"] forKey:@"score1"]; //学习态度
+    [request setPostValue:self.scoreDic[@"score2"] forKey:@"score2"]; //技能掌握
+    [request setPostValue:self.scoreDic[@"score3"] forKey:@"score3"]; //遵章守时
+    [request setPostValue:comment forKey:@"content"];   //具体评价内容
     
     [request startAsynchronous];
     [DejalBezelActivityView activityViewForView:self.view];

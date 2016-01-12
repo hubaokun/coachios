@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface CoachInfoViewController : GreyTopViewController
+@interface CoachInfoViewController : GreyTopViewController  //教练信息
 
 @property (strong, nonatomic) NSString *superViewNum;   // 0登录注册界面条转过来的 / 1其他界面跳转过来
 

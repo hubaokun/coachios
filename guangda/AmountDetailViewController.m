@@ -27,7 +27,7 @@
 
 //参数
 @property (strong, nonatomic) NSMutableArray *amountArray;
-@property (strong, nonatomic) NSString *totalPrice;
+@property (strong, nonatomic) NSString *totalPrice;//总金额
 @property (strong, nonatomic) NSString *fMoney;//冻结金额
 @property (strong, nonatomic) NSString *gmoney;//保证金额
 
@@ -42,9 +42,9 @@
 @property (strong, nonatomic) IBOutlet UIButton *rechargeCommitBtn;
 @property (strong, nonatomic) IBOutlet UITextField *rechargeYuanTextField;
 
-@property (strong, nonatomic) IBOutlet UILabel *headAlertMoneyLabel;
-@property (strong, nonatomic) IBOutlet UILabel *canBeCashLabel;
-@property (strong, nonatomic) IBOutlet UILabel *frozenMoneyLabel;
+@property (strong, nonatomic) IBOutlet UILabel *headAlertMoneyLabel;  //总金额
+@property (strong, nonatomic) IBOutlet UILabel *canBeCashLabel;    //可提现金额
+@property (strong, nonatomic) IBOutlet UILabel *frozenMoneyLabel;  //冻结金额
 
 @property (strong, nonatomic) IBOutlet UIView *getMoneyView;        // 申请金额视图
 @property (strong, nonatomic) IBOutlet UIView *commitView;          // 提交申请
@@ -55,15 +55,15 @@
 
 //取钱弹框
 @property (strong, nonatomic) IBOutlet UILabel *alertMoneyLabel;//余额
-@property (strong, nonatomic) IBOutlet UILabel *moneyDetailLabel;
-@property (strong, nonatomic) IBOutlet UILabel *moneyTitleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *moneyDetailLabel;  //申请是否成功的提示
+@property (strong, nonatomic) IBOutlet UILabel *moneyTitleLabel;  //是否提交成功的字段
 
 - (IBAction)clickForAccountManager:(id)sender;
 
-@property (strong, nonatomic) IBOutlet UIView *commitBackView;
-@property (strong, nonatomic) IBOutlet UIButton *commitButton;
-@property (strong, nonatomic) IBOutlet UIImageView *noMoneyImage;
-@property (strong, nonatomic) IBOutlet UILabel *attentionLabel;
+@property (strong, nonatomic) IBOutlet UIView *commitBackView;   //返回按钮
+@property (strong, nonatomic) IBOutlet UIButton *commitButton;   //提现按钮
+@property (strong, nonatomic) IBOutlet UIImageView *noMoneyImage;  //余额不足的图片
+@property (strong, nonatomic) IBOutlet UILabel *attentionLabel;  //警告
 @property (strong, nonatomic) IBOutlet UILabel *attentionLabel2;
 
 @property (strong, nonatomic) IBOutlet UIView *addMoneyBackView;

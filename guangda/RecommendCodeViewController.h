@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 daoshun. All rights reserved.
 //
 
-#import "GreyTopViewController.h"
+#import "GreyTopViewController.h" //第一次登陆时跳出的邀请页面
 
 @interface RecommendCodeViewController : GreyTopViewController
 

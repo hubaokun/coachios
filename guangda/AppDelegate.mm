@@ -24,7 +24,7 @@
 @property (strong, nonatomic) UIView *lunchView;
 @end
 
-BMKMapManager* _mapManager;
+BMKMapManager* _mapManager;  //百度地图组件
 BMKLocationService *_locService;
 
 @implementation AppDelegate
@@ -173,7 +173,7 @@ BMKLocationService *_locService;
             NSArray *AdvertiesementList = result[@"AdvertiesementList"];
             if (AdvertiesementList.count == 1) {
                 NSDictionary *AdvertiesementListDic = AdvertiesementList[0];
-                NSString *imgurl = [AdvertiesementListDic[@"imgurl"] description];
+                NSString *imgurl = [AdvertiesementListDic[@"imgurl"] description];//图片的url
                 lunchView = [[NSBundle mainBundle ]loadNibNamed:@"AdvertisementView" owner:nil options:nil][0];
                 lunchView.frame = CGRectMake(0, 0, self.window.screen.bounds.size.width, self.window.screen.bounds.size.height);
                 [self.window addSubview:lunchView];

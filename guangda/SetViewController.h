@@ -8,6 +8,6 @@
 
 #import "GreyTopViewController.h"
 
-@interface SetViewController : GreyTopViewController
+@interface SetViewController : GreyTopViewController  //设置
 
 @end

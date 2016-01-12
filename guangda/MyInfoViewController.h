@@ -8,6 +8,6 @@
 
 #import "GreyTopViewController.h"
 
-@interface MyInfoViewController : GreyTopViewController
+@interface MyInfoViewController : GreyTopViewController  //个人信息
 
 @end

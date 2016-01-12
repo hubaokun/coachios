@@ -8,6 +8,6 @@
 
 #import "GreyTopViewController.h"
 
-@interface MyMessageViewController : GreyTopViewController
+@interface MyMessageViewController : GreyTopViewController  //系统消息
 
 @end

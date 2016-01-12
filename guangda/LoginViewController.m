@@ -252,13 +252,16 @@
             AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
             app.userid = user[@"coachid"];
             [app toUploadDeviceInfo];
-            
+            //判断是否是第一次登陆
             int isregister = [[result objectForKey:@"isregister"] intValue];
             app.isregister = [NSString stringWithFormat:@"%d",isregister];
+            //判断是否已被邀请
             int isInvited = [[result objectForKey:@"isInvited"] intValue];
             app.isInvited = [NSString stringWithFormat:@"%d",isInvited];
+            //认证奖励
             NSString *crewardamount = [result[@"crewardamount"] description];
             app.crewardamount = crewardamount;
+            //开单奖励
             NSString *orewardamount = [result[@"orewardamount"] description];
             app.orewardamount = orewardamount;
             

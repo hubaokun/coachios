@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface SetAddrViewController : GreyTopViewController
+@interface SetAddrViewController : GreyTopViewController  //学车地址设置
 
 @property (nonatomic,strong) NSString *fromSchedule;
 

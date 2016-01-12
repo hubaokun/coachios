@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 daoshun. All rights reserved.
 //
 
-#import "GreyTopViewController.h"
+#import "GreyTopViewController.h"   //分享邀请码页面
 
 @interface RecommendPrizeViewController : GreyTopViewController
 

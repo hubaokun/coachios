@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface HistoryViewController : GreyTopViewController
+@interface HistoryViewController : GreyTopViewController //历史任务列表
 
 @property (strong, nonatomic) NSString *userId;
 

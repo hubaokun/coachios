@@ -66,7 +66,7 @@
 @property (strong, nonatomic) NSString *price;//价格
 
 //参数
-@property (strong, nonatomic) NSMutableArray *selectArray;
+@property (strong, nonatomic) NSMutableArray *selectArray;//选中的时间段
 @property (strong, nonatomic) NSMutableArray *addressArray;//地址
 @property (strong, nonatomic) NSMutableArray *subjectArray;//科目
 @property (strong, nonatomic) NSString *addressId;//地址id
@@ -98,7 +98,7 @@
     //将价格输入框变成选择框
     self.pricePickerView.delegate = self;
     self.pricePickerView.dataSource = self;
-    array100 = @[@"0",@"1",@"2",@"3",@"4",@"5"];                     //百位 十位 个位
+    array100 = @[@"0",@"1",@"2",@"3",@"4",@"5"];                     //百位 十位 个位   已弃用
     array10 = @[@"5",@"6",@"7",@"8",@"9"];
     array1 = @[@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9"];
     
@@ -111,8 +111,11 @@
     [tapGestureRecognizer setCancelsTouchesInView:NO];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    //获取教练价格设置表
     [self getCoachPriceRange];
+    //获取地址信息
     [self getAddressData];
+    //获取教学内容
     [self getContentData];
     [self initView];
     
@@ -786,6 +789,7 @@
 }
 
 #pragma mark - 接口
+//获取地址信息
 - (void)getAddressData{
     NSDictionary *userInfo = [CommonUtil getObjectFromUD:@"userInfo"];
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:kMyServlet]];

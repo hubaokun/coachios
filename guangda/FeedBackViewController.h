@@ -8,6 +8,6 @@
 
 #import "GreyTopViewController.h"
 
-@interface FeedBackViewController : GreyTopViewController
+@interface FeedBackViewController : GreyTopViewController  //意见反馈
 
 @end

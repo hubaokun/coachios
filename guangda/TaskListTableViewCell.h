@@ -39,7 +39,7 @@
 @property (strong, nonatomic) IBOutlet DSButton *noCancelBtn;
 @property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
 
-@property (strong, nonatomic) IBOutlet UILabel *payerType;
+@property (strong, nonatomic) IBOutlet UILabel *payerType; //支付类型
 @property (strong, nonatomic) NSString *payerTypeStr;
 @property (strong, nonatomic) IBOutlet UILabel *payerType2;
 

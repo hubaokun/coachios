@@ -35,8 +35,8 @@
 
 @property (strong, nonatomic) IBOutlet UIButton *nameButton;
 
-@property (strong, nonatomic) IBOutlet UILabel *phoneLabel;
-@property (strong, nonatomic) IBOutlet UILabel *studentNumLabel;
+@property (strong, nonatomic) IBOutlet UILabel *phoneLabel;  //电话字段
+@property (strong, nonatomic) IBOutlet UILabel *studentNumLabel; //学员姓名字段
 
 //星星view
 @property (strong, nonatomic) IBOutlet UIView *myStarView;//我的评价
@@ -49,11 +49,11 @@
 @property (strong, nonatomic) IBOutlet UILabel *studentContentLabel;
 @property (strong, nonatomic) IBOutlet UILabel *studentTitleLabel;
 
-@property (strong, nonatomic) IBOutlet UIImageView *payerType;
+@property (strong, nonatomic) IBOutlet UIImageView *payerType; //支付类型
 
 @property (strong, nonatomic) IBOutlet UILabel *cancelLabel;
 
 @property (strong, nonatomic) IBOutlet UIButton *accompanyDriveBtn;
 
-@property (strong, nonatomic) IBOutlet UILabel *rentLabel;
+@property (strong, nonatomic) IBOutlet UILabel *rentLabel;  //租用金字段
 @end

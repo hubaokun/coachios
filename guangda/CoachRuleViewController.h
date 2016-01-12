@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface CoachRuleViewController : GreyTopViewController
+@interface CoachRuleViewController : GreyTopViewController  //服务标准及约定
 
 @property (strong, nonatomic) IBOutlet NSString *fromVC;
 

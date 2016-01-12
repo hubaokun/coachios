@@ -8,7 +8,7 @@
 
 #import "GreyTopViewController.h"
 
-@interface SchoolSelectViewController : GreyTopViewController
+@interface SchoolSelectViewController : GreyTopViewController  //教学选择
 
 @property (strong,nonatomic) NSString *selectCityID;
 
