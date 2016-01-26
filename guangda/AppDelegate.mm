@@ -20,12 +20,18 @@
 #import "AppDelegate+EaseMob.h"
 
 #import "RecommendPrizeViewController.h"
+
+#import "XBWebViewController.h"
+
+
 @interface AppDelegate ()<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate>
 @property (strong, nonatomic) UIView *lunchView;
 @end
 
 BMKMapManager* _mapManager;  //百度地图组件
 BMKLocationService *_locService;
+
+UINavigationController *navi;
 
 @implementation AppDelegate
 @synthesize lunchView;
@@ -201,7 +207,13 @@ BMKLocationService *_locService;
     if ([self.advertisementopentype intValue]==0) {
         NSLog(@"不跳转");
     }else if([self.advertisementopentype intValue]==1){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
+        XBWebViewController *nextVC = [[XBWebViewController alloc] initWithNibName:@"XBWebViewController" bundle:nil];
+//        nextVC.titleStr = @"小巴商城";
+        nextVC.mainUrl = self.advertisementUrl;
+        [navi pushViewController:nextVC animated:YES];
+        [self.lunchView removeFromSuperview];
+        self.lunchView = nil;
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
     }else if([self.advertisementopentype intValue]==2){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:self.advertisementUrl]];
     }
@@ -326,7 +338,7 @@ BMKLocationService *_locService;
 //跳转到MainViewController
 - (void) jumpToMainViewController{
     self.mainController = [[MainViewController alloc] init];
-    UINavigationController *navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
+    navi = [[UINavigationController alloc] initWithRootViewController:_mainController];
     self.window.rootViewController = navi;
     [navi setNavigationBarHidden:YES];
 }

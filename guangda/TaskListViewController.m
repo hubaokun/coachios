@@ -19,6 +19,8 @@
 #import "AppDelegate.h"
 #import "GoComplaintViewController.h"
 
+#import "XBWebViewController.h"
+
 @interface TaskListViewController ()<UITableViewDataSource, UITableViewDelegate, DSPullToRefreshManagerClient, DSBottomPullToMoreManagerClient, UIAlertViewDelegate, StarRatingViewDelegate,BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate, BMKGeneralDelegate, UITextViewDelegate>{
     int pageNum;
     BOOL hasTask;//是否有进行中的任务
@@ -112,7 +114,8 @@
     //星级设置
     [self addStartEvaluate];
     //广告接口
-    [self getAdvertisement];
+//    [self getAdvertisement];
+    [self GETADVERTISEMENTBYPARAM];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:@"refreshTaskData" object:nil];
     
     //设置默认分数
@@ -587,7 +590,11 @@
     if ([advertisementopentype intValue]==0) {
         NSLog(@"不跳转");
     }else if([advertisementopentype intValue]==1){
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:advertisementUrl]];
+        XBWebViewController *nextVC = [[XBWebViewController alloc] initWithNibName:@"XBWebViewController" bundle:nil];
+        //        nextVC.titleStr = @"小巴商城";
+        nextVC.mainUrl = advertisementUrl;
+        [self.navigationController pushViewController:nextVC animated:YES];
+//        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:advertisementUrl]];
     }else if([advertisementopentype intValue]==2){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:advertisementUrl]];
     }
@@ -1357,8 +1364,15 @@
     request.tag = 6;
     [request setPostValue:@"GETADVERTISEMENTBYPARAM" forKey:@"action"];
     [request setPostValue:@"0" forKey:@"devicetype"];// 0:ios 1:安卓
-    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素 必须
-    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素 必须
+    if (SCREEN_WIDTH > 750) {
+        [request setPostValue:@"1126" forKey:@"width"];
+        [request setPostValue:@"1336" forKey:@"height"];
+    }else{
+        [request setPostValue:@"580" forKey:@"width"];
+        [request setPostValue:@"740" forKey:@"height"];
+    }
+//    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_WIDTH * 2] forKey:@"width"];// 屏幕宽，单位：像素 必须
+//    [request setPostValue:[NSString stringWithFormat:@"%d", (int)SCREEN_HEIGHT * 2] forKey:@"height"]; // 屏幕高，单位：像素 必须
     [request setPostValue:@"4" forKey:@"position"];  //广告位置 0=学员端闪屏，1=学员端学车地图弹层广告，2=学员端教练详情，3=教练端闪屏，4=教练端首页弹层广告    必须
 //    [request setPostValue:@"1" forKey:@"cityid"];  //城市id
 //    [request setPostValue:@"1" forKey:@"driverschoolid"];  //驾校id
